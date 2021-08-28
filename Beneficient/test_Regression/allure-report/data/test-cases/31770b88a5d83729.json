@@ -1,0 +1,144 @@
+{
+  "uid" : "31770b88a5d83729",
+  "name" : "test_ModulesVerify",
+  "fullName" : "Funds.test_Smoke.test_navigationToAllModules#test_ModulesVerify",
+  "historyId" : "bbd12a2ebac26c9886be4471af48a290",
+  "time" : {
+    "start" : 1628693557079,
+    "stop" : 1628693584399,
+    "duration" : 27320
+  },
+  "description" : "This is smoke testcase to verify all modules are opening",
+  "descriptionHtml" : "<p>This is smoke testcase to verify all modules are opening</p>\n",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "beforeStages" : [ {
+    "name" : "test_setup",
+    "time" : {
+      "start" : 1628693546548,
+      "stop" : 1628693557075,
+      "duration" : 10527
+    },
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Entering username ",
+      "time" : {
+        "start" : 1628693552427,
+        "stop" : 1628693552471,
+        "duration" : 44
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "username",
+        "value" : "'neeraj.kumar'"
+      } ],
+      "stepsCount" : 0,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    }, {
+      "name" : "Entering password ",
+      "time" : {
+        "start" : 1628693552471,
+        "stop" : 1628693552522,
+        "duration" : 51
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "password",
+        "value" : "'Motorola@408'"
+      } ],
+      "stepsCount" : 0,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 2,
+    "hasContent" : true,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "testStage" : {
+    "description" : "This is smoke testcase to verify all modules are opening",
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ {
+      "uid" : "97149afa9c662d89",
+      "name" : "stdout",
+      "source" : "97149afa9c662d89.txt",
+      "type" : "text/plain",
+      "size" : 228
+    } ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : true,
+    "attachmentsCount" : 1,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ {
+    "name" : "test_setup::0",
+    "time" : {
+      "start" : 1628693584400,
+      "stop" : 1628693586681,
+      "duration" : 2281
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "labels" : [ {
+    "name" : "severity",
+    "value" : "High"
+  }, {
+    "name" : "tag",
+    "value" : "smoke"
+  }, {
+    "name" : "parentSuite",
+    "value" : "Funds.test_Smoke"
+  }, {
+    "name" : "suite",
+    "value" : "test_navigationToAllModules"
+  }, {
+    "name" : "host",
+    "value" : "DESKTOP-JLLTS65"
+  }, {
+    "name" : "thread",
+    "value" : "3652-MainThread"
+  }, {
+    "name" : "framework",
+    "value" : "pytest"
+  }, {
+    "name" : "language",
+    "value" : "cpython3"
+  }, {
+    "name" : "package",
+    "value" : "Funds.test_Smoke.test_navigationToAllModules"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ "smoke" ]
+  },
+  "source" : "31770b88a5d83729.json",
+  "parameterValues" : [ ]
+}

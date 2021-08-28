@@ -1,0 +1,191 @@
+{
+  "uid" : "98d3104e051c652961429bf95fa0b5d6",
+  "name" : "suites",
+  "children" : [ {
+    "name" : "test_Regression",
+    "children" : [ {
+      "name" : "test_CurrenciesSoSFunds",
+      "children" : [ {
+        "name" : "test_CurrencyListSoSFunds",
+        "uid" : "dfe6418950cc9e66",
+        "parentUid" : "64176cc5ea58e33d33c243a9ea7c1505",
+        "status" : "passed",
+        "time" : {
+          "start" : 1628496578288,
+          "stop" : 1628496611072,
+          "duration" : 32784
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "64176cc5ea58e33d33c243a9ea7c1505"
+    }, {
+      "name" : "test_CurrenciesSoSInvestments",
+      "children" : [ {
+        "name" : "test_CurrencyListSoSInvestments",
+        "uid" : "5699c1d55b055a7b",
+        "parentUid" : "471afd34fa4d9e6b970813583bf2bc98",
+        "status" : "passed",
+        "time" : {
+          "start" : 1628496620154,
+          "stop" : 1628496652903,
+          "duration" : 32749
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "471afd34fa4d9e6b970813583bf2bc98"
+    }, {
+      "name" : "test_DeleteAtDetailedCAPSTMTs",
+      "children" : [ {
+        "name" : "test_NavToDetailedCAPSTMTs",
+        "uid" : "fee7f078a9fb369b",
+        "parentUid" : "5904c69f07cb380b05ea156d64b2b849",
+        "status" : "passed",
+        "time" : {
+          "start" : 1628882849888,
+          "stop" : 1628882904225,
+          "duration" : 54337
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "5904c69f07cb380b05ea156d64b2b849"
+    } ],
+    "uid" : "c85476583f8c67f014bfa6a53d5de64d"
+  }, {
+    "name" : "test_Smoke",
+    "children" : [ {
+      "name" : "test_navigationToAllModules",
+      "children" : [ {
+        "name" : "test_ModulesVerify",
+        "uid" : "979967c5c3a78f55",
+        "parentUid" : "631805f9ca2a19661949a9d2e1d6ff36",
+        "status" : "passed",
+        "time" : {
+          "start" : 1628496662746,
+          "stop" : 1628496690031,
+          "duration" : 27285
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "631805f9ca2a19661949a9d2e1d6ff36"
+    } ],
+    "uid" : "e9de13536d8002babeb43a21a77eb29d"
+  }, {
+    "name" : "Funds.test_Smoke",
+    "children" : [ {
+      "name" : "test_navigationToAllModules",
+      "children" : [ {
+        "name" : "test_ModulesVerify",
+        "uid" : "31770b88a5d83729",
+        "parentUid" : "2aac07e216d29d16882d1e4f679a78ef",
+        "status" : "passed",
+        "time" : {
+          "start" : 1628693557079,
+          "stop" : 1628693584399,
+          "duration" : 27320
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "2aac07e216d29d16882d1e4f679a78ef"
+    } ],
+    "uid" : "d97a1b8220d9c6cffd41fec67ede047a"
+  }, {
+    "name" : "Funds.test_Regression",
+    "children" : [ {
+      "name" : "test_CurrenciesSoSFunds",
+      "children" : [ {
+        "name" : "test_CurrencyListSoSFunds",
+        "uid" : "4cf55e67026fd397",
+        "parentUid" : "8f9bc4f8a72271597caca2f363a5bbbe",
+        "status" : "passed",
+        "time" : {
+          "start" : 1628693834513,
+          "stop" : 1628693867314,
+          "duration" : 32801
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "8f9bc4f8a72271597caca2f363a5bbbe"
+    }, {
+      "name" : "test_CurrenciesSoSInvestments",
+      "children" : [ {
+        "name" : "test_CurrencyListSoSInvestments",
+        "uid" : "caad9df708df155c",
+        "parentUid" : "e5dcbe0fb0966ac326b39352b0f11f7d",
+        "status" : "passed",
+        "time" : {
+          "start" : 1628693883111,
+          "stop" : 1628693916479,
+          "duration" : 33368
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "e5dcbe0fb0966ac326b39352b0f11f7d"
+    }, {
+      "name" : "test_DeleteAtDetailedCAPSTMTs",
+      "children" : [ {
+        "name" : "test_NavToDetailedCAPSTMTs",
+        "uid" : "a1900a3ec6ce4783",
+        "parentUid" : "16d2ac589630e67d34be004d5b49be64",
+        "status" : "failed",
+        "time" : {
+          "start" : 1628693930620,
+          "stop" : 1628693990731,
+          "duration" : 60111
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "16d2ac589630e67d34be004d5b49be64"
+    } ],
+    "uid" : "272d3e616e9739c36cef016b3798aa86"
+  }, {
+    "name" : "Beneficient.test_Mission Control",
+    "children" : [ {
+      "name" : "test_differenceChecker",
+      "children" : [ {
+        "name" : "test_differenceNAVRollOverPriorPeriod",
+        "uid" : "6e73f5fed14d3f7e",
+        "parentUid" : "2caf5891cf67c9d957a8d5b54ecf4bf4",
+        "status" : "passed",
+        "time" : {
+          "start" : 1628881820381,
+          "stop" : 1628881878712,
+          "duration" : 58331
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "parameters" : [ ]
+      }, {
+        "name" : "test_differenceNAVRollforPeriod",
+        "uid" : "9e34a11ac3d51039",
+        "parentUid" : "2caf5891cf67c9d957a8d5b54ecf4bf4",
+        "status" : "failed",
+        "time" : {
+          "start" : 1628881904668,
+          "stop" : 1628881963071,
+          "duration" : 58403
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "2caf5891cf67c9d957a8d5b54ecf4bf4"
+    } ],
+    "uid" : "c2162faf221b923e93ec7bfe66982561"
+  } ]
+}

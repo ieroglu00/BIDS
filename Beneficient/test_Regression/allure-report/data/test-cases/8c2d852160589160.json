@@ -1,0 +1,148 @@
+{
+  "uid" : "8c2d852160589160",
+  "name" : "test_CurrencyListSoSInvestments",
+  "fullName" : "test_Regression.test_CurrenciesSoSInvestments#test_CurrencyListSoSInvestments",
+  "historyId" : "2add5c3b4be6d2a3a9d6ee498cda870a",
+  "time" : {
+    "start" : 1628494469246,
+    "stop" : 1628494500128,
+    "duration" : 30882
+  },
+  "description" : "Test case to verify number of currencies in SoS Investments",
+  "descriptionHtml" : "<p>Test case to verify number of currencies in SoS Investments</p>\n",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "beforeStages" : [ {
+    "name" : "test_setup",
+    "time" : {
+      "start" : 1628494460695,
+      "stop" : 1628494469243,
+      "duration" : 8548
+    },
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Entering username ",
+      "time" : {
+        "start" : 1628494464237,
+        "stop" : 1628494464274,
+        "duration" : 37
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "username",
+        "value" : "'neeraj.kumar'"
+      } ],
+      "stepsCount" : 0,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    }, {
+      "name" : "Entering password ",
+      "time" : {
+        "start" : 1628494464275,
+        "stop" : 1628494464320,
+        "duration" : 45
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "password",
+        "value" : "'Motorola@408'"
+      } ],
+      "stepsCount" : 0,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 2,
+    "hasContent" : true,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "testStage" : {
+    "description" : "Test case to verify number of currencies in SoS Investments",
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ {
+      "uid" : "b4ad598142b8379a",
+      "name" : "Image1",
+      "source" : "b4ad598142b8379a.png",
+      "type" : "image/png",
+      "size" : 118792
+    }, {
+      "uid" : "40fb8d82847438b1",
+      "name" : "stdout",
+      "source" : "40fb8d82847438b1.txt",
+      "type" : "text/plain",
+      "size" : 59
+    } ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : true,
+    "attachmentsCount" : 2,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ {
+    "name" : "test_setup::0",
+    "time" : {
+      "start" : 1628494500128,
+      "stop" : 1628494502342,
+      "duration" : 2214
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "labels" : [ {
+    "name" : "severity",
+    "value" : "High"
+  }, {
+    "name" : "tag",
+    "value" : "regression"
+  }, {
+    "name" : "parentSuite",
+    "value" : "test_Regression"
+  }, {
+    "name" : "suite",
+    "value" : "test_CurrenciesSoSInvestments"
+  }, {
+    "name" : "host",
+    "value" : "DESKTOP-JLLTS65"
+  }, {
+    "name" : "thread",
+    "value" : "3396-MainThread"
+  }, {
+    "name" : "framework",
+    "value" : "pytest"
+  }, {
+    "name" : "language",
+    "value" : "cpython3"
+  }, {
+    "name" : "package",
+    "value" : "test_Regression.test_CurrenciesSoSInvestments"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : true,
+  "retry" : true,
+  "extra" : {
+    "categories" : [ ],
+    "tags" : [ "regression" ]
+  },
+  "source" : "8c2d852160589160.json",
+  "parameterValues" : [ ]
+}

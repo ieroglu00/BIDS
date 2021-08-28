@@ -1,0 +1,101 @@
+[ {
+  "uid" : "9e34a11ac3d51039",
+  "name" : "test_differenceNAVRollforPeriod",
+  "time" : {
+    "start" : 1628881904668,
+    "stop" : 1628881963071,
+    "duration" : 58403
+  },
+  "status" : "failed",
+  "severity" : "normal"
+}, {
+  "uid" : "caad9df708df155c",
+  "name" : "test_CurrencyListSoSInvestments",
+  "time" : {
+    "start" : 1628693883111,
+    "stop" : 1628693916479,
+    "duration" : 33368
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "a1900a3ec6ce4783",
+  "name" : "test_NavToDetailedCAPSTMTs",
+  "time" : {
+    "start" : 1628693930620,
+    "stop" : 1628693990731,
+    "duration" : 60111
+  },
+  "status" : "failed",
+  "severity" : "normal"
+}, {
+  "uid" : "6e73f5fed14d3f7e",
+  "name" : "test_differenceNAVRollOverPriorPeriod",
+  "time" : {
+    "start" : 1628881820381,
+    "stop" : 1628881878712,
+    "duration" : 58331
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "979967c5c3a78f55",
+  "name" : "test_ModulesVerify",
+  "time" : {
+    "start" : 1628496662746,
+    "stop" : 1628496690031,
+    "duration" : 27285
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "fee7f078a9fb369b",
+  "name" : "test_NavToDetailedCAPSTMTs",
+  "time" : {
+    "start" : 1628882849888,
+    "stop" : 1628882904225,
+    "duration" : 54337
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "4cf55e67026fd397",
+  "name" : "test_CurrencyListSoSFunds",
+  "time" : {
+    "start" : 1628693834513,
+    "stop" : 1628693867314,
+    "duration" : 32801
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "31770b88a5d83729",
+  "name" : "test_ModulesVerify",
+  "time" : {
+    "start" : 1628693557079,
+    "stop" : 1628693584399,
+    "duration" : 27320
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "5699c1d55b055a7b",
+  "name" : "test_CurrencyListSoSInvestments",
+  "time" : {
+    "start" : 1628496620154,
+    "stop" : 1628496652903,
+    "duration" : 32749
+  },
+  "status" : "passed",
+  "severity" : "normal"
+}, {
+  "uid" : "dfe6418950cc9e66",
+  "name" : "test_CurrencyListSoSFunds",
+  "time" : {
+    "start" : 1628496578288,
+    "stop" : 1628496611072,
+    "duration" : 32784
+  },
+  "status" : "passed",
+  "severity" : "normal"
+} ]

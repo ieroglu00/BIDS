@@ -1,0 +1,161 @@
+{
+  "uid" : "6e73f5fed14d3f7e",
+  "name" : "test_differenceNAVRollOverPriorPeriod",
+  "fullName" : "Beneficient.test_Mission Control.test_differenceChecker#test_differenceNAVRollOverPriorPeriod",
+  "historyId" : "d99b7441bd39e5c4a40a6a396171b0ae",
+  "time" : {
+    "start" : 1628881820381,
+    "stop" : 1628881878712,
+    "duration" : 58331
+  },
+  "description" : "Test case to verfiy difference in NAV Rollover from Prior Period",
+  "descriptionHtml" : "<p>Test case to verfiy difference in NAV Rollover from Prior Period</p>\n",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "beforeStages" : [ {
+    "name" : "test_setup",
+    "time" : {
+      "start" : 1628881811826,
+      "stop" : 1628881820379,
+      "duration" : 8553
+    },
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Entering username ",
+      "time" : {
+        "start" : 1628881815541,
+        "stop" : 1628881815586,
+        "duration" : 45
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "username",
+        "value" : "'neeraj.kumar'"
+      } ],
+      "stepsCount" : 0,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    }, {
+      "name" : "Entering password ",
+      "time" : {
+        "start" : 1628881815586,
+        "stop" : 1628881815635,
+        "duration" : 49
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "password",
+        "value" : "'Motorola@408'"
+      } ],
+      "stepsCount" : 0,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 2,
+    "hasContent" : true,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "testStage" : {
+    "description" : "Test case to verfiy difference in NAV Rollover from Prior Period",
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ {
+      "uid" : "565f8777801ffbc6",
+      "name" : "stdout",
+      "source" : "565f8777801ffbc6.txt",
+      "type" : "text/plain",
+      "size" : 187
+    } ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : true,
+    "attachmentsCount" : 1,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ {
+    "name" : "test_setup::0",
+    "time" : {
+      "start" : 1628881878713,
+      "stop" : 1628881880887,
+      "duration" : 2174
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "labels" : [ {
+    "name" : "severity",
+    "value" : "High"
+  }, {
+    "name" : "tag",
+    "value" : "regression"
+  }, {
+    "name" : "parentSuite",
+    "value" : "Beneficient.test_Mission Control"
+  }, {
+    "name" : "suite",
+    "value" : "test_differenceChecker"
+  }, {
+    "name" : "host",
+    "value" : "DESKTOP-JLLTS65"
+  }, {
+    "name" : "thread",
+    "value" : "5968-MainThread"
+  }, {
+    "name" : "framework",
+    "value" : "pytest"
+  }, {
+    "name" : "language",
+    "value" : "cpython3"
+  }, {
+    "name" : "package",
+    "value" : "Beneficient.test_Mission Control.test_differenceChecker"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ {
+      "uid" : "6f6a1d18afacb797",
+      "status" : "passed",
+      "time" : {
+        "start" : 1628879910766,
+        "stop" : 1628879968883,
+        "duration" : 58117
+      }
+    }, {
+      "uid" : "312608d707db695f",
+      "status" : "failed",
+      "statusDetails" : "Failed: Failed to load Mission Control Page",
+      "time" : {
+        "start" : 1628864268534,
+        "stop" : 1628864285460,
+        "duration" : 16926
+      }
+    } ],
+    "categories" : [ ],
+    "tags" : [ "regression" ]
+  },
+  "source" : "6e73f5fed14d3f7e.json",
+  "parameterValues" : [ ]
+}

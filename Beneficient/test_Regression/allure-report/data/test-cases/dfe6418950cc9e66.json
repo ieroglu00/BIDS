@@ -1,0 +1,167 @@
+{
+  "uid" : "dfe6418950cc9e66",
+  "name" : "test_CurrencyListSoSFunds",
+  "fullName" : "test_Regression.test_CurrenciesSoSFunds#test_CurrencyListSoSFunds",
+  "historyId" : "ab62be7212b5721469544cee137b725e",
+  "time" : {
+    "start" : 1628496578288,
+    "stop" : 1628496611072,
+    "duration" : 32784
+  },
+  "description" : "Test case to verify number of currencies in SoS Funds",
+  "descriptionHtml" : "<p>Test case to verify number of currencies in SoS Funds</p>\n",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "beforeStages" : [ {
+    "name" : "test_setup",
+    "time" : {
+      "start" : 1628496570832,
+      "stop" : 1628496578284,
+      "duration" : 7452
+    },
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Entering username ",
+      "time" : {
+        "start" : 1628496574478,
+        "stop" : 1628496574513,
+        "duration" : 35
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "username",
+        "value" : "'neeraj.kumar'"
+      } ],
+      "stepsCount" : 0,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    }, {
+      "name" : "Entering password ",
+      "time" : {
+        "start" : 1628496574513,
+        "stop" : 1628496574561,
+        "duration" : 48
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ {
+        "name" : "password",
+        "value" : "'Motorola@408'"
+      } ],
+      "stepsCount" : 0,
+      "hasContent" : true,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 2,
+    "hasContent" : true,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "testStage" : {
+    "description" : "Test case to verify number of currencies in SoS Funds",
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ {
+      "uid" : "8e5289ca8885708e",
+      "name" : "Image1",
+      "source" : "8e5289ca8885708e.png",
+      "type" : "image/png",
+      "size" : 119349
+    }, {
+      "uid" : "b24cd9cf9641104a",
+      "name" : "stdout",
+      "source" : "b24cd9cf9641104a.txt",
+      "type" : "text/plain",
+      "size" : 53
+    } ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : true,
+    "attachmentsCount" : 2,
+    "shouldDisplayMessage" : false
+  },
+  "afterStages" : [ {
+    "name" : "test_setup::0",
+    "time" : {
+      "start" : 1628496611072,
+      "stop" : 1628496613273,
+      "duration" : 2201
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "hasContent" : false,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false
+  } ],
+  "labels" : [ {
+    "name" : "severity",
+    "value" : "High"
+  }, {
+    "name" : "tag",
+    "value" : "regression"
+  }, {
+    "name" : "parentSuite",
+    "value" : "test_Regression"
+  }, {
+    "name" : "suite",
+    "value" : "test_CurrenciesSoSFunds"
+  }, {
+    "name" : "host",
+    "value" : "DESKTOP-JLLTS65"
+  }, {
+    "name" : "thread",
+    "value" : "8560-MainThread"
+  }, {
+    "name" : "framework",
+    "value" : "pytest"
+  }, {
+    "name" : "language",
+    "value" : "cpython3"
+  }, {
+    "name" : "package",
+    "value" : "test_Regression.test_CurrenciesSoSFunds"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ {
+      "uid" : "ced9583ce6acc87e",
+      "status" : "passed",
+      "time" : {
+        "start" : 1628495114442,
+        "stop" : 1628495147246,
+        "duration" : 32804
+      }
+    }, {
+      "uid" : "3abd11e3e757734",
+      "status" : "failed",
+      "statusDetails" : "Failed: Failed to load SoS Funds Page",
+      "time" : {
+        "start" : 1628494898819,
+        "stop" : 1628494924505,
+        "duration" : 25686
+      }
+    } ],
+    "categories" : [ ],
+    "tags" : [ "regression" ]
+  },
+  "source" : "dfe6418950cc9e66.json",
+  "parameterValues" : [ ]
+}

@@ -1,0 +1,43 @@
+{
+  "uid" : "4b4757e66a1912dae1a509f688f20b0f",
+  "name" : "categories",
+  "children" : [ {
+    "name" : "Product defects",
+    "children" : [ {
+      "name" : "Failed: Delete functionality is not working as expected",
+      "children" : [ {
+        "name" : "test_NavToDetailedCAPSTMTs",
+        "uid" : "a1900a3ec6ce4783",
+        "parentUid" : "ef402e560f3a0aece66ec2e84a992708",
+        "status" : "failed",
+        "time" : {
+          "start" : 1628693930620,
+          "stop" : 1628693990731,
+          "duration" : 60111
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "ef402e560f3a0aece66ec2e84a992708"
+    }, {
+      "name" : "Failed: Difference Value is not correct at NAV Roll for Period section",
+      "children" : [ {
+        "name" : "test_differenceNAVRollforPeriod",
+        "uid" : "9e34a11ac3d51039",
+        "parentUid" : "7ac725b96267accd6bb5d8f9f0f734c6",
+        "status" : "failed",
+        "time" : {
+          "start" : 1628881904668,
+          "stop" : 1628881963071,
+          "duration" : 58403
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "parameters" : [ ]
+      } ],
+      "uid" : "7ac725b96267accd6bb5d8f9f0f734c6"
+    } ],
+    "uid" : "8fb3a91ba5aaf9de24cc8a92edc82b5d"
+  } ]
+}
