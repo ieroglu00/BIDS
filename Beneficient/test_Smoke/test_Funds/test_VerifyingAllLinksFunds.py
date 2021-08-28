@@ -12,7 +12,7 @@ import pytest
 from selenium import webdriver
 import allure
 import pandas as pd
-print("Test")
+
 @allure.step("Entering username ")
 def enter_username(username):
       driver.find_element_by_id("un").send_keys(username)
