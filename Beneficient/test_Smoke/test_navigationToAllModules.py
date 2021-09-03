@@ -2,7 +2,6 @@ import datetime
 import time
 
 import openpyxl
-import xlrd
 from fpdf import FPDF
 from openpyxl import Workbook
 from selenium.webdriver.support.ui import Select
@@ -33,7 +32,7 @@ def test_setup():
   TestResult = []
   TestResultStatus = []
 
-  driver=webdriver.Chrome(executable_path="C:\Laptop Data\Work\Python\chromedriver_win32 (1)\chromedriver")
+  driver=webdriver.Chrome(executable_path="C:/BIDS/beneficienttest/Beneficient/Chrome/chromedriver.exe")
   driver.implicitly_wait(10)
   driver.maximize_window()
   driver.get("https://beneficienttest.appiancloud.com/suite/")
@@ -76,8 +75,8 @@ def test_setup():
      pdf.cell(0, 20,str(i+1)+")  "+TestResult[i], 0, 1,fill=True)
   pdf.output(TestName+"_" + ct + ".pdf", 'F')
 
-  ExcelFileName = "neeraj"
-  loc = ('C:/Users/Neeraj/PycharmProjects/beneficienttest/Beneficient/' + ExcelFileName + '.xlsx')
+  ExcelFileName = "FileName"
+  loc = ('C:/BIDS/beneficienttest/Beneficient/PDFFileNameData/' + ExcelFileName + '.xlsx')
   wb = openpyxl.load_workbook(loc)
   sheet = wb.active
   sheet.cell(row=1, column=1).value = TestName+"_" + ct + ".pdf"

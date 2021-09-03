@@ -8,9 +8,8 @@ import pytest
 
 @pytest.mark.smoke
 def test_ReportSend_AllModulesVerify():
-    print()
-    TestName = "neeraj"
-    loc = ('C:/Users/Neeraj/PycharmProjects/beneficienttest/Beneficient/' + TestName + '.xlsx')
+    ExcelFileName = "FileName"
+    loc = ('C:/BIDS/beneficienttest/Beneficient/PDFFileNameData/' + ExcelFileName + '.xlsx')
     wb=openpyxl.load_workbook(loc)
     sheet = wb.active
     PDFName=sheet.cell(1, 1).value
@@ -23,10 +22,10 @@ def test_ReportSend_AllModulesVerify():
     msg['To']='neeraj.kumar@crochetech.com'
     #msg.set_content("Test email from Neeraj")
 
-    with open('C:/Users/Neeraj/PycharmProjects/beneficienttest/Beneficient/test_Smoke/EmTemp.txt') as myfile:
+    with open('C:/BIDS/beneficienttest/Beneficient/test_Smoke/EmTemp.txt') as myfile:
         data=myfile.read()
 
-    with open('C:/Users/Neeraj/PycharmProjects/beneficienttest/Beneficient/test_Smoke/'+PDFName, 'rb') as f:
+    with open('C:/BIDS/beneficienttest/Beneficient/test_Smoke/'+PDFName, 'rb') as f:
         file_data = f.read()
         file_name = f.name
 
@@ -38,5 +37,5 @@ def test_ReportSend_AllModulesVerify():
 
     server.send_message(msg)
     print("Test Report sent")
-    os.remove('C:/Users/Neeraj/PycharmProjects/beneficienttest/Beneficient/test_Smoke/'+PDFName)
+    os.remove('C:/BIDS/beneficienttest/Beneficient/test_Smoke/'+PDFName)
     server.quit()
