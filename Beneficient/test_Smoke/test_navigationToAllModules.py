@@ -87,7 +87,6 @@ def test_setup():
 @pytest.mark.smoke
 def test_AllModulesVerify(test_setup):
     print()
-    print()
     PageName="Funds"
     Ptitle1="Funds - BIDS"
     PageTitle1=driver.title
