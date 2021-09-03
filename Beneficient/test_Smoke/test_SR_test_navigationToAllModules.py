@@ -17,6 +17,7 @@ def test_ReportSend_AllModulesVerify():
 
     msg=EmailMessage()
     # mention failure and pass status ---------------------------
+
     msg['Subject']='Automation Test Report'
     msg['From']='Neeraj'
     msg['To']='neeraj.kumar@crochetech.com'
