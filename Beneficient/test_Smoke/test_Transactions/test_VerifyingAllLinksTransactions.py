@@ -1,13 +1,10 @@
+import datetime
 import time
+
+import openpyxl
 import xlrd
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.expected_conditions import staleness_of
-from selenium.webdriver.support.ui import Select
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import TimeoutException, NoSuchElementException
 import pytest
+from fpdf import FPDF
 from selenium import webdriver
 import allure
 import pandas as pd
@@ -23,6 +20,17 @@ def enter_password(password):
 @pytest.fixture()
 def test_setup():
       global driver
+      global TestName
+      global description
+      global TestResult
+      global TestResultStatus
+      global TestDirectoryName
+      TestName = "test_VerifyingAllLinksTransactions"
+      description = "This is smoke test case to verify all sections inside Transactions"
+      TestResult = []
+      TestResultStatus = []
+      TestDirectoryName = "test_Transactions"
+
       driver=webdriver.Chrome(executable_path="C:\Laptop Data\Work\Python\chromedriver_win32 (1)\chromedriver")
       driver.implicitly_wait(10)
       driver.maximize_window()
@@ -32,6 +40,70 @@ def test_setup():
       driver.find_element_by_xpath("//input[@type='submit']").click()
 
       yield
+      ct = datetime.datetime.now().strftime("%d_%B_%Y_%I_%M%p")
+      ctReportHeader = datetime.datetime.now().strftime("%d %B %Y %I %M%p")
+
+      class PDF(FPDF):
+          def header(self):
+              self.image('C:/BIDS/beneficienttest/Beneficient/test_Smoke/EmailReportContent/Ben.png', 10, 8, 33)
+              self.set_font('Arial', 'B', 15)
+              self.cell(73)
+              self.cell(35, 10, ' Test Report ', 1, 1, 'B')
+              self.set_font('Arial', 'I', 10)
+              self.cell(150)
+              self.cell(30, 10, ctReportHeader, 0, 0, 'C')
+              self.ln(20)
+
+          def footer(self):
+              self.set_y(-15)
+              self.set_font('Arial', 'I', 8)
+              self.cell(0, 10, 'Page ' + str(self.page_no()) + '/{nb}', 0, 0, 'C')
+
+      pdf = PDF()
+      pdf.alias_nb_pages()
+      pdf.add_page()
+      pdf.set_font('Times', '', 12)
+      pdf.cell(0, 10, "Test Case Name:  " + TestName, 0, 1)
+      pdf.cell(0, 10, "Description:  " + description, 0, 1)
+
+      for i in range(len(TestResult)):
+          pdf.set_fill_color(255, 255, 255)
+          if (TestResultStatus[i] == "Fail"):
+              print("Fill Red color")
+              pdf.set_fill_color(255, 0, 0)
+          pdf.cell(0, 20, str(i + 1) + ")  " + TestResult[i], 0, 1, fill=True)
+      pdf.output(TestName + "_" + ct + ".pdf", 'F')
+
+      ExcelFileName = "FileName"
+      loc = ('C:/BIDS/beneficienttest/Beneficient/PDFFileNameData/' + ExcelFileName + '.xlsx')
+      wb = openpyxl.load_workbook(loc)
+      sheet = wb.active
+      print()
+      check = TestName
+      PdfName = TestName + "_" + ct + ".pdf"
+      checkcount = 0
+      InputPDFName = []
+      for i in range(1, 100):
+          if sheet.cell(i, 1).value == None:
+              for ab in range(1, len(InputPDFName) + 1):
+                  sheet.cell(row=ab, column=1).value = InputPDFName[ab - 1]
+              if checkcount == 0:
+                  sheet.cell(row=ab + 1, column=1).value = check
+                  sheet.cell(row=ab + 1, column=2).value = PdfName
+                  sheet.cell(row=ab + 1, column=3).value = TestDirectoryName
+                  sheet.cell(row=i, column=4).value = description
+                  checkcount = 1
+              wb.save(loc)
+              break
+          else:
+              if sheet.cell(i, 1).value == check:
+                  if checkcount == 0:
+                      sheet.cell(row=i, column=2).value = PdfName
+                      sheet.cell(row=i, column=3).value = TestDirectoryName
+                      sheet.cell(row=i, column=4).value = description
+                      checkcount = 1
+              InputPDFName.append(sheet.cell(i, 1).value)
+
       driver.quit()
 
 @pytest.mark.regression
@@ -40,7 +112,7 @@ def test_setup():
 def test_VerfyAllLinksTransactionsPage(test_setup):
     PageName = "Transactions"
     PageTitle = "Transactions - BIDS"
-    loc = ("C:/Users/Neeraj/Desktop/New/Main.xls")
+    loc = ("C:/BIDS/beneficienttest/Beneficient/test_Smoke/XpathDataLinks/Main.xls")
 
     wb = xlrd.open_workbook(loc)
     sheet = wb.sheet_by_index(0)
@@ -52,8 +124,14 @@ def test_VerfyAllLinksTransactionsPage(test_setup):
         except Exception:
             time.sleep(1)
             break
-    time.sleep(2)
-    assert PageTitle in driver.title
+    time.sleep(1)
+    try:
+        assert PageTitle in driver.title, PageName + " not able to open"
+        TestResult.append(PageName + " page Opened successfully")
+        TestResultStatus.append("Pass")
+    except Exception:
+        TestResult.append(PageName + " page not able to open")
+        TestResultStatus.append("Fail")
     for ia in range(50):
         ia = ia + 1
         # print()
@@ -80,7 +158,7 @@ def test_VerfyAllLinksTransactionsPage(test_setup):
                                     except Exception:
                                         time.sleep(1)
                                         break
-                                time.sleep(3)
+                                time.sleep(1)
                                 driver.find_element_by_xpath(sheet.cell_value(ia, 2)).click()
                             elif InOrOut == "Outside":
                                 driver.find_element_by_xpath(sheet.cell_value(ia, 2)).click()
@@ -120,10 +198,10 @@ def test_VerfyAllLinksTransactionsPage(test_setup):
                                             bool = driver.find_element_by_xpath(
                                                 "//div[@id='appian-working-indicator-hidden']").is_enabled()
                                         except Exception:
-                                            time.sleep(2)
+                                            time.sleep(1)
                                             break
                                     # print("Browser Back clicked for  " + sheet.cell_value(ia, 1))
-                                    time.sleep(3)
+                                    time.sleep(1)
                                     try:
                                         driver.find_element_by_xpath("//*[@title='" + PageName + "']").click()
                                     except Exception as e2:
@@ -142,12 +220,14 @@ def test_VerfyAllLinksTransactionsPage(test_setup):
                                             break
                                     TitleFound = driver.find_element_by_xpath(TitleLink).text
                                     # print("TitleFound is " + TitleFound)
-                                    if (TitleFound != TitleToVerify):
-                                        print("Something wrong found for  " + sheet.cell_value(ia, 1))
-                                        print("TitleFound is " + TitleFound)
-                                        print("Expected Title is " + TitleToVerify)
-                                    else:
-                                        print("Title matched for  " + sheet.cell_value(ia, 1))
+                                    try:
+                                        assert TitleFound in TitleToVerify, sheet.cell_value(ia,
+                                                                                             1) + " not able to open"
+                                        TestResult.append(sheet.cell_value(ia, 1) + " page Opened successfully")
+                                        TestResultStatus.append("Pass")
+                                    except Exception:
+                                        TestResult.append(sheet.cell_value(ia, 1) + " page not able to open")
+                                        TestResultStatus.append("Fail")
 
                                     time.sleep(1)
                                     try:
@@ -181,12 +261,14 @@ def test_VerfyAllLinksTransactionsPage(test_setup):
                                             break
                                     TitleFound = driver.find_element_by_xpath(TitleLink).text
                                     # print("TitleFound1 is " + TitleFound)
-                                    if (TitleFound1 != TitleToVerify):
-                                        print("Something wrong found for  " + sheet.cell_value(ia, 1))
-                                        print("TitleFound is " + TitleFound)
-                                        print("Expected Title is " + TitleToVerify)
-                                    else:
-                                        print("Title matched for  " + sheet.cell_value(ia, 1))
+                                    try:
+                                        assert TitleFound in TitleToVerify, sheet.cell_value(ia,
+                                                                                             1) + " not able to open"
+                                        TestResult.append(sheet.cell_value(ia, 1) + " page Opened successfully")
+                                        TestResultStatus.append("Pass")
+                                    except Exception:
+                                        TestResult.append(sheet.cell_value(ia, 1) + " page not able to open")
+                                        TestResultStatus.append("Fail")
 
                         except Exception as e:
                             print("Link not clicked / opened for  " + sheet.cell_value(ia, 1))

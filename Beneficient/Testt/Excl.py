@@ -1,5 +1,6 @@
 import time
 
+import openpyxl
 import xlrd
 from openpyxl import Workbook
 from selenium.webdriver.common.keys import Keys
@@ -14,57 +15,64 @@ from selenium import webdriver
 import allure
 import pandas as pd
 
-@allure.step("Entering username ")
-def enter_username(username):
-      driver.find_element_by_id("un").send_keys(username)
+# @allure.step("Entering username ")
+# def enter_username(username):
+#       driver.find_element_by_id("un").send_keys(username)
+#
+# @allure.step("Entering password ")
+# def enter_password(password):
+#       driver.find_element_by_id("pw").send_keys(password)
 
-@allure.step("Entering password ")
-def enter_password(password):
-      driver.find_element_by_id("pw").send_keys(password)
-
-@pytest.fixture()
-def test_setup():
-      global driver
-      driver=webdriver.Chrome(executable_path="C:\Laptop Data\Work\Python\chromedriver_win32 (1)\chromedriver")
-      # driver.implicitly_wait(10)
-      # driver.maximize_window()
-      # driver.get("https://beneficienttest.appiancloud.com/suite/")
-      # enter_username("neeraj.kumar")
-      # enter_password("Crochet@786")
-      # driver.find_element_by_xpath("//input[@type='submit']").click()
-
-      yield
-      driver.quit()
-
-@pytest.mark.regression
-@allure.description("Test case to verfiy all links at Funds Inside Page")
-@allure.severity(severity_level="High")
-def test_VerfyAllLinksFundsInsidePage(test_setup):
-    loc = ('C:/Users/Neeraj/PycharmProjects/beneficienttest/Beneficient/Testt/TestExcel.xls')
-    wb1 = Workbook()
-    ws = wb1.active
-    wb = xlrd.open_workbook(loc)
-    sheet = wb.sheet_by_index(0)
+# @pytest.fixture()
+# def test_setup():
+#       global driver
+#       driver=webdriver.Chrome(executable_path="C:/BIDS/beneficienttest/Beneficient/Chrome/chromedriver.exe")
+#       # driver.implicitly_wait(10)
+#       # driver.maximize_window()
+#       # driver.get("https://beneficienttest.appiancloud.com/suite/")
+#       # enter_username("neeraj.kumar")
+#       # enter_password("Crochet@786")
+#       # driver.find_element_by_xpath("//input[@type='submit']").click()
+#
+#       yield
+#       driver.quit()
+#
+# @pytest.mark.regression
+# @allure.description("Test case to verfiy all links at Funds Inside Page")
+# @allure.severity(severity_level="High")
+def test_VerfyAllLinksFundsInsidePage():
+    loc = ('C:/BIDS/beneficienttest/Beneficient/Testt/TestExcel.xlsx')
+    wb = openpyxl.load_workbook(loc)
+    sheet = wb.active
     print()
-    for i in range(0, 4):
-           print(sheet.cell_value(i, 0))
 
-           if sheet.cell_value(i, 0).strip():
-             print("Not Empty")
+    check="ab1c1"
+    PdfName="bbb"
+    checkcount=0
+    InputPDFName = []
 
-           else:
-             print(i)
-             if (i==0):
-                 i=i+1
-             print("Empty")
-             ws.cell(row=i, column=1).value = "Test"
-             wb1.save("TestExcel.xls")
-             if (i==1):
-                 i=i-1
+    for i in range(1, 100):
+        if sheet.cell(i, 1).value=="jwj":
+            print("Filename found now")
+            print(str(i))
 
-    for i1 in range(0, 4):
-           print(sheet.cell_value(i1, 0))
-
-
-
+    # This function is for getting "PDF name" from the PDFName excel file
+    # for i in range(1, 100):
+    #    if sheet.cell(i, 1).value==None:
+    #        print("None found now")
+    #        for ab in range(1,len(InputPDFName)+1):
+    #             sheet.cell(row=ab, column=1).value =InputPDFName[ab-1]
+    #        if checkcount == 0:
+    #          sheet.cell(row=ab + 1, column=1).value = check
+    #          sheet.cell(row=ab + 1, column=2).value = PdfName
+    #          checkcount = 1
+    #        wb.save(loc)
+    #        break
+    #    else:
+    #        print(sheet.cell(i, 1).value)
+    #        if sheet.cell(i, 1).value==check:
+    #            if checkcount==0:
+    #              sheet.cell(row=i, column=2).value = PdfName
+    #              checkcount = 1
+    #        InputPDFName.append(sheet.cell(i, 1).value)
 

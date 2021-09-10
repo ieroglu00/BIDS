@@ -1,39 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="068c7aa0-0a5d-4e1d-9d01-01d436d920b2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="068c7aa0-0a5d-4e1d-9d01-01d436d920b2" name="Changes" comment="Another test push">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/PDFFileNameData/FileName.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/PDFFileNameData/FileName.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/Testt/Excl.py" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/Testt/Excl.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/Testt/TestExcel.xls" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/Ben.png" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/test_Smoke/EmailReportContent/Ben.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/EmTemp.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/test_Smoke/EmailReportContent/EmTemp.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/Nreport.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/test_AllModulesVerify_02_September_2021_08_22PM.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/test_SR_test_navigationToAllModules.py" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/test_Smoke/test_SR_test_navigationToAllModules.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/test_navigationToAllModules.py" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/test_Smoke/test_navigationToAllModules.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/test_Funds/test_VerifyingAllLinksFunds.py" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/test_Smoke/test_Funds/test_VerifyingAllLinksFunds.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/test_Investments/test_VerifyingAllLinksInvestment.py" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/test_Smoke/test_Investments/test_VerifyingAllLinksInvestment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/test_LiquidTrusts/test_VerifyingAllLinksLiquidTrusts.py" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/test_Smoke/test_LiquidTrusts/test_VerifyingAllLinksLiquidTrusts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/test_QuarterlyNAVClose/test_VerifyingAllLinksQuarterlyNAVClose.py" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/test_Smoke/test_QuarterlyNAVClose/test_VerifyingAllLinksQuarterlyNAVClose.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/test_SR_test_navigationToAllModules.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/test_Transactions/test_VerifyingAllLinksTransactions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/test_Smoke/test_Transactions/test_VerifyingAllLinksTransactions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/test_navigationToAllModules.py" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/test_Smoke/AllMainModules/test_navigationToAllModules.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1xcroA0sooix4VHisYPIbzJJRCs" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Beneficient/test_Smoke/EmailReportContent" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python tests.Python tests for test_SR_test_navigationToAllModules.test_ReportSend_AllModulesVerify">
-    <configuration name="test_navigationToAllModules" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\BIDS\beneficienttest\Beneficient\test_Smoke\EmailReportContent" />
+      <recent name="C:\BIDS\beneficienttest\Beneficient\test_Smoke\test_Funds" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\BIDS\beneficienttest\Beneficient\test_Smoke\EmailReportContent" />
+      <recent name="C:\BIDS\beneficienttest\Beneficient\test_Smoke\AllMainModules" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python tests.Python tests for test_SR_SmokeAll.test_ReportSendSmokeAll">
+    <configuration name="ListPrint" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="beneficienttest" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -41,12 +69,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Beneficient/test_Smoke" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Beneficient/Testt" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Beneficient/test_Smoke/test_navigationToAllModules.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Beneficient/Testt/ListPrint.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -55,41 +83,73 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for test_SR_test_navigationToAllModules.test_ReportSend_AllModulesVerify" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for test_SR_SmokeAll.test_ReportSendSmokeAll" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="beneficienttest" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Beneficient/test_Smoke" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Beneficient/test_Smoke/EmailReportContent" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_SR_test_navigationToAllModules.test_ReportSend_AllModulesVerify&quot;" />
+      <option name="_new_target" value="&quot;test_SR_SmokeAll.test_ReportSendSmokeAll&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for test_navigationToAllModules.test_AllModulesVerify" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for test_VerifyingAllLinksQuarterlyNAVClose.test_VerfyAllLinksQuarterlyNAVClosePage" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="beneficienttest" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Beneficient/test_Smoke" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Beneficient/test_Smoke/test_QuarterlyNAVClose" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_navigationToAllModules.test_AllModulesVerify&quot;" />
+      <option name="_new_target" value="&quot;test_VerifyingAllLinksQuarterlyNAVClose.test_VerfyAllLinksQuarterlyNAVClosePage&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for test_VerifyingAllLinksTransactions.test_VerfyAllLinksTransactionsPage" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="beneficienttest" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Beneficient/test_Smoke/test_Transactions" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_VerifyingAllLinksTransactions.test_VerfyAllLinksTransactionsPage&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in test_SR_SmokeAll.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="beneficienttest" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Beneficient/test_Smoke/EmailReportContent" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/Beneficient/test_Smoke/EmailReportContent/test_SR_SmokeAll.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests for test_SR_test_navigationToAllModules.test_ReportSend_AllModulesVerify" />
-        <item itemvalue="Python tests.Python tests for test_navigationToAllModules.test_AllModulesVerify" />
-        <item itemvalue="Python.test_navigationToAllModules" />
+        <item itemvalue="Python tests.Python tests for test_SR_SmokeAll.test_ReportSendSmokeAll" />
+        <item itemvalue="Python.ListPrint" />
+        <item itemvalue="Python tests.Python tests in test_SR_SmokeAll.py" />
+        <item itemvalue="Python tests.Python tests for test_VerifyingAllLinksTransactions.test_VerfyAllLinksTransactionsPage" />
+        <item itemvalue="Python tests.Python tests for test_VerifyingAllLinksQuarterlyNAVClose.test_VerfyAllLinksQuarterlyNAVClosePage" />
       </list>
     </recent_temporary>
   </component>
@@ -102,7 +162,34 @@
       <option name="presentableId" value="Default" />
       <updated>1630665389619</updated>
       <workItem from="1630665396264" duration="1067000" />
+      <workItem from="1630666488165" duration="1635000" />
+      <workItem from="1630670487758" duration="1937000" />
+      <workItem from="1630684201182" duration="1801000" />
+      <workItem from="1630689680405" duration="5116000" />
+      <workItem from="1630750455855" duration="596000" />
+      <workItem from="1630937028348" duration="11798000" />
+      <workItem from="1630992874103" duration="681000" />
+      <workItem from="1631103450693" duration="6443000" />
+      <workItem from="1631110480121" duration="456000" />
+      <workItem from="1631112637385" duration="216000" />
+      <workItem from="1631123113426" duration="9193000" />
+      <workItem from="1631172974283" duration="10702000" />
     </task>
+    <task id="LOCAL-00001" summary="first commit after setting new file path structure">
+      <created>1630666757223</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1630666757223</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Another test push">
+      <created>1630668111847</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1630668111847</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -118,9 +205,17 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="first commit after setting new file path structure" />
+    <MESSAGE value="Another test push" />
+    <option name="LAST_COMMIT_MESSAGE" value="Another test push" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/beneficienttest$test_navigationToAllModules.coverage" NAME="test_navigationToAllModules Coverage Results" MODIFIED="1630665689982" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Beneficient/test_Smoke" />
-    <SUITE FILE_PATH="coverage/beneficienttest$.coverage" NAME=" Coverage Results" MODIFIED="1630666383994" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Beneficient/test_Smoke" />
+    <SUITE FILE_PATH="coverage/beneficienttest$ListPrint.coverage" NAME="ListPrint Coverage Results" MODIFIED="1631199803511" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Beneficient/Testt" />
+    <SUITE FILE_PATH="coverage/beneficienttest$.coverage" NAME=" Coverage Results" MODIFIED="1631199875994" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Beneficient/test_Smoke/EmailReportContent" />
   </component>
 </project>
