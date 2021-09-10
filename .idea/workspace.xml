@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="068c7aa0-0a5d-4e1d-9d01-01d436d920b2" name="Changes" comment="General Push">
-      <change beforePath="$PROJECT_DIR$/Beneficient/Testt/TestExcel.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/test_Transactions/test_VerifyingAllLinksTransactions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/test_Smoke/test_Transactions/test_VerifyingAllLinksTransactions.py" afterDir="false" />
-    </list>
+    <list default="true" id="068c7aa0-0a5d-4e1d-9d01-01d436d920b2" name="Changes" comment="First push after adding new code" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,6 +19,7 @@
   </component>
   <component name="ProjectId" id="1xcroA0sooix4VHisYPIbzJJRCs" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="false" id="Update" />
     <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -232,8 +230,9 @@
     <option name="LAST_COMMIT_MESSAGE" value="General Push" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/beneficienttest$test_navigationToAllModules.coverage" NAME="test_navigationToAllModules Coverage Results" MODIFIED="1630665689982" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Beneficient/test_Smoke" />
+    <SUITE FILE_PATH="coverage/beneficienttest$test_VerifyingAllLinksTransactions.coverage" NAME="test_VerifyingAllLinksTransactions Coverage Results" MODIFIED="1631261550366" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Beneficient/test_Smoke/test_Transactions" />
+    <SUITE FILE_PATH="coverage/beneficienttest$.coverage" NAME=" Coverage Results" MODIFIED="1631261602173" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Beneficient/test_Smoke/test_Transactions" />
     <SUITE FILE_PATH="coverage/beneficienttest$ListPrint.coverage" NAME="ListPrint Coverage Results" MODIFIED="1631199803511" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Beneficient/Testt" />
-    <SUITE FILE_PATH="coverage/beneficienttest$.coverage" NAME=" Coverage Results" MODIFIED="1631199875994" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Beneficient/test_Smoke/EmailReportContent" />
+    <SUITE FILE_PATH="coverage/beneficienttest$test_navigationToAllModules.coverage" NAME="test_navigationToAllModules Coverage Results" MODIFIED="1630665689982" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Beneficient/test_Smoke" />
   </component>
 </project>
