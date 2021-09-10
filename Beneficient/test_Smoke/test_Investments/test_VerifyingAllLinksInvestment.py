@@ -113,9 +113,7 @@ def test_setup():
               InputPDFName.append(sheet.cell(i, 1).value)
       driver.quit()
 
-@pytest.mark.regression
-@allure.description("Test case to verfiy all links at Investments Page")
-@allure.severity(severity_level="High")
+@pytest.mark.smoke
 def test_VerfyAllLinksInvestmentsPage(test_setup):
     PageName="Investments"
     PageTitle="Investments - BIDS"

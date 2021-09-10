@@ -1,13 +1,7 @@
 import datetime
 import time
-
 import openpyxl
 from fpdf import FPDF
-from openpyxl import Workbook
-from selenium.webdriver.support.ui import Select
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
 import pytest
 from selenium import webdriver
 import allure

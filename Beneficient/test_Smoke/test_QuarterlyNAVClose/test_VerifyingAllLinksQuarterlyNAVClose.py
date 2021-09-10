@@ -105,9 +105,7 @@ def test_setup():
 
       driver.quit()
 
-@pytest.mark.regression
-@allure.description("Test case to verfiy all links at Quarterly NAV Close Page")
-@allure.severity(severity_level="High")
+@pytest.mark.smoke
 def test_VerfyAllLinksQuarterlyNAVClosePage(test_setup):
     PageName = "Quarterly NAV Close"
     PageTitle = "Quarterly NAV Close - BIDS"

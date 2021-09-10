@@ -105,9 +105,7 @@ def test_setup():
 
       driver.quit()
 
-@pytest.mark.regression
-@allure.description("Test case to verfiy all links at LiquidTrusts Page")
-@allure.severity(severity_level="High")
+@pytest.mark.smoke
 def test_VerfyAllLinksLiquidTrustsPage(test_setup):
     PageName="Liquid Trusts"
     PageTitle="Liquid Trusts - BIDS"
