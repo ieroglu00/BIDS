@@ -2,21 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="068c7aa0-0a5d-4e1d-9d01-01d436d920b2" name="Changes" comment="Another test push">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Beneficient/PDFFileNameData/FileName.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/PDFFileNameData/FileName.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Beneficient/Testt/Excl.py" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/Testt/Excl.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Beneficient/Testt/TestExcel.xls" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/Ben.png" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/test_Smoke/EmailReportContent/Ben.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/EmTemp.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/test_Smoke/EmailReportContent/EmTemp.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/Nreport.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/test_Funds/test_VerifyingAllLinksFunds.py" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/test_Smoke/test_Funds/test_VerifyingAllLinksFunds.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/test_Investments/test_VerifyingAllLinksInvestment.py" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/test_Smoke/test_Investments/test_VerifyingAllLinksInvestment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/test_LiquidTrusts/test_VerifyingAllLinksLiquidTrusts.py" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/test_Smoke/test_LiquidTrusts/test_VerifyingAllLinksLiquidTrusts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/test_QuarterlyNAVClose/test_VerifyingAllLinksQuarterlyNAVClose.py" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/test_Smoke/test_QuarterlyNAVClose/test_VerifyingAllLinksQuarterlyNAVClose.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/test_SR_test_navigationToAllModules.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/test_Transactions/test_VerifyingAllLinksTransactions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/test_Smoke/test_Transactions/test_VerifyingAllLinksTransactions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/test_navigationToAllModules.py" beforeDir="false" afterPath="$PROJECT_DIR$/Beneficient/test_Smoke/AllMainModules/test_navigationToAllModules.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -174,6 +160,7 @@
       <workItem from="1631112637385" duration="216000" />
       <workItem from="1631123113426" duration="9193000" />
       <workItem from="1631172974283" duration="10702000" />
+      <workItem from="1631257651513" duration="350000" />
     </task>
     <task id="LOCAL-00001" summary="first commit after setting new file path structure">
       <created>1630666757223</created>
@@ -189,7 +176,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630668111847</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Another test push">
+      <created>1631257737175</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1631257737175</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
