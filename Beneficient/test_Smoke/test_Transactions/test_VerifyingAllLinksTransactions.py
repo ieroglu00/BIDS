@@ -31,7 +31,7 @@ def test_setup():
       TestResultStatus = []
       TestDirectoryName = "test_Transactions"
 
-      driver=webdriver.Chrome(executable_path="C:\Laptop Data\Work\Python\chromedriver_win32 (1)\chromedriver")
+      driver=webdriver.Chrome(executable_path="C:/BIDS/beneficienttest/Beneficient/Chrome/chromedriver.exe")
       driver.implicitly_wait(10)
       driver.maximize_window()
       driver.get("https://beneficienttest.appiancloud.com/suite/")
