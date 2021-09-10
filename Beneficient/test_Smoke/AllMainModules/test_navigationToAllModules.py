@@ -23,7 +23,7 @@ def test_setup():
   global TestResultStatus
   global TestDirectoryName
   TestName = "test_AllModulesVerify"
-  description = "This is smoke test case to verify all Top Menu modules are opening"
+  description = "This is smoke test case to verify all Top Menu modules are opening with Green flag at the top section of each module"
   TestResult = []
   TestResultStatus = []
   TestDirectoryName = "AllMainModules"
@@ -61,7 +61,7 @@ def test_setup():
   pdf.add_page()
   pdf.set_font('Times', '', 12)
   pdf.cell(0, 10, "Test Case Name:  "+TestName, 0, 1)
-  pdf.cell(0, 10, "Description:  "+description, 0, 1)
+  pdf.multi_cell(0, 10, "Description:  "+description, 0, 1)
 
   for i in range(len(TestResult)):
      pdf.set_fill_color(255, 255, 255)
@@ -88,6 +88,7 @@ def test_setup():
               sheet.cell(row=ab + 1, column=1).value = check
               sheet.cell(row=ab + 1, column=2).value = PdfName
               sheet.cell(row=ab + 1, column=3).value = TestDirectoryName
+              sheet.cell(row=i, column=4).value = description
               checkcount = 1
           wb.save(loc)
           break
@@ -96,6 +97,7 @@ def test_setup():
               if checkcount == 0:
                 sheet.cell(row=i, column=2).value = PdfName
                 sheet.cell(row=i, column=3).value = TestDirectoryName
+                sheet.cell(row=i, column=4).value = description
                 checkcount = 1
           InputPDFName.append(sheet.cell(i, 1).value)
 
@@ -107,7 +109,6 @@ def test_AllModulesVerify(test_setup):
     PageName="Funds"
     Ptitle1="Appian for The Beneficient Company (TEST)"
     PageTitle1=driver.title
-    print(driver.title)
     for iat1 in range(1000):
         try:
             bool = driver.find_element_by_xpath(
@@ -115,7 +116,7 @@ def test_AllModulesVerify(test_setup):
         except Exception:
             time.sleep(1)
             break
-    time.sleep(2)
+    time.sleep(1)
     try:
         assert Ptitle1 in PageTitle1, PageName + " not able to open"
         TestResult.append(PageName + " page Opened successfully")
@@ -123,6 +124,16 @@ def test_AllModulesVerify(test_setup):
     except Exception:
         TestResult.append(PageName + " page not able to open")
         TestResultStatus.append("Fail")
+    try:
+        bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
+        print("Red flag present : " + str(bool))
+        TestResult.append(PageName + " has a Red Flag at the top section")
+        TestResultStatus.append("Fail")
+    except Exception:
+        bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
+        print("Green flag present : " + str(bool))
+        TestResult.append(PageName + " has a Green Flag at the top section")
+        TestResultStatus.append("Pass")
 
     PageName = "Investments"
     driver.find_element_by_xpath("//*[@title='Investments']").click()
@@ -133,7 +144,7 @@ def test_AllModulesVerify(test_setup):
         except Exception:
             time.sleep(1)
             break
-    time.sleep(2)
+    time.sleep(1)
     Ptitle2 = "Investments - BIDS"
     PageTitle2 = driver.title
     try:
@@ -143,6 +154,16 @@ def test_AllModulesVerify(test_setup):
     except Exception:
         TestResult.append(PageName + " page not able to open")
         TestResultStatus.append("Fail")
+    try:
+        bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
+        print("Red flag present : " + str(bool))
+        TestResult.append(PageName + " has a Red Flag at the top section")
+        TestResultStatus.append("Fail")
+    except Exception:
+        bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
+        print("Green flag present : " + str(bool))
+        TestResult.append(PageName + " has a Green Flag at the top section")
+        TestResultStatus.append("Pass")
 
     PageName = "Transactions"
     driver.find_element_by_xpath("//*[@title='Transactions']").click()
@@ -153,7 +174,7 @@ def test_AllModulesVerify(test_setup):
         except Exception:
             time.sleep(1)
             break
-    time.sleep(2)
+    time.sleep(1)
     Ptitle3 = "Transactions - BIDS"
     PageTitle3 = driver.title
     try:
@@ -164,6 +185,17 @@ def test_AllModulesVerify(test_setup):
         TestResult.append(PageName + " page not able to open")
         TestResultStatus.append("Fail")
 
+    try:
+        bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
+        print("Red flag present : " + str(bool))
+        TestResult.append(PageName + " has a Red Flag at the top section")
+        TestResultStatus.append("Fail")
+    except Exception:
+        bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
+        print("Green flag present : " + str(bool))
+        TestResult.append(PageName + " has a Green Flag at the top section")
+        TestResultStatus.append("Pass")
+
     PageName = "Liquid Trusts"
     driver.find_element_by_xpath("//*[@title='Liquid Trusts']").click()
     for iat4 in range(1000):
@@ -173,7 +205,7 @@ def test_AllModulesVerify(test_setup):
         except Exception:
             time.sleep(1)
             break
-    time.sleep(2)
+    time.sleep(1)
     Ptitle4 = "Liquid Trusts - BIDS"
     PageTitle4 = driver.title
     try:
@@ -184,6 +216,17 @@ def test_AllModulesVerify(test_setup):
         TestResult.append(PageName + " page not able to open")
         TestResultStatus.append("Fail")
 
+    try:
+        bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
+        print("Red flag present : " + str(bool))
+        TestResult.append(PageName + " has a Red Flag at the top section")
+        TestResultStatus.append("Fail")
+    except Exception:
+        bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
+        print("Green flag present : " + str(bool))
+        TestResult.append(PageName + " has a Green Flag at the top section")
+        TestResultStatus.append("Pass")
+
     PageName = "Quarterly NAV Close"
     driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
     for iat5 in range(1000):
@@ -193,7 +236,7 @@ def test_AllModulesVerify(test_setup):
         except Exception:
             time.sleep(1)
             break
-    time.sleep(2)
+    time.sleep(1)
     Ptitle5 = "Quarterly NAV Close - BIDS"
     PageTitle5 = driver.title
     try:
@@ -203,5 +246,16 @@ def test_AllModulesVerify(test_setup):
     except Exception:
         TestResult.append(PageName + " page not able to open")
         TestResultStatus.append("Fail")
+
+    try:
+        bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
+        print("Red flag present : " + str(bool))
+        TestResult.append(PageName + " has a Red Flag at the top section")
+        TestResultStatus.append("Fail")
+    except Exception:
+        bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
+        print("Green flag present : " + str(bool))
+        TestResult.append(PageName + " has a Green Flag at the top section")
+        TestResultStatus.append("Pass")
 
 
