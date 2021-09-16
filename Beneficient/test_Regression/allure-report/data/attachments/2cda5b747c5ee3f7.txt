@@ -1,3 +1,0 @@
-Quaterly NAV Close Page opened
-Exception found as SoS Funds Page not found
-User Input Task - BIDS

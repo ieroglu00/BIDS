@@ -1,7 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="068c7aa0-0a5d-4e1d-9d01-01d436d920b2" name="Changes" comment="First push after adding new code" />
+    <list default="true" id="068c7aa0-0a5d-4e1d-9d01-01d436d920b2" name="Changes" comment="General Push">
+      <change beforePath="$PROJECT_DIR$/.idea/beneficienttest.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/beneficienttest.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/assets/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Mission Control/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/CompareAmountSOSandMissionControl/5f02f9b5-4788-4c1c-bfb4-296ce0fb878b-result.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/CompareAmountSOSandMissionControl/60338ecb-fa8d-4750-8603-d71b76ade8f8-container.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/CompareAmountSOSandMissionControl/62b6a478-0e50-42d5-8fd6-1f966b6ce044-attachment.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/CompareAmountSOSandMissionControl/7b2cb8f9-39e9-4760-8c29-96f605f41372-result.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/CompareAmountSOSandMissionControl/8e51dde8-f793-4987-b858-56928fac5dba-container.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/app.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/135d05196ddb268d.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/1d8c9d9124371187.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/28e00a9510bc5c33.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/2cda5b747c5ee3f7.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/2f1455fa95a98ae4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/2f5510551c81f6a6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/37559de61cbea0cf.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/38195e186c87efd3.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/40c7ce25a7419f6d.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/40fb8d82847438b1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/41d8f64bb7e70e19.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/46cef729a6a92f68.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/48d1d692414b8049.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/4bb5105f088d05da.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/4ef54e468be4711c.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/4fec6ce567095c10.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/55172a1e78f0dca6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/565f8777801ffbc6.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/5c25e7e291e6b431.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/5c530c018fabf825.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/665f30ec22139fe4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/6a7250f07dd4a030.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/7069324e4fd2be7f.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/78aea264cef4d7e3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/7c09276fb1c28cb.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/87fa507f34ece29d.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/8e5289ca8885708e.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/97149afa9c662d89.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/b24cd9cf9641104a.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/b4ad598142b8379a.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/b8b6b9e7402397c8.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/ba56a7317ebe1ab4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/cda883c3797862ea.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/d7378d4cc0cce3b4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/da9b627c75ea863f.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/ecfe745186001cf0.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/f113836cc0a91267.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/f4f6efca2b01bc33.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/f591ca7907704c85.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/attachments/fc7d41ec18fc4d65.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/behaviors.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/behaviors.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/categories.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/categories.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/packages.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/suites.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/suites.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/2d9a359629eaeaf6.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/312608d707db695f.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/31770b88a5d83729.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/365dee348e846d91.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/3abd11e3e757734.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/4cf55e67026fd397.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/512bf1cc05e6f512.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/5699c1d55b055a7b.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/60539a66f0c83e1.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/6e73f5fed14d3f7e.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/6f6a1d18afacb797.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/8c2d852160589160.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/979967c5c3a78f55.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/9e34a11ac3d51039.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/a1900a3ec6ce4783.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/a7270b874b1c190f.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/caad9df708df155c.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/cc2e20390b82dd1e.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/ced9583ce6acc87e.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/dc4c81695db7c28c.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/dcfcf8d00014f37f.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/df33d748bdcc5006.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/dfe6418950cc9e66.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/fb5a4c9e5a5a4659.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/test-cases/fee7f078a9fb369b.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/data/timeline.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/export/influxDbData.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/export/mail.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/export/prometheusData.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/history/categories-trend.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/history/duration-trend.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/history/history-trend.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/history/history.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/history/retry-trend.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/plugins/behaviors/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/plugins/packages/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/plugins/screen-diff/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/plugins/screen-diff/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/widgets/behaviors.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/widgets/categories-trend.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/widgets/categories.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/widgets/duration-trend.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/widgets/duration.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/widgets/environment.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/widgets/executors.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/widgets/history-trend.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/widgets/launch.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/widgets/retry-trend.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/widgets/severity.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/widgets/status-chart.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/widgets/suites.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/allure-report/widgets/summary.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Regression/assets/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Beneficient/test_Smoke/assets/style.css" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,6 +133,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="1xcroA0sooix4VHisYPIbzJJRCs" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -32,43 +157,24 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Beneficient/test_Smoke/EmailReportContent" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Beneficient/test_Smoke/Executiondir" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\BIDS\beneficienttest\Beneficient\test_Smoke\Executiondir" />
       <recent name="C:\BIDS\beneficienttest\Beneficient\test_Smoke\EmailReportContent" />
-      <recent name="C:\BIDS\beneficienttest\Beneficient\test_Smoke\test_Funds" />
+      <recent name="C:\BIDS\beneficienttest\Beneficient\PDFFileNameData" />
+      <recent name="C:\BIDS\beneficienttest\Beneficient\test_Regression\test_Detailed CAP STMTS" />
+      <recent name="C:\BIDS\beneficienttest\Beneficient\test_Regression" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\BIDS\beneficienttest\Beneficient\test_Smoke\EmailReportContent" />
       <recent name="C:\BIDS\beneficienttest\Beneficient\test_Smoke\AllMainModules" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests for test_VerifyingAllLinksTransactions.test_VerfyAllLinksTransactionsPage">
-    <configuration name="ListPrint" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="beneficienttest" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Beneficient/Testt" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Beneficient/Testt/ListPrint.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for test_SR_SmokeAll.test_ReportSendSmokeAll" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python tests.Python tests for test_Diagnostic.test_DiagnosticFlagStatus">
+    <configuration name="Python tests for SR_SmokeAll_together.test_ReportSendSmokeAll" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="beneficienttest" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -79,11 +185,11 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_SR_SmokeAll.test_ReportSendSmokeAll&quot;" />
+      <option name="_new_target" value="&quot;SR_SmokeAll_together.test_ReportSendSmokeAll&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for test_VerifyingAllLinksQuarterlyNAVClose.test_VerfyAllLinksQuarterlyNAVClosePage" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for test_Diagnostic.test_DiagnosticFlagStatus" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="beneficienttest" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -94,7 +200,22 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_VerifyingAllLinksQuarterlyNAVClose.test_VerfyAllLinksQuarterlyNAVClosePage&quot;" />
+      <option name="_new_target" value="&quot;test_Diagnostic.test_DiagnosticFlagStatus&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for test_VerifyingAllLinksFunds.test_VerfyAllLinksFundsPage" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="beneficienttest" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Beneficient/test_Smoke/test_Funds" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_VerifyingAllLinksFunds.test_VerfyAllLinksFundsPage&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -113,28 +234,28 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests in test_SR_SmokeAll.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for test_navigationToAllModules.test_AllModulesVerify" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="beneficienttest" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Beneficient/test_Smoke/EmailReportContent" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Beneficient/test_Smoke/AllMainModules" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/Beneficient/test_Smoke/EmailReportContent/test_SR_SmokeAll.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="_new_target" value="&quot;test_navigationToAllModules.test_AllModulesVerify&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests for test_Diagnostic.test_DiagnosticFlagStatus" />
+        <item itemvalue="Python tests.Python tests for SR_SmokeAll_together.test_ReportSendSmokeAll" />
+        <item itemvalue="Python tests.Python tests for test_VerifyingAllLinksFunds.test_VerfyAllLinksFundsPage" />
+        <item itemvalue="Python tests.Python tests for test_navigationToAllModules.test_AllModulesVerify" />
         <item itemvalue="Python tests.Python tests for test_VerifyingAllLinksTransactions.test_VerfyAllLinksTransactionsPage" />
-        <item itemvalue="Python tests.Python tests for test_SR_SmokeAll.test_ReportSendSmokeAll" />
-        <item itemvalue="Python.ListPrint" />
-        <item itemvalue="Python tests.Python tests in test_SR_SmokeAll.py" />
-        <item itemvalue="Python tests.Python tests for test_VerifyingAllLinksQuarterlyNAVClose.test_VerfyAllLinksQuarterlyNAVClosePage" />
       </list>
     </recent_temporary>
   </component>
@@ -160,6 +281,16 @@
       <workItem from="1631123113426" duration="9193000" />
       <workItem from="1631172974283" duration="10702000" />
       <workItem from="1631257651513" duration="2086000" />
+      <workItem from="1631287718186" duration="2319000" />
+      <workItem from="1631514993424" duration="6543000" />
+      <workItem from="1631548695384" duration="594000" />
+      <workItem from="1631609576340" duration="15587000" />
+      <workItem from="1631640203109" duration="5154000" />
+      <workItem from="1631688252617" duration="16089000" />
+      <workItem from="1631717622407" duration="9928000" />
+      <workItem from="1631728307593" duration="1643000" />
+      <workItem from="1631778688524" duration="61000" />
+      <workItem from="1631778768376" duration="3138000" />
     </task>
     <task id="LOCAL-00001" summary="first commit after setting new file path structure">
       <created>1630666757223</created>
@@ -203,7 +334,84 @@
       <option name="project" value="LOCAL" />
       <updated>1631261481489</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="General Push">
+      <created>1631262608901</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1631262608901</updated>
+    </task>
+    <task id="LOCAL-00008" summary="General Push">
+      <created>1631262674553</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1631262674554</updated>
+    </task>
+    <task id="LOCAL-00009" summary="General Push">
+      <created>1631262835919</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1631262835919</updated>
+    </task>
+    <task id="LOCAL-00010" summary="General Push">
+      <created>1631274513601</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1631274513601</updated>
+    </task>
+    <task id="LOCAL-00011" summary="General Push">
+      <created>1631277673001</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1631277673001</updated>
+    </task>
+    <task id="LOCAL-00012" summary="General Push">
+      <created>1631709950246</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1631709950246</updated>
+    </task>
+    <task id="LOCAL-00013" summary="General Push">
+      <created>1631710048121</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1631710048121</updated>
+    </task>
+    <task id="LOCAL-00014" summary="General Push">
+      <created>1631710072387</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1631710072387</updated>
+    </task>
+    <task id="LOCAL-00015" summary="General Push">
+      <created>1631710203542</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1631710203542</updated>
+    </task>
+    <task id="LOCAL-00016" summary="General Push">
+      <created>1631778954757</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1631778954757</updated>
+    </task>
+    <task id="LOCAL-00017" summary="General Push">
+      <created>1631782518029</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1631782518030</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -230,9 +438,9 @@
     <option name="LAST_COMMIT_MESSAGE" value="General Push" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/beneficienttest$test_VerifyingAllLinksTransactions.coverage" NAME="test_VerifyingAllLinksTransactions Coverage Results" MODIFIED="1631261550366" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Beneficient/test_Smoke/test_Transactions" />
-    <SUITE FILE_PATH="coverage/beneficienttest$.coverage" NAME=" Coverage Results" MODIFIED="1631261602173" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Beneficient/test_Smoke/test_Transactions" />
-    <SUITE FILE_PATH="coverage/beneficienttest$ListPrint.coverage" NAME="ListPrint Coverage Results" MODIFIED="1631199803511" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Beneficient/Testt" />
     <SUITE FILE_PATH="coverage/beneficienttest$test_navigationToAllModules.coverage" NAME="test_navigationToAllModules Coverage Results" MODIFIED="1630665689982" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Beneficient/test_Smoke" />
+    <SUITE FILE_PATH="coverage/beneficienttest$ListPrint.coverage" NAME="ListPrint Coverage Results" MODIFIED="1631199803511" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Beneficient/Testt" />
+    <SUITE FILE_PATH="coverage/beneficienttest$test_VerifyingAllLinksTransactions.coverage" NAME="test_VerifyingAllLinksTransactions Coverage Results" MODIFIED="1631261550366" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Beneficient/test_Smoke/test_Transactions" />
+    <SUITE FILE_PATH="coverage/beneficienttest$.coverage" NAME=" Coverage Results" MODIFIED="1631725207270" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Beneficient/test_Smoke/test_QuarterlyNAVClose" />
   </component>
 </project>
