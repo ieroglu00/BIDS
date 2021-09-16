@@ -1,4 +1,5 @@
 import datetime
+import re
 import time
 import openpyxl
 from fpdf import FPDF
@@ -22,13 +23,13 @@ def test_setup():
   global TestResult
   global TestResultStatus
   global TestDirectoryName
-  TestName = "test_AllModulesVerify"
-  description = "This is smoke test case to verify all Top Menu modules are opening with Green flag at the top section of each module"
+  TestName = "test_DiagnosticFlagStatus"
+  description = "This is smoke test case to verify all Green flag in Diagnostic"
   TestResult = []
   TestResultStatus = []
   TestFailStatus = []
   FailStatus="Pass"
-  TestDirectoryName = "AllMainModules"
+  TestDirectoryName = "test_QuarterlyNAVClose"
   global Exe
   Exe="Yes"
 
@@ -54,6 +55,15 @@ def test_setup():
       enter_username("neeraj.kumar")
       enter_password("Crochet@786")
       driver.find_element_by_xpath("//input[@type='submit']").click()
+      for iat1 in range(1000):
+          try:
+              bool = driver.find_element_by_xpath(
+                  "//div[@id='appian-working-indicator-hidden']").is_enabled()
+          except Exception:
+              time.sleep(1)
+              break
+      time.sleep(1)
+      driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
 
   yield
   if Exe == "Yes":
@@ -86,7 +96,6 @@ def test_setup():
       for i1 in range(len(TestResult)):
          pdf.set_fill_color(255, 255, 255)
          if (TestResultStatus[i1] == "Fail"):
-             #print("Fill Red color")
              pdf.set_fill_color(255, 0, 0)
              TestFailStatus.append("Fail")
          pdf.cell(0, 20,str(i1+1)+")  "+TestResult[i1], 0, 1,fill=True)
@@ -154,13 +163,12 @@ def test_setup():
       driver.quit()
 
 @pytest.mark.smoke
-def test_AllModulesVerify(test_setup):
+def test_DiagnosticFlagStatus(test_setup):
     if Exe == "Yes":
         print()
-        PageName="Funds"
-        Ptitle1="Appian for The Beneficient Company (TEST)"
-        PageTitle1=driver.title
-        for iat1 in range(1000):
+        PageName="Diagnostics"
+        Ptitle1="Diagnostics Menu - BIDS"
+        for iat2 in range(1000):
             try:
                 bool = driver.find_element_by_xpath(
                     "//div[@id='appian-working-indicator-hidden']").is_enabled()
@@ -168,6 +176,17 @@ def test_AllModulesVerify(test_setup):
                 time.sleep(1)
                 break
         time.sleep(1)
+        driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
+        for iat3 in range(1000):
+            try:
+                bool = driver.find_element_by_xpath(
+                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
+            except Exception:
+                time.sleep(1)
+                break
+        time.sleep(1)
+        PageTitle1 = driver.title
+        print("PageTitle1: "+PageTitle1)
         try:
             assert Ptitle1 in PageTitle1, PageName + " not able to open"
             TestResult.append(PageName + " page Opened successfully")
@@ -177,17 +196,16 @@ def test_AllModulesVerify(test_setup):
             TestResultStatus.append("Fail")
         try:
             bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
-            print("Red flag present : " + str(bool))
             TestResult.append(PageName + " has a Red Flag at the top section")
             TestResultStatus.append("Fail")
         except Exception:
             bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
-            print("Green flag present : " + str(bool))
             TestResult.append(PageName + " has a Green Flag at the top section")
             TestResultStatus.append("Pass")
 
-        PageName = "Investments"
-        driver.find_element_by_xpath("//*[@title='Investments']").click()
+        print()
+        PageName = "Diagnostic: Funds to Investments"
+        Ptitle1 = "Diagnostics Menu - BIDS"
         for iat2 in range(1000):
             try:
                 bool = driver.find_element_by_xpath(
@@ -196,28 +214,7 @@ def test_AllModulesVerify(test_setup):
                 time.sleep(1)
                 break
         time.sleep(1)
-        Ptitle2 = "Investments - BIDS"
-        PageTitle2 = driver.title
-        try:
-            assert Ptitle2 in PageTitle2, PageName + " not able to open"
-            TestResult.append(PageName + " page Opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName + " page not able to open")
-            TestResultStatus.append("Fail")
-        try:
-            bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
-            print("Red flag present : " + str(bool))
-            TestResult.append(PageName + " has a Red Flag at the top section")
-            TestResultStatus.append("Fail")
-        except Exception:
-            bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
-            #print("Green flag present : " + str(bool))
-            TestResult.append(PageName + " has a Green Flag at the top section")
-            TestResultStatus.append("Pass")
-
-        PageName = "Transactions"
-        driver.find_element_by_xpath("//*[@title='Transactions']").click()
+        driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
         for iat3 in range(1000):
             try:
                 bool = driver.find_element_by_xpath(
@@ -226,104 +223,231 @@ def test_AllModulesVerify(test_setup):
                 time.sleep(1)
                 break
         time.sleep(1)
-        Ptitle3 = "Transactions - BIDS"
-        PageTitle3 = driver.title
+        PageTitle1 = driver.title
+        #print("PageTitle1: " + PageTitle1)
         try:
-            assert Ptitle3 in PageTitle3, PageName + " not able to open"
+            assert Ptitle1 in PageTitle1, PageName + " not able to open"
             TestResult.append(PageName + " page Opened successfully")
             TestResultStatus.append("Pass")
         except Exception:
             TestResult.append(PageName + " page not able to open")
             TestResultStatus.append("Fail")
-
         try:
-            bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
-            print("Red flag present : " + str(bool))
+            bool = driver.find_element_by_xpath(
+                "//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
             TestResult.append(PageName + " has a Red Flag at the top section")
             TestResultStatus.append("Fail")
         except Exception:
-            bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
-            print("Green flag present : " + str(bool))
+            bool = driver.find_element_by_xpath(
+                "//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
             TestResult.append(PageName + " has a Green Flag at the top section")
             TestResultStatus.append("Pass")
-
-        PageName = "Liquid Trusts"
-        driver.find_element_by_xpath("//*[@title='Liquid Trusts']").click()
-        for iat4 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
-        Ptitle4 = "Liquid Trusts - BIDS"
-        PageTitle4 = driver.title
-        try:
-            assert Ptitle4 in PageTitle4, PageName + " not able to open"
-            TestResult.append(PageName + " page Opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName + " page not able to open")
+        time.sleep(2)
+        Value=driver.find_element_by_xpath("//tbody/tr[last()]/td[7]/div/p/strong").text
+        print("Value is "+Value)
+        Value1 = Value
+        if int(Value) != 0:
+            print("Value is not zero")
+            TestResult.append(PageName + " page has a difference value: [ "+Value1+" ]")
             TestResultStatus.append("Fail")
+        driver.find_element_by_xpath("//button[contains(text(),'Main Diagnostics Menu')]").click()
 
-        try:
-            bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
-            print("Red flag present : " + str(bool))
-            TestResult.append(PageName + " has a Red Flag at the top section")
-            TestResultStatus.append("Fail")
-        except Exception:
-            bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
-            print("Green flag present : " + str(bool))
-            TestResult.append(PageName + " has a Green Flag at the top section")
-            TestResultStatus.append("Pass")
-
-        PageName = "Quarterly NAV Close"
-        driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
-        for iat5 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
-        Ptitle5 = "Quarterly NAV Close - BIDS"
-        PageTitle5 = driver.title
-        try:
-            assert Ptitle5 in PageTitle5, PageName + " not able to open"
-            TestResult.append(PageName + " page Opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName + " page not able to open")
-            TestResultStatus.append("Fail")
-
-        try:
-            bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
-            print("Red flag present : " + str(bool))
-            TestResult.append(PageName + " has a Red Flag at the top section")
-            TestResultStatus.append("Fail")
-        except Exception:
-            bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
-            print("Green flag present : " + str(bool))
-            TestResult.append(PageName + " has a Green Flag at the top section")
-            TestResultStatus.append("Pass")
-    else:
         print()
-        print("Test Case skipped as per the Execution sheet")
-        skip = "Yes"
+        PageName = "Diagnostic: Investments"
+        Ptitle1 = "Diagnostics Menu - BIDS"
+        for iat2 in range(1000):
+            try:
+                bool = driver.find_element_by_xpath(
+                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
+            except Exception:
+                time.sleep(1)
+                break
+        time.sleep(1)
+        driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
+        for iat3 in range(1000):
+            try:
+                bool = driver.find_element_by_xpath(
+                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
+            except Exception:
+                time.sleep(1)
+                break
+        time.sleep(1)
+        PageTitle1 = driver.title
+        #print("PageTitle1: " + PageTitle1)
+        try:
+            assert Ptitle1 in PageTitle1, PageName + " not able to open"
+            TestResult.append(PageName + " page Opened successfully")
+            TestResultStatus.append("Pass")
+        except Exception:
+            TestResult.append(PageName + " page not able to open")
+            TestResultStatus.append("Fail")
+        try:
+            bool = driver.find_element_by_xpath(
+                "//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
+            TestResult.append(PageName + " has a Red Flag at the top section")
+            TestResultStatus.append("Fail")
+        except Exception:
+            bool = driver.find_element_by_xpath(
+                "//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
+            TestResult.append(PageName + " has a Green Flag at the top section")
+            TestResultStatus.append("Pass")
+        time.sleep(2)
+        Value = driver.find_element_by_xpath("//tbody/tr[last()]/td[6]/div/p/span").text
+        print("Value is " + Value)
+        Value1 = Value
+        Value = Value.replace(" ", "")
+        Value = re.sub(r'[?|$|.|!|,|-]', r'', Value)
+        DifferenceValueString = ''.join(char for char in Value if char.isalnum())
+        if int(Value) != 0:
+            print("Value is not zero")
+            TestResult.append(PageName + " page has a difference value: [ " + Value1 + " ]")
+            TestResultStatus.append("Fail")
+        driver.find_element_by_xpath("//button[contains(text(),'Main Diagnostics Menu')]").click()
 
-        # -----------To add Skipped test case details in PDF details sheet-------------
-        ExcelFileName = "FileName"
-        loc = ('C:/BIDS/beneficienttest/Beneficient/PDFFileNameData/' + ExcelFileName + '.xlsx')
-        wb = openpyxl.load_workbook(loc)
-        sheet = wb.active
-        check = TestName
+        print()
+        PageName = "Diagnostic: Funds"
+        Ptitle1 = "Diagnostics Menu - BIDS"
+        for iat2 in range(1000):
+            try:
+                bool = driver.find_element_by_xpath(
+                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
+            except Exception:
+                time.sleep(1)
+                break
+        time.sleep(1)
+        driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
+        for iat3 in range(1000):
+            try:
+                bool = driver.find_element_by_xpath(
+                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
+            except Exception:
+                time.sleep(1)
+                break
+        time.sleep(1)
+        PageTitle1 = driver.title
+        #print("PageTitle1: " + PageTitle1)
+        try:
+            assert Ptitle1 in PageTitle1, PageName + " not able to open"
+            TestResult.append(PageName + " page Opened successfully")
+            TestResultStatus.append("Pass")
+        except Exception:
+            TestResult.append(PageName + " page not able to open")
+            TestResultStatus.append("Fail")
+        try:
+            bool = driver.find_element_by_xpath(
+                "//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
+            TestResult.append(PageName + " has a Red Flag at the top section")
+            TestResultStatus.append("Fail")
+        except Exception:
+            bool = driver.find_element_by_xpath(
+                "//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
+            TestResult.append(PageName + " has a Green Flag at the top section")
+            TestResultStatus.append("Pass")
+        Value = driver.find_element_by_xpath("//tbody/tr[last()]/td[7]/div/p/strong").text
+        print("Value is " + Value)
+        Value1=Value
+        Value = Value.replace(" ", "")
+        Value = re.sub(r'[?|$|.|!|,|-]', r'', Value)
+        DifferenceValueString = ''.join(char for char in Value if char.isalnum())
+        if int(Value) != 0:
+            print("Value is not zero")
+            TestResult.append(PageName + " page has a difference value: [ " + Value1 + " ]")
+            TestResultStatus.append("Fail")
+        driver.find_element_by_xpath("//button[contains(text(),'Main Diagnostics Menu')]").click()
 
-        for i in range(1, 100):
-            if sheet.cell(i, 1).value == check:
-                sheet.cell(row=i, column=5).value = "Skipped"
-                wb.save(loc)
-        # ----------------------------------------------------------------------------
+        print()
+        PageName = "Lock Down Monitor Report"
+        Ptitle1 = "Diagnostics Menu - BIDS"
+        for iat2 in range(1000):
+            try:
+                bool = driver.find_element_by_xpath(
+                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
+            except Exception:
+                time.sleep(1)
+                break
+        time.sleep(1)
+        driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
+        for iat3 in range(1000):
+            try:
+                bool = driver.find_element_by_xpath(
+                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
+            except Exception:
+                time.sleep(1)
+                break
+        time.sleep(1)
+        PageTitle1 = driver.title
+        #print("PageTitle1: " + PageTitle1)
+        try:
+            assert Ptitle1 in PageTitle1, PageName + " not able to open"
+            TestResult.append(PageName + " page Opened successfully")
+            TestResultStatus.append("Pass")
+        except Exception:
+            TestResult.append(PageName + " page not able to open")
+            TestResultStatus.append("Fail")
+        try:
+            bool = driver.find_element_by_xpath(
+                "//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
+            TestResult.append(PageName + " has a Red Flag at the top section")
+            TestResultStatus.append("Fail")
+        except Exception:
+            bool = driver.find_element_by_xpath(
+                "//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
+            TestResult.append(PageName + " has a Green Flag at the top section")
+            TestResultStatus.append("Pass")
+
+        T_Rows=driver.find_elements_by_xpath("//tbody/tr")
+        for ii in range(len(T_Rows)):
+            Status=driver.find_element_by_xpath("//tbody/tr["+str(ii+1)+"]/td[3]/div/p/span").text
+            if "Issue" in Status:
+                Screen=driver.find_element_by_xpath("//tbody/tr["+str(ii+1)+"]/td[2]/p").text
+                Period=driver.find_element_by_xpath("//tbody/tr["+str(ii+1)+"]/td[1]/p").text
+                print("Issue present in Screen [ "+Screen+" ] and Period is ["+ Period+" ]")
+                TestResult.append(PageName + " has Issue present in Screen [ "+Screen+" ] and Period is ["+ Period+" ]")
+                TestResultStatus.append("Fail")
+
+        driver.find_element_by_xpath("//button[contains(text(),'Main Diagnostics Menu')]").click()
+
+        print()
+        PageName = "Diagnostic: Estimate to Actual Missing Explanations"
+        Ptitle1 = "Diagnostics Menu - BIDS"
+        for iat2 in range(1000):
+            try:
+                bool = driver.find_element_by_xpath(
+                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
+            except Exception:
+                time.sleep(1)
+                break
+        time.sleep(1)
+        driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
+        for iat3 in range(1000):
+            try:
+                bool = driver.find_element_by_xpath(
+                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
+            except Exception:
+                time.sleep(1)
+                break
+        time.sleep(1)
+        PageTitle1 = driver.title
+        #print("PageTitle1: " + PageTitle1)
+        try:
+            assert Ptitle1 in PageTitle1, PageName + " not able to open"
+            TestResult.append(PageName + " page Opened successfully")
+            TestResultStatus.append("Pass")
+        except Exception:
+            TestResult.append(PageName + " page not able to open")
+            TestResultStatus.append("Fail")
+        try:
+            bool = driver.find_element_by_xpath(
+                "//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
+            TestResult.append(PageName + " has a Red Flag at the top section")
+            TestResultStatus.append("Fail")
+        except Exception:
+            bool = driver.find_element_by_xpath(
+                "//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
+            TestResult.append(PageName + " has a Green Flag at the top section")
+            TestResultStatus.append("Pass")
+        driver.find_element_by_xpath("//button[contains(text(),'Main Diagnostics Menu')]").click()
+
+
 
 

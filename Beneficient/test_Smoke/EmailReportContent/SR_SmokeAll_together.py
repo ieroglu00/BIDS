@@ -35,9 +35,6 @@ def test_ReportSendSmokeAll():
     msg['From']='Neeraj'
     msg['To']='neeraj.kumar@crochetech.com'
 
-    # with open('C:/BIDS/beneficienttest/Beneficient/test_Smoke/EmailReportContent/EmTemp.txt') as myfile:
-    #     data=myfile.read()
-    # msg.set_content(data)
     A="Hi Team\nHere is the test summary report of a Test Suit \n\nBelow test scenarios are covered \n"
     C="\n\nPlease find attached PDFs of test scenarios results\n\n\nMany Thanks\nNeeraj"
     B = ""
