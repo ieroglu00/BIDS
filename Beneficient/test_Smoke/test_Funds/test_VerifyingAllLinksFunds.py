@@ -57,6 +57,7 @@ def test_setup():
       enter_username("neeraj.kumar")
       enter_password("Crochet@786")
       driver.find_element_by_xpath("//input[@type='submit']").click()
+      print("a")
 
 
   yield
