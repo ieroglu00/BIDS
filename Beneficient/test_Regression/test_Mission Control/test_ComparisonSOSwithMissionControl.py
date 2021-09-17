@@ -1,6 +1,5 @@
 import re
 import time
-
 from _pytest.outcomes import fail
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
@@ -25,7 +24,7 @@ def enter_password(password):
 @pytest.fixture()
 def test_setup():
       global driver
-      driver=webdriver.Chrome(executable_path="C:\Laptop Data\Work\Python\chromedriver_win32 (1)\chromedriver")
+      driver=webdriver.Chrome(executable_path="C:/BIDS/beneficienttest/Beneficient/Chrome/chromedriver.exe")
       driver.implicitly_wait(10)
       driver.maximize_window()
       driver.get("https://beneficienttest.appiancloud.com/suite/")
@@ -62,13 +61,15 @@ def test_CompareAmountSOSandMissionControl(test_setup):
       #print(driver.title)
       assert "Quarterly NAV Close - BIDS" in driver.title, "Failed to open Quarterly NAV Close Page"
       driver.find_element_by_xpath("//strong[contains(text(),'Mission Control')]").click()
-      for ia in range(1000):
+      time.sleep(3)
+      for ia11 in range(1000):
             try:
                   bool = driver.find_element_by_xpath("//div[@id='appian-working-indicator-hidden']").is_enabled()
             except Exception:
-                  #print("Loader finished")
+                  print("Loader finished")
                   time.sleep(3)
                   break
+      time.sleep(3)
       assert "COR_ReportMissionControl - BIDS" in driver.title, "Failed to open Mission Control page"
 
       for ia in range(DropDownCount):

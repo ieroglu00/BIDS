@@ -33,7 +33,7 @@ def test_ReportSendSmokeAll():
     msg=EmailMessage()
     msg['Subject']='Test SUITE Automation Report'
     msg['From']='Neeraj'
-    msg['To']='neeraj.kumar@crochetech.com'
+    msg['To']='neeraj.kumar@crochetech.com,srinath.jandhyala@beneficient.com'
 
     A="Hi Team\nHere is the test summary report of a Test Suit \n\nBelow test scenarios are covered \n"
     C="\n\nPlease find attached PDFs of test scenarios results\n\n\nMany Thanks\nNeeraj"
