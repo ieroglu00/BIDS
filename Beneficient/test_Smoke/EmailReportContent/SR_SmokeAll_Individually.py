@@ -31,12 +31,12 @@ def test_ReportSendSmokeAll():
             TestStatus.append(sheet.cell(i, 5).value)
             SendStatus.append(sheet.cell(i, 6).value)
     msg=EmailMessage()
-    msg['Subject']='Test SUITE Automation Report'
-    msg['From']='Neeraj'
+    msg['Subject']='Test SUITE Automation Report [Smoke Test 1]'
+    msg['From']='Test Automation Team'
     msg['To']='neeraj.kumar@crochetech.com'
 
-    A="Hi Team\nHere is the test summary report of a Test Suit \n\nBelow test scenarios are covered \n"
-    C="\n\nPlease find attached PDFs of test scenarios results\n\n\nMany Thanks\nNeeraj"
+    A="Hi Team\nHere is the test summary report of Smoke Test 1 (To verify all links, pages, green flags in a module) \n\nBelow test scenarios are covered \n"
+    C="\n\nPlease find attached PDFs of test scenarios results\nNote: Attachments are only for FAILED test cases\n\n\nMany Thanks\nNeeraj"
     B = ""
     for io in range(len(TestName)):
         try:
