@@ -27,7 +27,7 @@ def test_setup():
   global TestResultStatus
   global TestDirectoryName
   TestName = "test_BeaconDataTransferTemplate"
-  description = "This is smoke test case to verify error in Funds listing at Beacon Data Transfer Template"
+  description = "This is smoke test case to verify ERR and negative non SPV's values in Funds listing at Beacon Data Transfer Template grid"
   TestResult = []
   TestResultStatus = []
   TestFailStatus = []
@@ -86,6 +86,7 @@ def test_setup():
           def footer(self):
               self.set_y(-15)
               self.set_font('Arial', 'I', 8)
+              self.set_text_color(0, 0, 0)
               self.cell(0, 10, 'Page ' + str(self.page_no()) + '/{nb}', 0, 0, 'C')
 
       pdf = PDF()
@@ -240,8 +241,7 @@ def test_AllModulesVerify(test_setup):
                             "//tbody/tr[" + str(ii2 + 1) + "]/td[" + str(num + 2) + "]/p").text
                         Date = driver.find_element_by_xpath(
                             "//tbody/tr[" + str(ii2 + 1) + "]/td[" + str(num + 3) + "]/p").text
-                        TestResult.append(
-                            PageName + " ERR present for [ " + FundName + " ], Fund ID is [" + FundID + " ], asset is [" + Asset + " ], and date is [" + Date + " ]")
+                        TestResult.append("ERR present for Fund [ " + FundName + " ], Fund ID is [" + FundID + " ], asset is [" + Asset + " ], and date is [" + Date + " ]")
                         TestResultStatus.append("Fail")
                     #--------------------------------------------------------------------------
 
@@ -282,8 +282,7 @@ def test_AllModulesVerify(test_setup):
                             "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num + 2) + "]/p").text
                         Date = driver.find_element_by_xpath(
                             "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num + 3) + "]/p").text
-                        TestResult.append(
-                            PageName + " ERR present for [ " + FundName + " ], Fund ID is [" + FundID + " ], asset is [" + Asset + " ], and date is [" + Date + " ]")
+                        TestResult.append("ERR present for Fund [ " + FundName + " ], Fund ID is [" + FundID + " ], asset is [" + Asset + " ], and date is [" + Date + " ]")
                         TestResultStatus.append("Fail")
                     #------------------------------------------------------------------------------
 
