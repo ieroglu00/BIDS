@@ -84,6 +84,7 @@ def test_setup():
           def footer(self):
               self.set_y(-15)
               self.set_font('Arial', 'I', 8)
+              self.set_text_color(0, 0, 0)
               self.cell(0, 10, 'Page ' + str(self.page_no()) + '/{nb}', 0, 0, 'C')
 
       pdf = PDF()
