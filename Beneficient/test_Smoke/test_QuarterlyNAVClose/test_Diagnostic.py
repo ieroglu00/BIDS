@@ -91,14 +91,15 @@ def test_setup():
       pdf.add_page()
       pdf.set_font('Times', '', 12)
       pdf.cell(0, 10, "Test Case Name:  "+TestName, 0, 1)
-      pdf.multi_cell(0, 10, "Description:  "+description, 0, 1)
+      pdf.multi_cell(0, 20, "Description:  "+description, 0, 1)
 
       for i1 in range(len(TestResult)):
          pdf.set_fill_color(255, 255, 255)
+         pdf.set_text_color(0, 0, 0)
          if (TestResultStatus[i1] == "Fail"):
-             pdf.set_fill_color(255, 0, 0)
+             pdf.set_text_color(255, 0, 0)
              TestFailStatus.append("Fail")
-         pdf.cell(0, 20,str(i1+1)+")  "+TestResult[i1], 0, 1,fill=True)
+         pdf.multi_cell(0, 7,str(i1+1)+")  "+TestResult[i1], 0, 1,fill=True)
          TestFailStatus.append("Pass")
       pdf.output(TestName+"_" + ct + ".pdf", 'F')
 

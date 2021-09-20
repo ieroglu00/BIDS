@@ -17,7 +17,7 @@ def test_ReportSendSmokeAll():
 
     #-------------------To read content to send in e-Mail--------------------
     ExcelFileName = "FileName"
-    loc = ('C:/BIDS/beneficienttest/Beneficient/PDFFileNameData/' + ExcelFileName + '.xlsx')
+    loc = ('C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/PDFFileNameData/' + ExcelFileName + '.xlsx')
     wb=openpyxl.load_workbook(loc)
     sheet = wb.active
     for i in range(1, 100):
@@ -31,11 +31,11 @@ def test_ReportSendSmokeAll():
             TestStatus.append(sheet.cell(i, 5).value)
             SendStatus.append(sheet.cell(i, 6).value)
     msg=EmailMessage()
-    msg['Subject']='Test SUITE Automation Report [Smoke Test 1]'
+    msg['Subject']='Test SUITE Automation Report [Smoke Test 2]'
     msg['From']='Test Automation Team'
-    msg['To']='neeraj.kumar@crochetech.com'
+    msg['To']='neeraj.kumar@crochetech.com,srinath.jandhyala@beneficient.com'
 
-    A="Hi Team\nHere is the test summary report of Smoke Test 1 (To verify all links, pages, green flags) \n\nBelow test scenarios are covered \n"
+    A="Hi Team\nHere is the test summary report of Smoke Test 2 (To verify all Errors in all modules) \n\nBelow test scenarios are covered \n"
     C="\n\nPlease find attached PDFs of test scenarios results\nNote: Attachments are only for FAILED test cases\n\n\nMany Thanks\nNeeraj"
     B = ""
     for io in range(len(TestName)):
@@ -54,13 +54,13 @@ def test_ReportSendSmokeAll():
         try:
             #print(file)
             if SendStatus[i]=="Send Only when Fail=Yes" and  TestStatus[i]=="Fail":
-                    with open('C:/BIDS/beneficienttest/Beneficient/test_Smoke/'+DirectoryName[i]+'/'+file, 'rb') as f:
+                    with open('C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/'+file, 'rb') as f:
                         file_data = f.read()
                         file_name = TestName[i]+".pdf"
                     msg.add_attachment(file_data, maintype='application', subtype='octet-stream', filename=file_name)
                     AttachmntAdded.append("Yes")
             if SendStatus[i] == "Send Only when Fail=No":
-                    with open('C:/BIDS/beneficienttest/Beneficient/test_Smoke/'+DirectoryName[i]+'/'+file, 'rb') as f:
+                    with open('C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/'+file, 'rb') as f:
                         file_data = f.read()
                         file_name = TestName[i]+".pdf"
                     msg.add_attachment(file_data, maintype='application', subtype='octet-stream', filename=file_name)
@@ -89,7 +89,7 @@ def test_ReportSendSmokeAll():
     for ii in range(0,len(PDFName1)):
         print()
         try:
-            os.remove('C:/BIDS/beneficienttest/Beneficient/test_Smoke/'+DirectoryName[ii]+'/'+PDFName1[ii])
+            os.remove('C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/'+PDFName1[ii])
         except Exception:
             print("No Attachment found to delete")
     #-----------------------------------------------------------------------
