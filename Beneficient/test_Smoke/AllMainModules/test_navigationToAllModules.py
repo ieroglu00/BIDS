@@ -36,6 +36,7 @@ def test_setup():
   locx = ('C:/BIDS/beneficienttest/Beneficient/test_Smoke/Executiondir/' + ExcelFileName + '.xlsx')
   wbx = openpyxl.load_workbook(locx)
   sheetx = wbx.active
+
   for ix in range(1, 100):
       if sheetx.cell(ix, 1).value == None:
           break
