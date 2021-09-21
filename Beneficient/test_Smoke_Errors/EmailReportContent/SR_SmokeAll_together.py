@@ -33,7 +33,7 @@ def test_ReportSendSmokeAll():
     msg=EmailMessage()
     msg['Subject']='Test SUITE Automation Report [Smoke Test 2]'
     msg['From']='Test Automation Team'
-    msg['To']='neeraj.kumar@crochetech.com'
+    msg['To']='neeraj.kumar@crochetech.com,srinath.jandhyala@beneficient.com'
 
     A="Hi Team\nHere is the test summary report of Smoke Test 2 (To verify presence of Errors / Quick on-screen calculated numbers in all modules) \n\nBelow test scenarios are covered \n"
     C="\n\nPlease find attached PDFs of test scenarios results\nNote: Attachments are only for FAILED test cases\n\n\nMany Thanks\nNeeraj"
