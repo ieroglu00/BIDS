@@ -294,7 +294,10 @@ def test_DiagnosticFlagStatus(test_setup):
             TestResult.append(PageName + " has a Green Flag at the top section")
             TestResultStatus.append("Pass")
         time.sleep(2)
-        Value = driver.find_element_by_xpath("//tbody/tr[last()]/td[6]/div/p/span").text
+        try:
+            Value = driver.find_element_by_xpath("//tbody/tr[last()]/td[6]/div/p/span").text
+        except Exception:
+            Value = driver.find_element_by_xpath("//tbody/tr[last()]/td[6]/div/p").text
         print("Value is " + Value)
         Value1 = Value
         Value = Value.replace(" ", "")
