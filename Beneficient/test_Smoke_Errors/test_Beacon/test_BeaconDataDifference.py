@@ -26,8 +26,8 @@ def test_setup():
   global TestResult
   global TestResultStatus
   global TestDirectoryName
-  TestName = "test_BeaconDataTransferTemplate"
-  description = "This is smoke test case to verify ERR and negative non SPV's values in Funds listing at Beacon Data Transfer Template grid"
+  TestName = "test_BeaconDataDifferenceChecker"
+  description = "This is smoke test case to verify Total Difference between Total Ben NAV for the page and with mission control at Beacon Data Transfer Template grid"
   TestResult = []
   TestResultStatus = []
   TestFailStatus = []
@@ -167,7 +167,7 @@ def test_setup():
       driver.quit()
 
 @pytest.mark.smoke
-def test_AllModulesVerify(test_setup):
+def test_BeaconDataDifferenceChecker(test_setup):
     if Exe == "Yes":
         print()
         PageName = "Quarterly NAV Close"
@@ -223,91 +223,39 @@ def test_AllModulesVerify(test_setup):
         for year in range(1,7):
             print()
             P = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div").text
-            FirstColumn = driver.find_element_by_xpath("//thead/tr[1]/th/div").text
-            T_Rows = driver.find_elements_by_xpath("//tbody/tr")
-            num = 2
-            if "Val. Err" in FirstColumn:
-                num=3
-                for ii2 in range(len(T_Rows)):
-                    #----------------To find ERR dosplayed for any Fund---------------------
-                    Error = driver.find_element_by_xpath("//tbody/tr[" + str(ii2 + 1) + "]/td/div/p/span").text
-                    if "ERR" in Error:
-                        FundName = driver.find_element_by_xpath(
-                            "//tbody/tr[" + str(ii2 + 1) + "]/td[" + str(num) + "]/p").text
-                        FundID = driver.find_element_by_xpath(
-                            "//tbody/tr[" + str(ii2 + 1) + "]/td[" + str(num + 1) + "]/p").text
-                        Asset = driver.find_element_by_xpath(
-                            "//tbody/tr[" + str(ii2 + 1) + "]/td[" + str(num + 2) + "]/p").text
-                        Date = driver.find_element_by_xpath(
-                            "//tbody/tr[" + str(ii2 + 1) + "]/td[" + str(num + 3) + "]/p").text
-                        TestResult.append("ERR present for Fund [ " + FundName + " ], Fund ID is [" + FundID + " ], asset is [" + Asset + " ], and date is [" + Date + " ]")
-                        TestResultStatus.append("Fail")
-                    #--------------------------------------------------------------------------
+                "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span").text
 
-                    #-----------------To find Negative in Fair Value LC column values----------
-                    Fair_Value_LC = driver.find_element_by_xpath(
-                        "//tbody/tr[" + str(ii2 + 1) + "]/td[" + str(num + 4) + "]/div/p").text
-                    Fair_Value_LC1 = Fair_Value_LC
-                    Fair_Value_LC = Fair_Value_LC.replace(" ", "")
-                    Fair_Value_LC = re.sub(r'[?|$|€|£|.|!|,]', r'', Fair_Value_LC)
-                    z = Fair_Value_LC1
-                    bool1 = z.isupper() or z.islower()
-                    if bool1 == True:
-                        Fair_Value_LC = re.sub(r'[a-z|A-Z]+', '', Fair_Value_LC, re.I)
-                    if int(Fair_Value_LC) < 0:
-                        Asset = driver.find_element_by_xpath(
-                            "//tbody/tr[" + str(ii2 + 1) + "]/td[" + str(num + 2) + "]/p").text
-                        if Asset == "Investment":
-                            FundName = driver.find_element_by_xpath(
-                                "//tbody/tr[" + str(ii2 + 1) + "]/td[" + str(num) + "]/p").text
-                            print(
-                                "Asset is [ " + Asset + " ] Fund Name [ " + FundName + " ] has negative Value [ " + Fair_Value_LC1 + " ]")
-                            TestResult.append(
-                                "Asset is [ " + Asset + " ] Fund Name " + FundName + " has negative Value [ " + Fair_Value_LC1 + " ]")
-                            TestResultStatus.append("Fail")
-                    #----------------------------------------------------------------------------
-            else:
-                num = 2
-                print("num is " + str(num))
-                for ii3 in range(len(T_Rows)):
-                    #---------------------To find ERR dosplayed for any Fund----------------------
-                    Error = Error = driver.find_element_by_xpath("//tbody/tr[" + str(ii3 + 1) + "]/td[1]/p").text
-                    if "ERR" in Error:
-                        FundName = driver.find_element_by_xpath(
-                            "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num) + "]/p").text
-                        FundID = driver.find_element_by_xpath(
-                            "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num + 1) + "]/p").text
-                        Asset = driver.find_element_by_xpath(
-                            "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num + 2) + "]/p").text
-                        Date = driver.find_element_by_xpath(
-                            "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num + 3) + "]/p").text
-                        TestResult.append("ERR present for Fund [ " + FundName + " ], Fund ID is [" + FundID + " ], asset is [" + Asset + " ], and date is [" + Date + " ]")
-                        TestResultStatus.append("Fail")
-                    #------------------------------------------------------------------------------
+            TotalBenNAVDifference=driver.find_element_by_xpath(
+                "//div[@class='ContentLayout---content_layout']/div[5]/div/div/div/div[3]/div[2]/div/div/div[2]/div[3]/div[2]/div/p").text
 
-                    #---------------To find Negative in Fair Value LC column values----------------
-                    Fair_Value_LC = driver.find_element_by_xpath(
-                        "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num + 4) + "]/div/p").text
-                    Fair_Value_LC1 = Fair_Value_LC
-                    Fair_Value_LC = Fair_Value_LC.replace(" ", "")
-                    Fair_Value_LC = re.sub(r'[?|$|€|£|.|!|,]', r'', Fair_Value_LC)
-                    z = Fair_Value_LC1
-                    bool1 = z.isupper() or z.islower()
-                    if bool1 == True:
-                        Fair_Value_LC = re.sub(r'[a-z|A-Z]+', '', Fair_Value_LC, re.I)
-                    if int(Fair_Value_LC) < 0:
-                        Asset = driver.find_element_by_xpath(
-                            "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num + 2) + "]/p").text
-                        if Asset == "Investment":
-                            FundName = driver.find_element_by_xpath(
-                                "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num) + "]/p").text
-                            print(
-                                "Asset is [ " + Asset + " ] Fund Name [ " + FundName + " ] has negative Value [ " + Fair_Value_LC1 + " ]")
-                            TestResult.append(
-                                "Asset is [ " + Asset + " ] Fund Name " + FundName + " has negative Value [ " + Fair_Value_LC1 + " ]")
-                            TestResultStatus.append("Fail")
-                    #--------------------------------------------------------------------------
+            TotalUnfundedCommitmentDifference = driver.find_element_by_xpath(
+                "//div[@class='ContentLayout---content_layout']/div[5]/div/div/div/div[3]/div[2]/div/div/div[2]/div[6]/div[2]/div/p").text
+
+            TotalBenNAVDifference1 = TotalBenNAVDifference
+            TotalBenNAVDifference = TotalBenNAVDifference.replace(" ", "")
+            TotalBenNAVDifference = re.sub(r'[?|$|€|£|!|,]', r'', TotalBenNAVDifference)
+            z = TotalBenNAVDifference
+            bool1 = z.isupper() or z.islower()
+            if bool1 == True:
+                TotalBenNAVDifference = re.sub(r'[a-z|A-Z]+', '', TotalBenNAVDifference, re.I)
+            if float(TotalBenNAVDifference) > 0.50:
+                print("yes TotalBenNAVDifference1  "+TotalBenNAVDifference1)
+                TestResult.append("Beacon Data Transfer Template has a difference of more than USD 0.50 for Total Ben NAV comparison, Quarter is [ "+P+" ]")
+                TestResultStatus.append("Fail")
+
+            TotalUnfundedCommitmentDifference1 = TotalUnfundedCommitmentDifference
+            TotalUnfundedCommitmentDifference = TotalUnfundedCommitmentDifference.replace(" ", "")
+            TotalUnfundedCommitmentDifference = re.sub(r'[?|$|€|£|!|,]', r'', TotalUnfundedCommitmentDifference)
+            z = TotalUnfundedCommitmentDifference
+            bool1 = z.isupper() or z.islower()
+            if bool1 == True:
+                TotalUnfundedCommitmentDifference = re.sub(r'[a-z|A-Z]+', '', TotalUnfundedCommitmentDifference, re.I)
+            if float(TotalUnfundedCommitmentDifference) > 0.50:
+                print("yes TotalUnfundedCommitmentDifference1  " + TotalUnfundedCommitmentDifference1)
+                TestResult.append(
+                    "Beacon Data Transfer Template has a difference of more than USD 0.50 for Total Unfunded Commitment comparison, Quarter is [ " + P + " ]")
+                TestResultStatus.append("Fail")
+
 
             driver.find_element_by_xpath(
                 "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div").click()
