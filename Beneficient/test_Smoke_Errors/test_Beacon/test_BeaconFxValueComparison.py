@@ -220,7 +220,7 @@ def test_BeaconFxValueCompare(test_setup):
             TestResult.append(PageName + " page not able to open")
             TestResultStatus.append("Fail")
 
-        for year in range(1,2):
+        for year in range(1,7):
             print()
             print()
             P = driver.find_element_by_xpath(
