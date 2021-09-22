@@ -35,6 +35,7 @@ def test_ReportSendSmokeAll():
     msg['From']='Test Automation Team'
     msg['To']='neeraj.kumar@crochetech.com,srinath.jandhyala@beneficient.com'
 
+    print()
     A="Hi Team\nHere is the test summary report of Smoke Test 1 (To verify all links, pages, green flags in all modules) \n\nBelow test scenarios are covered \n"
     C="\n\nPlease find attached PDFs of test scenarios results\nNote: Attachments are only for FAILED test cases\n\n\nMany Thanks\nNeeraj"
     B = ""
