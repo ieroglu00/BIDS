@@ -286,7 +286,11 @@ def test_DiagnosticFlagStatus(test_setup):
                     time.sleep(1)
                     break
             time.sleep(8)
-        driver.find_element_by_xpath("//button[contains(text(),'Main Diagnostics Menu')]").click()
+        try:
+            driver.find_element_by_xpath("//button[contains(text(),'Main Diagnostics Menu')]").click()
+        except Exception:
+            button = driver.find_element_by_xpath("//button[contains(text(),'Main Diagnostics Menu')]")
+            driver.execute_script("arguments[0].click();", button)
 
         #--------------------------------------------------------------------------------------------
         print()
@@ -367,7 +371,11 @@ def test_DiagnosticFlagStatus(test_setup):
                     break
             time.sleep(8)
 
-        driver.find_element_by_xpath("//button[contains(text(),'Main Diagnostics Menu')]").click()
+        try:
+            driver.find_element_by_xpath("//button[contains(text(),'Main Diagnostics Menu')]").click()
+        except Exception:
+            button = driver.find_element_by_xpath("//button[contains(text(),'Main Diagnostics Menu')]")
+            driver.execute_script("arguments[0].click();", button)
 
         #-------------------------------------------------------------------------------------------
         print()
@@ -443,7 +451,11 @@ def test_DiagnosticFlagStatus(test_setup):
                     time.sleep(1)
                     break
             time.sleep(8)
-        driver.find_element_by_xpath("//button[contains(text(),'Main Diagnostics Menu')]").click()
+        try:
+            driver.find_element_by_xpath("//button[contains(text(),'Main Diagnostics Menu')]").click()
+        except Exception:
+            button = driver.find_element_by_xpath("//button[contains(text(),'Main Diagnostics Menu')]")
+            driver.execute_script("arguments[0].click();", button)
 
         #-------------------------------------------------------------------------------------------
         print()
@@ -496,7 +508,11 @@ def test_DiagnosticFlagStatus(test_setup):
                 TestResult.append("[ "+PageName + " ] has Issue present in Screen [ "+Screen+" ] and Period is ["+ Period+" ]")
                 TestResultStatus.append("Fail")
 
-        driver.find_element_by_xpath("//button[contains(text(),'Main Diagnostics Menu')]").click()
+        try:
+            driver.find_element_by_xpath("//button[contains(text(),'Main Diagnostics Menu')]").click()
+        except Exception:
+            button = driver.find_element_by_xpath("//button[contains(text(),'Main Diagnostics Menu')]")
+            driver.execute_script("arguments[0].click();", button)
 
         #-----------------------------------------------------------------------------------------------------------
         print()
