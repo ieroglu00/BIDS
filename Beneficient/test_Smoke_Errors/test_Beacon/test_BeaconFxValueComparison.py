@@ -251,10 +251,9 @@ def test_BeaconFxValueCompare(test_setup):
                 FirstColumn = driver.find_element_by_xpath("//thead/tr[1]/th/div").text
                 T_Rows = driver.find_elements_by_xpath("//tbody/tr")
                 num = 2
-                #len(T_Rows)
                 if "Val. Err" in FirstColumn:
                     num=3
-                    for ii2 in range(5):
+                    for ii2 in range(len(T_Rows)):
                         #----------------To find ERR dosplayed for any Fund---------------------
                         Fund = driver.find_element_by_xpath("//tbody/tr[" + str(ii2 + 1) + "]/td[3]/p").text
                         Value1= driver.find_element_by_xpath("//tbody/tr[" + str(ii2 + 1) + "]/td[7]/div/p").text
@@ -341,8 +340,7 @@ def test_BeaconFxValueCompare(test_setup):
 
                 else:
                     num = 2
-                    #len(T_Rows)
-                    for ii3 in range(5):
+                    for ii3 in range(len(T_Rows)):
                         #----------------To find ERR dosplayed for any Fund---------------------
                         Fund = driver.find_element_by_xpath("//tbody/tr[" + str(ii3 + 1) + "]/td[2]/p").text
                         Value1= driver.find_element_by_xpath("//tbody/tr[" + str(ii3 + 1) + "]/td[6]/div/p").text
