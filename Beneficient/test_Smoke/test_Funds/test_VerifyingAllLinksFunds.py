@@ -94,7 +94,8 @@ def test_setup():
           if (TestResultStatus[i] == "Fail"):
               pdf.set_text_color(255, 0, 0)
               TestFailStatus.append("Fail")
-          pdf.multi_cell(0, 7, str(i + 1) + ")  " + TestResult[i], 0, 1, fill=True)
+          TestName1 = TestResult[i].encode('latin-1', 'ignore').decode('latin-1')
+          pdf.multi_cell(0, 7, str(i + 1) + ")  " + TestName1, 0, 1, fill=True)
           TestFailStatus.append("Pass")
       pdf.output(TestName + "_" + ct + ".pdf", 'F')
 
@@ -184,6 +185,7 @@ def test_VerfyAllLinksFundsPage(test_setup):
             TestResult.append(PageName + " page not able to open")
             TestResultStatus.append("Fail")
 
+        CheckParent = 0
         for ia in range(100):
             ia = ia + 1
             # print()
@@ -199,9 +201,10 @@ def test_VerfyAllLinksFundsPage(test_setup):
                             print()
                             try:
                                 InOrOut = sheet.cell_value(ia, 9)
-                                # print("InOrOut is " + InOrOut)
-                                CheckParent=0
+                                print("InOrOut is " + InOrOut)
+
                                 if InOrOut == "Inside":
+                                    print("CheckParent 1 is " + str(CheckParent))
                                     if sheet.cell_value(ia-1, 9)=="Inside":
                                         CheckParentPre=sheet.cell_value((ia-1), 10)
                                         CheckParentCurr = sheet.cell_value((ia), 10)
@@ -216,7 +219,16 @@ def test_VerfyAllLinksFundsPage(test_setup):
                                                 print("No need to go back to parent page handled")
                                                 pass
 
+                                    # to go inside the parent to check the test case
                                     if CheckParent==0:
+                                        for iat10 in range(500):
+                                            try:
+                                                bool = driver.find_element_by_xpath(
+                                                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                                            except Exception:
+                                                time.sleep(1)
+                                                break
+                                        time.sleep(2)
                                         driver.find_element_by_xpath(sheet.cell_value(ia, 10)).click()
                                         print("Parent Page link clicked ")
                                     for iat2 in range(500):
@@ -227,16 +239,33 @@ def test_VerfyAllLinksFundsPage(test_setup):
                                             time.sleep(1)
                                             break
                                     time.sleep(1)
+                                    #--------------------------------------------------
                                     if sheet.cell_value(ia, 1)=="Investments":
                                         print("First default tab so no need to perform click to navigate")
                                     else:
                                         driver.find_element_by_xpath(sheet.cell_value(ia, 2)).click()
                                 elif InOrOut == "Outside":
                                     print("Inside Outside")
+                                    print("CheckParent 2 is "+str(CheckParent))
+                                    if CheckParent==1:
+                                        driver.find_element_by_xpath("//*[@title='" + PageName + "']").click()
+                                        time.sleep(1)
+                                        try:
+                                            driver.switch_to_alert().accept()
+                                        except Exception:
+                                            pass
+                                    for iat9 in range(1000):
+                                        try:
+                                            bool = driver.find_element_by_xpath(
+                                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                                        except Exception:
+                                            time.sleep(1)
+                                            break
+                                    time.sleep(3)
                                     driver.find_element_by_xpath(sheet.cell_value(ia, 2)).click()
 
                                 print("Verification started for:  " + sheet.cell_value(ia, 1))
-                                for iat2 in range(1000):
+                                for iat21 in range(1000):
                                     try:
                                         bool = driver.find_element_by_xpath(
                                             "//div[@id='appian-working-indicator-hidden']").is_enabled()
@@ -290,9 +319,9 @@ def test_VerfyAllLinksFundsPage(test_setup):
                                             except Exception:
                                                 time.sleep(1)
                                                 break
-                                        TitleFound = driver.find_element_by_xpath(TitleLink).text
-                                        # print("TitleFound is " + TitleFound)
                                         try:
+                                            TitleFound = driver.find_element_by_xpath(TitleLink).text
+                                            print("TitleFound is " + TitleFound)
                                             assert TitleFound in TitleToVerify, sheet.cell_value(ia, 1) + " not able to open"
                                             TestResult.append(sheet.cell_value(ia, 1) + " page Opened successfully")
                                             TestResultStatus.append("Pass")
@@ -304,6 +333,7 @@ def test_VerfyAllLinksFundsPage(test_setup):
                                         try:
                                             #----------------------------------
                                             if CheckParent == 0:
+                                                print("Main module Funds clicked")
                                                 driver.find_element_by_xpath("//*[@title='" + PageName + "']").click()
                                                 time.sleep(1)
                                                 try:
