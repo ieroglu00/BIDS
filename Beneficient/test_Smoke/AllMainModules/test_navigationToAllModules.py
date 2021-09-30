@@ -92,7 +92,8 @@ def test_setup():
              #print("Fill Red color")
              pdf.set_text_color(255, 0, 0)
              TestFailStatus.append("Fail")
-         pdf.multi_cell(0, 7,str(i1+1)+")  "+TestResult[i1], 0, 1,fill=True)
+         TestName1 = TestResult[i1].encode('latin-1', 'ignore').decode('latin-1')
+         pdf.multi_cell(0, 7,str(i1+1)+")  "+TestName1, 0, 1,fill=True)
          TestFailStatus.append("Pass")
       pdf.output(TestName+"_" + ct + ".pdf", 'F')
 
@@ -162,7 +163,6 @@ def test_AllModulesVerify(test_setup):
         print()
         PageName="Funds"
         Ptitle1="Appian for The Beneficient Company (TEST)"
-        PageTitle1=driver.title
         for iat1 in range(1000):
             try:
                 bool = driver.find_element_by_xpath(
@@ -172,7 +172,13 @@ def test_AllModulesVerify(test_setup):
                 break
         time.sleep(1)
         try:
-            assert Ptitle1 in PageTitle1, PageName + " not able to open"
+            try:
+                PageTitle1 = driver.title
+                assert Ptitle1 in PageTitle1, PageName + " not able to open"
+            except Exception:
+                Ptitle1="Funds - BIDS"
+                PageTitle1 = driver.title
+                assert Ptitle1 in PageTitle1, PageName + " not able to open"
             TestResult.append(PageName + " page Opened successfully")
             TestResultStatus.append("Pass")
         except Exception:
