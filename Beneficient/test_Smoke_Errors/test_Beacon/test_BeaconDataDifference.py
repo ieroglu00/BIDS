@@ -102,7 +102,8 @@ def test_setup():
          if (TestResultStatus[i1] == "Fail"):
              pdf.set_text_color(255, 0, 0)
              TestFailStatus.append("Fail")
-         pdf.multi_cell(0, 7,str(i1+1)+")  "+TestResult[i1], 0, 1,fill=True)
+         TestName1=TestResult[i1].encode('latin-1', 'ignore').decode('latin-1')
+         pdf.multi_cell(0, 7,str(i1+1)+")  "+TestName1, 0, 1,fill=True)
          TestFailStatus.append("Pass")
       pdf.output(TestName+"_" + ct + ".pdf", 'F')
 
@@ -189,16 +190,16 @@ def test_BeaconDataDifferenceChecker(test_setup):
         except Exception:
             TestResult.append(PageName + " page not able to open")
             TestResultStatus.append("Fail")
-        try:
-            bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
-            #print("Red flag present : " + str(bool))
-            TestResult.append(PageName + " has a Red Flag at the top section")
-            TestResultStatus.append("Fail")
-        except Exception:
-            bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
-            #print("Green flag present : " + str(bool))
-            TestResult.append(PageName + " has a Green Flag at the top section")
-            TestResultStatus.append("Pass")
+        # try:
+        #     bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
+        #     #print("Red flag present : " + str(bool))
+        #     TestResult.append(PageName + " has a Red Flag at the top section")
+        #     TestResultStatus.append("Fail")
+        # except Exception:
+        #     bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
+        #     #print("Green flag present : " + str(bool))
+        #     TestResult.append(PageName + " has a Green Flag at the top section")
+        #     TestResultStatus.append("Pass")
 
         PageName = "Beacon Template"
         Ptitle1 = "COR_BeaconDataTransferTemplate - BIDS"
