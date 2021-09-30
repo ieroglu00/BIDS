@@ -104,7 +104,8 @@ def test_setup():
          if (TestResultStatus[i1] == "Fail"):
              pdf.set_text_color(255, 0, 0)
              TestFailStatus.append("Fail")
-         pdf.multi_cell(0, 7,str(i1+1)+")  "+TestResult[i1], 0, 1,fill=True)
+         TestName1 = TestResult[i1].encode('latin-1', 'ignore').decode('latin-1')
+         pdf.multi_cell(0, 7,str(i1+1)+")  "+TestName1, 0, 1,fill=True)
          TestFailStatus.append("Pass")
       pdf.output(TestName+"_" + ct + ".pdf", 'F')
 
