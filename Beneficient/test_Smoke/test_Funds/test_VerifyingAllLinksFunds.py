@@ -201,8 +201,7 @@ def test_VerfyAllLinksFundsPage(test_setup):
                             print()
                             try:
                                 InOrOut = sheet.cell_value(ia, 9)
-                                print("InOrOut is " + InOrOut)
-
+                                #print("InOrOut is " + InOrOut)
                                 if InOrOut == "Inside":
                                     print("CheckParent 1 is " + str(CheckParent))
                                     if sheet.cell_value(ia-1, 9)=="Inside":
