@@ -84,7 +84,7 @@ def test_setup():
       pdf.add_page()
       pdf.set_font('Times', '', 12)
       pdf.cell(0, 10, "Test Case Name:  " + TestName, 0, 1)
-      pdf.cell(0, 20, "Description:  " + description, 0, 1)
+      pdf.multi_cell(0, 20, "Description:  " + description, 0, 1)
 
       for i in range(len(TestResult)):
           pdf.set_fill_color(255, 255, 255)
@@ -92,7 +92,8 @@ def test_setup():
           if (TestResultStatus[i] == "Fail"):
               pdf.set_text_color(255, 0, 0)
               TestFailStatus.append("Fail")
-          pdf.multi_cell(0, 7, str(i + 1) + ")  " + TestResult[i], 0, 1, fill=True)
+          TestName1 = TestResult[i].encode('latin-1', 'ignore').decode('latin-1')
+          pdf.multi_cell(0, 7, str(i + 1) + ")  " + TestName1, 0, 1, fill=True)
           TestFailStatus.append("Pass")
       pdf.output(TestName + "_" + ct + ".pdf", 'F')
 
@@ -212,9 +213,15 @@ def test_VerfyAllLinksInvestmentsPage(test_setup):
                                     if sheet.cell_value(ia, 1) == "LIQUIDITY PROJECTIONS":
                                         print("First default tab so no need to perform click to navigate")
                                     else:
-                                        driver.find_element_by_xpath(sheet.cell_value(ia, 2)).click()
+                                        try:
+                                            driver.find_element_by_xpath(sheet.cell_value(ia, 2)).click()
+                                        except Exception:
+                                            pass
                                 elif InOrOut == "Outside":
-                                    driver.find_element_by_xpath(sheet.cell_value(ia, 2)).click()
+                                    try:
+                                        driver.find_element_by_xpath(sheet.cell_value(ia, 2)).click()
+                                    except Exception:
+                                        pass
 
                                 print("Verification started for:  " + sheet.cell_value(ia, 1))
                                 for iat2 in range(1000):
