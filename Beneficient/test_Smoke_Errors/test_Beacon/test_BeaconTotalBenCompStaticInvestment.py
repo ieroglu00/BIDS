@@ -282,7 +282,14 @@ def test_BeaconTotalBenCompStaticInvestment(test_setup):
                     "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span").text
             print("Year is: " +P)
             YearCounter.append(P)
-
+            for iat9 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                    time.sleep(1)
+                except Exception:
+                    break
+            time.sleep(5)
             TotalBenNAV_USD_PerthisYear=driver.find_element_by_xpath(
                 "//div[@class='ContentLayout---content_layout']/div[5]/div/div/div/div[3]/div[2]/div/div/div[2]/div[1]/div[2]/div/p").text
             print("TotalBenNAV_USD_PerthisYear is "+TotalBenNAV_USD_PerthisYear)
@@ -365,6 +372,15 @@ def test_BeaconTotalBenCompStaticInvestment(test_setup):
                 P = driver.find_element_by_xpath(
                     "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span").text
             print("Year1 is: " +P)
+            time.sleep(5)
+            for iat8 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                    time.sleep(1)
+                except Exception:
+                    #time.sleep(1)
+                    break
 
             TotalNAVforallinvestments_PerthisYear = driver.find_element_by_xpath(
                 "//div[@class='ContentLayout---content_layout']/div[5]/div/div/div/div[2]/div/div/div/div/div[2]/div[1]/div[2]/div/p").text
@@ -392,12 +408,12 @@ def test_BeaconTotalBenCompStaticInvestment(test_setup):
         for comp in range(len(TotalNAVforallinvestments_PerthisYearList)):
             Value=TotalBenNAV_USD_PerthisYearList[comp]
             Value = Value.replace(" ", "")
-            Value = re.sub(r'[?|$|€|£|!|,]', r'', Value)
+            Value = re.sub(r'[?|$|€|£|!|,|-]', r'', Value)
             print("Value is :"+Value)
 
             Value1 = TotalNAVforallinvestments_PerthisYearList[comp]
             Value1 = Value1.replace(" ", "")
-            Value1 = re.sub(r'[?|$|€|£|!|,]', r'', Value1)
+            Value1 = re.sub(r'[?|$|€|£|!|,|-]', r'', Value1)
             print("Value1 is :"+Value1)
 
             if (float(Value) - float(Value1)) == 0.0:
@@ -406,7 +422,7 @@ def test_BeaconTotalBenCompStaticInvestment(test_setup):
             else:
                 if (float(Value) - float(Value1)) >= 0.011:
                     print("There is a > difference of [ " + str(round(float(Value) - float(Value1),5)) + " ] for year " + YearCounter[comp])
-                    TestResult.append("There is a difference of [ " + str(round(float(Value) - float(Value1),5)) + " ] for year " + YearCounter[comp])
+                    TestResult.append("There is a difference of [ $" + str(round(float(Value) - float(Value1),5)) + " ] for year " + YearCounter[comp])
                     TestResultStatus.append("Fail")
 
                 if (float(Value) - float(Value1)) <= 0.011:
