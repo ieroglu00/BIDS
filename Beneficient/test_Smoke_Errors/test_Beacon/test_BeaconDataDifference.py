@@ -169,7 +169,7 @@ def test_setup():
 
 @pytest.mark.smoke
 def test_BeaconDataDifferenceChecker(test_setup):
-    YearCounter=8
+    YearCounterNumber=8
     if Exe == "Yes":
         print()
         PageName = "Quarterly NAV Close"
@@ -222,7 +222,7 @@ def test_BeaconDataDifferenceChecker(test_setup):
             TestResult.append(PageName + " page not able to open")
             TestResultStatus.append("Fail")
 
-        for year in range(1,YearCounter):
+        for year in range(1,YearCounterNumber):
             print()
             P = driver.find_element_by_xpath(
                 "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span").text
