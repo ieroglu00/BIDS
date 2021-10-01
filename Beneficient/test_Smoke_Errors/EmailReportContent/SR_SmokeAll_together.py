@@ -14,6 +14,8 @@ def test_ReportSendSmokeAll():
     TestStatus = []
     SendStatus = []
     AttachmntAdded= []
+    ImageAttachmentcounter = []
+    ImageAttachmentName = []
 
     #-------------------To read content to send in e-Mail--------------------
     ExcelFileName = "FileName"
@@ -33,7 +35,7 @@ def test_ReportSendSmokeAll():
     msg=EmailMessage()
     msg['Subject']='Test SUITE Automation Report [Smoke Test 2]'
     msg['From']='Test Automation Team'
-    msg['To']='neeraj.kumar@crochetech.com,srinath.jandhyala@beneficient.com'
+    msg['To']='neeraj.kumar@crochetech.com'
 
     A="Hi Team\nHere is the test summary report of Smoke Test 2 (To verify presence of Errors / Quick on-screen calculated numbers in all modules) \n\nBelow test scenarios are covered \n"
     C="\n\nPlease find attached PDFs of test scenarios results\nNote: Attachments are only for FAILED test cases\n\n\nMany Thanks\nNeeraj"
@@ -70,6 +72,26 @@ def test_ReportSendSmokeAll():
             #print(e1)
         i = i + 1
     #-----------------------------------------------------------------------
+
+    # ------------To read content to attach bug images in e-Mail------------
+    ##################
+    ExcelFileName1 = "ImageFileName"
+    loc1 = ('C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/PDFFileNameData/' + ExcelFileName1 + '.xlsx')
+    wb1 = openpyxl.load_workbook(loc1)
+    sheet1 = wb1.active
+    for i in range(1, 100):
+        if sheet1.cell(i, 1).value == None:
+            break
+        else:
+            ImageAttachmentcounter.append(sheet.cell(i, 3).value)
+            DirectoryName.append(sheet.cell(i, 3).value)
+
+
+    # -----------------------------------------------------------------------
+
+    # ------------------To add attachments in the report email---------------
+    ##################
+    # -----------------------------------------------------------------------
 
     # ----------------------------SMTP setup--------------------------------
     server=smtplib.SMTP_SSL('smtp.gmail.com',465)
