@@ -169,6 +169,7 @@ def test_setup():
 
 @pytest.mark.smoke
 def test_BeaconDataDifferenceChecker(test_setup):
+    YearCounter=8
     if Exe == "Yes":
         print()
         PageName = "Quarterly NAV Close"
@@ -221,7 +222,7 @@ def test_BeaconDataDifferenceChecker(test_setup):
             TestResult.append(PageName + " page not able to open")
             TestResultStatus.append("Fail")
 
-        for year in range(1,7):
+        for year in range(1,YearCounter):
             print()
             P = driver.find_element_by_xpath(
                 "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span").text
@@ -234,19 +235,19 @@ def test_BeaconDataDifferenceChecker(test_setup):
 
             TotalBenNAVDifference1 = TotalBenNAVDifference
             TotalBenNAVDifference = TotalBenNAVDifference.replace(" ", "")
-            TotalBenNAVDifference = re.sub(r'[?|$|€|£|!|,]', r'', TotalBenNAVDifference)
+            TotalBenNAVDifference = re.sub(r'[?|$|€|£|!|,|-]', r'', TotalBenNAVDifference)
             z = TotalBenNAVDifference
             bool1 = z.isupper() or z.islower()
             if bool1 == True:
                 TotalBenNAVDifference = re.sub(r'[a-z|A-Z]+', '', TotalBenNAVDifference, re.I)
             if float(TotalBenNAVDifference) > 0.50:
                 print("yes TotalBenNAVDifference1  "+TotalBenNAVDifference1)
-                TestResult.append("Beacon Data Transfer Template has a difference of more than USD 0.50 for Total Ben NAV comparison, Quarter is [ "+P+" ]")
+                TestResult.append("Beacon Data Transfer Template has a difference [ "+TotalBenNAVDifference1+" ] for Total Ben NAV comparison, Quarter is [ "+P+" ]")
                 TestResultStatus.append("Fail")
 
             TotalUnfundedCommitmentDifference1 = TotalUnfundedCommitmentDifference
             TotalUnfundedCommitmentDifference = TotalUnfundedCommitmentDifference.replace(" ", "")
-            TotalUnfundedCommitmentDifference = re.sub(r'[?|$|€|£|!|,]', r'', TotalUnfundedCommitmentDifference)
+            TotalUnfundedCommitmentDifference = re.sub(r'[?|$|€|£|!|,|-]', r'', TotalUnfundedCommitmentDifference)
             z = TotalUnfundedCommitmentDifference
             bool1 = z.isupper() or z.islower()
             if bool1 == True:
@@ -254,7 +255,7 @@ def test_BeaconDataDifferenceChecker(test_setup):
             if float(TotalUnfundedCommitmentDifference) > 0.50:
                 print("yes TotalUnfundedCommitmentDifference1  " + TotalUnfundedCommitmentDifference1)
                 TestResult.append(
-                    "Beacon Data Transfer Template has a difference of more than USD 0.50 for Total Unfunded Commitment comparison, Quarter is [ " + P + " ]")
+                    "Beacon Data Transfer Template has a difference [ "+TotalUnfundedCommitmentDifference1+" ] for Total Unfunded Commitment comparison, Quarter is [ " + P + " ]")
                 TestResultStatus.append("Fail")
 
 
