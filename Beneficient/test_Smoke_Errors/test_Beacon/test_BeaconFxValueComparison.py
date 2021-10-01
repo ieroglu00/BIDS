@@ -176,7 +176,7 @@ def test_setup():
 
 @pytest.mark.smoke
 def test_BeaconFxValueCompare(test_setup):
-    YearCounter = 8
+    YearCounterNumber = 8
     if Exe == "Yes":
         print()
         PageName = "Quarterly NAV Close"
@@ -229,7 +229,7 @@ def test_BeaconFxValueCompare(test_setup):
             TestResult.append(PageName + " page not able to open")
             TestResultStatus.append("Fail")
 
-        for year in range(1,YearCounter):
+        for year in range(1,YearCounterNumber):
             print()
             time.sleep(3)
             try:
