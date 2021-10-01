@@ -79,6 +79,7 @@ def test_setup():
               self.image('C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/EmailReportContent/Ben.png', 10, 8, 33)
               self.set_font('Arial', 'B', 15)
               self.cell(73)
+              self.set_text_color(0, 0, 0)
               self.cell(35, 10, ' Test Report ', 1, 1, 'B')
               self.set_font('Arial', 'I', 10)
               self.cell(150)
@@ -171,6 +172,7 @@ def test_setup():
 
 @pytest.mark.smoke
 def test_BeaconTrustMapAllocationPer(test_setup):
+    YearCounterNumber=4
     if Exe == "Yes":
         print()
         PageName = "Quarterly NAV Close"
@@ -274,7 +276,7 @@ def test_BeaconTrustMapAllocationPer(test_setup):
             TestResult.append(PageName + " has a Green Flag at the top section")
             TestResultStatus.append("Pass")
 
-        for year in range(1,3):
+        for year in range(1,YearCounterNumber):
             print()
             P = driver.find_element_by_xpath(
                 "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[1]/div[1]/div/div[2]/div/div[1]/div/div[2]/div/div/span").text
