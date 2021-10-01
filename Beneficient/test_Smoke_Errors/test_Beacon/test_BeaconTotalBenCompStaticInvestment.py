@@ -222,6 +222,7 @@ def test_setup():
 @pytest.mark.smoke
 def test_BeaconTotalBenCompStaticInvestment(test_setup):
     ImageSpaceCounter = 10
+    YearCounterNumber = 4
     if Exe == "Yes":
         print()
         PageName = "Quarterly NAV Close"
@@ -270,7 +271,7 @@ def test_BeaconTotalBenCompStaticInvestment(test_setup):
             driver.get_screenshot_as_file(r"C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/test_Beacon/" + PageName.replace(" ", "") +"_"+ ct + ".png")
             TestResultImage.append(PageName.replace(" ", "") + "_" + ct + ".png")
 
-        for year in range(1,3):
+        for year in range(1,YearCounterNumber):
             print()
             try:
                 P = driver.find_element_by_xpath(
@@ -354,7 +355,7 @@ def test_BeaconTotalBenCompStaticInvestment(test_setup):
                 r"C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/test_Beacon/" + PageName.replace(" ", "") +"_"+ ct + ".png")
             TestResultImage.append(PageName.replace(" ", "") + "_" + ct + ".png")
 
-        for year1 in range(1,3):
+        for year1 in range(1,YearCounterNumber):
             print()
             try:
                 P = driver.find_element_by_xpath(
