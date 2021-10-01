@@ -176,6 +176,7 @@ def test_setup():
 
 @pytest.mark.smoke
 def test_BeaconFxValueCompare(test_setup):
+    YearCounter = 8
     if Exe == "Yes":
         print()
         PageName = "Quarterly NAV Close"
@@ -228,7 +229,7 @@ def test_BeaconFxValueCompare(test_setup):
             TestResult.append(PageName + " page not able to open")
             TestResultStatus.append("Fail")
 
-        for year in range(1,7):
+        for year in range(1,YearCounter):
             print()
             time.sleep(3)
             try:
@@ -240,7 +241,7 @@ def test_BeaconFxValueCompare(test_setup):
                     "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span").text
 
             skipyear=0
-            Yearlist=['6/30/2020','9/30/2020','12/31/2020','3/31/2021']
+            Yearlist=['6/30/2020','9/30/2020','12/31/2020','3/31/2021','12/31/2021']
             for j in range(len(Yearlist)):
                 if Yearlist[j] in P:
                     print("Year skipped: " + Yearlist[j])
