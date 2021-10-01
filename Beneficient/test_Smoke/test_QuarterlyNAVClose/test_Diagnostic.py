@@ -170,6 +170,7 @@ def test_setup():
 
 @pytest.mark.smoke
 def test_DiagnosticFlagStatus(test_setup):
+    YearCounterNumber = 7
     if Exe == "Yes":
         print()
         PageName="Diagnostics"
@@ -251,26 +252,32 @@ def test_DiagnosticFlagStatus(test_setup):
             TestResultStatus.append("Fail")
 
         time.sleep(2)
-        for year in range(1,6):
+        for year in range(1,YearCounterNumber):
             print()
             P = driver.find_element_by_xpath(
                 "//div[@class='ContentLayout---content_layout']/div/div/div/div[3]/div/div/div[1]/div[1]/div[1]/div/div[2]/div/div/div[1]/div/div[2]/div/div/span").text
 
-            Value=driver.find_element_by_xpath("//tbody/tr[last()]/td[7]/div/p/strong").text
-            Value1 = Value
-            Value = Value.replace(" ", "")
-            Value = re.sub(r'[?|$|€|£|!|_|,]', r'', Value)
-            Value = re.sub(r'[a-z|A-Z]+', '', Value, re.I)
+            time.sleep(5)
+            try:
+                Value=driver.find_element_by_xpath("//tbody/tr[last()]/td[7]/div/p/strong").text
+                Value1 = Value
+                Value = Value.replace(" ", "")
+                Value = re.sub(r'[?|$|€|£|!|_|,]', r'', Value)
+                Value = re.sub(r'[a-z|A-Z]+', '', Value, re.I)
 
-            print("Value1 is :"+Value1)
-            print("Value is :" + Value)
-            if Value=="":
-                print("Value is blank"+Value)
-            else:
-                #print("Value is not blank:" + Value)
-                if int(Value) != 0:
-                    TestResult.append("[ "+PageName + " ] page has a difference value: [ "+Value1+" ] for Quarter [ "+P+" ]")
-                    TestResultStatus.append("Fail")
+                print("Value1 is :"+Value1)
+                print("Value is :" + Value)
+                if Value=="":
+                    print("Value is blank"+Value)
+                else:
+                    #print("Value is not blank:" + Value)
+                    if int(Value) != 0:
+                        TestResult.append("[ "+PageName + " ] page has a difference value: [ "+Value1+" ] for Quarter [ "+P+" ]")
+                        TestResultStatus.append("Fail")
+            except Exception:
+                TestResult.append(
+                    "[ " + PageName + " ] page has no data for Quarter [ " + P + " ]")
+                TestResultStatus.append("Fail")
 
             driver.find_element_by_xpath(
                 "//div[@class='ContentLayout---content_layout']/div/div/div/div[3]/div/div/div[1]/div[1]/div[1]/div/div[2]/div/div/div[1]/div/div[2]/div/div").click()
@@ -335,26 +342,33 @@ def test_DiagnosticFlagStatus(test_setup):
             TestResultStatus.append("Fail")
 
         time.sleep(2)
-        for year in range(1, 6):
+        for year in range(1, YearCounterNumber):
             print()
             P = driver.find_element_by_xpath(
                 "//div[@class='ContentLayout---content_layout']/div/div/div/div[3]/div/div/div[1]/div[1]/div[1]/div/div[2]/div/div/div[1]/div/div[2]/div/div/span").text
 
+            time.sleep(5)
             try:
-                Value = driver.find_element_by_xpath("//tbody/tr[last()]/td[6]/div/p/span").text
+                try:
+                    Value = driver.find_element_by_xpath("//tbody/tr[last()]/td[6]/div/p/span").text
+                except Exception:
+                    Value = driver.find_element_by_xpath("//tbody/tr[last()]/td[6]/div/p").text
+                print("Value is " + Value)
+                Value1 = Value
+                Value = Value.replace(" ", "")
+                Value = re.sub(r'[?|$|€|£|!|_|,]', r'', Value)
+                Value = re.sub(r'[a-z|A-Z]+', '', Value, re.I)
+                if Value=="":
+                    print("Value is blank"+Value)
+                else:
+                    if int(Value) != 0:
+                        TestResult.append("[ "+PageName + " ] page has a difference value: [ " + Value1 + " ] for Quarter [ "+P+" ]")
+                        TestResultStatus.append("Fail")
+
             except Exception:
-                Value = driver.find_element_by_xpath("//tbody/tr[last()]/td[6]/div/p").text
-            print("Value is " + Value)
-            Value1 = Value
-            Value = Value.replace(" ", "")
-            Value = re.sub(r'[?|$|€|£|!|_|,]', r'', Value)
-            Value = re.sub(r'[a-z|A-Z]+', '', Value, re.I)
-            if Value=="":
-                print("Value is blank"+Value)
-            else:
-                if int(Value) != 0:
-                    TestResult.append("[ "+PageName + " ] page has a difference value: [ " + Value1 + " ] for Quarter [ "+P+" ]")
-                    TestResultStatus.append("Fail")
+                TestResult.append(
+                    "[ " + PageName + " ] page has no data for Quarter [ " + P + " ]")
+                TestResultStatus.append("Fail")
 
             driver.find_element_by_xpath(
                 "//div[@class='ContentLayout---content_layout']/div/div/div/div[3]/div/div/div[1]/div[1]/div[1]/div/div[2]/div/div/div[1]/div/div[2]/div/div").click()
@@ -420,22 +434,29 @@ def test_DiagnosticFlagStatus(test_setup):
             TestResultStatus.append("Fail")
 
         time.sleep(2)
-        for year in range(1, 6):
+        for year in range(1, YearCounterNumber):
             print()
             P = driver.find_element_by_xpath(
                 "//div[@class='ContentLayout---content_layout']/div/div/div/div[3]/div/div/div[1]/div[1]/div[1]/div/div[2]/div/div/div[1]/div/div[2]/div/div/span").text
 
-            Value = driver.find_element_by_xpath("//tbody/tr[last()]/td[7]/div/p/strong").text
-            Value1 = Value
-            Value = Value.replace(" ", "")
-            Value = re.sub(r'[?|$|€|£|!|_|,]', r'', Value)
-            Value = re.sub(r'[a-z|A-Z]+', '', Value, re.I)
-            if Value == "":
-                print("Value is blank" + Value)
-            else:
-                if int(Value) != 0:
-                    TestResult.append("[ "+PageName + " ] page has a difference value: [ " + Value1 + " ] for Quarter [ "+P+" ]")
-                    TestResultStatus.append("Fail")
+            time.sleep(5)
+            try:
+                Value = driver.find_element_by_xpath("//tbody/tr[last()]/td[7]/div/p/strong").text
+                Value1 = Value
+                Value = Value.replace(" ", "")
+                Value = re.sub(r'[?|$|€|£|!|_|,]', r'', Value)
+                Value = re.sub(r'[a-z|A-Z]+', '', Value, re.I)
+                if Value == "":
+                    print("Value is blank" + Value)
+                else:
+                    if int(Value) != 0:
+                        TestResult.append("[ "+PageName + " ] page has a difference value: [ " + Value1 + " ] for Quarter [ "+P+" ]")
+                        TestResultStatus.append("Fail")
+
+            except Exception:
+                TestResult.append(
+                    "[ " + PageName + " ] page has no data for Quarter [ " + P + " ]")
+                TestResultStatus.append("Fail")
 
             driver.find_element_by_xpath(
                 "//div[@class='ContentLayout---content_layout']/div/div/div/div[3]/div/div/div[1]/div[1]/div[1]/div/div[2]/div/div/div[1]/div/div[2]/div/div").click()
