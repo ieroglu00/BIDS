@@ -29,7 +29,7 @@ def test_setup():
   global TestResultStatus
   global TestDirectoryName
   TestName = "test_BeaconTrustMapAllocation"
-  description = "This is smoke test case to verify negative or 0 Trust Map percentage values"
+  description = "This is smoke test case to verify negative or 0.000% Trust Map percentage values"
   TestResult = []
   TestResultStatus = []
   TestFailStatus = []
@@ -294,7 +294,7 @@ def test_BeaconTrustMapAllocationPer(test_setup):
                     print()
                     Investment = driver.find_element_by_xpath("//tbody/tr[" + str(ii2 + 1) + "]/td[2]/div/p/a").text
                     TestResult.append(
-                        "Trust Map Allocation page has a negative or 0 valur for Quarter [ " + P + " ]"+", Investment name is ["+Investment+" ]")
+                        "Trust Map Allocation page has a negative or 0.000% value for Quarter [ " + P + " ]"+", Investment name is ["+Investment+" ]")
                     TestResultStatus.append("Fail")
 
 
