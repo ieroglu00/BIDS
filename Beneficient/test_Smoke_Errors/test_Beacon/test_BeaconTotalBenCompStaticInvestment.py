@@ -161,40 +161,40 @@ def test_setup():
                     sheet.cell(row=i, column=5).value = FailStatus
                     checkcount = 1
       #-------------For adding Screenshot image-----------------------
-
-      ExcelFileName2 = "ImageFileName"
-      loc2 = ('C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/PDFFileNameData/' + ExcelFileName2 + '.xlsx')
-      wb2 = openpyxl.load_workbook(loc2)
-      sheet2 = wb2.active
-      print()
-      check = TestName
-      PdfName = TestName + "_" + ct + ".pdf"
-      checkcount1 = 0
-
-      print("TestResultImage len is :"+str(len(TestResultImage)))
-      k=0
-      for k in range(len(TestResultImage)):
-          print("k is :"+str(k))
-          for j in range(1, 100):
-              print("j is :" + str(j))
-              if sheet2.cell(j, 1).value == None:
-                  print("None value is at:" + str(j))
-                  if checkcount1 == 0:
-                      print("checkcount1:=0")
-                      sheet2.cell(row=j, column=1).value = check
-                      sheet2.cell(row=j, column=2).value = PdfName
-                      sheet2.cell(row=j, column=3).value = TestResultImage[k]
-                      if k==len(TestResultImage):
-                        checkcount1 = 1
-                  wb2.save(loc2)
-                  break
-              else:
-                  if sheet2.cell(j, 1).value == check:
-                      if checkcount1 == 0:
-                        sheet2.cell(row=j, column=2).value = PdfName
-                        if k == len(TestResultImage):
-                            checkcount1 = 1
-      #----------------------------------------------------------------------------
+      #
+      # ExcelFileName2 = "ImageFileName"
+      # loc2 = ('C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/PDFFileNameData/' + ExcelFileName2 + '.xlsx')
+      # wb2 = openpyxl.load_workbook(loc2)
+      # sheet2 = wb2.active
+      # print()
+      # check = TestName
+      # PdfName = TestName + "_" + ct + ".pdf"
+      # checkcount1 = 0
+      #
+      # print("TestResultImage len is :"+str(len(TestResultImage)))
+      # k=0
+      # for k in range(len(TestResultImage)):
+      #     print("k is :"+str(k))
+      #     for j in range(1, 100):
+      #         print("j is :" + str(j))
+      #         if sheet2.cell(j, 1).value == None:
+      #             print("None value is at:" + str(j))
+      #             if checkcount1 == 0:
+      #                 print("checkcount1:=0")
+      #                 sheet2.cell(row=j, column=1).value = check
+      #                 sheet2.cell(row=j, column=2).value = PdfName
+      #                 sheet2.cell(row=j, column=3).value = TestResultImage[k]
+      #                 if k==len(TestResultImage):
+      #                   checkcount1 = 1
+      #             wb2.save(loc2)
+      #             break
+      #         else:
+      #             if sheet2.cell(j, 1).value == check:
+      #                 if checkcount1 == 0:
+      #                   sheet2.cell(row=j, column=2).value = PdfName
+      #                   if k == len(TestResultImage):
+      #                       checkcount1 = 1
+      # #----------------------------------------------------------------------------
 
       #---------------------To add Test name in Execution sheet--------------------
       ExcelFileName1 = "Execution"
@@ -244,9 +244,9 @@ def test_BeaconTotalBenCompStaticInvestment(test_setup):
         except Exception:
             TestResult.append(PageName + " page not able to open")
             TestResultStatus.append("Fail")
-            driver.get_screenshot_as_file(
-                r"C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/test_Beacon/" + PageName.replace(" ", "") +"_"+ ct + ".png")
-            TestResultImage.append(PageName.replace(" ", "") +"_"+ ct + ".png")
+            # driver.get_screenshot_as_file(
+            #     r"C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/test_Beacon/" + PageName.replace(" ", "") +"_"+ ct + ".png")
+            # TestResultImage.append(PageName.replace(" ", "") +"_"+ ct + ".png")
 
         PageName = "Beacon Template"
         Ptitle1 = "COR_BeaconDataTransferTemplate - BIDS"
@@ -268,8 +268,8 @@ def test_BeaconTotalBenCompStaticInvestment(test_setup):
         except Exception:
             TestResult.append(PageName + " page not able to open")
             TestResultStatus.append("Fail")
-            driver.get_screenshot_as_file(r"C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/test_Beacon/" + PageName.replace(" ", "") +"_"+ ct + ".png")
-            TestResultImage.append(PageName.replace(" ", "") + "_" + ct + ".png")
+            # driver.get_screenshot_as_file(r"C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/test_Beacon/" + PageName.replace(" ", "") +"_"+ ct + ".png")
+            # TestResultImage.append(PageName.replace(" ", "") + "_" + ct + ".png")
 
         for year in range(1,YearCounterNumber):
             print()
@@ -358,9 +358,9 @@ def test_BeaconTotalBenCompStaticInvestment(test_setup):
         except Exception:
             TestResult.append(PageName + " page not able to open")
             TestResultStatus.append("Fail")
-            driver.get_screenshot_as_file(
-                r"C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/test_Beacon/" + PageName.replace(" ", "") +"_"+ ct + ".png")
-            TestResultImage.append(PageName.replace(" ", "") + "_" + ct + ".png")
+            # driver.get_screenshot_as_file(
+            #     r"C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/test_Beacon/" + PageName.replace(" ", "") +"_"+ ct + ".png")
+            # TestResultImage.append(PageName.replace(" ", "") + "_" + ct + ".png")
 
         for year1 in range(1,YearCounterNumber):
             print()
