@@ -36,13 +36,13 @@ def test_setup():
   global ct
   global ctReportHeader
   global YearCounter
-  myScreenshot = pyautogui.screenshot()
+  #myScreenshot = pyautogui.screenshot()
 
   TestName = "test_BeaconTotalBenCompStaticInvestment"
   description = "This is smoke test case to compare Total Ben NAV value for each quarter with Static Investment"
   TestResult = []
   TestResultStatus = []
-  TestResultImage = []
+  #TestResultImage = []
   TestFailStatus = []
   TotalBenNAV_USD_PerthisYearList = []
   TotalNAVforallinvestments_PerthisYearList = []
@@ -88,13 +88,12 @@ def test_setup():
   yield
   if Exe == "Yes":
 
-
-
       class PDF(FPDF):
           def header(self):
               self.image('C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/EmailReportContent/Ben.png', 10, 8, 33)
               self.set_font('Arial', 'B', 15)
               self.cell(73)
+              self.set_text_color(0, 0, 0)
               self.cell(35, 10, ' Test Report ', 1, 1, 'B')
               self.set_font('Arial', 'I', 10)
               self.cell(150)
@@ -111,6 +110,7 @@ def test_setup():
       pdf.alias_nb_pages()
       pdf.add_page()
       pdf.set_font('Times', '', 12)
+      pdf.set_text_color(0, 0, 0)
       pdf.cell(0, 10, "Test Case Name:  "+TestName, 0, 1)
       pdf.multi_cell(0, 20, "Description:  "+description, 0, 1)
 
