@@ -183,6 +183,17 @@ def test_DiagnosticFlagStatus(test_setup):
                 time.sleep(1)
                 break
         time.sleep(1)
+        try:
+            bool = driver.find_element_by_xpath(
+                "//span[@class='IconWidget---large_plus IconWidget---color_negative']").is_displayed()
+            TestResult.append("[ " + PageName + " ] has a Red Flag inside the Module clickable Box")
+            TestResultStatus.append("Fail")
+        except Exception:
+            bool = driver.find_element_by_xpath(
+                "//span[@class='IconWidget---large_plus IconWidget---color_positive']").is_displayed()
+            TestResult.append("[ " + PageName + " ] has a Green Flag inside the Module clickable Box")
+            TestResultStatus.append("Pass")
+
         driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
         for iat3 in range(1000):
             try:
@@ -201,14 +212,6 @@ def test_DiagnosticFlagStatus(test_setup):
         except Exception:
             TestResult.append("[ "+PageName + " ] page not able to open")
             TestResultStatus.append("Fail")
-        try:
-            bool=driver.find_element_by_xpath("//span[@class='IconWidget---large_plus IconWidget---color_negative']").is_displayed()
-            TestResult.append("[ "+PageName + " ] has a Red Flag inside the Module clickable Box")
-            TestResultStatus.append("Fail")
-        except Exception:
-            bool=driver.find_element_by_xpath("//span[@class='IconWidget---large_plus IconWidget---color_positive']").is_displayed()
-            TestResult.append("[ "+PageName + " ] has a Green Flag inside the Module clickable Box")
-            TestResultStatus.append("Pass")
 
         #---------------------------------------------------------------------------------------------
         print()
