@@ -77,6 +77,7 @@ def test_setup():
               self.image('C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/EmailReportContent/Ben.png', 10, 8, 33)
               self.set_font('Arial', 'B', 15)
               self.cell(73)
+              self.set_text_color(0, 0, 0)
               self.cell(35, 10, ' Test Report ', 1, 1, 'B')
               self.set_font('Arial', 'I', 10)
               self.cell(150)
@@ -94,7 +95,7 @@ def test_setup():
       pdf.add_page()
       pdf.set_font('Times', '', 12)
       pdf.cell(0, 10, "Test Case Name:  "+TestName, 0, 1)
-      pdf.multi_cell(0, 20, "Description:  "+description, 0, 1)
+      pdf.multi_cell(0, 10, "Description:  "+description, 0, 1)
 
       for i1 in range(len(TestResult)):
          pdf.set_fill_color(255, 255, 255)
@@ -191,16 +192,16 @@ def test_BeaconDataTransfer(test_setup):
         except Exception:
             TestResult.append(PageName + " page not able to open")
             TestResultStatus.append("Fail")
-        try:
-            bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
-            #print("Red flag present : " + str(bool))
-            TestResult.append(PageName + " has a Red Flag at the top section")
-            TestResultStatus.append("Fail")
-        except Exception:
-            bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
-            #print("Green flag present : " + str(bool))
-            TestResult.append(PageName + " has a Green Flag at the top section")
-            TestResultStatus.append("Pass")
+        # try:
+        #     bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
+        #     #print("Red flag present : " + str(bool))
+        #     TestResult.append(PageName + " has a Red Flag at the top section")
+        #     TestResultStatus.append("Fail")
+        # except Exception:
+        #     bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
+        #     #print("Green flag present : " + str(bool))
+        #     TestResult.append(PageName + " has a Green Flag at the top section")
+        #     TestResultStatus.append("Pass")
 
         PageName = "Beacon Template"
         Ptitle1 = "COR_BeaconDataTransferTemplate - BIDS"
