@@ -42,7 +42,6 @@ def test_CompareAmountSOSandMissionControl(test_setup):
       DropDownCount=2
       ComparisonCounter=0
       YearList = []
-
       AmountListFundLevel = []
       AmountListInvestmentLevel = []
 
@@ -133,6 +132,8 @@ def test_CompareAmountSOSandMissionControl(test_setup):
                   break
       #print(driver.title)
       assert "Quarterly NAV Close - BIDS" in driver.title, "Failed to open Quarterly NAV Close Page"
+
+
       driver.find_element_by_xpath("//strong[contains(text(),'Sign-Off Summary: Funds')]").click()
       for ia in range(1000):
             try:
@@ -182,7 +183,7 @@ def test_CompareAmountSOSandMissionControl(test_setup):
                         time.sleep(3)
                         break
             time.sleep(5)
-            element = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[2]/div/div[8]/div/div[2]/div/input")
+            element = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[8]/div/div[2]/div/input")
             FundsSOSTotalPartnerNAVEndingUSD = element.get_attribute("value")
             AmountListSOSFunds.append(FundsSOSTotalPartnerNAVEndingUSD)
 
