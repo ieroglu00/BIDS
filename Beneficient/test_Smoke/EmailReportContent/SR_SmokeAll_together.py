@@ -4,6 +4,7 @@ from email.message import EmailMessage
 import openpyxl
 import pytest
 
+
 @pytest.mark.smoke
 def test_ReportSendSmokeAll():
     print()
@@ -33,7 +34,7 @@ def test_ReportSendSmokeAll():
     msg=EmailMessage()
     msg['Subject']='Test SUITE Automation Report [Smoke Test 1] -Env [Test]'
     msg['From']='Test Automation Team'
-    msg['To']='neeraj.kumar@crochetech.com,srinath.jandhyala@beneficient.com'
+    msg['To']='neeraj.kumar@crochetech.com,srinath.jandhyala@beneficient.com,cliff.stoops@beneficient.com'
 
     A="Hi Team\nHere is the test summary report of Smoke Test 1 (To verify all links, pages, green flags in all modules) \n\nBelow test scenarios are covered \n"
     C="\n\nPlease find attached PDFs of test scenarios results\nNote: Attachments are only for FAILED test cases\n\n\nMany Thanks\nNeeraj"
@@ -69,6 +70,26 @@ def test_ReportSendSmokeAll():
             print("No Attachment found to Add")
             #print(e1)
         i = i + 1
+    #-----------------------------------------------------------------------
+
+    #--------------To create Pie Chart and attach in email------------------
+    # T_Tests=len(TestName)
+    # PassCount = TestStatus.count("Pass")
+    # FailCount = TestStatus.count("Fail")
+    # PassCountPer = round((PassCount / T_Tests) * 100, 2)
+    # FailCountPer=round((FailCount/T_Tests)*100 , 2)
+    #
+    # y = np.array([PassCountPer, FailCountPer])
+    # mylabels = ["Pass", "Fail"]
+    # mycolors = ["Green", "Red"]
+    # plt.pie(y, labels=mylabels, startangle=90, colors=mycolors)
+    # plt.legend(title="Testing Suite Status:")
+    # plt.savefig('C:/BIDS/beneficienttest/Beneficient/test_Smoke/TestResult.png', format='png', dpi=300)
+    #
+    # with open('C:/BIDS/beneficienttest/Beneficient/test_Smoke/TestResult.png', 'rb') as f:
+    #     file_data = f.read()
+    #     file_name = TestName[i] + ".pdf"
+    # msg.add_attachment(file_data, maintype='application', subtype='octet-stream', filename=file_name)
     #-----------------------------------------------------------------------
 
     # ----------------------------SMTP setup--------------------------------
