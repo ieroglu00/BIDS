@@ -1,3 +1,6 @@
+#  description = "This is smoke test case to verify all Top Menu modules are opening
+#  with Green flag at the top section of each module"
+
 import datetime
 import time
 import openpyxl
