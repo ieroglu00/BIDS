@@ -176,7 +176,7 @@ def test_setup():
 
 @pytest.mark.smoke
 def test_BeaconFxValueCompare(test_setup):
-    YearCounterNumber = 8
+    YearCounterNumber = 2
     if Exe == "Yes":
         print()
         PageName = "Quarterly NAV Close"

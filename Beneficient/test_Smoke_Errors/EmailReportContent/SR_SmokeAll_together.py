@@ -1,7 +1,11 @@
 import os
 import smtplib
-from email.message import EmailMessage
+import ssl
+from email.mime.application import MIMEApplication
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 import openpyxl
+import pandas as pd
 import pytest
 
 @pytest.mark.smoke
@@ -14,8 +18,7 @@ def test_ReportSendSmokeAll():
     TestStatus = []
     SendStatus = []
     AttachmntAdded= []
-    ImageAttachmentcounter = []
-    ImageAttachmentName = []
+    PDFpath = 'C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/'
 
     #-------------------To read content to send in e-Mail--------------------
     ExcelFileName = "FileName"
@@ -32,23 +35,62 @@ def test_ReportSendSmokeAll():
             TestDescription.append(sheet.cell(i, 4).value)
             TestStatus.append(sheet.cell(i, 5).value)
             SendStatus.append(sheet.cell(i, 6).value)
-    msg=EmailMessage()
-    msg['Subject']='Test SUITE Automation Report [Smoke Test 2] -Env [Test]'
-    msg['From']='Test Automation Team'
-    msg['To']='neeraj.kumar@crochetech.com,srinath.jandhyala@beneficient.com,cliff.stoops@beneficient.com'
 
-    A="Hi Team\nHere is the test summary report of Smoke Test 2 (To verify presence of Errors / Quick on-screen calculated numbers in all modules) \n\nBelow test scenarios are covered \n"
-    C="\n\nPlease find attached PDFs of test scenarios results\nNote: Attachments are only for FAILED test cases\n\n\nMany Thanks\nNeeraj"
-    B = ""
-    for io in range(len(TestName)):
-        try:
-            B = B + " \n\n"+str(io+1)+") " + "".join(TestName[io])+" => "+"".join(TestDescription[io])+" => "+"".join(TestStatus[io])
-        except Exception:
-            print("No attachment details to add in email description")
-    #print(B)
-    msg.set_content(A+B+C)
+        B = ""
+        for io in range(len(TestName)):
+            try:
+                B = B + "<br /><br />"+str(io+1)+") " + "".join(TestName[io])+" => "+"".join(TestDescription[io])+" => "+"".join(TestStatus[io])
+            except Exception:
+                print("No attachment details to add in email description")
+    print(B)
+        # msg.set_content(A+B+C)
+
+    ##############################################################
+    html = '''
+        <html>
+            <body>
+                <p>Hi Team <br />Here is the test summary report of Smoke Test 2 (To verify presence of Errors / Quick on-screen calculated numbers in all modules) <br />Below test scenarios are covered </p>
+                <p></p>
+                <p>'''+B+'''</p
+                <p></p>
+                <img src='cid:myimageid' width="500" align="center">
+                <p>Please find attached PDFs of test scenarios results<br />Note: Attachments are only for FAILED test cases<br /></p>
+                <p>Many Thanks <br/>Neeraj</p>
+            </body>
+        </html>
+        '''
+    ##############################################################
+
+    def attach_file_to_email(msg, filename, extra_headers=None):
+        with open(filename, "rb") as f:
+            file_attachment = MIMEApplication(f.read())
+        file_attachment.add_header(
+            "Content-Disposition",
+            f"attachment; filename= {filename}",
+        )
+        if extra_headers is not None:
+            for name, value in extra_headers.items():
+                file_attachment.add_header(name, value)
+        msg.attach(file_attachment)
+
+    email_from = 'Test Automation Team'
+    email_to = 'neeraj.kumar@crochetech.com'
+    SenderEmail="neeraj.kumar@bitsinglass.com"
+    SenderPassword="Motorola@408"
+
+    date_str = pd.Timestamp.today().strftime('%m-%d-%Y')
+    msg = MIMEMultipart()
+    msg['Subject']='Test Automation Report [Smoke Test 2] -Env [Test] '+date_str
+    msg['From'] = email_from
+    msg['To'] = email_to
+    msg.attach(MIMEText(html, "html"))
+
     #-----------------------------------------------------------------------
-
+    try:
+        attach_file_to_email(msg, 'C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/TestPieResult.png',
+                         {'Content-ID': '<myimageid>'})
+    except Exception:
+        print("No Pie File to attach")
     # ------------------To add attachments in the report email--------------
     i=0
     for file in PDFName1:
@@ -56,16 +98,11 @@ def test_ReportSendSmokeAll():
         try:
             #print(file)
             if SendStatus[i]=="Send Only when Fail=Yes" and  TestStatus[i]=="Fail":
-                    with open('C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/'+file, 'rb') as f:
-                        file_data = f.read()
-                        file_name = TestName[i]+".pdf"
-                    msg.add_attachment(file_data, maintype='application', subtype='octet-stream', filename=file_name)
+                    attach_file_to_email(msg,PDFpath+PDFName1[i])
                     AttachmntAdded.append("Yes")
             if SendStatus[i] == "Send Only when Fail=No":
-                    with open('C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/'+file, 'rb') as f:
-                        file_data = f.read()
-                        file_name = TestName[i]+".pdf"
-                    msg.add_attachment(file_data, maintype='application', subtype='octet-stream', filename=file_name)
+                    print("Inside Send Only when Fail=No")
+                    attach_file_to_email(msg, PDFpath + PDFName1[i])
                     AttachmntAdded.append("Yes")
         except Exception as e1:
             print("No Attachment found to Add")
@@ -73,35 +110,21 @@ def test_ReportSendSmokeAll():
         i = i + 1
     #-----------------------------------------------------------------------
 
-    # ------------To read content to attach bug images in e-Mail------------
-    ##################
-    ExcelFileName1 = "ImageFileName"
-    loc1 = ('C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/PDFFileNameData/' + ExcelFileName1 + '.xlsx')
-    wb1 = openpyxl.load_workbook(loc1)
-    sheet1 = wb1.active
-    for i in range(1, 100):
-        if sheet1.cell(i, 1).value == None:
-            break
-        else:
-            ImageAttachmentcounter.append(sheet.cell(i, 3).value)
-            DirectoryName.append(sheet.cell(i, 3).value)
-
-
-    # -----------------------------------------------------------------------
-
-    # ------------------To add attachments in the report email---------------
-    ##################
+    # ------------------------To attach all in e-Mail-----------------------
+    email_string = msg.as_string()
+    context = ssl.create_default_context()
     # -----------------------------------------------------------------------
 
     # ----------------------------SMTP setup--------------------------------
     server=smtplib.SMTP_SSL('smtp.gmail.com',465)
-    server.login("neeraj.kumar@bitsinglass.com","Motorola@408")
+    server.login(SenderEmail,SenderPassword)
     #-----------------------------------------------------------------------
 
     #---------------------------------Sending email-------------------------
     for io1 in range(len(AttachmntAdded)):
         if AttachmntAdded[io1] == "Yes":
-            server.send_message(msg)
+            print("Inside AttachmntAdded=Yes ")
+            server.sendmail(email_from, email_to, email_string)
             print("Test Report sent")
             break
     #-----------------------------------------------------------------------
@@ -114,5 +137,9 @@ def test_ReportSendSmokeAll():
             os.remove('C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/'+PDFName1[ii])
         except Exception:
             print("No Attachment found to delete")
+    try:
+        os.remove('C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/TestPieResult.png')
+    except Exception:
+        print("No Attachment found to delete")
     #-----------------------------------------------------------------------
     server.quit()

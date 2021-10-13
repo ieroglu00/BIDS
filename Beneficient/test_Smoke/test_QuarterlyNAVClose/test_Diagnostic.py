@@ -586,5 +586,22 @@ def test_DiagnosticFlagStatus(test_setup):
         #     button = driver.find_element_by_xpath("//button[contains(text(),'Main Diagnostics Menu')]")
         #     driver.execute_script("arguments[0].click();", button)
 
+    else:
+        print()
+        print("Test Case skipped as per the Execution sheet")
+        skip = "Yes"
+
+        # -----------To add Skipped test case details in PDF details sheet-------------
+        ExcelFileName = "FileName"
+        loc = ('C:/BIDS/beneficienttest/Beneficient/PDFFileNameData/' + ExcelFileName + '.xlsx')
+        wb = openpyxl.load_workbook(loc)
+        sheet = wb.active
+        check = TestName
+
+        for i in range(1, 100):
+            if sheet.cell(i, 1).value == check:
+                sheet.cell(row=i, column=5).value = "Skipped"
+                wb.save(loc)
+        # ----------------------------------------------------------------------------
 
 
