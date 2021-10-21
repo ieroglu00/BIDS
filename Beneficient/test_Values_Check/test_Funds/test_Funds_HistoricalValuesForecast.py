@@ -182,7 +182,7 @@ def test_setup():
 @pytest.mark.smoke
 def test_Funds_Values(test_setup):
     if Exe == "Yes":
-        ForecastYear=2
+        ForecastYear=8
 
         PageName = "Funds"
         PageTitle = "Funds - BIDS"
@@ -406,7 +406,7 @@ def test_Funds_Values(test_setup):
                     pass
 
     #---------------------------Now fetching details for all Funds ----------------------------
-        for ii3 in range(len(FundsNamesList)-60):
+        for ii3 in range(len(FundsNamesList)+1):
             #print(str(ii3))
             print()
             print()
