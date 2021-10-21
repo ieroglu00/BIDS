@@ -286,34 +286,46 @@ def test_Funds_Values(test_setup):
             String5=driver.find_element_by_xpath(
                         "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div[5]/div/div[2]/div/input").get_attribute("value")
 
+            Hyphen="_"
+
             print(Label1)
             print(String1)
             String1 = String1.replace(" ", "")
             String1 = re.sub(r'[?|$|.|!|,|-]', r'', String1)
+            if re.search(Hyphen, String1):
+                String1="0"
             String1Float = float(String1)
 
             print(Label2)
             print(String2)
             String2 = String2.replace(" ", "")
             String2 = re.sub(r'[?|$|.|!|,|-]', r'', String2)
+            if re.search(Hyphen, String2):
+                String2="0"
             String2Float = float(String2)
 
             print(Label3)
             print(String3)
             String3 = String3.replace(" ", "")
             String3 = re.sub(r'[?|$|.|!|,|-]', r'', String3)
+            if re.search(Hyphen, String3):
+                String3="0"
             String3Float = float(String3)
 
             print(Label4)
             print(String4)
             String4 = String4.replace(" ", "")
             String4 = re.sub(r'[?|$|.|!|,|-]', r'', String4)
+            if re.search(Hyphen, String4):
+                String4="0"
             String4Float = float(String4)
 
             print(Label5)
             print(String5)
             String5 = String5.replace(" ", "")
             String5 = re.sub(r'[?|$|.|!|,|-]', r'', String5)
+            if re.search(Hyphen, String5):
+                String5="0"
             String5Float = float(String5)
 
             Dict[Label1] = String1Float
@@ -468,6 +480,8 @@ def test_Funds_Values(test_setup):
                 print("BenNetProceeds_USD " + BenNetProceeds_USD)
                 BenNetProceeds_USD = BenNetProceeds_USD.replace(" ", "")
                 BenNetProceeds_USD = re.sub(r'[?|$|.|!|,|-]', r'', BenNetProceeds_USD)
+                if re.search(Hyphen, BenNetProceeds_USD):
+                    BenNetProceeds_USD = "0"
                 BenNetProceeds_USDFloat=float(BenNetProceeds_USD)
                 key=Period
                 if key in Dict2.keys():
