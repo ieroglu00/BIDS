@@ -42,8 +42,7 @@ def test_ReportSendSmokeAll():
                 B = B + "<br /><br />"+str(io+1)+") " + "".join(TestName[io])+" => "+"".join(TestDescription[io])+" => "+"".join(TestStatus[io])
             except Exception:
                 print("No attachment details to add in email description")
-    print(B)
-        # msg.set_content(A+B+C)
+    #print(B)
 
     ##############################################################
     html = '''
@@ -74,7 +73,7 @@ def test_ReportSendSmokeAll():
         msg.attach(file_attachment)
 
     email_from = 'Test Automation Team'
-    email_to = 'neeraj.kumar@crochetech.com,srinath.jandhyala@beneficient.com,erin.Twiss@beneficient.com'
+    email_to = ['neeraj.kumar@crochetech.com,srinath.jandhyala@beneficient.com,erin.Twiss@beneficient.com']
     SenderEmail="neeraj.kumar@bitsinglass.com"
     SenderPassword="Motorola@408"
 
@@ -82,7 +81,7 @@ def test_ReportSendSmokeAll():
     msg = MIMEMultipart()
     msg['Subject']='Test Automation Report [Smoke Test 2] -Env [Test] '+date_str
     msg['From'] = email_from
-    msg['To'] = email_to
+    msg['To'] = ','.join(email_to)
     msg.attach(MIMEText(html, "html"))
 
     #-----------------------------------------------------------------------

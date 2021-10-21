@@ -35,13 +35,6 @@ def test_ReportSendSmokeAll():
             TestDescription.append(sheet.cell(i, 4).value)
             TestStatus.append(sheet.cell(i, 5).value)
             SendStatus.append(sheet.cell(i, 6).value)
-    # msg=EmailMessage()
-    # msg['Subject']='Test SUITE Automation Report [Smoke Test 1] -Env [Test]'
-    # msg['From']='Test Automation Team'
-    # msg['To']='neeraj.kumar@crochetech.com'
-
-    # A="Hi Team\nHere is the test summary report of Smoke Test 1 (To verify all links, pages, green flags in all modules) \n\nBelow test scenarios are covered \n"
-    # C="\n\nPlease find attached PDFs of test scenarios results\nNote: Attachments are only for FAILED test cases\n\n\nMany Thanks\nNeeraj"
 
         B = ""
         for io in range(len(TestName)):
@@ -49,8 +42,7 @@ def test_ReportSendSmokeAll():
                 B = B + "<br /><br />"+str(io+1)+") " + "".join(TestName[io])+" => "+"".join(TestDescription[io])+" => "+"".join(TestStatus[io])
             except Exception:
                 print("No attachment details to add in email description")
-    print(B)
-    #msg.set_content(A+B+C)
+    #print(B)
 
     ##############################################################
     html = '''
@@ -80,7 +72,7 @@ def test_ReportSendSmokeAll():
         msg.attach(file_attachment)
 
     email_from = 'Test Automation Team'
-    email_to = 'neeraj.kumar@crochetech.com,srinath.jandhyala@beneficient.com,erin.Twiss@beneficient.com'
+    email_to =['neeraj.kumar@crochetech.com,srinath.jandhyala@beneficient.com,erin.Twiss@beneficient.com']
     SenderEmail = "neeraj.kumar@bitsinglass.com"
     SenderPassword = "Motorola@408"
 
@@ -88,7 +80,7 @@ def test_ReportSendSmokeAll():
     msg = MIMEMultipart()
     msg['Subject'] = 'Test Automation Report [Smoke Test 1] -Env [Test] ' + date_str
     msg['From'] = email_from
-    msg['To'] = email_to
+    msg['To'] = ','.join(email_to)
     msg.attach(MIMEText(html, "html"))
 
     # -----------------------------------------------------------------------
@@ -122,7 +114,7 @@ def test_ReportSendSmokeAll():
     # -----------------------------------------------------------------------
 
     # ----------------------------SMTP setup--------------------------------
-    server=smtplib.SMTP_SSL('smtp.gmail.com',465)
+    server=smtplib.SMTP_SSL('smtp.gmail.com',465,context=context)
     server.login(SenderEmail,SenderPassword)
     #-----------------------------------------------------------------------
 
