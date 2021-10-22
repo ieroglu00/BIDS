@@ -187,7 +187,8 @@ def test_Funds_Values(test_setup):
 
         PageName = "Funds"
         PageTitle = "Funds - BIDS"
-        driver.find_element_by_xpath("//*[@title='" + PageName + "']").click()
+        button = driver.find_element_by_xpath("//*[@title='" + PageName + "']")
+        driver.execute_script("arguments[0].click();", button)
         for iat1 in range(1000):
             try:
                 bool = driver.find_element_by_xpath(
@@ -206,8 +207,8 @@ def test_Funds_Values(test_setup):
             TestResult.append(PageName + " page not able to open")
             TestResultStatus.append("Fail")
 
-        driver.find_element_by_xpath(
-            "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[1]/div[2]/div/div[2]/div/div[2]/div/div").click()
+        button = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[1]/div[2]/div/div[2]/div/div[2]/div/div")
+        driver.execute_script("arguments[0].click();", button)
         time.sleep(1)
         ActionChains(driver).key_down(Keys.DOWN).perform()
         time.sleep(1)
@@ -238,7 +239,12 @@ def test_Funds_Values(test_setup):
                 elements = driver.find_elements_by_xpath(
                     "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[1]/div[2]/div/div[3]/div/div[2]/div/div")
                 for elem in elements:
-                    elem.click()
+                    try:
+                        elem.click()
+                    except Exception:
+                        button = driver.find_element_by_xpath(
+                            "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[1]/div[2]/div/div[3]/div/div[2]/div/div")
+                        driver.execute_script("arguments[0].click();", button)
                     break
                 time.sleep(1)
                 ActionChains(driver).key_down(Keys.DOWN).perform()
@@ -373,8 +379,9 @@ def test_Funds_Values(test_setup):
                 for ii1 in range(TotalFundsItemsInt):
                     ii2 = 1
                     if ii1 > 0:
-                        driver.find_element_by_xpath(
-                            "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/span[4]/a[1]/i").click()
+                        button = driver.find_element_by_xpath(
+                            "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/span[4]/a[1]/i")
+                        driver.execute_script("arguments[0].click();", button)
                         time.sleep(5)
 
                     for ii2 in range(1, 8):
@@ -417,7 +424,9 @@ def test_Funds_Values(test_setup):
 
         #--------------Now working started to fetch Quarter values of each funds--------------
         PageName = "Funds"
-        driver.find_element_by_xpath("//*[@title='" + PageName + "']").click()
+        button = driver.find_element_by_xpath(
+            "//*[@title='" + PageName + "']")
+        driver.execute_script("arguments[0].click();", button)
         try:
             driver.switch_to_alert().accept()
         except Exception:
@@ -445,7 +454,9 @@ def test_Funds_Values(test_setup):
                 driver.get("https://beneficienttest.appiancloud.com/suite/")
                 driver.find_element_by_id("un").send_keys("neeraj.kumar")
                 driver.find_element_by_id("pw").send_keys("Crochet@786")
-                driver.find_element_by_xpath("//input[@type='submit']").click()
+                button = driver.find_element_by_xpath(
+                    "//input[@type='submit']")
+                driver.execute_script("arguments[0].click();", button)
                 for iat8 in range(1000):
                     try:
                         bool = driver.find_element_by_xpath(
@@ -456,11 +467,15 @@ def test_Funds_Values(test_setup):
 
             print(FundsNamesList[ii3])
             try:
-                driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'"+FundsNamesList[ii3]+"')]").click()
+                button = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'"+FundsNamesList[ii3]+"')]")
+                driver.execute_script("arguments[0].click();", button)
             except Exception:
                 time.sleep(7)
                 print("Inside Except ********************")
-                driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'"+FundsNamesList[ii3]+"')]").click()
+                button = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'"+FundsNamesList[ii3]+"')]")
+                driver.execute_script("arguments[0].click();", button)
             for iat9 in range(15):
                 try:
                     bool = driver.find_element_by_xpath(
@@ -470,7 +485,9 @@ def test_Funds_Values(test_setup):
                     break
             time.sleep(1)
 
-            driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[1]/button").click()
+            button = driver.find_element_by_xpath(
+                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[1]/button")
+            driver.execute_script("arguments[0].click();", button)
             for iat11 in range(15):
                 try:
                     bool = driver.find_element_by_xpath(
@@ -503,7 +520,9 @@ def test_Funds_Values(test_setup):
 
             # --------------Navigating back to each fund--------------
             PageName = "Funds"
-            driver.find_element_by_xpath("//*[@title='" + PageName + "']").click()
+            button = driver.find_element_by_xpath(
+                "//*[@title='" + PageName + "']")
+            driver.execute_script("arguments[0].click();", button)
             try:
                 driver.switch_to_alert().accept()
             except Exception:
