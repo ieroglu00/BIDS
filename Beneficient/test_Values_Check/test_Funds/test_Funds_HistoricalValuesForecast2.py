@@ -447,7 +447,7 @@ def test_Funds_Values(test_setup):
             print()
             print()
             print(str(ii3))
-            if ii3 ==5 or ii3 ==15 or ii3 ==30 or ii3 ==45 or ii3 ==60 or ii3 ==80 or ii3 ==100 or ii3 ==120:
+            if ii3 ==5 or ii3 ==15 or ii3 ==30 or ii3 ==45 or ii3 ==60 or ii3 ==75 or ii3 ==90 or ii3 ==105:
                 #print("----------------***************"+str(ii3))
                 driver.delete_all_cookies()
                 time.sleep(5)
