@@ -52,7 +52,7 @@ def test_setup():
   Dict2 = {}
 
   Exe = "Yes"
-  path = 'C:/BIDS/beneficienttest/Beneficient/test_Values_Check/'
+  path = '/Beneficient/test_Values_Check/'
 
   ExcelFileName = "Execution"
   locx = (path+'/Executiondir/' + ExcelFileName + '.xlsx')
@@ -69,7 +69,7 @@ def test_setup():
                   Exe = "Yes"
 
   if Exe == "Yes":
-      driver=webdriver.Chrome(executable_path="C:/BIDS/beneficienttest/Beneficient/Chrome/chromedriver.exe")
+      driver=webdriver.Chrome(executable_path="/Beneficient/Chrome/chromedriver.exe")
       driver.implicitly_wait(10)
       driver.maximize_window()
       driver.get("https://beneficienttest.appiancloud.com/suite/")
