@@ -207,8 +207,10 @@ def test_Funds_Values(test_setup):
             TestResult.append(PageName + " page not able to open")
             TestResultStatus.append("Fail")
 
-        button = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[1]/div[2]/div/div[2]/div/div[2]/div/div")
-        driver.execute_script("arguments[0].click();", button)
+        # button = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[1]/div[2]/div/div[2]/div/div[2]/div/div")
+        # driver.execute_script("arguments[0].click();", button)
+        driver.find_element_by_xpath(
+            "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[1]/div[2]/div/div[2]/div/div[2]/div/div").click()
         time.sleep(1)
         ActionChains(driver).key_down(Keys.DOWN).perform()
         time.sleep(1)
