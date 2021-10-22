@@ -229,7 +229,7 @@ def test_Funds_Values(test_setup):
             TestResult.append(ElementName + " not able to click")
             TestResultStatus.append("Fail")
 
-        for ii in range(ForecastYear):
+        for ii in range(ForecastYear+1):
             print()
             if ii>0:
                 elements = driver.find_elements_by_xpath(
@@ -328,11 +328,36 @@ def test_Funds_Values(test_setup):
                 String5="0"
             String5Float = float(String5)
 
-            Dict[Label1] = String1Float
-            Dict[Label2] = String2Float
-            Dict[Label3] = String3Float
-            Dict[Label4] = String4Float
-            Dict[Label5] = String5Float
+            key1 = Label1
+            if key1 in Dict.keys():
+                pass
+            else:
+                Dict[Label1] = String1Float
+
+            key1 = Label2
+            if key1 in Dict.keys():
+                pass
+            else:
+                Dict[Label2] = String2Float
+
+            key1 = Label3
+            if key1 in Dict.keys():
+                pass
+            else:
+                Dict[Label3] = String3Float
+
+            key1 = Label4
+            if key1 in Dict.keys():
+                pass
+            else:
+                Dict[Label4] = String4Float
+
+            key1 = Label5
+            if key1 in Dict.keys():
+                pass
+            else:
+                Dict[Label5] = String5Float
+            #-------------------------------------------
 
         ElementName = "Period Dropdown"
         try:
@@ -400,14 +425,6 @@ def test_Funds_Values(test_setup):
                 driver.find_element_by_xpath(
                     "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/span[4]/a[1]/i").click()
                 time.sleep(5)
-                # for iat11 in range(1000):
-                #     try:
-                #         bool = driver.find_element_by_xpath(
-                #             "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                #         time.sleep(1)
-                #     except Exception:
-                #         # time.sleep(1)
-                #         break
 
             for ii2 in range(1,8):
                 try:
@@ -417,11 +434,20 @@ def test_Funds_Values(test_setup):
                     #break
                     pass
 
+        print("Len of FundsNamesList "+str(len(FundsNamesList)))
+        try:
+            print(FundsNamesList[0])
+            print(FundsNamesList[63])
+            print(FundsNamesList[64])
+        except Exception as qq:
+            print("^^^^^^^^^^^^^^")
+            print(qq)
+            pass
     #---------------------------Now fetching details for all Funds ----------------------------
-        for ii3 in range(len(FundsNamesList)+1):
-            #print(str(ii3))
+        for ii3 in range(len(FundsNamesList)):
             print()
             print()
+            print(str(ii3))
             if ii3 ==5 or ii3 ==15 or ii3 ==30 or ii3 ==45 or ii3 ==60:
                 #print("----------------***************"+str(ii3))
                 driver.delete_all_cookies()
@@ -454,7 +480,7 @@ def test_Funds_Values(test_setup):
                 except Exception:
                     #time.sleep(1)
                     break
-            time.sleep(2)
+            time.sleep(1)
 
             driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[1]/button").click()
             for iat11 in range(15):
@@ -518,6 +544,11 @@ def test_Funds_Values(test_setup):
 
         try:
             for ii12 in range (len(list1)+1):
+                print()
+                if Dict2.get(list1[ii12]) == None:
+                    print("None found------")
+                    Dict2[list1[ii12]] = float("0")
+
                 if Dict.get(list1[ii12]) != Dict2.get(list1[ii12]):
                     print("Value does not match for " + str(list1[ii12]))
                     print("Dict value is " + str(Dict.get(list1[ii12])))
@@ -529,10 +560,9 @@ def test_Funds_Values(test_setup):
                     print("Value matched for " + str(list1[ii12]))
                     print("Dict value is " + str(Dict.get(list1[ii12])))
                     print("Dict2 value is " + str(Dict2.get(list1[ii12])))
-        except Exception:
+        except Exception as qa:
             print("jdbdksjdk")
-
-
+            print(qa)
 
 
     else:
