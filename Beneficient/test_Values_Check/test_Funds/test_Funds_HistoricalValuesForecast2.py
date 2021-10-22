@@ -73,6 +73,7 @@ def test_setup():
       driver.implicitly_wait(10)
       driver.maximize_window()
       driver.get("https://beneficienttest.appiancloud.com/suite/")
+      driver.execute_script("document.body.style.zoom='80%'")
       enter_username("neeraj.kumar")
       enter_password("Crochet@786")
       driver.find_element_by_xpath("//input[@type='submit']").click()
