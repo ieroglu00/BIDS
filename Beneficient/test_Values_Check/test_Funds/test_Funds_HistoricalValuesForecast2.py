@@ -76,7 +76,8 @@ def test_setup():
       enter_username("neeraj.kumar")
       enter_password("Crochet@786")
       driver.execute_script("document.body.style.zoom='80%'")
-      driver.find_element_by_xpath("//input[@type='submit']").click()
+      button = driver.find_element_by_xpath("//input[@type='submit']")
+      driver.execute_script("arguments[0].click();", button)
 
 
   yield
