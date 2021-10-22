@@ -475,9 +475,12 @@ def test_Funds_Values(test_setup):
             except Exception:
                 time.sleep(7)
                 print("Inside Except ********************")
-                button = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'"+FundsNamesList[ii3]+"')]")
-                driver.execute_script("arguments[0].click();", button)
+                driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
+                    FundsNamesList[ii3] + "')]").click()
+                # button = driver.find_element_by_xpath(
+                #     "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'"+FundsNamesList[ii3]+"')]")
+                # driver.execute_script("arguments[0].click();", button)
             for iat9 in range(15):
                 try:
                     bool = driver.find_element_by_xpath(
