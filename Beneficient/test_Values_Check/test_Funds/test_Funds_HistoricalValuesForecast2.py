@@ -178,12 +178,13 @@ def test_setup():
                       checkcount1 = 1
       # -----------------------------------------------------------------------------
 
-      driver.quit()
+      #driver.quit()
 
 @pytest.mark.smoke
 def test_Funds_Values(test_setup):
     if Exe == "Yes":
         ForecastYear=8
+        skip = 0
 
         PageName = "Funds"
         PageTitle = "Funds - BIDS"
@@ -207,8 +208,6 @@ def test_Funds_Values(test_setup):
             TestResult.append(PageName + " page not able to open")
             TestResultStatus.append("Fail")
 
-        # button = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[1]/div[2]/div/div[2]/div/div[2]/div/div")
-        # driver.execute_script("arguments[0].click();", button)
         driver.find_element_by_xpath(
             "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[1]/div[2]/div/div[2]/div/div[2]/div/div").click()
         time.sleep(1)
@@ -235,8 +234,8 @@ def test_Funds_Values(test_setup):
             TestResultStatus.append("Fail")
 
         for ii in range(ForecastYear+1):
-            print(str(ii))
             print()
+            print(str(ii))
             if ii>0:
                 elements = driver.find_elements_by_xpath(
                     "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[1]/div[2]/div/div[3]/div/div[2]/div/div")
@@ -299,40 +298,40 @@ def test_Funds_Values(test_setup):
 
             Hyphen="_"
 
-            print(Label1)
-            print(String1)
+            # print(Label1)
+            # print(String1)
             String1 = String1.replace(" ", "")
             String1 = re.sub(r'[?|$|.|!|,|-]', r'', String1)
             if re.search(Hyphen, String1):
                 String1="0"
             String1Float = float(String1)
 
-            print(Label2)
-            print(String2)
+            # print(Label2)
+            # print(String2)
             String2 = String2.replace(" ", "")
             String2 = re.sub(r'[?|$|.|!|,|-]', r'', String2)
             if re.search(Hyphen, String2):
                 String2="0"
             String2Float = float(String2)
 
-            print(Label3)
-            print(String3)
+            # print(Label3)
+            # print(String3)
             String3 = String3.replace(" ", "")
             String3 = re.sub(r'[?|$|.|!|,|-]', r'', String3)
             if re.search(Hyphen, String3):
                 String3="0"
             String3Float = float(String3)
 
-            print(Label4)
-            print(String4)
+            # print(Label4)
+            # print(String4)
             String4 = String4.replace(" ", "")
             String4 = re.sub(r'[?|$|.|!|,|-]', r'', String4)
             if re.search(Hyphen, String4):
                 String4="0"
             String4Float = float(String4)
 
-            print(Label5)
-            print(String5)
+            # print(Label5)
+            # print(String5)
             String5 = String5.replace(" ", "")
             String5 = re.sub(r'[?|$|.|!|,|-]', r'', String5)
             if re.search(Hyphen, String5):
@@ -374,9 +373,9 @@ def test_Funds_Values(test_setup):
                     "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/span[3]").text
                 TotalFundsItems = FundsItems[-2] + FundsItems[-1]
                 TotalFundsItemsInt = int(TotalFundsItems)
-                print(str(TotalFundsItemsInt))
+                #print(str(TotalFundsItemsInt))
                 TotalFundsItemsInt = math.ceil(TotalFundsItemsInt / 7)
-                print(TotalFundsItemsInt)
+                print("Arrow should click for "+str(TotalFundsItemsInt-1))
 
                 for ii1 in range(TotalFundsItemsInt):
                     ii2 = 1
@@ -395,10 +394,13 @@ def test_Funds_Values(test_setup):
                                 pass
                             else:
                                 FundsNamesList.append(FundName)
+                                print(FundName)
                         except Exception:
                             pass
+                print("Funds iteration run for "+str(ii1))
                 print("Len of FundsNamesList " + str(len(FundsNamesList)))
-            except Exception:
+            except Exception as fe:
+                print(fe)
                 pass
 
         ElementName = "Next Arrow at Historical section"
@@ -444,7 +446,7 @@ def test_Funds_Values(test_setup):
         time.sleep(1)
 
 
-    #---------------------------Now fetching details for all Funds ----------------------------
+    #---------------------------Fetching details for all Funds ----------------------------
         for ii3 in range(len(FundsNamesList)):
             print()
             print()
@@ -469,18 +471,56 @@ def test_Funds_Values(test_setup):
 
             print(FundsNamesList[ii3])
             try:
-                button = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'"+FundsNamesList[ii3]+"')]")
-                driver.execute_script("arguments[0].click();", button)
-            except Exception:
-                time.sleep(7)
-                print("Inside Except ********************")
                 driver.find_element_by_xpath(
                     "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
                     FundsNamesList[ii3] + "')]").click()
-                # button = driver.find_element_by_xpath(
-                #     "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'"+FundsNamesList[ii3]+"')]")
-                # driver.execute_script("arguments[0].click();", button)
+            except Exception:
+                time.sleep(5)
+                print("Inside Except ********************")
+                try:
+                    time.sleep(3)
+                    driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
+                        FundsNamesList[ii3] + "')]").click()
+                except Exception:
+                    print("Clicked on next 1 funds icon")
+                    driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a").click()
+                    for iat12 in range(15):
+                        try:
+                            bool = driver.find_element_by_xpath(
+                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                            time.sleep(1)
+                        except Exception:
+                            break
+                    try:
+                        time.sleep(3)
+                        driver.find_element_by_xpath(
+                            "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
+                            FundsNamesList[ii3] + "')]").click()
+                    except Exception:
+                        print("Clicked on next 2 funds icon")
+                        driver.find_element_by_xpath(
+                            "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a").click()
+                        for iat13 in range(15):
+                            try:
+                                bool = driver.find_element_by_xpath(
+                                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                                time.sleep(1)
+                            except Exception:
+                                break
+                        time.sleep(3)
+                        try:
+                            buttonFundName = driver.find_element_by_xpath(
+                                "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
+                                FundsNamesList[ii3] + "')]")
+                            driver.execute_script("arguments[0].click();", buttonFundName)
+                        except Exception:
+                            print(FundsNamesList[ii3] +" Fund not able to find")
+                            TestResult.append(FundsNamesList[ii3] +" Fund not able to find")
+                            TestResultStatus.append("Fail")
+                            skip=1
+
+
             for iat9 in range(15):
                 try:
                     bool = driver.find_element_by_xpath(
@@ -490,44 +530,49 @@ def test_Funds_Values(test_setup):
                     break
             time.sleep(1)
 
-            button = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[1]/button")
-            driver.execute_script("arguments[0].click();", button)
-            for iat11 in range(15):
+            if skip==0:
                 try:
-                    bool = driver.find_element_by_xpath(
-                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                    time.sleep(1)
+                    driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[1]/button").click()
                 except Exception:
-                    break
-            Quarters=driver.find_elements_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div/div/div[2]/div[2]/div/div/table/tbody/tr/th/div/p/span/a/span")
-            print("Quarters rows " + str(len(Quarters)))
+                    time.sleep(7)
+                    driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[1]/button")
+                for iat11 in range(15):
+                    try:
+                        bool = driver.find_element_by_xpath(
+                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                        time.sleep(1)
+                    except Exception:
+                        break
+                Quarters=driver.find_elements_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div/div/div[2]/div[2]/div/div/table/tbody/tr/th/div/p/span/a/span")
+                #print("Quarters rows " + str(len(Quarters)))
 
-            for ii4 in range(1,len(Quarters)+1):
-                Period=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div/div/div[2]/div[2]/div/div/table/tbody/tr["+str(ii4)+"]/th/div/p/span/a").text
+                for ii4 in range(1,len(Quarters)+1):
+                    Period=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div/div/div[2]/div[2]/div/div/table/tbody/tr["+str(ii4)+"]/th/div/p/span/a").text
 
-                if "Unknown" in Period :
-                    pass
-                else:
-                    pass
-                print("Period " + Period)
-                BenNetProceeds_USD=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div/div/div[2]/div[2]/div/div/table/tbody/tr["+str(ii4)+"]/td[6]/div/p/span").text
-                print("BenNetProceeds_USD " + BenNetProceeds_USD)
-                BenNetProceeds_USD = BenNetProceeds_USD.replace(" ", "")
-                BenNetProceeds_USD = re.sub(r'[?|$|.|!|,|-]', r'', BenNetProceeds_USD)
-                if re.search(Hyphen, BenNetProceeds_USD):
-                    BenNetProceeds_USD = "0"
-                BenNetProceeds_USDFloat=float(BenNetProceeds_USD)
-                key=Period
-                if key in Dict2.keys():
-                    BenNetProceeds_USDFloat=Dict2.get(Period)+BenNetProceeds_USDFloat
-                Dict2[Period] = BenNetProceeds_USDFloat
+                    if "Unknown" in Period :
+                        pass
+                    else:
+                        pass
+                    print("Period " + Period)
+                    BenNetProceeds_USD=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div/div/div[2]/div[2]/div/div/table/tbody/tr["+str(ii4)+"]/td[6]/div/p/span").text
+                    print("BenNetProceeds_USD: " + BenNetProceeds_USD)
+                    BenNetProceeds_USD = BenNetProceeds_USD.replace(" ", "")
+                    BenNetProceeds_USD = re.sub(r'[?|$|.|!|,|-]', r'', BenNetProceeds_USD)
+                    if re.search(Hyphen, BenNetProceeds_USD):
+                        BenNetProceeds_USD = "0"
+                    BenNetProceeds_USDFloat=float(BenNetProceeds_USD)
+                    key=Period
+                    if key in Dict2.keys():
+                        BenNetProceeds_USDFloat=Dict2.get(Period)+BenNetProceeds_USDFloat
+                    Dict2[Period] = BenNetProceeds_USDFloat
 
             # --------------Navigating back to each fund--------------
+
             PageName = "Funds"
-            button = driver.find_element_by_xpath(
-                "//*[@title='" + PageName + "']")
-            driver.execute_script("arguments[0].click();", button)
+            driver.find_element_by_xpath("//*[@title='" + PageName + "']").click()
+            skip = 0
             try:
                 driver.switch_to_alert().accept()
             except Exception:
