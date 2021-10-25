@@ -75,7 +75,6 @@ def test_setup():
       driver.get("https://beneficienttest.appiancloud.com/suite/")
       enter_username("neeraj.kumar")
       enter_password("Crochet@786")
-      #driver.execute_script("document.body.style.zoom='80%'")
       button = driver.find_element_by_xpath("//input[@type='submit']")
       driver.execute_script("arguments[0].click();", button)
 
@@ -178,7 +177,7 @@ def test_setup():
                       checkcount1 = 1
       # -----------------------------------------------------------------------------
 
-      #driver.quit()
+      driver.quit()
 
 @pytest.mark.smoke
 def test_Funds_Values(test_setup):
@@ -519,7 +518,6 @@ def test_Funds_Values(test_setup):
                             TestResult.append(FundsNamesList[ii3] +" Fund not able to find")
                             TestResultStatus.append("Fail")
                             skip=1
-
 
             for iat9 in range(15):
                 try:
