@@ -518,7 +518,7 @@ def test_Funds_Values(test_setup):
                         except Exception:
                             break
                     try:
-                        time.sleep(3)
+                        time.sleep(4)
                         driver.find_element_by_xpath(
                             "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
                             FundsNamesList[ii3] + "')]").click()
