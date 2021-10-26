@@ -183,7 +183,7 @@ def test_setup():
 def test_Funds_Values(test_setup):
     if Exe == "Yes":
         ForecastYear=8
-        skip = 0
+        skip1 = 0
 
         PageName = "Funds"
         PageTitle = "Funds - BIDS"
@@ -223,6 +223,26 @@ def test_Funds_Values(test_setup):
                 break
 
         ElementName = "Forecast Dropdown"
+        try:
+            assert PageTitle in driver.title, PageName + " not able to open"
+            TestResult.append(ElementName + " clicked successfully")
+            TestResultStatus.append("Pass")
+        except Exception:
+            pass
+            TestResult.append(ElementName + " not able to click")
+            TestResultStatus.append("Fail")
+
+        ElementName = "Next Arrow at Historical section"
+        try:
+            assert PageTitle in driver.title, PageName + " not able to open"
+            TestResult.append(ElementName + " clicked successfully")
+            TestResultStatus.append("Pass")
+        except Exception:
+            pass
+            TestResult.append(ElementName + " not able to click")
+            TestResultStatus.append("Fail")
+
+        ElementName = "Period Dropdown"
         try:
             assert PageTitle in driver.title, PageName + " not able to open"
             TestResult.append(ElementName + " clicked successfully")
@@ -416,26 +436,6 @@ def test_Funds_Values(test_setup):
                 print(fe)
                 pass
 
-        ElementName = "Next Arrow at Historical section"
-        try:
-            assert PageTitle in driver.title, PageName + " not able to open"
-            TestResult.append(ElementName + " clicked successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            pass
-            TestResult.append(ElementName + " not able to click")
-            TestResultStatus.append("Fail")
-
-        ElementName = "Period Dropdown"
-        try:
-            assert PageTitle in driver.title, PageName + " not able to open"
-            TestResult.append(ElementName + " clicked successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            pass
-            TestResult.append(ElementName + " not able to click")
-            TestResultStatus.append("Fail")
-
         print("\n ********************printing Dictionary 1 : ***************************")
         print(Dict)
         # ---------------------------
@@ -543,7 +543,7 @@ def test_Funds_Values(test_setup):
                             print(FundsNamesList[ii3] +" Fund not able to find")
                             TestResult.append(FundsNamesList[ii3] +" Fund not able to find")
                             TestResultStatus.append("Fail")
-                            skip=1
+                            skip1=1
 
             for iat9 in range(15):
                 try:
@@ -554,7 +554,7 @@ def test_Funds_Values(test_setup):
                     break
             time.sleep(1)
 
-            if skip==0:
+            if skip1==0:
                 try:
                     driver.find_element_by_xpath(
                         "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[1]/button").click()
@@ -596,7 +596,7 @@ def test_Funds_Values(test_setup):
 
             PageName = "Funds"
             driver.find_element_by_xpath("//*[@title='" + PageName + "']").click()
-            skip = 0
+            skip1 = 0
             try:
                 driver.switch_to_alert().accept()
             except Exception:
