@@ -55,7 +55,7 @@ def test_setup():
   path = 'C:/BIDS/beneficienttest/Beneficient/test_Values_Check/'
 
   ExcelFileName = "Execution"
-  locx = (path+'/Executiondir/' + ExcelFileName + '.xlsx')
+  locx = (path+'Executiondir/' + ExcelFileName + '.xlsx')
   wbx = openpyxl.load_workbook(locx)
   sheetx = wbx.active
   for ix in range(1, 100):
@@ -234,7 +234,11 @@ def test_Funds_Values(test_setup):
 
         for ii in range(ForecastYear+1):
             print()
-            print(str(ii))
+            print("Iteration:   "+str(ii))
+            #---------------------------
+            TestResult.append("--------------Iteration---------------:   "+str(ii))
+            TestResultStatus.append("Pass")
+            #----------------------------
             if ii>0:
                 elements = driver.find_elements_by_xpath(
                     "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[1]/div[2]/div/div[3]/div/div[2]/div/div")
@@ -394,10 +398,20 @@ def test_Funds_Values(test_setup):
                             else:
                                 FundsNamesList.append(FundName)
                                 print(FundName)
+                                # ---------------------------
+                                TestResult.append(FundName)
+                                TestResultStatus.append("Pass")
+                                # ----------------------------
                         except Exception:
                             pass
+                print()
                 print("Funds iteration run for "+str(ii1))
                 print("Len of FundsNamesList " + str(len(FundsNamesList)))
+                # ---------------------------
+                TestResult.append("Total Funds to verify: " + str(len(FundsNamesList)))
+                TestResultStatus.append("Pass")
+                # ----------------------------
+
             except Exception as fe:
                 print(fe)
                 pass
@@ -424,6 +438,14 @@ def test_Funds_Values(test_setup):
 
         print("\n ********************printing Dictionary 1 : ***************************")
         print(Dict)
+        # ---------------------------
+        TestResult.append("Printing fetched Quarter values")
+        TestResultStatus.append("Pass")
+        # ----------------------------
+        # ---------------------------
+        TestResult.append(Dict)
+        TestResultStatus.append("Pass")
+        # ----------------------------
 
         #--------------Now working started to fetch Quarter values of each funds--------------
         PageName = "Funds"
@@ -469,6 +491,10 @@ def test_Funds_Values(test_setup):
                         break
 
             print(FundsNamesList[ii3])
+            # ---------------------------
+            TestResult.append(FundsNamesList[ii3])
+            TestResultStatus.append("Pass")
+            # ----------------------------
             try:
                 driver.find_element_by_xpath(
                     "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
@@ -585,6 +611,10 @@ def test_Funds_Values(test_setup):
                     break
         print("\n************ printing 2nd Dictionary : **************")
         print(Dict2)
+        # ---------------------------
+        TestResult.append(Dict2)
+        TestResultStatus.append("Pass")
+        # ----------------------------
 
         #***************Compare Dictionaries Data******************
 
@@ -614,6 +644,11 @@ def test_Funds_Values(test_setup):
                     print("Value matched for " + str(list1[ii12]))
                     print("Dict value is " + str(Dict.get(list1[ii12])))
                     print("Dict2 value is " + str(Dict2.get(list1[ii12])))
+
+                    # ---------------------------
+                    TestResult.append("Value matched for " + str(list1[ii12])+", Data 1 is " + str(Dict.get(list1[ii12]))+", Data 2 is " + str(Dict2.get(list1[ii12])))
+                    TestResultStatus.append("Pass")
+                    # ----------------------------
         except Exception as qa:
             print("jdbdksjdk")
             print(qa)

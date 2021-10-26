@@ -55,7 +55,7 @@ def test_setup():
   path = 'C:/BIDS/beneficienttest/Beneficient/test_Values_Check/'
 
   ExcelFileName = "Execution"
-  locx = (path+'/Executiondir/' + ExcelFileName + '.xlsx')
+  locx = (path+'Executiondir/' + ExcelFileName + '.xlsx')
   wbx = openpyxl.load_workbook(locx)
   sheetx = wbx.active
   for ix in range(1, 100):
@@ -208,7 +208,11 @@ def test_Funds_Values(test_setup):
 
         for ii in range(ForecastYear+1):
             print()
-            print(str(ii))
+            print("Iteration:   "+str(ii))
+            # ---------------------------
+            TestResult.append("--------------Iteration---------------:   " + str(ii))
+            TestResultStatus.append("Pass")
+            # ----------------------------
             if ii>0:
                 elements = driver.find_elements_by_xpath(
                     "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[1]/div[2]/div/div[3]/div/div[2]/div/div")
@@ -381,6 +385,7 @@ def test_Funds_Values(test_setup):
                                 print(FundName)
                         except Exception:
                             pass
+                print()
                 print("Funds iteration run for " + str(ii1))
                 print("Len of FundsNamesList " + str(len(FundsNamesList)))
             except Exception as fe:
