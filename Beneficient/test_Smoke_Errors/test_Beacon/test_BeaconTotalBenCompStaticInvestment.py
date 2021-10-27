@@ -382,8 +382,13 @@ def test_BeaconTotalBenCompStaticInvestment(test_setup):
                     #time.sleep(1)
                     break
 
-            TotalNAVforallinvestments_PerthisYear = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[5]/div/div/div/div[2]/div/div/div/div/div[2]/div[1]/div[2]/div/p").text
+            try:
+                TotalNAVforallinvestments_PerthisYear = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div[5]/div/div/div/div[2]/div/div/div/div/div[2]/div[1]/div[2]/div/p").text
+            except Exception:
+                time.sleep(7)
+                TotalNAVforallinvestments_PerthisYear = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div[5]/div/div/div/div[2]/div/div/div/div/div[2]/div[1]/div[2]/div/p").text
             print("TotalNAVforallinvestments_PerthisYear is " + TotalNAVforallinvestments_PerthisYear)
             TotalNAVforallinvestments_PerthisYearList.append(TotalNAVforallinvestments_PerthisYear)
             print("Inside List2 is " + TotalNAVforallinvestments_PerthisYearList[year1 - 1])
