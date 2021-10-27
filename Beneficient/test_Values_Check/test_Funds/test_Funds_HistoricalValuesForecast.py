@@ -321,8 +321,9 @@ def test_Funds_Values(test_setup):
 
             Hyphen="_"
 
-            # print(Label1)
-            # print(String1)
+            if ii>7:
+                print(Label1)
+                print(String1)
             String1 = String1.replace(" ", "")
             String1 = re.sub(r'[?|$|.|!|,|-]', r'', String1)
             if re.search(Hyphen, String1):
@@ -437,224 +438,235 @@ def test_Funds_Values(test_setup):
 
             except Exception as fe:
                 print(fe)
+                for ii4 in range(1, 8):
+                    try:
+                        FundName = driver.find_element_by_xpath(
+                            "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div[2]/div/div[1]/table/tbody/tr[" + str(
+                                ii4) + "]/td[1]/div/p/a").text
+                        if (FundName in FundsNamesList):
+                            pass
+                        else:
+                            FundsNamesList.append(FundName)
+                            print(FundName)
+                            if (len(FundsNamesList)) == TotalFundsItemsIntOriginal:
+                                break
+                            # ---------------------------
+                            TestResult.append(FundName)
+                            TestResultStatus.append("Pass")
+                            # ----------------------------
+                    except Exception:
+                        break
+                        pass
                 pass
 
         print("\n ********************printing Dictionary 1 : ***************************")
         print(Dict)
-        # ---------------------------
-        TestResult.append("Printing fetched Quarter values")
-        TestResultStatus.append("Pass")
-        # ----------------------------
-        # ---------------------------
-        # TestResult.append(Dict)
-        # TestResultStatus.append("Pass")
-        # ----------------------------
 
         #--------------Now working started to fetch Quarter values of each funds--------------
-        PageName = "Funds"
-        button = driver.find_element_by_xpath(
-            "//*[@title='" + PageName + "']")
-        driver.execute_script("arguments[0].click();", button)
-        try:
-            driver.switch_to_alert().accept()
-        except Exception:
-            pass
-        for iat5 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                time.sleep(1)
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
+        # PageName = "Funds"
+        # button = driver.find_element_by_xpath(
+        #     "//*[@title='" + PageName + "']")
+        # driver.execute_script("arguments[0].click();", button)
+        # try:
+        #     driver.switch_to_alert().accept()
+        # except Exception:
+        #     pass
+        # for iat5 in range(1000):
+        #     try:
+        #         bool = driver.find_element_by_xpath(
+        #             "//div[@id='appian-working-indicator-hidden']").is_enabled()
+        #         time.sleep(1)
+        #     except Exception:
+        #         time.sleep(1)
+        #         break
+        # time.sleep(1)
 
 
-    #---------------------------Fetching details for all Funds ----------------------------
-        for ii3 in range(len(FundsNamesList)):
-            print()
-            print()
-            print(str(ii3))
-            if ii3 ==5 or ii3 ==15 or ii3 ==30 or ii3 ==45 or ii3 ==60 or ii3 ==75 or ii3 ==90 or ii3 ==105:
-                #print("----------------***************"+str(ii3))
-                driver.delete_all_cookies()
-                time.sleep(5)
-                driver.get("https://beneficienttest.appiancloud.com/suite/")
-                driver.find_element_by_id("un").send_keys("neeraj.kumar")
-                driver.find_element_by_id("pw").send_keys("Crochet@786")
-                button = driver.find_element_by_xpath(
-                    "//input[@type='submit']")
-                driver.execute_script("arguments[0].click();", button)
-                for iat8 in range(1000):
-                    try:
-                        bool = driver.find_element_by_xpath(
-                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                        time.sleep(1)
-                    except Exception:
-                        break
-
-            print(FundsNamesList[ii3])
-            # ---------------------------
-            TestResult.append(FundsNamesList[ii3])
-            TestResultStatus.append("Pass")
-            # ----------------------------
-            try:
-                driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
-                    FundsNamesList[ii3] + "')]").click()
-            except Exception:
-                time.sleep(5)
-                print("Inside Except ********************")
-                try:
-                    time.sleep(3)
-                    driver.find_element_by_xpath(
-                        "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
-                        FundsNamesList[ii3] + "')]").click()
-                except Exception:
-                    print("Clicked on next 1 funds icon")
-                    driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a").click()
-                    for iat12 in range(15):
-                        try:
-                            bool = driver.find_element_by_xpath(
-                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                            time.sleep(1)
-                        except Exception:
-                            break
-                    try:
-                        time.sleep(4)
-                        driver.find_element_by_xpath(
-                            "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
-                            FundsNamesList[ii3] + "')]").click()
-                    except Exception:
-                        print("Clicked on next 2 funds icon")
-                        driver.find_element_by_xpath(
-                            "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a").click()
-                        for iat13 in range(15):
-                            try:
-                                bool = driver.find_element_by_xpath(
-                                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                                time.sleep(1)
-                            except Exception:
-                                break
-                        time.sleep(3)
-                        try:
-                            buttonFundName = driver.find_element_by_xpath(
-                                "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
-                                FundsNamesList[ii3] + "')]")
-                            driver.execute_script("arguments[0].click();", buttonFundName)
-                        except Exception:
-                            print(FundsNamesList[ii3] +" Fund not able to find")
-                            TestResult.append(FundsNamesList[ii3] +" Fund not able to find")
-                            TestResultStatus.append("Fail")
-                            skip1=1
-
-            for iat9 in range(15):
-                try:
-                    bool = driver.find_element_by_xpath(
-                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                    time.sleep(1)
-                except Exception:
-                    break
-            time.sleep(1)
-
-            if skip1==0:
-                try:
-                    driver.find_element_by_xpath(
-                        "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[1]/button").click()
-                except Exception:
-                    time.sleep(7)
-                    driver.find_element_by_xpath(
-                        "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[1]/button")
-                for iat11 in range(15):
-                    try:
-                        bool = driver.find_element_by_xpath(
-                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                        time.sleep(1)
-                    except Exception:
-                        break
-                Quarters=driver.find_elements_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div/div/div[2]/div[2]/div/div/table/tbody/tr/th/div/p/span/a/span")
-                #print("Quarters rows " + str(len(Quarters)))
-
-                for ii4 in range(1,len(Quarters)+1):
-                    Period=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div/div/div[2]/div[2]/div/div/table/tbody/tr["+str(ii4)+"]/th/div/p/span/a").text
-
-                    if "Unknown" in Period :
-                        pass
-                    else:
-                        pass
-                    print("Period " + Period)
-                    BenNetProceeds_USD=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div/div/div[2]/div[2]/div/div/table/tbody/tr["+str(ii4)+"]/td[6]/div/p/span").text
-                    print("BenNetProceeds_USD: " + BenNetProceeds_USD)
-                    BenNetProceeds_USD = BenNetProceeds_USD.replace(" ", "")
-                    BenNetProceeds_USD = re.sub(r'[?|$|.|!|,]', r'', BenNetProceeds_USD)
-                    if re.search(Hyphen, BenNetProceeds_USD):
-                        BenNetProceeds_USD = "0"
-                    BenNetProceeds_USDFloat=float(BenNetProceeds_USD)
-                    key=Period
-                    if key in Dict2.keys():
-                        BenNetProceeds_USDFloat=Dict2.get(Period)+BenNetProceeds_USDFloat
-                    Dict2[Period] = BenNetProceeds_USDFloat
-
-            # --------------Navigating back to each fund--------------
-
-            PageName = "Funds"
-            driver.find_element_by_xpath("//*[@title='" + PageName + "']").click()
-            skip1 = 0
-            try:
-                driver.switch_to_alert().accept()
-            except Exception:
-                pass
-            for iat6 in range(15):
-                try:
-                    bool = driver.find_element_by_xpath(
-                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                    time.sleep(1)
-                except Exception:
-                    #time.sleep(1)
-                    break
-        print("\n************ printing 2nd Dictionary : **************")
-        print(Dict2)
-        # ---------------------------
-        # TestResult.append(Dict2)
-        # TestResultStatus.append("Pass")
-        # ----------------------------
-
-        #***************Compare Dictionaries Data******************
-
-        list1 = []
-        test = Dict.keys()
-        list1 = list(test)
-
-        print("Elements of the List:\n")
-        for x in list1:
-            print(x)
-
-        try:
-            for ii12 in range (len(list1)+1):
-                print()
-                if Dict2.get(list1[ii12]) == None:
-                    print("None found------")
-                    Dict2[list1[ii12]] = float("0")
-
-                if Dict.get(list1[ii12]) != Dict2.get(list1[ii12]):
-                    print("Value does not match for " + str(list1[ii12]))
-                    print("Dict value is " + str(Dict.get(list1[ii12])))
-                    print("Dict2 value is " + str(Dict2.get(list1[ii12])))
-
-                    TestResult.append("Value for "+str(list1[ii12])+" does not match, " +"Value at Historical section is "+str(Dict.get(list1[ii12]))+" and at Funds level is "+ str(Dict2.get(list1[ii12])))
-                    TestResultStatus.append("Fail")
-                else:
-                    print("Value matched for " + str(list1[ii12]))
-                    print("Dict value is " + str(Dict.get(list1[ii12])))
-                    print("Dict2 value is " + str(Dict2.get(list1[ii12])))
-
-                    # ---------------------------
-                    TestResult.append("Value matched for " + str(list1[ii12])+", Data 1 is " + str(Dict.get(list1[ii12]))+", Data 2 is " + str(Dict2.get(list1[ii12])))
-                    TestResultStatus.append("Pass")
-                    # ----------------------------
-        except Exception as qa:
-            print("jdbdksjdk")
-            print(qa)
+    # #---------------------------Fetching details for all Funds ----------------------------
+    #     for ii3 in range(len(FundsNamesList)):
+    #         print()
+    #         print()
+    #         print(str(ii3))
+    #         if ii3 ==5 or ii3 ==15 or ii3 ==30 or ii3 ==45 or ii3 ==60 or ii3 ==75 or ii3 ==90 or ii3 ==105:
+    #             #print("----------------***************"+str(ii3))
+    #             driver.delete_all_cookies()
+    #             time.sleep(5)
+    #             driver.get("https://beneficienttest.appiancloud.com/suite/")
+    #             driver.find_element_by_id("un").send_keys("neeraj.kumar")
+    #             driver.find_element_by_id("pw").send_keys("Crochet@786")
+    #             button = driver.find_element_by_xpath(
+    #                 "//input[@type='submit']")
+    #             driver.execute_script("arguments[0].click();", button)
+    #             for iat8 in range(1000):
+    #                 try:
+    #                     bool = driver.find_element_by_xpath(
+    #                         "//div[@id='appian-working-indicator-hidden']").is_enabled()
+    #                     time.sleep(1)
+    #                 except Exception:
+    #                     break
+    #
+    #         print(FundsNamesList[ii3])
+    #         # ---------------------------
+    #         TestResult.append(FundsNamesList[ii3])
+    #         TestResultStatus.append("Pass")
+    #         # ----------------------------
+    #         try:
+    #             driver.find_element_by_xpath(
+    #                 "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
+    #                 FundsNamesList[ii3] + "')]").click()
+    #         except Exception:
+    #             time.sleep(5)
+    #             print("Inside Except ********************")
+    #             try:
+    #                 time.sleep(3)
+    #                 driver.find_element_by_xpath(
+    #                     "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
+    #                     FundsNamesList[ii3] + "')]").click()
+    #             except Exception:
+    #                 print("Clicked on next 1 funds icon")
+    #                 driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a").click()
+    #                 for iat12 in range(15):
+    #                     try:
+    #                         bool = driver.find_element_by_xpath(
+    #                             "//div[@id='appian-working-indicator-hidden']").is_enabled()
+    #                         time.sleep(1)
+    #                     except Exception:
+    #                         break
+    #                 try:
+    #                     time.sleep(4)
+    #                     driver.find_element_by_xpath(
+    #                         "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
+    #                         FundsNamesList[ii3] + "')]").click()
+    #                 except Exception:
+    #                     print("Clicked on next 2 funds icon")
+    #                     driver.find_element_by_xpath(
+    #                         "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a").click()
+    #                     for iat13 in range(15):
+    #                         try:
+    #                             bool = driver.find_element_by_xpath(
+    #                                 "//div[@id='appian-working-indicator-hidden']").is_enabled()
+    #                             time.sleep(1)
+    #                         except Exception:
+    #                             break
+    #                     time.sleep(3)
+    #                     try:
+    #                         buttonFundName = driver.find_element_by_xpath(
+    #                             "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
+    #                             FundsNamesList[ii3] + "')]")
+    #                         driver.execute_script("arguments[0].click();", buttonFundName)
+    #                     except Exception:
+    #                         print(FundsNamesList[ii3] +" Fund not able to find")
+    #                         TestResult.append(FundsNamesList[ii3] +" Fund not able to find")
+    #                         TestResultStatus.append("Fail")
+    #                         skip1=1
+    #
+    #         for iat9 in range(15):
+    #             try:
+    #                 bool = driver.find_element_by_xpath(
+    #                     "//div[@id='appian-working-indicator-hidden']").is_enabled()
+    #                 time.sleep(1)
+    #             except Exception:
+    #                 break
+    #         time.sleep(1)
+    #
+    #         if skip1==0:
+    #             try:
+    #                 driver.find_element_by_xpath(
+    #                     "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[1]/button").click()
+    #             except Exception:
+    #                 time.sleep(7)
+    #                 driver.find_element_by_xpath(
+    #                     "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[1]/button")
+    #             for iat11 in range(15):
+    #                 try:
+    #                     bool = driver.find_element_by_xpath(
+    #                         "//div[@id='appian-working-indicator-hidden']").is_enabled()
+    #                     time.sleep(1)
+    #                 except Exception:
+    #                     break
+    #             Quarters=driver.find_elements_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div/div/div[2]/div[2]/div/div/table/tbody/tr/th/div/p/span/a/span")
+    #             #print("Quarters rows " + str(len(Quarters)))
+    #
+    #             for ii4 in range(1,len(Quarters)+1):
+    #                 Period=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div/div/div[2]/div[2]/div/div/table/tbody/tr["+str(ii4)+"]/th/div/p/span/a").text
+    #
+    #                 if "Unknown" in Period :
+    #                     pass
+    #                 else:
+    #                     pass
+    #                 print("Period " + Period)
+    #                 BenNetProceeds_USD=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div/div/div[2]/div[2]/div/div/table/tbody/tr["+str(ii4)+"]/td[6]/div/p/span").text
+    #                 print("BenNetProceeds_USD: " + BenNetProceeds_USD)
+    #                 BenNetProceeds_USD = BenNetProceeds_USD.replace(" ", "")
+    #                 BenNetProceeds_USD = re.sub(r'[?|$|.|!|,]', r'', BenNetProceeds_USD)
+    #                 if re.search(Hyphen, BenNetProceeds_USD):
+    #                     BenNetProceeds_USD = "0"
+    #                 BenNetProceeds_USDFloat=float(BenNetProceeds_USD)
+    #                 key=Period
+    #                 if key in Dict2.keys():
+    #                     BenNetProceeds_USDFloat=Dict2.get(Period)+BenNetProceeds_USDFloat
+    #                 Dict2[Period] = BenNetProceeds_USDFloat
+    #
+    #         # --------------Navigating back to each fund--------------
+    #
+    #         PageName = "Funds"
+    #         driver.find_element_by_xpath("//*[@title='" + PageName + "']").click()
+    #         skip1 = 0
+    #         try:
+    #             driver.switch_to_alert().accept()
+    #         except Exception:
+    #             pass
+    #         for iat6 in range(15):
+    #             try:
+    #                 bool = driver.find_element_by_xpath(
+    #                     "//div[@id='appian-working-indicator-hidden']").is_enabled()
+    #                 time.sleep(1)
+    #             except Exception:
+    #                 #time.sleep(1)
+    #                 break
+    #     print("\n************ printing 2nd Dictionary : **************")
+    #     print(Dict2)
+    #     # ---------------------------
+    #     # TestResult.append(Dict2)
+    #     # TestResultStatus.append("Pass")
+    #     # ----------------------------
+    #
+    #     #***************Compare Dictionaries Data******************
+    #
+    #     list1 = []
+    #     test = Dict.keys()
+    #     list1 = list(test)
+    #
+    #     print("Elements of the List:\n")
+    #     for x in list1:
+    #         print(x)
+    #
+    #     try:
+    #         for ii12 in range (len(list1)+1):
+    #             print()
+    #             if Dict2.get(list1[ii12]) == None:
+    #                 print("None found------")
+    #                 Dict2[list1[ii12]] = float("0")
+    #
+    #             if Dict.get(list1[ii12]) != Dict2.get(list1[ii12]):
+    #                 print("Value does not match for " + str(list1[ii12]))
+    #                 print("Dict value is " + str(Dict.get(list1[ii12])))
+    #                 print("Dict2 value is " + str(Dict2.get(list1[ii12])))
+    #
+    #                 TestResult.append("Value for "+str(list1[ii12])+" does not match, " +"Value at Historical section is "+str(Dict.get(list1[ii12]))+" and at Funds level is "+ str(Dict2.get(list1[ii12])))
+    #                 TestResultStatus.append("Fail")
+    #             else:
+    #                 print("Value matched for " + str(list1[ii12]))
+    #                 print("Dict value is " + str(Dict.get(list1[ii12])))
+    #                 print("Dict2 value is " + str(Dict2.get(list1[ii12])))
+    #
+    #                 # ---------------------------
+    #                 TestResult.append("Value matched for " + str(list1[ii12])+", Data 1 is " + str(Dict.get(list1[ii12]))+", Data 2 is " + str(Dict2.get(list1[ii12])))
+    #                 TestResultStatus.append("Pass")
+    #                 # ----------------------------
+    #     except Exception as qa:
+    #         print("jdbdksjdk")
+    #         print(qa)
 
 
     else:
