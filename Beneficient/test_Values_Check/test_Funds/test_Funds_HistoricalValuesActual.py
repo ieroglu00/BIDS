@@ -230,10 +230,6 @@ def test_Funds_Values(test_setup):
         for ii in range(ForecastYear+1):
             print()
             print("Iteration:   "+str(ii))
-            # ---------------------------
-            TestResult.append("--------------Iteration---------------: " + str(ii))
-            TestResultStatus.append("Pass")
-            # ----------------------------
             if ii>0:
                 elements = driver.find_elements_by_xpath(
                     "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[1]/div[2]/div/div[3]/div/div[2]/div/div")
@@ -380,19 +376,21 @@ def test_Funds_Values(test_setup):
             try:
                 FundsItems = driver.find_element_by_xpath(
                     "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/span[3]").text
-                TotalFundsItems = FundsItems[-2] + FundsItems[-1]
+                TotalFundsItems =FundsItems[-3] + FundsItems[-2] + FundsItems[-1]
+                TotalFundsItems=TotalFundsItems.replace(" ", "")
                 TotalFundsItemsInt = int(TotalFundsItems)
-                #print(str(TotalFundsItemsInt))
+                TotalFundsItemsIntOriginal = int(TotalFundsItems)
                 TotalFundsItemsInt = math.ceil(TotalFundsItemsInt / 7)
-                print("Arrow should click for "+str(TotalFundsItemsInt-1))
+                print("-------Arrow should click for "+str(TotalFundsItemsInt-1))
 
                 for ii1 in range(TotalFundsItemsInt):
+                    print("------TotalFundsItemsInt ii1 "+str(ii1))
                     ii2 = 1
                     if ii1 > 0:
                         button = driver.find_element_by_xpath(
                             "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/span[4]/a[1]/i")
                         driver.execute_script("arguments[0].click();", button)
-                        time.sleep(5)
+                        time.sleep(4)
 
                     for ii2 in range(1, 8):
                         try:
@@ -404,7 +402,10 @@ def test_Funds_Values(test_setup):
                             else:
                                 FundsNamesList.append(FundName)
                                 print(FundName)
-                        except Exception:
+                                if (len(FundsNamesList))==TotalFundsItemsIntOriginal:
+                                    break
+                        except Exception as rep:
+                            print(rep)
                             pass
                 print()
                 print("Funds iteration run for " + str(ii1))
@@ -523,7 +524,7 @@ def test_Funds_Values(test_setup):
                 except Exception:
                     time.sleep(7)
                     driver.find_element_by_xpath(
-                        "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[2]/button")
+                        "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[2]/button").click()
                 for iat11 in range(15):
                     try:
                         bool = driver.find_element_by_xpath(
@@ -535,7 +536,7 @@ def test_Funds_Values(test_setup):
                 print("Quarters rows " + str(len(Quarters)))
 
                 for ii4 in range(1,len(Quarters)+1):
-                    Period=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div/div/table/tbody/tr["+str(ii4)+"]/td/div/p/span/a/span").text
+                    Period=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div/div/table/tbody/tr["+str(ii4)+"]/td/div/p/span/a").text
 
                     if "Unknown" in Period :
                         pass
@@ -544,8 +545,12 @@ def test_Funds_Values(test_setup):
                     print("Period " + Period)
                     BenNetProceeds_USD=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div/div/table/tbody/tr["+str(ii4)+"]/td[6]/div/p/span").text
                     print("BenNetProceeds_USD " + BenNetProceeds_USD)
+                    if re.search(Hyphen, BenNetProceeds_USD):
+                        BenNetProceeds_USD = driver.find_element_by_xpath(
+                            "//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div/div/table/tbody/tr[" + str(
+                                ii4) + "]/td[5]/div/p/span").text
                     BenNetProceeds_USD = BenNetProceeds_USD.replace(" ", "")
-                    BenNetProceeds_USD = re.sub(r'[?|$|.|!|,|-]', r'', BenNetProceeds_USD)
+                    BenNetProceeds_USD = re.sub(r'[?|$|.|!|,]', r'', BenNetProceeds_USD)
                     if re.search(Hyphen, BenNetProceeds_USD):
                         BenNetProceeds_USD = "0"
                     BenNetProceeds_USDFloat=float(BenNetProceeds_USD)

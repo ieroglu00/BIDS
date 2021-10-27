@@ -394,9 +394,10 @@ def test_Funds_Values(test_setup):
             try:
                 FundsItems = driver.find_element_by_xpath(
                     "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/span[3]").text
-                TotalFundsItems = FundsItems[-2] + FundsItems[-1]
+                TotalFundsItems = FundsItems[-3] + FundsItems[-2] + FundsItems[-1]
+                TotalFundsItems=TotalFundsItems.replace(" ", "")
                 TotalFundsItemsInt = int(TotalFundsItems)
-                #print(str(TotalFundsItemsInt))
+                TotalFundsItemsIntOriginal = int(TotalFundsItems)
                 TotalFundsItemsInt = math.ceil(TotalFundsItemsInt / 7)
                 print("Arrow should click for "+str(TotalFundsItemsInt-1))
 
@@ -418,6 +419,8 @@ def test_Funds_Values(test_setup):
                             else:
                                 FundsNamesList.append(FundName)
                                 print(FundName)
+                                if (len(FundsNamesList))==TotalFundsItemsIntOriginal:
+                                    break
                                 # ---------------------------
                                 TestResult.append(FundName)
                                 TestResultStatus.append("Pass")
@@ -443,8 +446,8 @@ def test_Funds_Values(test_setup):
         TestResultStatus.append("Pass")
         # ----------------------------
         # ---------------------------
-        TestResult.append(Dict)
-        TestResultStatus.append("Pass")
+        # TestResult.append(Dict)
+        # TestResultStatus.append("Pass")
         # ----------------------------
 
         #--------------Now working started to fetch Quarter values of each funds--------------
@@ -583,7 +586,7 @@ def test_Funds_Values(test_setup):
                     BenNetProceeds_USD=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div/div/div[2]/div[2]/div/div/table/tbody/tr["+str(ii4)+"]/td[6]/div/p/span").text
                     print("BenNetProceeds_USD: " + BenNetProceeds_USD)
                     BenNetProceeds_USD = BenNetProceeds_USD.replace(" ", "")
-                    BenNetProceeds_USD = re.sub(r'[?|$|.|!|,|-]', r'', BenNetProceeds_USD)
+                    BenNetProceeds_USD = re.sub(r'[?|$|.|!|,]', r'', BenNetProceeds_USD)
                     if re.search(Hyphen, BenNetProceeds_USD):
                         BenNetProceeds_USD = "0"
                     BenNetProceeds_USDFloat=float(BenNetProceeds_USD)
@@ -612,8 +615,8 @@ def test_Funds_Values(test_setup):
         print("\n************ printing 2nd Dictionary : **************")
         print(Dict2)
         # ---------------------------
-        TestResult.append(Dict2)
-        TestResultStatus.append("Pass")
+        # TestResult.append(Dict2)
+        # TestResultStatus.append("Pass")
         # ----------------------------
 
         #***************Compare Dictionaries Data******************
