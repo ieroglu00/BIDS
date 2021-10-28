@@ -89,6 +89,7 @@ def test_setup():
               self.image(path+'EmailReportContent/Ben.png', 10, 8, 33)
               self.set_font('Arial', 'B', 15)
               self.cell(73)
+              self.set_text_color(0, 0, 0)
               self.cell(35, 10, ' Test Report ', 1, 1, 'B')
               self.set_font('Arial', 'I', 10)
               self.cell(150)
@@ -648,7 +649,7 @@ def test_Funds_Values(test_setup):
                     print("None found------")
                     Dict2[list1[ii12]] = float("0")
 
-                if Dict.get(list1[ii12]) != Dict2.get(list1[ii12]):
+                if Dict.get(list1[ii12]) - Dict2.get(list1[ii12])>1 or Dict.get(list1[ii12]) - Dict2.get(list1[ii12])<1:
                     print("Value does not match for " + str(list1[ii12]))
                     print("Dict value is " + str(Dict.get(list1[ii12])))
                     print("Dict2 value is " + str(Dict2.get(list1[ii12])))
