@@ -405,14 +405,42 @@ def test_Funds_Values(test_setup):
                                 print(FundName)
                                 if (len(FundsNamesList))==TotalFundsItemsIntOriginal:
                                     break
+                                # ---------------------------
+                                TestResult.append(FundName)
+                                TestResultStatus.append("Pass")
+                                # ----------------------------
                         except Exception as rep:
-                            print(rep)
+                            #print(rep)
                             pass
                 print()
                 print("Funds iteration run for " + str(ii1))
                 print("Len of FundsNamesList " + str(len(FundsNamesList)))
+                # ---------------------------
+                TestResult.append("Total Funds to verify: " + str(len(FundsNamesList)))
+                TestResultStatus.append("Pass")
+                # ----------------------------
+
             except Exception as fe:
                 print(fe)
+                for ii4 in range(1, 8):
+                    try:
+                        FundName = driver.find_element_by_xpath(
+                            "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div[2]/div/div[1]/table/tbody/tr[" + str(
+                                ii4) + "]/td[1]/div/p/a").text
+                        if (FundName in FundsNamesList):
+                            pass
+                        else:
+                            FundsNamesList.append(FundName)
+                            print(FundName)
+                            if (len(FundsNamesList)) == TotalFundsItemsIntOriginal:
+                                break
+                            # ---------------------------
+                            TestResult.append(FundName)
+                            TestResultStatus.append("Pass")
+                            # ----------------------------
+                    except Exception:
+                        break
+                        pass
                 pass
 
         print("\n ********************printing Dictionary 1 : ***************************")
@@ -461,6 +489,10 @@ def test_Funds_Values(test_setup):
                         break
 
             print(FundsNamesList[ii3])
+            # ---------------------------
+            TestResult.append(FundsNamesList[ii3])
+            TestResultStatus.append("Pass")
+            # ----------------------------
             try:
                 driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'"+FundsNamesList[ii3]+"')]").click()
             except Exception:
@@ -596,17 +628,43 @@ def test_Funds_Values(test_setup):
                     print("None found------")
                     Dict2[list1[ii12]] = float("0")
 
-                if Dict.get(list1[ii12]) != Dict2.get(list1[ii12]):
+                if Dict.get(list1[ii12]) - Dict2.get(list1[ii12])>1 or Dict.get(list1[ii12]) - Dict2.get(list1[ii12])<-1:
                     print("Value does not match for " + str(list1[ii12]))
                     print("Dict value is " + str(Dict.get(list1[ii12])))
                     print("Dict2 value is " + str(Dict2.get(list1[ii12])))
 
                     TestResult.append("Value for "+str(list1[ii12])+" does not match, " +"Value at Historical section is "+str(Dict.get(list1[ii12]))+" and at Funds level is "+ str(Dict2.get(list1[ii12])))
                     TestResultStatus.append("Fail")
-                else:
+
+                elif Dict.get(list1[ii12]) - Dict2.get(list1[ii12])==1:
+                    print("Value matched for " + str(list1[ii12]))
+                    print("Dict value is " + str(Dict.get(list1[ii12])))
+                    print("Dict2 value is " + str(Dict2.get(list1[ii12])+1))
+                    # ---------------------------
+                    TestResult.append("Value matched for " + str(list1[ii12])+", Data 1 is " + str(Dict.get(list1[ii12]))+", Data 2 is " + str(Dict2.get(list1[ii12])+1))
+                    TestResultStatus.append("Pass")
+                    # ----------------------------
+
+                elif Dict.get(list1[ii12]) - Dict2.get(list1[ii12])==-1:
+                    print("Value matched for " + str(list1[ii12]))
+                    print("Dict value is " + str(Dict.get(list1[ii12])+1))
+                    print("Dict2 value is " + str(Dict2.get(list1[ii12])))
+                    # ---------------------------
+                    TestResult.append("Value matched for " + str(list1[ii12]) + ", Data 1 is " + str(
+                        Dict.get(list1[ii12])+1) + ", Data 2 is " + str(Dict2.get(list1[ii12])))
+                    TestResultStatus.append("Pass")
+                    # ----------------------------
+
+                elif Dict.get(list1[ii12]) - Dict2.get(list1[ii12])==0:
                     print("Value matched for " + str(list1[ii12]))
                     print("Dict value is " + str(Dict.get(list1[ii12])))
                     print("Dict2 value is " + str(Dict2.get(list1[ii12])))
+                    # ---------------------------
+                    TestResult.append("Value matched for " + str(list1[ii12]) + ", Data 1 is " + str(
+                        Dict.get(list1[ii12])) + ", Data 2 is " + str(Dict2.get(list1[ii12])))
+                    TestResultStatus.append("Pass")
+                    # ----------------------------
+
         except Exception as qa:
             print("jdbdksjdk")
             print(qa)

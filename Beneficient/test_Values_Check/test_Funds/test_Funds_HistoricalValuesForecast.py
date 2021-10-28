@@ -649,22 +649,43 @@ def test_Funds_Values(test_setup):
                     print("None found------")
                     Dict2[list1[ii12]] = float("0")
 
-                if Dict.get(list1[ii12]) - Dict2.get(list1[ii12])>1 or Dict.get(list1[ii12]) - Dict2.get(list1[ii12])<1:
+                if Dict.get(list1[ii12]) - Dict2.get(list1[ii12])>1 or Dict.get(list1[ii12]) - Dict2.get(list1[ii12])<-1:
                     print("Value does not match for " + str(list1[ii12]))
                     print("Dict value is " + str(Dict.get(list1[ii12])))
                     print("Dict2 value is " + str(Dict2.get(list1[ii12])))
 
                     TestResult.append("Value for "+str(list1[ii12])+" does not match, " +"Value at Historical section is "+str(Dict.get(list1[ii12]))+" and at Funds level is "+ str(Dict2.get(list1[ii12])))
                     TestResultStatus.append("Fail")
-                else:
+
+                elif Dict.get(list1[ii12]) - Dict2.get(list1[ii12])==1:
+                    print("Value matched for " + str(list1[ii12]))
+                    print("Dict value is " + str(Dict.get(list1[ii12])))
+                    print("Dict2 value is " + str(Dict2.get(list1[ii12])+1))
+                    # ---------------------------
+                    TestResult.append("Value matched for " + str(list1[ii12])+", Data 1 is " + str(Dict.get(list1[ii12]))+", Data 2 is " + str(Dict2.get(list1[ii12])+1))
+                    TestResultStatus.append("Pass")
+                    # ----------------------------
+
+                elif Dict.get(list1[ii12]) - Dict2.get(list1[ii12])==-1:
+                    print("Value matched for " + str(list1[ii12]))
+                    print("Dict value is " + str(Dict.get(list1[ii12])+1))
+                    print("Dict2 value is " + str(Dict2.get(list1[ii12])))
+                    # ---------------------------
+                    TestResult.append("Value matched for " + str(list1[ii12]) + ", Data 1 is " + str(
+                        Dict.get(list1[ii12])+1) + ", Data 2 is " + str(Dict2.get(list1[ii12])))
+                    TestResultStatus.append("Pass")
+                    # ----------------------------
+
+                elif Dict.get(list1[ii12]) - Dict2.get(list1[ii12])==0:
                     print("Value matched for " + str(list1[ii12]))
                     print("Dict value is " + str(Dict.get(list1[ii12])))
                     print("Dict2 value is " + str(Dict2.get(list1[ii12])))
-
                     # ---------------------------
-                    TestResult.append("Value matched for " + str(list1[ii12])+", Data 1 is " + str(Dict.get(list1[ii12]))+", Data 2 is " + str(Dict2.get(list1[ii12])))
+                    TestResult.append("Value matched for " + str(list1[ii12]) + ", Data 1 is " + str(
+                        Dict.get(list1[ii12])) + ", Data 2 is " + str(Dict2.get(list1[ii12])))
                     TestResultStatus.append("Pass")
                     # ----------------------------
+
         except Exception as qa:
             print("jdbdksjdk")
             print(qa)
