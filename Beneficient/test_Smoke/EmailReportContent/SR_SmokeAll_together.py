@@ -128,16 +128,16 @@ def test_ReportSendSmokeAll():
     #-----------------------------------------------------------------------
 
     #-----------------To delete pdf report files----------------------------
-    # ii=0
-    # for ii in range(0,len(PDFName1)):
-    #     print()
-    #     try:
-    #         os.remove('C:/BIDS/beneficienttest/Beneficient/test_Smoke/'+PDFName1[ii])
-    #     except Exception:
-    #         print("No Attachment found to delete")
-    # try:
-    #     os.remove('C:/BIDS/beneficienttest/Beneficient/test_Smoke/TestPieResult.png')
-    # except Exception:
-    #     print("No Attachment found to delete")
+    ii=0
+    for ii in range(0,len(PDFName1)):
+        print()
+        try:
+            os.remove('C:/BIDS/beneficienttest/Beneficient/test_Smoke/'+PDFName1[ii])
+        except Exception:
+            print("No Attachment found to delete")
+    try:
+        os.remove('C:/BIDS/beneficienttest/Beneficient/test_Smoke/TestPieResult.png')
+    except Exception:
+        print("No Attachment found to delete")
     #-----------------------------------------------------------------------
     server.quit()
