@@ -75,7 +75,7 @@ def test_ReportSendSmokeAll():
     email_from = 'Test Automation Team'
     email_to =['erin.Twiss@beneficient.com','neeraj.kumar@crochetech.com','srinath.jandhyala@beneficient.com','gregory.bybee@beneficient.com','olufunke.okeni@beneficient.com']
     SenderEmail="neeraj.kumar@bitsinglass.com"
-    SenderPassword="Motorola@408"
+    SenderPassword="MotoCrochet@786"
 
     date_str = pd.Timestamp.today().strftime('%m-%d-%Y')
     msg = MIMEMultipart()
