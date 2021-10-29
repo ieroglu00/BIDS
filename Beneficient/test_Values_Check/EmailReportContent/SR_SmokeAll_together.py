@@ -49,7 +49,7 @@ def test_ReportSendValuesCheck():
     html = '''
         <html>
             <body>
-                <p>Hi Team <br />Here is the test summary report of Smoke Test 3 (To verify Historical Net Cash Flows and Liquidity Projections by Fund [FORECAST] ) <br />Below test scenarios are covered </p>
+                <p>Hi Team <br />Here is the test summary report of Smoke Test 3 ( To verify Historical Net Cash Flows and Liquidity Projections by Fund [FORECAST] and [ACTUAL] ) <br />Below test scenarios are covered </p>
                 <p></p>
                 <p>'''+B+'''</p
                 <p></p>
