@@ -36,11 +36,11 @@ def test_PieChartTestResult():
     print("SkippedCountPer"+ str(SkippedCountPer))
 
     y = np.array([PassCountPer, FailCountPer, SkippedCountPer])
-    mylabels = ["Pass", "Fail", "Skipped"]
+    mylabels = ["Pass "+str(PassCount), "Fail "+str(FailCount), "Skipped "+str(SkippedCount)]
     mycolors = ["Green", "Red", "Grey"]
     plt.pie(y, labels=mylabels, startangle=90, colors=mycolors)
     plt.legend(title="Testing Suite "
-                     "Status:")
+                     "Status: "+str((PassCount+FailCount+SkippedCount)))
     plt.savefig(path+'/TestPieResult.png', format='png', dpi=300)
 
     #-----------------------------------------------------------------------
