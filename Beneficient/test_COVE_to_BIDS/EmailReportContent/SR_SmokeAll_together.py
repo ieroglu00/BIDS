@@ -74,7 +74,7 @@ def test_ReportSendSmokeAll():
         msg.attach(file_attachment)
 
     email_from = 'Test Automation Team'
-    email_to =['neeraj.kumar@crochetech.com']
+    email_to =['erin.Twiss@beneficient.com','neeraj.kumar@crochetech.com','srinath.jandhyala@beneficient.com','gregory.bybee@beneficient.com','olufunke.okeni@beneficient.com']
     SenderEmail="neeraj.kumar@bitsinglass.com"
     SenderPassword="MotoCrochet@786"
 
