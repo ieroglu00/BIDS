@@ -529,17 +529,33 @@ def test_Funds_Values(test_setup):
                                 time.sleep(1)
                             except Exception:
                                 break
-                        time.sleep(3)
                         try:
-                            buttonFundName = driver.find_element_by_xpath(
+                            time.sleep(5)
+                            driver.find_element_by_xpath(
                                 "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
-                                FundsNamesList[ii3] + "')]")
-                            driver.execute_script("arguments[0].click();", buttonFundName)
+                                FundsNamesList[ii3] + "')]").click()
                         except Exception:
-                            print(FundsNamesList[ii3] +" Fund not able to find")
-                            TestResult.append(FundsNamesList[ii3] +" Fund not able to find")
-                            TestResultStatus.append("Fail")
-                            skip1=1
+                            print("Clicked on next 3 funds icon")
+                            driver.find_element_by_xpath(
+                                "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a").click()
+                            for iat14 in range(15):
+                                try:
+                                    bool = driver.find_element_by_xpath(
+                                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                                    time.sleep(1)
+                                except Exception:
+                                    break
+                            try:
+                                time.sleep(3)
+                                buttonFundName = driver.find_element_by_xpath(
+                                    "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
+                                    FundsNamesList[ii3] + "')]")
+                                driver.execute_script("arguments[0].click();", buttonFundName)
+                            except Exception:
+                                print(FundsNamesList[ii3] +" Fund not able to find")
+                                TestResult.append(FundsNamesList[ii3] +" Fund not able to find")
+                                TestResultStatus.append("Fail")
+                                skip1=1
 
             for iat9 in range(15):
                 try:
