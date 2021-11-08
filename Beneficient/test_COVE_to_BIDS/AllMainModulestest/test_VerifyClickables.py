@@ -1,10 +1,17 @@
 import datetime
 import time
+from telnetlib import EC
+
 import openpyxl
 from fpdf import FPDF
 import pytest
 from selenium import webdriver
 import allure
+from selenium.webdriver import ActionChains
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.wait import WebDriverWait
+
 
 @allure.step("Entering username ")
 def enter_username(username):
@@ -70,6 +77,7 @@ def test_setup():
               self.image(path+'EmailReportContent/Ben.png', 10, 8, 33)
               self.set_font('Arial', 'B', 15)
               self.cell(73)
+              self.set_text_color(0, 0, 0)
               self.cell(35, 10, ' Test Report ', 1, 1, 'B')
               self.set_font('Arial', 'I', 10)
               self.cell(150)
@@ -222,7 +230,15 @@ def test_AllModulesVerifyCOVE(test_setup):
         time.sleep(1)
 
         PageName = "Transaction ID"
-        driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div/table/tbody/tr[1]/td[2]/div/p/a").click()
+        try:
+            driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div/table/tbody/tr[1]/td[2]/div/p/a").click()
+        except Exception:
+            time.sleep(7)
+            try:
+                driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div/table/tbody/tr[1]/td[2]/div/p/a").click()
+            except Exception:
+                TestResult.append(PageName + " not able to open on click")
+                TestResultStatus.append("Fail")
         for iat4 in range(1000):
             try:
                 bool = driver.find_element_by_xpath(
@@ -266,45 +282,52 @@ def test_AllModulesVerifyCOVE(test_setup):
             TestResult.append(PageName + " button not able to open on click")
             TestResultStatus.append("Fail")
 
-        HyperlinksCount=20
+        HyperlinksCount=19
         for ii in range (1,HyperlinksCount+1):
             try:
+                time.sleep(1)
                 try:
                     driver.find_element_by_xpath(
                         "//div[@class='ContentLayout---content_layout']/div[4]/div/div/div[2]/div/div["+str(ii)+"]/div[2]/div/div[2]/div/p/span/a").click()
-                except Exception:
-                    #print("Inside Except 1")
-                    driver.find_element_by_xpath(
-                        "//div[@class='ContentLayout---content_layout']/div[4]/div/div/div[2]/div/div[" + str(
-                            ii) + "]/div[2]/div/div[2]/div/p/span/strong/a").click()
-                for iat5 in range(1000):
-                    try:
-                        bool = driver.find_element_by_xpath(
-                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                    except Exception:
-                        time.sleep(1)
-                        break
-                try:
-                    Element= driver.find_element_by_xpath(
-                        "//div[@class='ContentLayout---content_layout']/div[4]/div/div/div[2]/div/div[" + str(ii) + "]/div[2]/div/div[2]/div/p/span/a").text
-                except Exception:
-                    #print("Inside Except 2")
+                    #print("A1")
+                    for iat5 in range(1000):
+                        try:
+                            bool = driver.find_element_by_xpath(
+                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                        except Exception:
+                            time.sleep(1)
+                            break
                     Element = driver.find_element_by_xpath(
                         "//div[@class='ContentLayout---content_layout']/div[4]/div/div/div[2]/div/div[" + str(
                             ii) + "]/div[2]/div/div[2]/div/p/span/strong/a").text
-                print(Element)
-                Element = Element.split(' ', 1)
-                Element=Element[1]
-
-                try:
-                    #assert Ptitle4 in PageTitle4, PageName + " not able to open"
+                    print(Element)
+                    Element = Element.split(' ', 1)
+                    Element = Element[1]
                     TestResult.append(Element + " opened successfully")
                     TestResultStatus.append("Pass")
+
                 except Exception:
-                    TestResult.append(Element + " not able to open on click")
-                    TestResultStatus.append("Fail")
+                    try:
+                        time.sleep(2)
+                        bool1 = driver.find_element_by_xpath(
+                            "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div/h4").is_displayed()
+                        ErrorText = driver.find_element_by_xpath(
+                            "//div[@class='ContentLayout---content_layout']/div/div/p").text
+                        print(ErrorText)
+                        driver.find_element_by_xpath(
+                            "//div[@class='ContentLayout---content_layout']/div[2]/div/button").click()
+                        time.sleep(5)
+                        TestResult.append("Transaction Workflow Hyperlink at "+str(ii)+") position is not able to open on click\n"+ErrorText)
+                        TestResultStatus.append("Fail")
+                    except Exception as alertExp:
+                        TestResult.append("Transaction Workflow Hyperlink at "+str(ii)+") position is not able to open on click")
+                        TestResultStatus.append("Fail")
+                        pass
+
             except Exception:
-                 pass
+                TestResult.append("Transaction Workflow under Transaction MGMT Tanb is not able to open")
+                TestResultStatus.append("Fail")
+                pass
 
     else:
         print()
