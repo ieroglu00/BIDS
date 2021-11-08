@@ -590,6 +590,21 @@ def test_Funds_Values(test_setup):
                 try:
                     driver.find_element_by_xpath(
                         "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[1]/button").click()
+                    try:
+                        time.sleep(2)
+                        bool1 = driver.find_element_by_xpath(
+                            "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div/h4").is_displayed()
+                        ErrorText = driver.find_element_by_xpath(
+                            "//div[@class='ContentLayout---content_layout']/div/div/p").text
+                        print(ErrorText)
+                        driver.find_element_by_xpath(
+                            "//div[@class='ContentLayout---content_layout']/div[2]/div/button").click()
+                        time.sleep(5)
+                        TestResult.append("Liquidity Proj tab is not able to open on click\n" + ErrorText)
+                        TestResultStatus.append("Fail")
+                    except Exception:
+                        pass
+
                 except Exception:
                     time.sleep(7)
                     driver.find_element_by_xpath(
