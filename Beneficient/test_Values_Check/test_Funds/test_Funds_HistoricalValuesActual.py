@@ -496,15 +496,14 @@ def test_Funds_Values(test_setup):
             try:
                 driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'"+FundsNamesList[ii3]+"')]").click()
             except Exception:
-                time.sleep(5)
-                print("Inside Except ********************")
                 try:
-                    time.sleep(3)
+                    time.sleep(4)
                     driver.find_element_by_xpath(
                         "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
                         FundsNamesList[ii3] + "')]").click()
                 except Exception:
                     print("Clicked on next 1 funds icon")
+                    time.sleep(2)
                     driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a").click()
                     for iat12 in range(15):
                         try:
@@ -514,12 +513,19 @@ def test_Funds_Values(test_setup):
                         except Exception:
                             break
                     try:
-                        time.sleep(3)
-                        driver.find_element_by_xpath(
-                            "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
-                            FundsNamesList[ii3] + "')]").click()
+                        time.sleep(1)
+                        try:
+                            driver.find_element_by_xpath(
+                                "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
+                                FundsNamesList[ii3] + "')]").click()
+                        except Exception:
+                            time.sleep(7)
+                            driver.find_element_by_xpath(
+                                "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
+                                FundsNamesList[ii3] + "')]").click()
                     except Exception:
                         print("Clicked on next 2 funds icon")
+                        time.sleep(2)
                         driver.find_element_by_xpath(
                             "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a").click()
                         for iat13 in range(15):
@@ -530,12 +536,19 @@ def test_Funds_Values(test_setup):
                             except Exception:
                                 break
                         try:
-                            time.sleep(5)
-                            driver.find_element_by_xpath(
-                                "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
-                                FundsNamesList[ii3] + "')]").click()
+                            time.sleep(1)
+                            try:
+                                driver.find_element_by_xpath(
+                                    "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
+                                    FundsNamesList[ii3] + "')]").click()
+                            except Exception:
+                                time.sleep(7)
+                                driver.find_element_by_xpath(
+                                    "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
+                                    FundsNamesList[ii3] + "')]").click()
                         except Exception:
                             print("Clicked on next 3 funds icon")
+                            time.sleep(2)
                             driver.find_element_by_xpath(
                                 "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a").click()
                             for iat14 in range(15):
@@ -546,11 +559,17 @@ def test_Funds_Values(test_setup):
                                 except Exception:
                                     break
                             try:
-                                time.sleep(3)
-                                buttonFundName = driver.find_element_by_xpath(
-                                    "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
-                                    FundsNamesList[ii3] + "')]")
-                                driver.execute_script("arguments[0].click();", buttonFundName)
+                                time.sleep(1)
+                                try:
+                                    buttonFundName = driver.find_element_by_xpath(
+                                        "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
+                                        FundsNamesList[ii3] + "')]")
+                                    driver.execute_script("arguments[0].click();", buttonFundName)
+                                except Exception:
+                                    time.sleep(7)
+                                    driver.find_element_by_xpath(
+                                        "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
+                                        FundsNamesList[ii3] + "')]").click()
                             except Exception:
                                 print(FundsNamesList[ii3] +" Fund not able to find")
                                 TestResult.append(FundsNamesList[ii3] +" Fund not able to find")
