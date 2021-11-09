@@ -287,8 +287,14 @@ def test_AllModulesVerifyCOVE(test_setup):
             try:
                 time.sleep(1)
                 try:
-                    driver.find_element_by_xpath(
-                        "//div[@class='ContentLayout---content_layout']/div[4]/div/div/div[2]/div/div["+str(ii)+"]/div[2]/div/div[2]/div/p/span/a").click()
+                    try:
+                        driver.find_element_by_xpath(
+                            "//div[@class='ContentLayout---content_layout']/div[4]/div/div/div[2]/div/div["+str(ii)+"]/div[2]/div/div[2]/div/p/span/a").click()
+                    except Exception:
+                        time.sleep(1)
+                        driver.find_element_by_xpath(
+                            "//div[@class='ContentLayout---content_layout']/div[4]/div/div/div[2]/div/div[" + str(
+                                ii) + "]/div[2]/div/div[2]/div/p/span/strong/a").click()
                     #print("A1")
                     for iat5 in range(1000):
                         try:
