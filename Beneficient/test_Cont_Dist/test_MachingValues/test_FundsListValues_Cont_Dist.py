@@ -184,7 +184,7 @@ def test_setup():
 @pytest.mark.smoke
 def test_Funds_Values(test_setup):
     if Exe == "Yes":
-        ForecastYear=1
+        ForecastYear=4
         skip1 = 0
 
         PageName = "Funds"
