@@ -513,7 +513,7 @@ def test_Funds_Values(test_setup):
                         except Exception:
                             break
                     try:
-                        time.sleep(1)
+                        time.sleep(2)
                         try:
                             driver.find_element_by_xpath(
                                 "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
@@ -528,7 +528,7 @@ def test_Funds_Values(test_setup):
                         time.sleep(2)
                         driver.find_element_by_xpath(
                             "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a").click()
-                        for iat13 in range(15):
+                        for iat13 in range(20):
                             try:
                                 bool = driver.find_element_by_xpath(
                                     "//div[@id='appian-working-indicator-hidden']").is_enabled()
@@ -536,7 +536,7 @@ def test_Funds_Values(test_setup):
                             except Exception:
                                 break
                         try:
-                            time.sleep(1)
+                            time.sleep(3)
                             try:
                                 driver.find_element_by_xpath(
                                     "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
@@ -570,8 +570,9 @@ def test_Funds_Values(test_setup):
                                     driver.find_element_by_xpath(
                                         "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
                                         FundsNamesList[ii3] + "')]").click()
-                            except Exception:
+                            except Exception as e1:
                                 print(FundsNamesList[ii3] +" Fund not able to find")
+                                print(e1)
                                 TestResult.append(FundsNamesList[ii3] +" Fund not able to find")
                                 TestResultStatus.append("Fail")
                                 skip1=1
