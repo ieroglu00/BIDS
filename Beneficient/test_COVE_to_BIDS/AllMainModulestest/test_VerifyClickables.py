@@ -199,35 +199,35 @@ def test_AllModulesVerifyCOVE(test_setup):
             TestResult.append(PageName + " page not able to open")
             TestResultStatus.append("Fail")
 
-        PageName = "Task Management"
-        driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
-        for iat2 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
-        Ptitle2 = "Display Tasks For Analyst:"
-        PageTitle2 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div[2]/div/div/div/div/div[2]/p").text
-        try:
-            print(PageTitle2)
-            assert Ptitle2 in PageTitle2, PageName + " not able to open"
-            TestResult.append(PageName + " page Opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName + " page not able to open")
-            TestResultStatus.append("Fail")
-        driver.find_element_by_xpath("//*[@title='Transactions']").click()
-        for iat3 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
+        # PageName = "Task Management"
+        # driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
+        # for iat2 in range(1000):
+        #     try:
+        #         bool = driver.find_element_by_xpath(
+        #             "//div[@id='appian-working-indicator-hidden']").is_enabled()
+        #     except Exception:
+        #         time.sleep(1)
+        #         break
+        # time.sleep(1)
+        # Ptitle2 = "Display Tasks For Analyst:"
+        # PageTitle2 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div[2]/div/div/div/div/div[2]/p").text
+        # try:
+        #     print(PageTitle2)
+        #     assert Ptitle2 in PageTitle2, PageName + " not able to open"
+        #     TestResult.append(PageName + " page Opened successfully")
+        #     TestResultStatus.append("Pass")
+        # except Exception:
+        #     TestResult.append(PageName + " page not able to open")
+        #     TestResultStatus.append("Fail")
+        # driver.find_element_by_xpath("//*[@title='Transactions']").click()
+        # for iat3 in range(1000):
+        #     try:
+        #         bool = driver.find_element_by_xpath(
+        #             "//div[@id='appian-working-indicator-hidden']").is_enabled()
+        #     except Exception:
+        #         time.sleep(1)
+        #         break
+        # time.sleep(1)
 
         PageName = "Transaction ID"
         try:
