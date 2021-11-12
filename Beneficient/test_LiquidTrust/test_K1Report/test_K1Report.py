@@ -204,7 +204,7 @@ def test_SummaryByPeriod(test_setup):
 
         # --------------------Clicking on K-1 Report section--------------
         PageName = "K-1 Report"
-        Ptitle1 = "COR View K-1 Report - BIDS"
+        Ptitle1 = "K1 Report - BIDS"
         driver.find_element_by_xpath("//strong[contains(text(),'" + PageName + "')]").click()
         for iat2 in range(1000):
             try:
