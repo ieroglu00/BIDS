@@ -11,7 +11,9 @@ from selenium import webdriver
 import allure
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
-
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 
 @allure.step("Entering username ")
 def enter_username(username):
@@ -229,6 +231,9 @@ def test_BeaconFxValueCompare(test_setup):
             TestResult.append(PageName + " page not able to open")
             TestResultStatus.append("Fail")
 
+        wait = WebDriverWait(driver, 150)
+        wait.until(EC.presence_of_element_located((By.XPATH,
+                                                   "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span")))
         for year in range(1,YearCounterNumber):
             print()
             time.sleep(3)

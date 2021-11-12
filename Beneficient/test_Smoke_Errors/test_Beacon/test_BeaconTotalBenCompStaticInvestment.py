@@ -11,6 +11,9 @@ from selenium import webdriver
 import allure
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 
 
 @allure.step("Entering username ")
@@ -271,6 +274,9 @@ def test_BeaconTotalBenCompStaticInvestment(test_setup):
             # driver.get_screenshot_as_file(r"C:/BIDS/beneficienttest/Beneficient/test_Smoke_Errors/test_Beacon/" + PageName.replace(" ", "") +"_"+ ct + ".png")
             # TestResultImage.append(PageName.replace(" ", "") + "_" + ct + ".png")
 
+        wait = WebDriverWait(driver, 150)
+        wait.until(EC.presence_of_element_located((By.XPATH,
+                                                   "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span")))
         for year in range(1,YearCounterNumber):
             print()
             try:

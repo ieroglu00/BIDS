@@ -1,8 +1,6 @@
 import datetime
 import re
 import time
-from decimal import getcontext, Decimal
-
 import openpyxl
 from fpdf import FPDF
 import pytest
@@ -10,7 +8,9 @@ from selenium import webdriver
 import allure
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
-
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 
 @allure.step("Entering username ")
 def enter_username(username):
@@ -237,7 +237,9 @@ def test_BeaconTrustMapAllocationPer(test_setup):
             TestResult.append(PageName + " has a Green Flag at the top section")
             TestResultStatus.append("Pass")
 
-
+        wait = WebDriverWait(driver, 150)
+        wait.until(EC.presence_of_element_located((By.XPATH,
+                                                   "//div[@class='ContentLayout---content_layout']/div[2]/div[3]/div/div[2]/div/div")))
         PageName = "Trust Map Allocation"
         Ptitle1 = "COR_BeaconDataTransferTemplate - BIDS"
         driver.find_element_by_xpath(

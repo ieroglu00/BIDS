@@ -8,6 +8,9 @@ from selenium import webdriver
 import allure
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 
 
 @allure.step("Entering username ")
@@ -192,16 +195,6 @@ def test_BeaconDataDifferenceChecker(test_setup):
         except Exception:
             TestResult.append(PageName + " page not able to open")
             TestResultStatus.append("Fail")
-        # try:
-        #     bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
-        #     #print("Red flag present : " + str(bool))
-        #     TestResult.append(PageName + " has a Red Flag at the top section")
-        #     TestResultStatus.append("Fail")
-        # except Exception:
-        #     bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
-        #     #print("Green flag present : " + str(bool))
-        #     TestResult.append(PageName + " has a Green Flag at the top section")
-        #     TestResultStatus.append("Pass")
 
         PageName = "Beacon Template"
         Ptitle1 = "COR_BeaconDataTransferTemplate - BIDS"
@@ -223,6 +216,9 @@ def test_BeaconDataDifferenceChecker(test_setup):
             TestResult.append(PageName + " page not able to open")
             TestResultStatus.append("Fail")
 
+        wait = WebDriverWait(driver, 150)
+        wait.until(EC.presence_of_element_located((By.XPATH,
+                                                   "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span")))
         for year in range(1,YearCounterNumber):
             print()
             P = driver.find_element_by_xpath(
