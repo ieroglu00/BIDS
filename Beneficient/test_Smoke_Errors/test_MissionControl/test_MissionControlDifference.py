@@ -182,6 +182,7 @@ def test_MissionControlDifference(test_setup):
             PageName = "Quarterly NAV Close"
             Ptitle1="Quarterly NAV Close - BIDS"
             driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
+            start = time.time()
             for iat2 in range(1000):
                 try:
                     bool = driver.find_element_by_xpath(
@@ -198,11 +199,16 @@ def test_MissionControlDifference(test_setup):
             except Exception:
                 TestResult.append(PageName + " page not able to open")
                 TestResultStatus.append("Fail")
+            stop = time.time()
+            TimeString = stop - start
+            print("The time of the run for " + PageName + " is: ", stop - start)
+            print(TimeString)
 
             ###############################################
             PageName = "Mission Control"
             Ptitle1 = "COR_ReportMissionControl - BIDS"
             driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
+            start = time.time()
             for iat3 in range(1000):
                 try:
                     bool = driver.find_element_by_xpath(
@@ -223,6 +229,11 @@ def test_MissionControlDifference(test_setup):
             wait = WebDriverWait(driver, 150)
             wait.until(EC.presence_of_element_located((By.XPATH,
                 "//div/span[@class='DropdownWidget---accessibilityhidden']")))
+            stop = time.time()
+            TimeString = stop - start
+            print("The time of the run for " + PageName + " is: ", stop - start)
+            print(TimeString)
+
             #---------Setting first quarter in the quarter dropdown list----------------------
             for iat4 in range(10):
                 P = driver.find_element_by_xpath(
@@ -324,9 +335,12 @@ def test_MissionControlDifference(test_setup):
                             print("- or blank value")
 
                 print()
-        except Exception as mainerror:
-            print(mainerror)
-            TestResult.append(mainerror)
+        except Exception as Mainerror:
+            stop = time.time()
+            RoundFloatString = round(float(stop - start), 2)
+            print("The time of the run for " + PageName + " is: ", RoundFloatString)
+            stringMainerror = repr(Mainerror)
+            TestResult.append(stringMainerror)
             TestResultStatus.append("Fail")
 
     else:

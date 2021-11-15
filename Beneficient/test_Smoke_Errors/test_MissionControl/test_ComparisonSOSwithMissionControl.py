@@ -175,7 +175,6 @@ def test_setup():
 def test_ComparisonSOSwithMissionControl(test_setup):
     YearCounterNumber=8
     FirstQuarter="12/31/2021"
-    ComparisonCounter = 0
     YearList = []
     # Lists for Mission Control Funds/Investments
     AmountListFundLevel = []
@@ -187,524 +186,546 @@ def test_ComparisonSOSwithMissionControl(test_setup):
     AmountListSOSInvestmenst = []
 
     if Exe == "Yes":
-        print()
-        PageName = "Quarterly NAV Close"
-        Ptitle1="Quarterly NAV Close - BIDS"
-        driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
-        for iat2 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
-        PageTitle1 = driver.title
         try:
-            assert Ptitle1 in PageTitle1, PageName + " not able to open"
-            TestResult.append(PageName + " page Opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName + " page not able to open")
-            TestResultStatus.append("Fail")
-
-        ###############################################
-        PageName = "Mission Control"
-        Ptitle1 = "COR_ReportMissionControl - BIDS"
-        driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
-        for iat3 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(5)
-        PageTitle1 = driver.title
-        try:
-            assert Ptitle1 in PageTitle1, PageName + " not able to open"
-            TestResult.append(PageName + " page Opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName + " page not able to open")
-            TestResultStatus.append("Fail")
-
-        # Setting first quarter in the quarter dropdown list
-        for iat4 in range(10):
-            P = driver.find_element_by_xpath(
-                "//div/span[@class='DropdownWidget---accessibilityhidden']").text
-            #print("P found is "+P)
-            if P in FirstQuarter:
-                #print()
-                #print()
-                #print("Found the first quarter for "+PageName)
-                break
-            else:
-                print("Trying again as P found is "+P)
-                driver.find_element_by_xpath("//div[@class='DropdownWidget---dropdown']/div").click()
-                ActionChains(driver).key_down(Keys.UP).perform()
-                time.sleep(2)
-                ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                for iat16 in range(1000):
-                    try:
-                        bool = driver.find_element_by_xpath(
-                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                    except Exception:
-                        time.sleep(1)
-                        break
-                time.sleep(5)
-
-        wait = WebDriverWait(driver, 150)
-        wait.until(EC.presence_of_element_located((By.XPATH,
-             "//div/span[@class='DropdownWidget---accessibilityhidden']")))
-        for ia in range(YearCounterNumber):
-            # print("Count is " + str(ia))
-            if ia == 0:
-                # print("First Data")
-                P = driver.find_element_by_xpath(
-                    "//div/span[@class='DropdownWidget---accessibilityhidden']").text
-            elif ia > 0:
-                time.sleep(5)
-                # print("Other Data")
-                driver.find_element_by_xpath(
-                    "//input[@class='PickerWidget---picker_input PickerWidget---placeholder']").send_keys()
-                elements = driver.find_elements_by_xpath(
-                    "//div[@class='DropdownWidget---dropdown_value DropdownWidget---inSideBySideItem']")
-                for elem in elements:
-                    elem.click()
-                    break
-                time.sleep(5)
-                ActionChains(driver).key_down(Keys.DOWN).perform()
-                time.sleep(2)
-                ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                for iat5 in range(1000):
-                    try:
-                        bool = driver.find_element_by_xpath(
-                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                        # print("Loader present")
-                    except Exception:
-                        # print("Loader finished")
-                        time.sleep(5)
-                        break
-                P = driver.find_element_by_xpath(
-                    "//div/span[@class='DropdownWidget---accessibilityhidden']").text
-            for iat6 in range(1000):
-                try:
-                    bool = driver.find_element_by_xpath("//div[@id='appian-working-indicator-hidden']").is_enabled()
-                except Exception:
-                    # print("Loader finished")
-                    time.sleep(3)
-                    break
-            time.sleep(5)
-            try:
-                AmtFundLevel = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[5]/div[2]/div/div/div[2]/div[10]/div[2]/div/p/span/strong").text
-                AmtInvestmentLevel = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[5]/div[2]/div/div/div[3]/div[10]/div[2]/div/p/span/strong").text
-                YearList.append(P)
-                AmountListFundLevel.append(AmtFundLevel)
-                AmountListInvestmentLevel.append(AmtInvestmentLevel)
-            except Exception:
-                YearList.append(P)
-                AmtFundLevel="0"
-                AmtInvestmentLevel="0"
-                AmountListFundLevel.append(AmtFundLevel)
-                AmountListInvestmentLevel.append(AmtInvestmentLevel)
-
-        # Navigating back to Quarterly NAV Close Page
-        driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
-        for iat7 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath("//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                # print("Loader finished")
-                time.sleep(3)
-                break
-
-
-        ####################################################
-        PageName = "Sign-Off Summary: SPVs"
-        Ptitle1 = "User Input Task - BIDS"
-        driver.find_element_by_xpath("//*[text() = '" + PageName + "']").click()
-        for iat13 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(5)
-        PageTitle1 = driver.title
-        try:
-            assert Ptitle1 in PageTitle1, PageName + " not able to open"
-            TestResult.append(PageName + " page Opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName + " page not able to open")
-            TestResultStatus.append("Fail")
-
-        # Setting first quarter in the quarter dropdown list
-        for iat15 in range(10):
-            P = driver.find_element_by_xpath(
-                "//div/span[@class='DropdownWidget---accessibilityhidden']").text
-            #print("P found is " + P)
-            if P in FirstQuarter:
-                # print()
-                # print()
-                # print("Found the first quarter for "+PageName)
-                break
-            else:
-                print("Trying again as P found is "+P)
-                driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").click()
-                ActionChains(driver).key_down(Keys.UP).perform()
-                time.sleep(2)
-                ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                for iat18 in range(1000):
-                    try:
-                        bool = driver.find_element_by_xpath(
-                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                    except Exception:
-                        time.sleep(1)
-                        break
-                time.sleep(5)
-
-        for iaa in range(YearCounterNumber):
-            # print("Count is " + str(ia))
-            if iaa == 0:
-                # print("First Data")
-                P = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").text
-            elif iaa > 0:
-                time.sleep(5)
-                # print("Other Data")
-                driver.find_element_by_xpath(
-                    "//input[@class='PickerWidget---picker_input PickerWidget---placeholder']").send_keys()
-                elements = driver.find_elements_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div")
-                for elem in elements:
-                    elem.click()
-                    break
-                time.sleep(5)
-                ActionChains(driver).key_down(Keys.DOWN).perform()
-                time.sleep(2)
-                ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                for iat8 in range(1000):
-                    try:
-                        bool = driver.find_element_by_xpath(
-                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                        # print("Loader present")
-                    except Exception:
-                        # print("Loader finished")
-                        time.sleep(5)
-                        break
-                P = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").text
-            for iat9 in range(1000):
-                try:
-                    bool = driver.find_element_by_xpath("//div[@id='appian-working-indicator-hidden']").is_enabled()
-                except Exception:
-                    # print("Loader finished")
-                    time.sleep(3)
-                    break
-            time.sleep(5)
-            try:
-                element = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[2]/div/div[3]/div/div[2]/div/input")
-                SPVSOSTotalPartnerNAVEndingUSD = element.get_attribute("value")
-                AmountListSOSSPV.append(SPVSOSTotalPartnerNAVEndingUSD)
-            except Exception:
-                SPVSOSTotalPartnerNAVEndingUSD="0"
-                AmountListSOSSPV.append(SPVSOSTotalPartnerNAVEndingUSD)
-
-        # Navigating back to Quarterly NAV Close Page
-        driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
-        for iat10 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath("//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                # print("Loader finished")
-                time.sleep(3)
-                break
-
-        ####################################################
-        PageName = "Sign-Off Summary: Funds"
-        Ptitle1 = "User Input Task - BIDS"
-        driver.find_element_by_xpath("//*[text() = '" + PageName + "']").click()
-        for iat13 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(5)
-        PageTitle1 = driver.title
-        try:
-            assert Ptitle1 in PageTitle1, PageName + " not able to open"
-            TestResult.append(PageName + " page Opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName + " page not able to open")
-            TestResultStatus.append("Fail")
-
-        # Setting first quarter in the quarter dropdown list
-        for iat15 in range(10):
-            P = driver.find_element_by_xpath(
-                "//div/span[@class='DropdownWidget---accessibilityhidden']").text
-            #print("P found is " + P)
-            if P in FirstQuarter:
-                # print()
-                # print()
-                # print("Found the first quarter for " + PageName)
-                break
-            else:
-                print("Trying again as P found is " + P)
-                driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").click()
-                ActionChains(driver).key_down(Keys.UP).perform()
-                time.sleep(2)
-                ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                for iat18 in range(1000):
-                    try:
-                        bool = driver.find_element_by_xpath(
-                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                    except Exception:
-                        time.sleep(1)
-                        break
-                time.sleep(5)
-
-        for iaa in range(YearCounterNumber):
-            # print("Count is " + str(ia))
-            if iaa == 0:
-                # print("First Data")
-                P = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").text
-            elif iaa > 0:
-                time.sleep(5)
-                # print("Other Data")
-                driver.find_element_by_xpath(
-                    "//input[@class='PickerWidget---picker_input PickerWidget---placeholder']").send_keys()
-                elements = driver.find_elements_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div")
-                for elem in elements:
-                    elem.click()
-                    break
-                time.sleep(5)
-                ActionChains(driver).key_down(Keys.DOWN).perform()
-                time.sleep(2)
-                ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                for iat8 in range(1000):
-                    try:
-                        bool = driver.find_element_by_xpath(
-                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                        time.sleep(1)
-                    except Exception:
-                        # print("Loader finished")
-                        time.sleep(1)
-                        break
-                P = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").text
-            for iat9 in range(1000):
+            print()
+            PageName = "Quarterly NAV Close"
+            Ptitle1="Quarterly NAV Close - BIDS"
+            driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
+            start = time.time()
+            for iat2 in range(1000):
                 try:
                     bool = driver.find_element_by_xpath(
                         "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                    time.sleep(1)
                 except Exception:
-                    # print("Loader finished")
                     time.sleep(1)
                     break
-            time.sleep(10)
+            time.sleep(1)
+            PageTitle1 = driver.title
             try:
-                element = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[8]/div/div[2]/div/input")
-                FundsSOSTotalPartnerNAVEndingUSD = element.get_attribute("value")
-                AmountListSOSFunds.append(FundsSOSTotalPartnerNAVEndingUSD)
+                assert Ptitle1 in PageTitle1, PageName + " not able to open"
+                TestResult.append(PageName + " page Opened successfully")
+                TestResultStatus.append("Pass")
             except Exception:
-                FundsSOSTotalPartnerNAVEndingUSD="0"
-                AmountListSOSFunds.append(FundsSOSTotalPartnerNAVEndingUSD)
+                TestResult.append(PageName + " page not able to open")
+                TestResultStatus.append("Fail")
+            stop = time.time()
+            TimeString = stop - start
+            print("The time of the run for " + PageName + " is: ", stop - start)
+            print(TimeString)
 
-        # Navigating back to Quarterly NAV Close Page
-        driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
-        for iat10 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath("//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                # print("Loader finished")
-                time.sleep(3)
-                break
-
-
-
-        ####################################################
-        PageName = "Sign-Off Summary: Investments"
-        Ptitle1 = "User Input Task - BIDS"
-        driver.find_element_by_xpath("//*[text() = '" + PageName + "']").click()
-        for iat14 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(5)
-        PageTitle1 = driver.title
-        try:
-            assert Ptitle1 in PageTitle1, PageName + " not able to open"
-            TestResult.append(PageName + " page Opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName + " page not able to open")
-            TestResultStatus.append("Fail")
-
-        # Setting first quarter in the quarter dropdown list
-        for iat17 in range(10):
-            P = driver.find_element_by_xpath(
-                "//div/span[@class='DropdownWidget---accessibilityhidden']").text
-            #print("P found is " + P)
-            if P in FirstQuarter:
-                # print()
-                # print()
-                # print("Found the first quarter for "+PageName)
-                break
-            else:
-                print("Trying again as P found is "+P)
-                driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").click()
-                ActionChains(driver).key_down(Keys.UP).perform()
-                time.sleep(2)
-                ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                for iat19 in range(1000):
-                    try:
-                        bool = driver.find_element_by_xpath(
-                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                    except Exception:
-                        time.sleep(1)
-                        break
-                time.sleep(5)
-
-        for iaaa in range(YearCounterNumber):
-            # print("Count is " + str(ia))
-            if iaaa == 0:
-                # print("First Data")
-                P = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").text
-            elif iaaa > 0:
-                time.sleep(5)
-                # print("Other Data")
-                driver.find_element_by_xpath(
-                    "//input[@class='PickerWidget---picker_input PickerWidget---placeholder']").send_keys()
-                elements = driver.find_elements_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div")
-                for elem in elements:
-                    elem.click()
+            ###############################################
+            PageName = "Mission Control"
+            Ptitle1 = "COR_ReportMissionControl - BIDS"
+            driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
+            start = time.time()
+            for iat3 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
                     break
-                time.sleep(5)
-                ActionChains(driver).key_down(Keys.DOWN).perform()
-                time.sleep(2)
-                ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                for iat11 in range(1000):
-                    try:
-                        bool = driver.find_element_by_xpath(
-                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                        time.sleep(1)
-                    except Exception:
-                        time.sleep(1)
-                        break
+            time.sleep(5)
+            PageTitle1 = driver.title
+            try:
+                assert Ptitle1 in PageTitle1, PageName + " not able to open"
+                TestResult.append(PageName + " page Opened successfully")
+                TestResultStatus.append("Pass")
+            except Exception:
+                TestResult.append(PageName + " page not able to open")
+                TestResultStatus.append("Fail")
+
+            wait = WebDriverWait(driver, 150)
+            wait.until(EC.presence_of_element_located((By.XPATH,
+                                                       "//div/span[@class='DropdownWidget---accessibilityhidden']")))
+            stop = time.time()
+            TimeString = stop - start
+            print("The time of the run for " + PageName + " is: ", stop - start)
+            print(TimeString)
+
+            # Setting first quarter in the quarter dropdown list
+            for iat4 in range(10):
                 P = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").text
-            for iat12 in range(1000):
+                    "//div/span[@class='DropdownWidget---accessibilityhidden']").text
+                #print("P found is "+P)
+                if P in FirstQuarter:
+                    #print()
+                    #print()
+                    #print("Found the first quarter for "+PageName)
+                    break
+                else:
+                    print("Trying again as P found is "+P)
+                    driver.find_element_by_xpath("//div[@class='DropdownWidget---dropdown']/div").click()
+                    ActionChains(driver).key_down(Keys.UP).perform()
+                    time.sleep(2)
+                    ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+                    for iat16 in range(1000):
+                        try:
+                            bool = driver.find_element_by_xpath(
+                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                        except Exception:
+                            time.sleep(1)
+                            break
+                    time.sleep(5)
+
+            wait = WebDriverWait(driver, 150)
+            wait.until(EC.presence_of_element_located((By.XPATH,
+                 "//div/span[@class='DropdownWidget---accessibilityhidden']")))
+            for ia in range(YearCounterNumber):
+                # print("Count is " + str(ia))
+                if ia == 0:
+                    # print("First Data")
+                    P = driver.find_element_by_xpath(
+                        "//div/span[@class='DropdownWidget---accessibilityhidden']").text
+                elif ia > 0:
+                    time.sleep(5)
+                    # print("Other Data")
+                    driver.find_element_by_xpath(
+                        "//input[@class='PickerWidget---picker_input PickerWidget---placeholder']").send_keys()
+                    elements = driver.find_elements_by_xpath(
+                        "//div[@class='DropdownWidget---dropdown_value DropdownWidget---inSideBySideItem']")
+                    for elem in elements:
+                        elem.click()
+                        break
+                    time.sleep(5)
+                    ActionChains(driver).key_down(Keys.DOWN).perform()
+                    time.sleep(2)
+                    ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+                    for iat5 in range(1000):
+                        try:
+                            bool = driver.find_element_by_xpath(
+                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                            # print("Loader present")
+                        except Exception:
+                            # print("Loader finished")
+                            time.sleep(5)
+                            break
+                    P = driver.find_element_by_xpath(
+                        "//div/span[@class='DropdownWidget---accessibilityhidden']").text
+                for iat6 in range(1000):
+                    try:
+                        bool = driver.find_element_by_xpath("//div[@id='appian-working-indicator-hidden']").is_enabled()
+                    except Exception:
+                        # print("Loader finished")
+                        time.sleep(3)
+                        break
+                time.sleep(5)
+                try:
+                    AmtFundLevel = driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[5]/div[2]/div/div/div[2]/div[10]/div[2]/div/p/span/strong").text
+                    AmtInvestmentLevel = driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[5]/div[2]/div/div/div[3]/div[10]/div[2]/div/p/span/strong").text
+                    YearList.append(P)
+                    AmountListFundLevel.append(AmtFundLevel)
+                    AmountListInvestmentLevel.append(AmtInvestmentLevel)
+                except Exception:
+                    YearList.append(P)
+                    AmtFundLevel="0"
+                    AmtInvestmentLevel="0"
+                    AmountListFundLevel.append(AmtFundLevel)
+                    AmountListInvestmentLevel.append(AmtInvestmentLevel)
+
+            # Navigating back to Quarterly NAV Close Page
+            driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
+            for iat7 in range(1000):
                 try:
                     bool = driver.find_element_by_xpath("//div[@id='appian-working-indicator-hidden']").is_enabled()
-                    time.sleep(1)
                 except Exception:
                     # print("Loader finished")
+                    time.sleep(3)
+                    break
+
+
+            ####################################################
+            PageName = "Sign-Off Summary: SPVs"
+            Ptitle1 = "User Input Task - BIDS"
+            driver.find_element_by_xpath("//*[text() = '" + PageName + "']").click()
+            for iat13 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
                     time.sleep(1)
                     break
-            time.sleep(10)
+            time.sleep(5)
+            PageTitle1 = driver.title
             try:
-                element = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[5]/div/div/div[2]/div/div[8]/div/div[2]/div/input")
-                InvestmentSOSBenLevelStruckNAVatEndofPeriod = element.get_attribute("value")
-                AmountListSOSInvestmenst.append(InvestmentSOSBenLevelStruckNAVatEndofPeriod)
+                assert Ptitle1 in PageTitle1, PageName + " not able to open"
+                TestResult.append(PageName + " page Opened successfully")
+                TestResultStatus.append("Pass")
             except Exception:
-                InvestmentSOSBenLevelStruckNAVatEndofPeriod="0"
-                AmountListSOSInvestmenst.append(InvestmentSOSBenLevelStruckNAVatEndofPeriod)
-
-        # print("Now Comparing the numbers")
-        for x1 in range(len(AmountListFundLevel)):
-            print()
-            print("Fund Level For year: "+YearList[x1])
-            print("AmountListSOSFunds is"+AmountListSOSFunds[x1])
-            print("AmountListSOSSPV is" + AmountListSOSSPV[x1])
-            print("AmountListFundLevel is" + AmountListFundLevel[x1])
-
-            Value1=AmountListSOSFunds[x1]
-            if "_" in AmountListSOSFunds[x1]:
-                Value1 ="0"
-            Value1 = Value1.replace(" ", "")
-            Value1 = re.sub(r'[?|$|€|£|!|,]', r'', Value1)
-            Value1SOSFundsFloat=float(Value1)
-
-            Value2 = AmountListSOSSPV[x1]
-            if "_" in AmountListSOSSPV[x1]:
-                Value2 ="0"
-            Value2 = Value2.replace(" ", "")
-            Value2 = re.sub(r'[?|$|€|£|!|,]', r'', Value2)
-            Value2SOSSPVFloat = float(Value2)
-
-            TotalSOSSPV_SOSFunds=float(Value1SOSFundsFloat+Value2SOSSPVFloat)
-            print("TotalSOSSPV_SOSFunds is: "+str(TotalSOSSPV_SOSFunds))
-
-            Value3 = AmountListFundLevel[x1]
-            if "_" in AmountListFundLevel[x1]:
-                Value3 ="0"
-            Value3 = Value3.replace(" ", "")
-            Value3 = re.sub(r'[?|$|€|£|!|,]', r'', Value3)
-            Value3AmountListFundLevelFloat = float(Value3)
-
-            if Value3AmountListFundLevelFloat != TotalSOSSPV_SOSFunds:
-                print(str(Value3AmountListFundLevelFloat - TotalSOSSPV_SOSFunds))
-                print("AmountListFundLevel ( " + AmountListFundLevel[x1] + " ) and AmountListSOSFunds ( " +
-                      AmountListSOSFunds[x1] + " ) with AmountListSOSSPV ( " +
-                      AmountListSOSSPV[x1] + " ) **NOT** matching for year " + YearList[x1])
-
-                TestResult.append("Mission Control Fund ( " + AmountListFundLevel[x1] + " ) and SOS Funds ( " +
-                      AmountListSOSFunds[x1] + " ) with SOS SPV ( " +
-                      AmountListSOSSPV[x1] + " ) **NOT** matching for year " + YearList[x1])
+                TestResult.append(PageName + " page not able to open")
                 TestResultStatus.append("Fail")
 
-        print("-----------------------------------------------------------------------------------")
-        for x11 in range(len(AmountListInvestmentLevel)):
-            print("Investment level For year: " + YearList[x11])
-            print("AmountListSOSInvestmenst is" + AmountListSOSInvestmenst[x11])
-            print("AmountListInvestmentLevel is" + AmountListInvestmentLevel[x11])
-            print()
+            # Setting first quarter in the quarter dropdown list
+            for iat15 in range(10):
+                P = driver.find_element_by_xpath(
+                    "//div/span[@class='DropdownWidget---accessibilityhidden']").text
+                #print("P found is " + P)
+                if P in FirstQuarter:
+                    # print()
+                    # print()
+                    # print("Found the first quarter for "+PageName)
+                    break
+                else:
+                    print("Trying again as P found is "+P)
+                    driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").click()
+                    ActionChains(driver).key_down(Keys.UP).perform()
+                    time.sleep(2)
+                    ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+                    for iat18 in range(1000):
+                        try:
+                            bool = driver.find_element_by_xpath(
+                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                        except Exception:
+                            time.sleep(1)
+                            break
+                    time.sleep(5)
 
-            Value4 = AmountListSOSInvestmenst[x11]
-            if "_" in AmountListSOSInvestmenst[x11]:
-                Value4 ="0"
-            Value4 = Value4.replace(" ", "")
-            Value4 = re.sub(r'[?|$|€|£|!|,]', r'', Value4)
-            Value4SOSInvestmenstFloat = float(Value4)
+            for iaa in range(YearCounterNumber):
+                # print("Count is " + str(ia))
+                if iaa == 0:
+                    # print("First Data")
+                    P = driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").text
+                elif iaa > 0:
+                    time.sleep(5)
+                    # print("Other Data")
+                    driver.find_element_by_xpath(
+                        "//input[@class='PickerWidget---picker_input PickerWidget---placeholder']").send_keys()
+                    elements = driver.find_elements_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div")
+                    for elem in elements:
+                        elem.click()
+                        break
+                    time.sleep(5)
+                    ActionChains(driver).key_down(Keys.DOWN).perform()
+                    time.sleep(2)
+                    ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+                    for iat8 in range(1000):
+                        try:
+                            bool = driver.find_element_by_xpath(
+                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                            # print("Loader present")
+                        except Exception:
+                            # print("Loader finished")
+                            time.sleep(5)
+                            break
+                    P = driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").text
+                for iat9 in range(1000):
+                    try:
+                        bool = driver.find_element_by_xpath("//div[@id='appian-working-indicator-hidden']").is_enabled()
+                    except Exception:
+                        # print("Loader finished")
+                        time.sleep(3)
+                        break
+                time.sleep(5)
+                try:
+                    element = driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[2]/div/div[3]/div/div[2]/div/input")
+                    SPVSOSTotalPartnerNAVEndingUSD = element.get_attribute("value")
+                    AmountListSOSSPV.append(SPVSOSTotalPartnerNAVEndingUSD)
+                except Exception:
+                    SPVSOSTotalPartnerNAVEndingUSD="0"
+                    AmountListSOSSPV.append(SPVSOSTotalPartnerNAVEndingUSD)
 
-            Value5 = AmountListInvestmentLevel[x11]
-            if "_" in AmountListInvestmentLevel[x11]:
-                Value5 ="0"
-            Value5 = Value5.replace(" ", "")
-            Value5 = re.sub(r'[?|$|€|£|!|,]', r'', Value5)
-            Value5InvestmentLevelFloat = float(Value5)
+            # Navigating back to Quarterly NAV Close Page
+            driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
+            for iat10 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath("//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    # print("Loader finished")
+                    time.sleep(3)
+                    break
 
-            if Value5InvestmentLevelFloat != Value4SOSInvestmenstFloat:
-                print(str(float(Value5InvestmentLevelFloat-Value4SOSInvestmenstFloat)))
-                print("AmountListInvestmentLevel ( " + AmountListInvestmentLevel[
-                    x11] + " ) and AmountListSOSInvestments ( " + AmountListSOSInvestmenst[
-                          x11] + " ) **NOT** matching for year " + YearList[x11])
-
-                TestResult.append("Mission Control Investment ( " + AmountListInvestmentLevel[
-                    x11] + " ) and SOS Investments ( " + AmountListSOSInvestmenst[
-                          x11] + " ) **NOT** matching for year " + YearList[x11])
+            ####################################################
+            PageName = "Sign-Off Summary: Funds"
+            Ptitle1 = "User Input Task - BIDS"
+            driver.find_element_by_xpath("//*[text() = '" + PageName + "']").click()
+            for iat13 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(5)
+            PageTitle1 = driver.title
+            try:
+                assert Ptitle1 in PageTitle1, PageName + " not able to open"
+                TestResult.append(PageName + " page Opened successfully")
+                TestResultStatus.append("Pass")
+            except Exception:
+                TestResult.append(PageName + " page not able to open")
                 TestResultStatus.append("Fail")
+
+            # Setting first quarter in the quarter dropdown list
+            for iat15 in range(10):
+                P = driver.find_element_by_xpath(
+                    "//div/span[@class='DropdownWidget---accessibilityhidden']").text
+                #print("P found is " + P)
+                if P in FirstQuarter:
+                    # print()
+                    # print()
+                    # print("Found the first quarter for " + PageName)
+                    break
+                else:
+                    print("Trying again as P found is " + P)
+                    driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").click()
+                    ActionChains(driver).key_down(Keys.UP).perform()
+                    time.sleep(2)
+                    ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+                    for iat18 in range(1000):
+                        try:
+                            bool = driver.find_element_by_xpath(
+                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                        except Exception:
+                            time.sleep(1)
+                            break
+                    time.sleep(5)
+
+            for iaa in range(YearCounterNumber):
+                # print("Count is " + str(ia))
+                if iaa == 0:
+                    # print("First Data")
+                    P = driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").text
+                elif iaa > 0:
+                    time.sleep(5)
+                    # print("Other Data")
+                    driver.find_element_by_xpath(
+                        "//input[@class='PickerWidget---picker_input PickerWidget---placeholder']").send_keys()
+                    elements = driver.find_elements_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div")
+                    for elem in elements:
+                        elem.click()
+                        break
+                    time.sleep(5)
+                    ActionChains(driver).key_down(Keys.DOWN).perform()
+                    time.sleep(2)
+                    ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+                    for iat8 in range(1000):
+                        try:
+                            bool = driver.find_element_by_xpath(
+                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                            time.sleep(1)
+                        except Exception:
+                            # print("Loader finished")
+                            time.sleep(1)
+                            break
+                    P = driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").text
+                for iat9 in range(1000):
+                    try:
+                        bool = driver.find_element_by_xpath(
+                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                        time.sleep(1)
+                    except Exception:
+                        # print("Loader finished")
+                        time.sleep(1)
+                        break
+                time.sleep(10)
+                try:
+                    element = driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[8]/div/div[2]/div/input")
+                    FundsSOSTotalPartnerNAVEndingUSD = element.get_attribute("value")
+                    AmountListSOSFunds.append(FundsSOSTotalPartnerNAVEndingUSD)
+                except Exception:
+                    FundsSOSTotalPartnerNAVEndingUSD="0"
+                    AmountListSOSFunds.append(FundsSOSTotalPartnerNAVEndingUSD)
+
+            # Navigating back to Quarterly NAV Close Page
+            driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
+            for iat10 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath("//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    # print("Loader finished")
+                    time.sleep(3)
+                    break
+
+
+
+            ####################################################
+            PageName = "Sign-Off Summary: Investments"
+            Ptitle1 = "User Input Task - BIDS"
+            driver.find_element_by_xpath("//*[text() = '" + PageName + "']").click()
+            for iat14 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(5)
+            PageTitle1 = driver.title
+            try:
+                assert Ptitle1 in PageTitle1, PageName + " not able to open"
+                TestResult.append(PageName + " page Opened successfully")
+                TestResultStatus.append("Pass")
+            except Exception:
+                TestResult.append(PageName + " page not able to open")
+                TestResultStatus.append("Fail")
+
+            # Setting first quarter in the quarter dropdown list
+            for iat17 in range(10):
+                P = driver.find_element_by_xpath(
+                    "//div/span[@class='DropdownWidget---accessibilityhidden']").text
+                #print("P found is " + P)
+                if P in FirstQuarter:
+                    # print()
+                    # print()
+                    # print("Found the first quarter for "+PageName)
+                    break
+                else:
+                    print("Trying again as P found is "+P)
+                    driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").click()
+                    ActionChains(driver).key_down(Keys.UP).perform()
+                    time.sleep(2)
+                    ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+                    for iat19 in range(1000):
+                        try:
+                            bool = driver.find_element_by_xpath(
+                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                        except Exception:
+                            time.sleep(1)
+                            break
+                    time.sleep(5)
+
+            for iaaa in range(YearCounterNumber):
+                # print("Count is " + str(ia))
+                if iaaa == 0:
+                    # print("First Data")
+                    P = driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").text
+                elif iaaa > 0:
+                    time.sleep(5)
+                    # print("Other Data")
+                    driver.find_element_by_xpath(
+                        "//input[@class='PickerWidget---picker_input PickerWidget---placeholder']").send_keys()
+                    elements = driver.find_elements_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div")
+                    for elem in elements:
+                        elem.click()
+                        break
+                    time.sleep(5)
+                    ActionChains(driver).key_down(Keys.DOWN).perform()
+                    time.sleep(2)
+                    ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+                    for iat11 in range(1000):
+                        try:
+                            bool = driver.find_element_by_xpath(
+                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                            time.sleep(1)
+                        except Exception:
+                            time.sleep(1)
+                            break
+                    P = driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").text
+                for iat12 in range(1000):
+                    try:
+                        bool = driver.find_element_by_xpath("//div[@id='appian-working-indicator-hidden']").is_enabled()
+                        time.sleep(1)
+                    except Exception:
+                        # print("Loader finished")
+                        time.sleep(1)
+                        break
+                time.sleep(10)
+                try:
+                    element = driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[5]/div/div/div[2]/div/div[8]/div/div[2]/div/input")
+                    InvestmentSOSBenLevelStruckNAVatEndofPeriod = element.get_attribute("value")
+                    AmountListSOSInvestmenst.append(InvestmentSOSBenLevelStruckNAVatEndofPeriod)
+                except Exception:
+                    InvestmentSOSBenLevelStruckNAVatEndofPeriod="0"
+                    AmountListSOSInvestmenst.append(InvestmentSOSBenLevelStruckNAVatEndofPeriod)
+
+            # print("Now Comparing the numbers")
+            for x1 in range(len(AmountListFundLevel)):
+                print()
+                print("Fund Level For year: "+YearList[x1])
+                print("AmountListSOSFunds is"+AmountListSOSFunds[x1])
+                print("AmountListSOSSPV is" + AmountListSOSSPV[x1])
+                print("AmountListFundLevel is" + AmountListFundLevel[x1])
+
+                Value1=AmountListSOSFunds[x1]
+                if "_" in AmountListSOSFunds[x1]:
+                    Value1 ="0"
+                Value1 = Value1.replace(" ", "")
+                Value1 = re.sub(r'[?|$|€|£|!|,]', r'', Value1)
+                Value1SOSFundsFloat=float(Value1)
+
+                Value2 = AmountListSOSSPV[x1]
+                if "_" in AmountListSOSSPV[x1]:
+                    Value2 ="0"
+                Value2 = Value2.replace(" ", "")
+                Value2 = re.sub(r'[?|$|€|£|!|,]', r'', Value2)
+                Value2SOSSPVFloat = float(Value2)
+
+                TotalSOSSPV_SOSFunds=float(Value1SOSFundsFloat+Value2SOSSPVFloat)
+                print("TotalSOSSPV_SOSFunds is: "+str(TotalSOSSPV_SOSFunds))
+
+                Value3 = AmountListFundLevel[x1]
+                if "_" in AmountListFundLevel[x1]:
+                    Value3 ="0"
+                Value3 = Value3.replace(" ", "")
+                Value3 = re.sub(r'[?|$|€|£|!|,]', r'', Value3)
+                Value3AmountListFundLevelFloat = float(Value3)
+
+                if Value3AmountListFundLevelFloat != TotalSOSSPV_SOSFunds:
+                    print(str(Value3AmountListFundLevelFloat - TotalSOSSPV_SOSFunds))
+                    print("AmountListFundLevel ( " + AmountListFundLevel[x1] + " ) and AmountListSOSFunds ( " +
+                          AmountListSOSFunds[x1] + " ) with AmountListSOSSPV ( " +
+                          AmountListSOSSPV[x1] + " ) **NOT** matching for year " + YearList[x1])
+
+                    TestResult.append("Mission Control Fund ( " + AmountListFundLevel[x1] + " ) and SOS Funds ( " +
+                          AmountListSOSFunds[x1] + " ) with SOS SPV ( " +
+                          AmountListSOSSPV[x1] + " ) **NOT** matching for year " + YearList[x1])
+                    TestResultStatus.append("Fail")
+
+            print("-----------------------------------------------------------------------------------")
+            for x11 in range(len(AmountListInvestmentLevel)):
+                print("Investment level For year: " + YearList[x11])
+                print("AmountListSOSInvestmenst is" + AmountListSOSInvestmenst[x11])
+                print("AmountListInvestmentLevel is" + AmountListInvestmentLevel[x11])
+                print()
+
+                Value4 = AmountListSOSInvestmenst[x11]
+                if "_" in AmountListSOSInvestmenst[x11]:
+                    Value4 ="0"
+                Value4 = Value4.replace(" ", "")
+                Value4 = re.sub(r'[?|$|€|£|!|,]', r'', Value4)
+                Value4SOSInvestmenstFloat = float(Value4)
+
+                Value5 = AmountListInvestmentLevel[x11]
+                if "_" in AmountListInvestmentLevel[x11]:
+                    Value5 ="0"
+                Value5 = Value5.replace(" ", "")
+                Value5 = re.sub(r'[?|$|€|£|!|,]', r'', Value5)
+                Value5InvestmentLevelFloat = float(Value5)
+
+                if Value5InvestmentLevelFloat != Value4SOSInvestmenstFloat:
+                    print(str(float(Value5InvestmentLevelFloat-Value4SOSInvestmenstFloat)))
+                    print("AmountListInvestmentLevel ( " + AmountListInvestmentLevel[
+                        x11] + " ) and AmountListSOSInvestments ( " + AmountListSOSInvestmenst[
+                              x11] + " ) **NOT** matching for year " + YearList[x11])
+
+                    TestResult.append("Mission Control Investment ( " + AmountListInvestmentLevel[
+                        x11] + " ) and SOS Investments ( " + AmountListSOSInvestmenst[
+                              x11] + " ) **NOT** matching for year " + YearList[x11])
+                    TestResultStatus.append("Fail")
+        except Exception as Mainerror:
+            stop = time.time()
+            RoundFloatString = round(float(stop - start),2)
+            print("The time of the run for " + PageName + " is: ", RoundFloatString)
+            stringMainerror=repr(Mainerror)
+            TestResult.append(stringMainerror)
+            TestResultStatus.append("Fail")
 
     else:
         print()
