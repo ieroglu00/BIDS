@@ -170,82 +170,69 @@ def test_setup():
 @pytest.mark.smoke
 def test_SummaryByPeriod(test_setup):
     if Exe == "Yes":
-        ForecastYear=4
-        skip1 = 0
-
-        # ---------------------------Verify Liquid Trusts page-----------------------------
-        PageName = "Liquid Trusts"
-        Ptitle1 = "Liquid Trusts - BIDS"
-        driver.find_element_by_xpath("//*[@title='" + PageName + "']").click()
-        for iat1 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
         try:
+            ForecastYear=4
+            skip1 = 0
+
+            # ---------------------------Verify Liquid Trusts page-----------------------------
+            PageName = "Liquid Trusts"
+            Ptitle1 = "Liquid Trusts - BIDS"
+            driver.find_element_by_xpath("//*[@title='" + PageName + "']").click()
+            start = time.time()
+            for iat1 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(1)
             try:
+                try:
+                    PageTitle1 = driver.title
+                    print(PageTitle1)
+                    assert Ptitle1 in PageTitle1, PageName + " not able to open"
+                except Exception:
+                    Ptitle1 = "Funds - BIDS"
+                    PageTitle1 = driver.title
+                    assert Ptitle1 in PageTitle1, PageName + " not able to open"
+                TestResult.append(PageName + " page Opened successfully")
+                TestResultStatus.append("Pass")
+            except Exception:
+                TestResult.append(PageName + " page not able to open")
+                TestResultStatus.append("Fail")
+            stop = time.time()
+            TimeString = stop - start
+            print("The time of the run for " + PageName + " is: ", stop - start)
+            print(TimeString)
+            print()
+            # ---------------------------------------------------------------------------------
+
+            # --------------------Clicking on Capital Activity Summary By Period section--------------
+            PageName = "Capital Activity Summary By Period"
+            Ptitle1 = "COR_CapitalActivityPeriodTemplate - BIDS"
+            driver.find_element_by_xpath("//strong[contains(text(),'" + PageName + "')]").click()
+            start = time.time()
+            for iat2 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(1)
+            try:
+                # PageTitle1 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[2]/button").text
                 PageTitle1 = driver.title
                 print(PageTitle1)
-                assert Ptitle1 in PageTitle1, PageName + " not able to open"
-            except Exception:
-                Ptitle1 = "Funds - BIDS"
-                PageTitle1 = driver.title
-                assert Ptitle1 in PageTitle1, PageName + " not able to open"
-            TestResult.append(PageName + " page Opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName + " page not able to open")
-            TestResultStatus.append("Fail")
-        print()
-        # ---------------------------------------------------------------------------------
-
-        # --------------------Clicking on Capital Activity Summary By Period section--------------
-        PageName = "Capital Activity Summary By Period"
-        Ptitle1 = "COR_CapitalActivityPeriodTemplate - BIDS"
-        driver.find_element_by_xpath("//strong[contains(text(),'" + PageName + "')]").click()
-        for iat2 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
-        try:
-            # PageTitle1 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[2]/button").text
-            PageTitle1 = driver.title
-            print(PageTitle1)
-            assert Ptitle1 in PageTitle1, PageName + " is not able to open successfully"
-            TestResult.append(PageName + " opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception as e1:
-            print(e1)
-            TestResult.append(PageName + " is not able to open successfully")
-            TestResultStatus.append("Fail")
-        for iat3 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
-        print()
-        # ---------------------------------------------------------------------------------
-
-        #------------------Verifying elemenets inside Summary By Period section--------------
-        #------------------View by Funds------------------------------------
-        try:
-            time.sleep(2)
-            driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[1]/div[2]/div/div[2]").click()
-            TestResult.append("View by Funds at Capital Call & Distribution Activity button clicked successfully")
-            TestResultStatus.append("Pass")
-            #driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[1]/div[2]/div/div[2]").click()
-            for iat4 in range(1000):
+                assert Ptitle1 in PageTitle1, PageName + " is not able to open successfully"
+                TestResult.append(PageName + " opened successfully")
+                TestResultStatus.append("Pass")
+            except Exception as e1:
+                print(e1)
+                TestResult.append(PageName + " is not able to open successfully")
+                TestResultStatus.append("Fail")
+            for iat3 in range(1000):
                 try:
                     bool = driver.find_element_by_xpath(
                         "//div[@id='appian-working-indicator-hidden']").is_enabled()
@@ -253,131 +240,162 @@ def test_SummaryByPeriod(test_setup):
                     time.sleep(1)
                     break
             time.sleep(1)
+            print()
+            stop = time.time()
+            TimeString = stop - start
+            print("The time of the run for " + PageName + " is: ", stop - start)
+            print(TimeString)
+            # ---------------------------------------------------------------------------------
 
-            # ------Checking View by Funds---------
-            Text1="Filter By"
-            Element1=driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[2]/div[1]/div/div[2]/div/div[1]/div[2]/div/div[1]/div/div[2]/div/p/strong").text
+            #------------------Verifying elemenets inside Summary By Period section--------------
+            #------------------View by Funds------------------------------------
             try:
-                assert Text1 in Element1, "View by Funds at Capital Call & Distribution Activity is not able to open"
-                TestResult.append("View by Funds at Capital Call & Distribution Activity opened successfully")
+                time.sleep(2)
+                driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[1]/div[2]/div/div[2]").click()
+                TestResult.append("View by Funds at Capital Call & Distribution Activity button clicked successfully")
                 TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append("View by Funds at Capital Call & Distribution Activity is not able to open")
-                TestResultStatus.append("Fail")
+                #driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[1]/div[2]/div/div[2]").click()
+                for iat4 in range(1000):
+                    try:
+                        bool = driver.find_element_by_xpath(
+                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                    except Exception:
+                        time.sleep(1)
+                        break
+                time.sleep(1)
 
-            # ------Checking Filter By drop down---------
-            Text1 = "Both"
-            Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[2]/div[1]/div/div[2]/div/div[1]/div[2]/div/div[2]/div/div[2]/div/div/span").text
-            try:
-                assert Text1 in Element1, "Filter By drop down at Capital Call & Distribution Activity is not present"
-                TestResult.append("Filter By drop down at Capital Call & Distribution Activity is present")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append("Filter By drop down at Capital Call & Distribution Activity is not present")
-                TestResultStatus.append("Fail")
-
-            # ------Checking Grand Total---------
-            Text1 = "Grand Total"
-            Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div/div/table/tbody/tr[3]/td[1]/div/p").text
-            try:
-                assert Text1 in Element1, "Grand Total at Capital Call & Distribution Activity under Settlement Totals section is not present"
-                TestResult.append("Grand Total at Capital Call & Distribution Activity under Settlement Totals section is present")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append("Grand Total at Capital Call & Distribution Activity under Settlement Totals section is not present")
-                TestResultStatus.append("Fail")
-
-            # ------Checking Funds present---------
-            Text1 = "Fund Name"
-            Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[4]/div/div[1]/div[1]/div[2]/table/thead/tr/th[5]/div").text
-            try:
-                assert Text1 in Element1, "Funds Grid at Capital Call & Distribution Activity is not present"
-                TestResult.append(
-                    "Funds Grid at Capital Call & Distribution Activity is present")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append(
-                    "Funds Grid at Capital Call & Distribution Activity is not present")
-                TestResultStatus.append("Fail")
-
-            # ------Compare Grand Total at Settlement Totals with Settlement Amount (Func. Ccy) value---------
-            Text1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div/div/table/tbody/tr[3]/td[2]/div/p/strong").text
-            Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[4]/div/div[1]/div[1]/div[2]/table/tbody/tr[position()=last()]/td[18]/div/p/strong").text
-            try:
-                assert Text1 in Element1, "Grand Total at Settlement Totals is not matching with Settlement Amount (Func. Ccy) value"
-                TestResult.append(
-                    "Grand Total at Settlement Totals matched with Settlement Amount (Func. Ccy) value")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append(
-                    "Grand Total at Settlement Totals is not matching with Settlement Amount (Func. Ccy) value")
-                TestResultStatus.append("Fail")
-            #-----------------------------------------------------------------------------------
-        except Exception as e1:
-            print(e1)
-            TestResult.append("View by Funds button at Capital Call & Distribution Activity is not able to click")
-            TestResultStatus.append("Fail")
-
-        # -----------------------------------------View by Investments------------------------------------
-        try:
-            time.sleep(2)
-            driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[1]/div[2]/div/div[1]").click()
-            TestResult.append("View by Investments at Capital Call & Distribution Activity button clicked successfully")
-            TestResultStatus.append("Pass")
-            for iat5 in range(1000):
+                # ------Checking View by Funds---------
+                Text1="Filter By"
+                Element1=driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[2]/div[1]/div/div[2]/div/div[1]/div[2]/div/div[1]/div/div[2]/div/p/strong").text
                 try:
-                    bool = driver.find_element_by_xpath(
-                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                except Exception:
-                    time.sleep(1)
-                    break
-            time.sleep(1)
+                    assert Text1 in Element1, "View by Funds at Capital Call & Distribution Activity is not able to open"
+                    TestResult.append("View by Funds at Capital Call & Distribution Activity opened successfully")
+                    TestResultStatus.append("Pass")
+                except Exception as e1:
+                    print(e1)
+                    TestResult.append("View by Funds at Capital Call & Distribution Activity is not able to open")
+                    TestResultStatus.append("Fail")
 
-            # ---------------Checking Ben Reporting Period dropdown----------
-            Text1 = "Ben Reporting Period"
-            Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout ContentLayout---padding_less']/div/div[2]/div/div/div/div[2]/div/p/strong").text
-            try:
-                assert Text1 in Element1, "Ben Reporting Period dropdown (View by Investements) at Capital Call & Distribution Activity is not present"
-                TestResult.append("Ben Reporting Period dropdown (View by Investements) at Capital Call & Distribution Activity is present")
-                TestResultStatus.append("Pass")
+                # ------Checking Filter By drop down---------
+                Text1 = "Both"
+                Element1 = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[2]/div[1]/div/div[2]/div/div[1]/div[2]/div/div[2]/div/div[2]/div/div/span").text
+                try:
+                    assert Text1 in Element1, "Filter By drop down at Capital Call & Distribution Activity is not present"
+                    TestResult.append("Filter By drop down at Capital Call & Distribution Activity is present")
+                    TestResultStatus.append("Pass")
+                except Exception as e1:
+                    print(e1)
+                    TestResult.append("Filter By drop down at Capital Call & Distribution Activity is not present")
+                    TestResultStatus.append("Fail")
+
+                # ------Checking Grand Total---------
+                Text1 = "Grand Total"
+                Element1 = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div/div/table/tbody/tr[3]/td[1]/div/p").text
+                try:
+                    assert Text1 in Element1, "Grand Total at Capital Call & Distribution Activity under Settlement Totals section is not present"
+                    TestResult.append("Grand Total at Capital Call & Distribution Activity under Settlement Totals section is present")
+                    TestResultStatus.append("Pass")
+                except Exception as e1:
+                    print(e1)
+                    TestResult.append("Grand Total at Capital Call & Distribution Activity under Settlement Totals section is not present")
+                    TestResultStatus.append("Fail")
+
+                # ------Checking Funds present---------
+                Text1 = "Fund Name"
+                Element1 = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[4]/div/div[1]/div[1]/div[2]/table/thead/tr/th[5]/div").text
+                try:
+                    assert Text1 in Element1, "Funds Grid at Capital Call & Distribution Activity is not present"
+                    TestResult.append(
+                        "Funds Grid at Capital Call & Distribution Activity is present")
+                    TestResultStatus.append("Pass")
+                except Exception as e1:
+                    print(e1)
+                    TestResult.append(
+                        "Funds Grid at Capital Call & Distribution Activity is not present")
+                    TestResultStatus.append("Fail")
+
+                # ------Compare Grand Total at Settlement Totals with Settlement Amount (Func. Ccy) value---------
+                Text1 = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div/div/table/tbody/tr[3]/td[2]/div/p/strong").text
+                Element1 = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[4]/div/div[1]/div[1]/div[2]/table/tbody/tr[position()=last()]/td[18]/div/p/strong").text
+                try:
+                    assert Text1 in Element1, "Grand Total at Settlement Totals is not matching with Settlement Amount (Func. Ccy) value"
+                    TestResult.append(
+                        "Grand Total at Settlement Totals matched with Settlement Amount (Func. Ccy) value")
+                    TestResultStatus.append("Pass")
+                except Exception as e1:
+                    print(e1)
+                    TestResult.append(
+                        "Grand Total at Settlement Totals is not matching with Settlement Amount (Func. Ccy) value")
+                    TestResultStatus.append("Fail")
+                #-----------------------------------------------------------------------------------
             except Exception as e1:
                 print(e1)
-                TestResult.append("Ben Reporting Period dropdown (View by Investements) at Capital Call & Distribution Activity is not present")
+                TestResult.append("View by Funds button at Capital Call & Distribution Activity is not able to click")
                 TestResultStatus.append("Fail")
 
-            # ---------------Checking Funds listing table----------
-            time.sleep(3)
-            Text1 = "LiquidTrust Management, LLC"
-            Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[4]/div/div[1]/div[2]/div/div/div[2]/table/tbody/tr[1]/td[2]/div/p/a/span").text
-            print(Element1)
+            # -----------------------------------------View by Investments------------------------------------
             try:
-                assert Text1 in Element1, "Funds listing table (View by Investements) at Capital Call & Distribution Activity is not present"
-                TestResult.append(
-                    "Funds listing table (View by Investements) at Capital Call & Distribution Activity is present")
+                time.sleep(2)
+                driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[1]/div[2]/div/div[1]").click()
+                TestResult.append("View by Investments at Capital Call & Distribution Activity button clicked successfully")
                 TestResultStatus.append("Pass")
+                for iat5 in range(1000):
+                    try:
+                        bool = driver.find_element_by_xpath(
+                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                    except Exception:
+                        time.sleep(1)
+                        break
+                time.sleep(1)
+
+                # ---------------Checking Ben Reporting Period dropdown----------
+                Text1 = "Ben Reporting Period"
+                Element1 = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout ContentLayout---padding_less']/div/div[2]/div/div/div/div[2]/div/p/strong").text
+                try:
+                    assert Text1 in Element1, "Ben Reporting Period dropdown (View by Investements) at Capital Call & Distribution Activity is not present"
+                    TestResult.append("Ben Reporting Period dropdown (View by Investements) at Capital Call & Distribution Activity is present")
+                    TestResultStatus.append("Pass")
+                except Exception as e1:
+                    print(e1)
+                    TestResult.append("Ben Reporting Period dropdown (View by Investements) at Capital Call & Distribution Activity is not present")
+                    TestResultStatus.append("Fail")
+
+                # ---------------Checking Funds listing table----------
+                time.sleep(3)
+                Text1 = "LiquidTrust Management, LLC"
+                Element1 = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[4]/div/div[1]/div[2]/div/div/div[2]/table/tbody/tr[1]/td[2]/div/p/a/span").text
+                print(Element1)
+                try:
+                    assert Text1 in Element1, "Funds listing table (View by Investements) at Capital Call & Distribution Activity is not present"
+                    TestResult.append(
+                        "Funds listing table (View by Investements) at Capital Call & Distribution Activity is present")
+                    TestResultStatus.append("Pass")
+                except Exception as e1:
+                    print(e1)
+                    TestResult.append(
+                        "Funds listing table (View by Investements) at Capital Call & Distribution Activity is not present")
+                    TestResultStatus.append("Fail")
+
             except Exception as e1:
                 print(e1)
-                TestResult.append(
-                    "Funds listing table (View by Investements) at Capital Call & Distribution Activity is not present")
+                TestResult.append("View by Investments button at Capital Call & Distribution Activity is not able to click")
                 TestResultStatus.append("Fail")
-
-        except Exception as e1:
-            print(e1)
-            TestResult.append("View by Investments button at Capital Call & Distribution Activity is not able to click")
+        except Exception as Mainerror:
+            stop = time.time()
+            RoundFloatString = round(float(stop - start),2)
+            print("The time of the run for " + PageName + " is: ", RoundFloatString)
+            stringMainerror=repr(Mainerror)
+            TestResult.append(stringMainerror)
             TestResultStatus.append("Fail")
 
     else:

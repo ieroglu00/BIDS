@@ -168,212 +168,250 @@ def test_setup():
 @pytest.mark.smoke
 def test_VerifyAllClickables(test_setup):
     if Exe == "Yes":
-        print()
-        #---------------------------Verify Liquid Trusts page-----------------------------
-        PageName="Liquid Trusts"
-        Ptitle1="Liquid Trusts - BIDS"
-        driver.find_element_by_xpath("//*[@title='"+PageName+"']").click()
-        for iat1 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
         try:
+            print()
+            #---------------------------Verify Liquid Trusts page-----------------------------
+            PageName="Liquid Trusts"
+            Ptitle1="Liquid Trusts - BIDS"
+            driver.find_element_by_xpath("//*[@title='"+PageName+"']").click()
+            start = time.time()
+            for iat1 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(1)
             try:
+                try:
+                    PageTitle1 = driver.title
+                    print(PageTitle1)
+                    assert PageTitle1 in Ptitle1, PageName + " not able to open"
+                except Exception:
+                    Ptitle1="Funds - BIDS"
+                    PageTitle1 = driver.title
+                    assert Ptitle1 in PageTitle1, PageName + " not able to open"
+                TestResult.append(PageName + " page Opened successfully")
+                TestResultStatus.append("Pass")
+            except Exception:
+                TestResult.append(PageName +     " page not able to open")
+                TestResultStatus.append("Fail")
+            print()
+            stop = time.time()
+            TimeString = stop - start
+            print("The time of the run for " + PageName + " is: ", stop - start)
+            print(TimeString)
+            #---------------------------------------------------------------------------------
+
+            #--------------------Clicking on Capital Activity Summary By Period section--------------
+            PageName = "Capital Activity Summary By Period"
+            Ptitle1 = "COR_CapitalActivityPeriodTemplate - BIDS"
+            driver.find_element_by_xpath("//strong[contains(text(),'"+PageName+"')]").click()
+            start = time.time()
+            for iat2 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(1)
+            try:
+                #PageTitle1 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[2]/button").text
+                PageTitle1= driver.title
+                print(PageTitle1)
+                assert PageTitle1 in Ptitle1, PageName + " is not able to open successfully"
+                TestResult.append(PageName + " opened successfully")
+                TestResultStatus.append("Pass")
+            except Exception as e1:
+                print(e1)
+                TestResult.append(PageName + " is not able to open successfully")
+                TestResultStatus.append("Fail")
+            driver.find_element_by_xpath("//*[@title='Liquid Trusts']").click()
+            for iat3 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(1)
+            print()
+            stop = time.time()
+            TimeString = stop - start
+            print("The time of the run for " + PageName + " is: ", stop - start)
+            print(TimeString)
+            #---------------------------------------------------------------------------------
+
+            # --------------------Clicking on Liquid Trusts - Trust Accounting section--------------
+            PageName = "Liquid Trusts - Trust Accounting"
+            Ptitle1 = "Trust Accounting Report - BIDS"
+            driver.find_element_by_xpath("//strong[contains(text(),'" + PageName + "')]").click()
+            start = time.time()
+            for iat4 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(1)
+            wait = WebDriverWait(driver, 60)
+            wait.until(EC.presence_of_element_located((By.XPATH,
+                                                       "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[1]/div[1]/div/div[2]/div/div/table/tbody/tr[1]/td[1]/div/p/strong")))
+            try:
+                # PageTitle1 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[2]/button").text
                 PageTitle1 = driver.title
                 print(PageTitle1)
-                assert PageTitle1 in Ptitle1, PageName + " not able to open"
-            except Exception:
-                Ptitle1="Funds - BIDS"
+                assert PageTitle1 in Ptitle1, PageName + " is not able to open successfully"
+                TestResult.append(PageName + " opened successfully")
+                TestResultStatus.append("Pass")
+            except Exception as e1:
+                print(e1)
+                TestResult.append(PageName + " is not able to open successfully")
+                TestResultStatus.append("Fail")
+            driver.find_element_by_xpath("//*[@title='Liquid Trusts']").click()
+            for iat5 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(1)
+            print()
+            stop = time.time()
+            TimeString = stop - start
+            print("The time of the run for " + PageName + " is: ", stop - start)
+            print(TimeString)
+            # ---------------------------------------------------------------------------------
+            # --------------------Clicking on Unfunded Commitments section--------------
+            PageName = "Unfunded Commitments"
+            Ptitle1 = "Unfunded Rollforward/Commitment Page - BIDS"
+            driver.find_element_by_xpath("//strong[contains(text(),'" + PageName + "')]").click()
+            start = time.time()
+            for iat6 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(1)
+            wait = WebDriverWait(driver, 60)
+            wait.until(EC.presence_of_element_located((By.XPATH,
+                                                       "//div[@class='ContentLayout---content_layout']/div[2]/div[1]/div/div[1]/span")))
+            try:
+                # PageTitle1 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[2]/button").text
                 PageTitle1 = driver.title
-                assert Ptitle1 in PageTitle1, PageName + " not able to open"
-            TestResult.append(PageName + " page Opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName +     " page not able to open")
+                print(PageTitle1)
+                assert PageTitle1 in Ptitle1, PageName + " is not able to open successfully"
+                TestResult.append(PageName + " opened successfully")
+                TestResultStatus.append("Pass")
+            except Exception as e1:
+                print(e1)
+                TestResult.append(PageName + " is not able to open successfully")
+                TestResultStatus.append("Fail")
+            driver.find_element_by_xpath("//*[@title='Liquid Trusts']").click()
+            for iat7 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(1)
+            print()
+            stop = time.time()
+            TimeString = stop - start
+            print("The time of the run for " + PageName + " is: ", stop - start)
+            print(TimeString)
+            # ---------------------------------------------------------------------------------
+            # --------------------Clicking on Liquid Trusts - Underwriting section--------------
+            PageName = "Liquid Trusts - Underwriting"
+            Ptitle1 = "COR_ListOfLiquidTrusts - BIDS"
+            driver.find_element_by_xpath("//strong[contains(text(),'" + PageName + "')]").click()
+            start = time.time()
+            for iat8 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(1)
+            try:
+                # PageTitle1 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[2]/button").text
+                PageTitle1 = driver.title
+                print(PageTitle1)
+                assert PageTitle1 in Ptitle1, PageName + " is not able to open successfully"
+                TestResult.append(PageName + " opened successfully")
+                TestResultStatus.append("Pass")
+            except Exception as e1:
+                print(e1)
+                TestResult.append(PageName + " is not able to open successfully")
+                TestResultStatus.append("Fail")
+            driver.find_element_by_xpath("//*[@title='Liquid Trusts']").click()
+            for iat9 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(1)
+            print()
+            stop = time.time()
+            TimeString = stop - start
+            print("The time of the run for " + PageName + " is: ", stop - start)
+            print(TimeString)
+            # ---------------------------------------------------------------------------------
+            # --------------------Clicking on K-1 Report section--------------
+            PageName = "K-1 Report"
+            Ptitle1 = "K1 Report - BIDS"
+            driver.find_element_by_xpath("//strong[contains(text(),'" + PageName + "')]").click()
+            start = time.time()
+            for iat10 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(1)
+            try:
+                # PageTitle1 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[2]/button").text
+                PageTitle1 = driver.title
+                print(PageTitle1)
+                assert PageTitle1 in Ptitle1, PageName + " is not able to open successfully"
+                TestResult.append(PageName + " opened successfully")
+                TestResultStatus.append("Pass")
+            except Exception as e1:
+                print(e1)
+                TestResult.append(PageName + " is not able to open successfully")
+                TestResultStatus.append("Fail")
+            driver.find_element_by_xpath("//*[@title='Liquid Trusts']").click()
+            for iat11 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(1)
+            stop = time.time()
+            TimeString = stop - start
+            print("The time of the run for " + PageName + " is: ", stop - start)
+            print(TimeString)
+            # ---------------------------------------------------------------------------------
+        except Exception as Mainerror:
+            stop = time.time()
+            RoundFloatString = round(float(stop - start),2)
+            print("The time of the run for " + PageName + " is: ", RoundFloatString)
+            stringMainerror=repr(Mainerror)
+            TestResult.append(stringMainerror)
             TestResultStatus.append("Fail")
-        print()
-        #---------------------------------------------------------------------------------
-
-        #--------------------Clicking on Capital Activity Summary By Period section--------------
-        PageName = "Capital Activity Summary By Period"
-        Ptitle1 = "COR_CapitalActivityPeriodTemplate - BIDS"
-        driver.find_element_by_xpath("//strong[contains(text(),'"+PageName+"')]").click()
-        for iat2 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
-        try:
-            #PageTitle1 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[2]/button").text
-            PageTitle1= driver.title
-            print(PageTitle1)
-            assert PageTitle1 in Ptitle1, PageName + " is not able to open successfully"
-            TestResult.append(PageName + " opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception as e1:
-            print(e1)
-            TestResult.append(PageName + " is not able to open successfully")
-            TestResultStatus.append("Fail")
-        driver.find_element_by_xpath("//*[@title='Liquid Trusts']").click()
-        for iat3 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
-        print()
-        #---------------------------------------------------------------------------------
-
-        # --------------------Clicking on Liquid Trusts - Trust Accounting section--------------
-        PageName = "Liquid Trusts - Trust Accounting"
-        Ptitle1 = "Trust Accounting Report - BIDS"
-        driver.find_element_by_xpath("//strong[contains(text(),'" + PageName + "')]").click()
-        for iat4 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
-        wait = WebDriverWait(driver, 60)
-        wait.until(EC.presence_of_element_located((By.XPATH,
-                                                   "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[1]/div[1]/div/div[2]/div/div/table/tbody/tr[1]/td[1]/div/p/strong")))
-        try:
-            # PageTitle1 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[2]/button").text
-            PageTitle1 = driver.title
-            print(PageTitle1)
-            assert PageTitle1 in Ptitle1, PageName + " is not able to open successfully"
-            TestResult.append(PageName + " opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception as e1:
-            print(e1)
-            TestResult.append(PageName + " is not able to open successfully")
-            TestResultStatus.append("Fail")
-        driver.find_element_by_xpath("//*[@title='Liquid Trusts']").click()
-        for iat5 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
-        print()
-        # ---------------------------------------------------------------------------------
-        # --------------------Clicking on Unfunded Commitments section--------------
-        PageName = "Unfunded Commitments"
-        Ptitle1 = "Unfunded Rollforward/Commitment Page - BIDS"
-        driver.find_element_by_xpath("//strong[contains(text(),'" + PageName + "')]").click()
-        for iat6 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
-        wait = WebDriverWait(driver, 60)
-        wait.until(EC.presence_of_element_located((By.XPATH,
-                                                   "//div[@class='ContentLayout---content_layout']/div[2]/div[1]/div/div[1]/span")))
-        try:
-            # PageTitle1 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[2]/button").text
-            PageTitle1 = driver.title
-            print(PageTitle1)
-            assert PageTitle1 in Ptitle1, PageName + " is not able to open successfully"
-            TestResult.append(PageName + " opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception as e1:
-            print(e1)
-            TestResult.append(PageName + " is not able to open successfully")
-            TestResultStatus.append("Fail")
-        driver.find_element_by_xpath("//*[@title='Liquid Trusts']").click()
-        for iat7 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
-        print()
-        # ---------------------------------------------------------------------------------
-        # --------------------Clicking on Liquid Trusts - Underwriting section--------------
-        PageName = "Liquid Trusts - Underwriting"
-        Ptitle1 = "COR_ListOfLiquidTrusts - BIDS"
-        driver.find_element_by_xpath("//strong[contains(text(),'" + PageName + "')]").click()
-        for iat8 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
-        try:
-            # PageTitle1 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[2]/button").text
-            PageTitle1 = driver.title
-            print(PageTitle1)
-            assert PageTitle1 in Ptitle1, PageName + " is not able to open successfully"
-            TestResult.append(PageName + " opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception as e1:
-            print(e1)
-            TestResult.append(PageName + " is not able to open successfully")
-            TestResultStatus.append("Fail")
-        driver.find_element_by_xpath("//*[@title='Liquid Trusts']").click()
-        for iat9 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
-        print()
-        # ---------------------------------------------------------------------------------
-        # --------------------Clicking on K-1 Report section--------------
-        PageName = "K-1 Report"
-        Ptitle1 = "K1 Report - BIDS"
-        driver.find_element_by_xpath("//strong[contains(text(),'" + PageName + "')]").click()
-        for iat10 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
-        try:
-            # PageTitle1 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[2]/button").text
-            PageTitle1 = driver.title
-            print(PageTitle1)
-            assert PageTitle1 in Ptitle1, PageName + " is not able to open successfully"
-            TestResult.append(PageName + " opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception as e1:
-            print(e1)
-            TestResult.append(PageName + " is not able to open successfully")
-            TestResultStatus.append("Fail")
-        driver.find_element_by_xpath("//*[@title='Liquid Trusts']").click()
-        for iat11 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
-        # ---------------------------------------------------------------------------------
 
     else:
         print()
