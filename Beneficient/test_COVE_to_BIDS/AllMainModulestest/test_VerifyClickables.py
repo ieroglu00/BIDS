@@ -172,168 +172,191 @@ def test_setup():
 @pytest.mark.smoke
 def test_AllModulesVerifyCOVE(test_setup):
     if Exe == "Yes":
-        print()
-        PageName="Transactions"
-        Ptitle1="Transactions - BIDS"
-        driver.find_element_by_xpath("//*[@title='"+PageName+"']").click()
-        for iat1 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
         try:
+            print()
+            PageName="Transactions"
+            Ptitle1="Transactions - BIDS"
+            driver.find_element_by_xpath("//*[@title='"+PageName+"']").click()
+            start = time.time()
+            for iat1 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(1)
             try:
-                PageTitle1 = driver.title
-                print(PageTitle1)
-                assert Ptitle1 in PageTitle1, PageName + " not able to open"
+                try:
+                    PageTitle1 = driver.title
+                    print(PageTitle1)
+                    assert Ptitle1 in PageTitle1, PageName + " not able to open"
+                except Exception:
+                    Ptitle1="Funds - BIDS"
+                    PageTitle1 = driver.title
+                    assert Ptitle1 in PageTitle1, PageName + " not able to open"
+                TestResult.append(PageName + " page Opened successfully")
+                TestResultStatus.append("Pass")
             except Exception:
-                Ptitle1="Funds - BIDS"
-                PageTitle1 = driver.title
-                assert Ptitle1 in PageTitle1, PageName + " not able to open"
-            TestResult.append(PageName + " page Opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName + " page not able to open")
-            TestResultStatus.append("Fail")
+                TestResult.append(PageName + " page not able to open")
+                TestResultStatus.append("Fail")
+            stop = time.time()
+            TimeString = stop - start
+            print("The time of the run for " + PageName + " is: ", stop - start)
+            print(TimeString)
 
-        # PageName = "Task Management"
-        # driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
-        # for iat2 in range(1000):
-        #     try:
-        #         bool = driver.find_element_by_xpath(
-        #             "//div[@id='appian-working-indicator-hidden']").is_enabled()
-        #     except Exception:
-        #         time.sleep(1)
-        #         break
-        # time.sleep(1)
-        # Ptitle2 = "Display Tasks For Analyst:"
-        # PageTitle2 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div[2]/div/div/div/div/div[2]/p").text
-        # try:
-        #     print(PageTitle2)
-        #     assert Ptitle2 in PageTitle2, PageName + " not able to open"
-        #     TestResult.append(PageName + " page Opened successfully")
-        #     TestResultStatus.append("Pass")
-        # except Exception:
-        #     TestResult.append(PageName + " page not able to open")
-        #     TestResultStatus.append("Fail")
-        # driver.find_element_by_xpath("//*[@title='Transactions']").click()
-        # for iat3 in range(1000):
-        #     try:
-        #         bool = driver.find_element_by_xpath(
-        #             "//div[@id='appian-working-indicator-hidden']").is_enabled()
-        #     except Exception:
-        #         time.sleep(1)
-        #         break
-        # time.sleep(1)
+            # PageName = "Task Management"
+            # driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
+            # for iat2 in range(1000):
+            #     try:
+            #         bool = driver.find_element_by_xpath(
+            #             "//div[@id='appian-working-indicator-hidden']").is_enabled()
+            #     except Exception:
+            #         time.sleep(1)
+            #         break
+            # time.sleep(1)
+            # Ptitle2 = "Display Tasks For Analyst:"
+            # PageTitle2 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div[2]/div/div/div/div/div[2]/p").text
+            # try:
+            #     print(PageTitle2)
+            #     assert Ptitle2 in PageTitle2, PageName + " not able to open"
+            #     TestResult.append(PageName + " page Opened successfully")
+            #     TestResultStatus.append("Pass")
+            # except Exception:
+            #     TestResult.append(PageName + " page not able to open")
+            #     TestResultStatus.append("Fail")
+            # driver.find_element_by_xpath("//*[@title='Transactions']").click()
+            # for iat3 in range(1000):
+            #     try:
+            #         bool = driver.find_element_by_xpath(
+            #             "//div[@id='appian-working-indicator-hidden']").is_enabled()
+            #     except Exception:
+            #         time.sleep(1)
+            #         break
+            # time.sleep(1)
 
-        PageName = "Transaction ID"
-        try:
-            driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div/table/tbody/tr[1]/td[2]/div/p/a").click()
-        except Exception:
-            time.sleep(7)
+            PageName = "Transaction ID"
             try:
                 driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div/table/tbody/tr[1]/td[2]/div/p/a").click()
+                start = time.time()
+            except Exception:
+                time.sleep(7)
+                try:
+                    driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div/table/tbody/tr[1]/td[2]/div/p/a").click()
+                except Exception:
+                    TestResult.append(PageName + " not able to open on click")
+                    TestResultStatus.append("Fail")
+            for iat4 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(1)
+            Ptitle3 = "Transaction NAV Concentration"
+            print(driver.title)
+            PageTitle3 = driver.find_element_by_xpath(
+                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div[1]/div[1]/div[1]/div/div/div").text
+            try:
+                assert Ptitle3 in PageTitle3, PageName + " not able to open"
+                TestResult.append(PageName + " clicked and opened successfully")
+                TestResultStatus.append("Pass")
             except Exception:
                 TestResult.append(PageName + " not able to open on click")
                 TestResultStatus.append("Fail")
-        for iat4 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
-        Ptitle3 = "Transaction NAV Concentration"
-        print(driver.title)
-        PageTitle3 = driver.find_element_by_xpath(
-            "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div[1]/div[1]/div[1]/div/div/div").text
-        try:
-            assert Ptitle3 in PageTitle3, PageName + " not able to open"
-            TestResult.append(PageName + " clicked and opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName + " not able to open on click")
-            TestResultStatus.append("Fail")
+            stop = time.time()
+            TimeString = stop - start
+            print("The time of the run for " + PageName + " is: ", stop - start)
+            print(TimeString)
 
-        PageName = "Transaction Mgmt"
-        driver.find_element_by_xpath(
-            "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[2]/button").click()
-        for iat4 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
-        Ptitle4 = "Transaction Workflow"
-        PageTitle4 = driver.find_element_by_xpath(
-            "//div[@class='ContentLayout---content_layout']/div[4]/div[1]/div/div[1]/div[1]").text
-        try:
-            print(PageTitle3)
-            assert Ptitle4 in PageTitle4, PageName + " not able to open"
-            TestResult.append(PageName + " button clicked successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName + " button not able to open on click")
-            TestResultStatus.append("Fail")
-
-        HyperlinksCount=19
-        for ii in range (1,HyperlinksCount+1):
-            try:
-                time.sleep(1)
+            PageName = "Transaction Mgmt"
+            driver.find_element_by_xpath(
+                "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[2]/button").click()
+            start = time.time()
+            for iat4 in range(1000):
                 try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(1)
+            Ptitle4 = "Transaction Workflow"
+            PageTitle4 = driver.find_element_by_xpath(
+                "//div[@class='ContentLayout---content_layout']/div[4]/div[1]/div/div[1]/div[1]").text
+            try:
+                print(PageTitle3)
+                assert Ptitle4 in PageTitle4, PageName + " not able to open"
+                TestResult.append(PageName + " button clicked successfully")
+                TestResultStatus.append("Pass")
+            except Exception:
+                TestResult.append(PageName + " button not able to open on click")
+                TestResultStatus.append("Fail")
+            stop = time.time()
+            TimeString = stop - start
+            print("The time of the run for " + PageName + " is: ", stop - start)
+            print(TimeString)
+
+            HyperlinksCount=19
+            for ii in range (1,HyperlinksCount+1):
+                try:
+                    time.sleep(1)
                     try:
-                        driver.find_element_by_xpath(
-                            "//div[@class='ContentLayout---content_layout']/div[4]/div/div/div[2]/div/div["+str(ii)+"]/div[2]/div/div[2]/div/p/span/a").click()
-                    except Exception:
-                        time.sleep(1)
-                        driver.find_element_by_xpath(
-                            "//div[@class='ContentLayout---content_layout']/div[4]/div/div/div[2]/div/div[" + str(
-                                ii) + "]/div[2]/div/div[2]/div/p/span/strong/a").click()
-                    #print("A1")
-                    for iat5 in range(1000):
                         try:
-                            bool = driver.find_element_by_xpath(
-                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                            driver.find_element_by_xpath(
+                                "//div[@class='ContentLayout---content_layout']/div[4]/div/div/div[2]/div/div["+str(ii)+"]/div[2]/div/div[2]/div/p/span/a").click()
                         except Exception:
                             time.sleep(1)
-                            break
-                    Element = driver.find_element_by_xpath(
-                        "//div[@class='ContentLayout---content_layout']/div[4]/div/div/div[2]/div/div[" + str(
-                            ii) + "]/div[2]/div/div[2]/div/p/span/strong/a").text
-                    print(Element)
-                    Element = Element.split(' ', 1)
-                    Element = Element[1]
-                    TestResult.append(Element + " opened successfully")
-                    TestResultStatus.append("Pass")
+                            driver.find_element_by_xpath(
+                                "//div[@class='ContentLayout---content_layout']/div[4]/div/div/div[2]/div/div[" + str(
+                                    ii) + "]/div[2]/div/div[2]/div/p/span/strong/a").click()
+                        #print("A1")
+                        for iat5 in range(1000):
+                            try:
+                                bool = driver.find_element_by_xpath(
+                                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                            except Exception:
+                                time.sleep(1)
+                                break
+                        Element = driver.find_element_by_xpath(
+                            "//div[@class='ContentLayout---content_layout']/div[4]/div/div/div[2]/div/div[" + str(
+                                ii) + "]/div[2]/div/div[2]/div/p/span/strong/a").text
+                        print(Element)
+                        Element = Element.split(' ', 1)
+                        Element = Element[1]
+                        TestResult.append(Element + " opened successfully")
+                        TestResultStatus.append("Pass")
+
+                    except Exception:
+                        try:
+                            time.sleep(2)
+                            bool1 = driver.find_element_by_xpath(
+                                "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div/h4").is_displayed()
+                            ErrorText = driver.find_element_by_xpath(
+                                "//div[@class='ContentLayout---content_layout']/div/div/p").text
+                            print(ErrorText)
+                            driver.find_element_by_xpath(
+                                "//div[@class='ContentLayout---content_layout']/div[2]/div/button").click()
+                            time.sleep(5)
+                            TestResult.append("Transaction Workflow Hyperlink at "+str(ii)+") position is not able to open on click\n"+ErrorText)
+                            TestResultStatus.append("Fail")
+                        except Exception as alertExp:
+                            TestResult.append("Transaction Workflow Hyperlink at "+str(ii)+") position is not able to open on click")
+                            TestResultStatus.append("Fail")
+                            pass
 
                 except Exception:
-                    try:
-                        time.sleep(2)
-                        bool1 = driver.find_element_by_xpath(
-                            "//div[@class='ContentLayout---content_layout']/div/div/div/div[2]/div/h4").is_displayed()
-                        ErrorText = driver.find_element_by_xpath(
-                            "//div[@class='ContentLayout---content_layout']/div/div/p").text
-                        print(ErrorText)
-                        driver.find_element_by_xpath(
-                            "//div[@class='ContentLayout---content_layout']/div[2]/div/button").click()
-                        time.sleep(5)
-                        TestResult.append("Transaction Workflow Hyperlink at "+str(ii)+") position is not able to open on click\n"+ErrorText)
-                        TestResultStatus.append("Fail")
-                    except Exception as alertExp:
-                        TestResult.append("Transaction Workflow Hyperlink at "+str(ii)+") position is not able to open on click")
-                        TestResultStatus.append("Fail")
-                        pass
-
-            except Exception:
-                TestResult.append("Transaction Workflow under Transaction MGMT Tanb is not able to open")
-                TestResultStatus.append("Fail")
-                pass
+                    TestResult.append("Transaction Workflow under Transaction MGMT Tanb is not able to open")
+                    TestResultStatus.append("Fail")
+                    pass
+        except Exception as Mainerror:
+            stop = time.time()
+            RoundFloatString = round(float(stop - start),2)
+            print("The time of the run for " + PageName + " is: ", RoundFloatString)
+            stringMainerror=repr(Mainerror)
+            TestResult.append(stringMainerror)
+            TestResultStatus.append("Fail")
 
     else:
         print()
