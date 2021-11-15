@@ -360,7 +360,7 @@ def test_ComparisonSOSwithMissionControl(test_setup):
             # Setting first quarter in the quarter dropdown list
             for iat15 in range(10):
                 P = driver.find_element_by_xpath(
-                    "//div/span[@class='DropdownWidget---accessibilityhidden']").text
+                    "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div/span").text
                 #print("P found is " + P)
                 if P in FirstQuarter:
                     # print()
