@@ -1,8 +1,6 @@
 import datetime
 import re
 import time
-from decimal import getcontext, Decimal
-
 import openpyxl
 from fpdf import FPDF
 import pytest
@@ -10,6 +8,9 @@ from selenium import webdriver
 import allure
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 
 
 @allure.step("Entering username ")
@@ -253,7 +254,9 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                         break
                 time.sleep(5)
 
-
+        wait = WebDriverWait(driver, 150)
+        wait.until(EC.presence_of_element_located((By.XPATH,
+             "//div/span[@class='DropdownWidget---accessibilityhidden']")))
         for ia in range(YearCounterNumber):
             # print("Count is " + str(ia))
             if ia == 0:

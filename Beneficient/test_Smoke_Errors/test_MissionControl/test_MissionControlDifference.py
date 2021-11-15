@@ -1,8 +1,6 @@
 import datetime
 import re
 import time
-from decimal import getcontext, Decimal
-
 import openpyxl
 from fpdf import FPDF
 import pytest
@@ -10,6 +8,9 @@ from selenium import webdriver
 import allure
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 
 
 @allure.step("Entering username ")
@@ -176,149 +177,158 @@ def test_MissionControlDifference(test_setup):
     FirstQuarter="12/31/2021"
 
     if Exe == "Yes":
-        print()
-        PageName = "Quarterly NAV Close"
-        Ptitle1="Quarterly NAV Close - BIDS"
-        driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
-        for iat2 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
-        PageTitle1 = driver.title
         try:
-            assert Ptitle1 in PageTitle1, PageName + " not able to open"
-            TestResult.append(PageName + " page Opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName + " page not able to open")
-            TestResultStatus.append("Fail")
-
-        ###############################################
-        PageName = "Mission Control"
-        Ptitle1 = "COR_ReportMissionControl - BIDS"
-        driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
-        for iat3 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(5)
-        PageTitle1 = driver.title
-        try:
-            assert Ptitle1 in PageTitle1, PageName + " not able to open"
-            TestResult.append(PageName + " page Opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName + " page not able to open")
-            TestResultStatus.append("Fail")
-
-        #---------Setting first quarter in the quarter dropdown list----------------------
-        for iat4 in range(10):
-            P = driver.find_element_by_xpath(
-                "//div/span[@class='DropdownWidget---accessibilityhidden']").text
-            if P in FirstQuarter:
-                break
-            else:
-                print("Trying again as P found is "+P)
-                driver.find_element_by_xpath("//div[@class='DropdownWidget---dropdown']/div").click()
-                ActionChains(driver).key_down(Keys.UP).perform()
-                time.sleep(2)
-                ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                for iat16 in range(1000):
-                    try:
-                        bool = driver.find_element_by_xpath(
-                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                    except Exception:
-                        time.sleep(1)
-                        break
-                time.sleep(5)
-        #---------------------------------------------------------------------------------
-
-        for ia in range(YearCounterNumber):
-            if ia == 0:
-                P = driver.find_element_by_xpath(
-                    "//div/span[@class='DropdownWidget---accessibilityhidden']").text
-            elif ia > 0:
-                time.sleep(5)
-                driver.find_element_by_xpath(
-                    "//input[@class='PickerWidget---picker_input PickerWidget---placeholder']").send_keys()
-                elements = driver.find_elements_by_xpath(
-                    "//div[@class='DropdownWidget---dropdown_value DropdownWidget---inSideBySideItem']")
-                for elem in elements:
-                    elem.click()
+            print()
+            PageName = "Quarterly NAV Close"
+            Ptitle1="Quarterly NAV Close - BIDS"
+            driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
+            for iat2 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
                     break
-                time.sleep(1)
-                ActionChains(driver).key_down(Keys.DOWN).perform()
-                time.sleep(3)
-                ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                time.sleep(2)
-                for ia5 in range(1000):
-                    try:
-                        bool = driver.find_element_by_xpath(
-                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                        time.sleep(1)
-                    except Exception:
-                        time.sleep(1)
-                        break
-                time.sleep(7)
-                P = driver.find_element_by_xpath(
-                    "//div/span[@class='DropdownWidget---accessibilityhidden']").text
-
-            print("Year is "+P)
-            rows = driver.find_elements_by_xpath(
-                "//div[@class='BoxLayout---box BoxLayout---margin_below_standard'][1]/div[2]/div/div/div[4]/div")
-            print("Lenght of rows " + str(len(rows)))
-            if len(rows) == 0:
-                print("No Data available for quarter [ " + P + " ]")
-                TestResult.append("No Data available for quarter [ " + P + " ]")
+            time.sleep(1)
+            PageTitle1 = driver.title
+            try:
+                assert Ptitle1 in PageTitle1, PageName + " not able to open"
+                TestResult.append(PageName + " page Opened successfully")
+                TestResultStatus.append("Pass")
+            except Exception:
+                TestResult.append(PageName + " page not able to open")
                 TestResultStatus.append("Fail")
 
-            for i in range(len(rows) + 1):
-                if i > 1:
-                    # -----------------For NAV Rollover from Prior Period-------------------------
-                    DifferenceValueString = driver.find_element_by_xpath(
-                        "//div[@class='BoxLayout---box BoxLayout---margin_below_standard'][1]/div[2]/div/div/div[4]/div[" + str(
-                            i) + "]/div[2]/div/p").text
-                    DifferenceValueString1=DifferenceValueString
-                    print("DifferenceValueString is " + DifferenceValueString1)
-                    DifferenceValueString = DifferenceValueString.replace(" ", "")
-                    DifferenceValueString = re.sub(r'[?|$|.|!|,|-]', r'', DifferenceValueString)
-                    DifferenceValueString = ''.join(char for char in DifferenceValueString if char.isalnum())
-                    try:
-                        if (int(DifferenceValueString) > 0 or int(DifferenceValueString) < 0):
-                            print(
-                                "Difference found in NAV Rollover from Prior Period for quarter [ " + P + " ] and the difference amount is [ " + DifferenceValueString1+" ]")
-                            TestResult.append("Difference found in NAV Rollover from Prior Period for quarter [ " + P + " ] and the difference amount is [ " + DifferenceValueString1+" ]")
-                            TestResultStatus.append("Fail")
-                    except Exception:
-                        print("- or blank value")
+            ###############################################
+            PageName = "Mission Control"
+            Ptitle1 = "COR_ReportMissionControl - BIDS"
+            driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
+            for iat3 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(5)
+            PageTitle1 = driver.title
+            try:
+                assert Ptitle1 in PageTitle1, PageName + " not able to open"
+                TestResult.append(PageName + " page Opened successfully")
+                TestResultStatus.append("Pass")
+            except Exception:
+                TestResult.append(PageName + " page not able to open")
+                TestResultStatus.append("Fail")
 
-                    # ---------------------------For NAV Roll for Period------------------------------
-                    DifferenceValueStringOther = driver.find_element_by_xpath(
-                        "//div[@class='BoxLayout---box BoxLayout---margin_below_standard'][2]/div[2]/div/div/div[4]/div[" + str(
-                                          i) + "]/div[2]/div/p").text
-                    DifferenceValueStringOther1 = DifferenceValueStringOther
-                    print("DifferenceValueStringOther is " + DifferenceValueStringOther1)
-                    DifferenceValueStringOther = DifferenceValueStringOther.replace(" ", "")
-                    DifferenceValueStringOther = re.sub(r'[?|$|.|!|,|-]', r'', DifferenceValueStringOther)
-                    DifferenceValueStringOther = ''.join(char for char in DifferenceValueStringOther if char.isalnum())
-                    try:
-                        if (int(DifferenceValueStringOther) > 0 or int(DifferenceValueStringOther) < 0):
-                            print(
-                                "Difference found in NAV Rollover for Period for quarter [ " + P + " ] and the difference amount is [ " + DifferenceValueStringOther1+" ]")
-                            TestResult.append(
-                                "Difference found in NAV Rollover for Period for quarter [ " + P + " ] and the difference amount is [ " + DifferenceValueStringOther1+" ]")
-                            TestResultStatus.append("Fail")
-                    except Exception:
-                        print("- or blank value")
+            wait = WebDriverWait(driver, 150)
+            wait.until(EC.presence_of_element_located((By.XPATH,
+                "//div/span[@class='DropdownWidget---accessibilityhidden']")))
+            #---------Setting first quarter in the quarter dropdown list----------------------
+            for iat4 in range(10):
+                P = driver.find_element_by_xpath(
+                    "//div/span[@class='DropdownWidget---accessibilityhidden']").text
+                if P in FirstQuarter:
+                    break
+                else:
+                    print("Trying again as P found is "+P)
+                    driver.find_element_by_xpath("//div[@class='DropdownWidget---dropdown']/div").click()
+                    ActionChains(driver).key_down(Keys.UP).perform()
+                    time.sleep(2)
+                    ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+                    for iat16 in range(1000):
+                        try:
+                            bool = driver.find_element_by_xpath(
+                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                        except Exception:
+                            time.sleep(1)
+                            break
+                    time.sleep(5)
+            #---------------------------------------------------------------------------------
 
-            print()
+            for ia in range(YearCounterNumber):
+                if ia == 0:
+                    P = driver.find_element_by_xpath(
+                        "//div/span[@class='DropdownWidget---accessibilityhidden']").text
+                elif ia > 0:
+                    time.sleep(5)
+                    driver.find_element_by_xpath(
+                        "//input[@class='PickerWidget---picker_input PickerWidget---placeholder']").send_keys()
+                    elements = driver.find_elements_by_xpath(
+                        "//div[@class='DropdownWidget---dropdown_value DropdownWidget---inSideBySideItem']")
+                    for elem in elements:
+                        elem.click()
+                        break
+                    time.sleep(1)
+                    ActionChains(driver).key_down(Keys.DOWN).perform()
+                    time.sleep(3)
+                    ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+                    time.sleep(2)
+                    for ia5 in range(1000):
+                        try:
+                            bool = driver.find_element_by_xpath(
+                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                            time.sleep(1)
+                        except Exception:
+                            time.sleep(1)
+                            break
+                    time.sleep(7)
+                    P = driver.find_element_by_xpath(
+                        "//div/span[@class='DropdownWidget---accessibilityhidden']").text
+
+                print("Year is "+P)
+                rows = driver.find_elements_by_xpath(
+                    "//div[@class='BoxLayout---box BoxLayout---margin_below_standard'][1]/div[2]/div/div/div[4]/div")
+                print("Lenght of rows " + str(len(rows)))
+                if len(rows) == 0:
+                    print("No Data available for quarter [ " + P + " ]")
+                    TestResult.append("No Data available for quarter [ " + P + " ]")
+                    TestResultStatus.append("Fail")
+
+                for i in range(len(rows) + 1):
+                    if i > 1:
+                        # -----------------For NAV Rollover from Prior Period-------------------------
+                        DifferenceValueString = driver.find_element_by_xpath(
+                            "//div[@class='BoxLayout---box BoxLayout---margin_below_standard'][1]/div[2]/div/div/div[4]/div[" + str(
+                                i) + "]/div[2]/div/p").text
+                        DifferenceValueString1=DifferenceValueString
+                        print("DifferenceValueString is " + DifferenceValueString1)
+                        DifferenceValueString = DifferenceValueString.replace(" ", "")
+                        DifferenceValueString = re.sub(r'[?|$|.|!|,|-]', r'', DifferenceValueString)
+                        DifferenceValueString = ''.join(char for char in DifferenceValueString if char.isalnum())
+                        try:
+                            if (int(DifferenceValueString) > 0 or int(DifferenceValueString) < 0):
+                                print(
+                                    "Difference found in NAV Rollover from Prior Period for quarter [ " + P + " ] and the difference amount is [ " + DifferenceValueString1+" ]")
+                                TestResult.append("Difference found in NAV Rollover from Prior Period for quarter [ " + P + " ] and the difference amount is [ " + DifferenceValueString1+" ]")
+                                TestResultStatus.append("Fail")
+                        except Exception:
+                            print("- or blank value")
+
+                        # ---------------------------For NAV Roll for Period------------------------------
+                        DifferenceValueStringOther = driver.find_element_by_xpath(
+                            "//div[@class='BoxLayout---box BoxLayout---margin_below_standard'][2]/div[2]/div/div/div[4]/div[" + str(
+                                              i) + "]/div[2]/div/p").text
+                        DifferenceValueStringOther1 = DifferenceValueStringOther
+                        print("DifferenceValueStringOther is " + DifferenceValueStringOther1)
+                        DifferenceValueStringOther = DifferenceValueStringOther.replace(" ", "")
+                        DifferenceValueStringOther = re.sub(r'[?|$|.|!|,|-]', r'', DifferenceValueStringOther)
+                        DifferenceValueStringOther = ''.join(char for char in DifferenceValueStringOther if char.isalnum())
+                        try:
+                            if (int(DifferenceValueStringOther) > 0 or int(DifferenceValueStringOther) < 0):
+                                print(
+                                    "Difference found in NAV Rollover for Period for quarter [ " + P + " ] and the difference amount is [ " + DifferenceValueStringOther1+" ]")
+                                TestResult.append(
+                                    "Difference found in NAV Rollover for Period for quarter [ " + P + " ] and the difference amount is [ " + DifferenceValueStringOther1+" ]")
+                                TestResultStatus.append("Fail")
+                        except Exception:
+                            print("- or blank value")
+
+                print()
+        except Exception as mainerror:
+            print(mainerror)
+            TestResult.append(mainerror)
+            TestResultStatus.append("Fail")
+
     else:
         print()
         print("Test Case skipped as per the Execution sheet")
