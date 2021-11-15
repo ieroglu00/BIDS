@@ -175,102 +175,121 @@ def test_setup():
 def test_BeaconDataDifferenceChecker(test_setup):
     YearCounterNumber=8
     if Exe == "Yes":
-        print()
-        PageName = "Quarterly NAV Close"
-        Ptitle1="Quarterly NAV Close - BIDS"
-        driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
-        for iat2 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
-        PageTitle1 = driver.title
         try:
-            assert Ptitle1 in PageTitle1, PageName + " not able to open"
-            TestResult.append(PageName + " page Opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName + " page not able to open")
-            TestResultStatus.append("Fail")
-
-        PageName = "Beacon Template"
-        Ptitle1 = "COR_BeaconDataTransferTemplate - BIDS"
-        driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
-        for iat3 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(3)
-        PageTitle1 = driver.title
-        try:
-            assert Ptitle1 in PageTitle1, PageName + " not able to open"
-            TestResult.append(PageName + " page Opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName + " page not able to open")
-            TestResultStatus.append("Fail")
-
-        wait = WebDriverWait(driver, 150)
-        wait.until(EC.presence_of_element_located((By.XPATH,
-                                                   "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span")))
-        for year in range(1,YearCounterNumber):
             print()
-            P = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span").text
-
-            TotalBenNAVDifference=driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[5]/div/div/div/div[3]/div[2]/div/div/div[2]/div[3]/div[2]/div/p").text
-
-            TotalUnfundedCommitmentDifference = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[5]/div/div/div/div[3]/div[2]/div/div/div[2]/div[6]/div[2]/div/p").text
-
-            TotalBenNAVDifference1 = TotalBenNAVDifference
-            TotalBenNAVDifference = TotalBenNAVDifference.replace(" ", "")
-            TotalBenNAVDifference = re.sub(r'[?|$|€|£|!|,|-]', r'', TotalBenNAVDifference)
-            z = TotalBenNAVDifference
-            bool1 = z.isupper() or z.islower()
-            if bool1 == True:
-                TotalBenNAVDifference = re.sub(r'[a-z|A-Z]+', '', TotalBenNAVDifference, re.I)
-            if float(TotalBenNAVDifference) > 0.50:
-                print("yes TotalBenNAVDifference1  "+TotalBenNAVDifference1)
-                TestResult.append("Beacon Data Transfer Template has a difference [ "+TotalBenNAVDifference1+" ] for Total Ben NAV comparison, Quarter is [ "+P+" ]")
-                TestResultStatus.append("Fail")
-
-            TotalUnfundedCommitmentDifference1 = TotalUnfundedCommitmentDifference
-            TotalUnfundedCommitmentDifference = TotalUnfundedCommitmentDifference.replace(" ", "")
-            TotalUnfundedCommitmentDifference = re.sub(r'[?|$|€|£|!|,|-]', r'', TotalUnfundedCommitmentDifference)
-            z = TotalUnfundedCommitmentDifference
-            bool1 = z.isupper() or z.islower()
-            if bool1 == True:
-                TotalUnfundedCommitmentDifference = re.sub(r'[a-z|A-Z]+', '', TotalUnfundedCommitmentDifference, re.I)
-            if float(TotalUnfundedCommitmentDifference) > 0.50:
-                print("yes TotalUnfundedCommitmentDifference1  " + TotalUnfundedCommitmentDifference1)
-                TestResult.append(
-                    "Beacon Data Transfer Template has a difference [ "+TotalUnfundedCommitmentDifference1+" ] for Total Unfunded Commitment comparison, Quarter is [ " + P + " ]")
-                TestResultStatus.append("Fail")
-
-
-            driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div").click()
-            time.sleep(3)
-            ActionChains(driver).key_down(Keys.DOWN).perform()
-            time.sleep(3)
-            ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-            for iat4 in range(1000):
+            PageName = "Quarterly NAV Close"
+            Ptitle1="Quarterly NAV Close - BIDS"
+            driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
+            start = time.time()
+            for iat2 in range(1000):
                 try:
                     bool = driver.find_element_by_xpath(
                         "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                    #print("Loader is present")
                 except Exception:
                     time.sleep(1)
                     break
-            time.sleep(10)
+            time.sleep(1)
+            PageTitle1 = driver.title
+            try:
+                assert Ptitle1 in PageTitle1, PageName + " not able to open"
+                TestResult.append(PageName + " page Opened successfully")
+                TestResultStatus.append("Pass")
+            except Exception:
+                TestResult.append(PageName + " page not able to open")
+                TestResultStatus.append("Fail")
+            stop = time.time()
+            TimeString = stop - start
+            print("The time of the run for "+PageName+" is: ", stop - start)
+            print(TimeString)
+
+            PageName = "Beacon Template"
+            Ptitle1 = "COR_BeaconDataTransferTemplate - BIDS"
+            driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
+            start = time.time()
+            for iat3 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(3)
+            PageTitle1 = driver.title
+            try:
+                assert Ptitle1 in PageTitle1, PageName + " not able to open"
+                TestResult.append(PageName + " page Opened successfully")
+                TestResultStatus.append("Pass")
+            except Exception:
+                TestResult.append(PageName + " page not able to open")
+                TestResultStatus.append("Fail")
+
+            wait = WebDriverWait(driver, 150)
+            wait.until(EC.presence_of_element_located((By.XPATH,
+                "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span")))
+            stop = time.time()
+            TimeString = stop - start
+            print("The time of the run for " + PageName + " is: ", stop - start)
+            print(TimeString)
+            for year in range(1,YearCounterNumber):
+                print()
+                P = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span").text
+
+                TotalBenNAVDifference=driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div[5]/div/div/div/div[3]/div[2]/div/div/div[2]/div[3]/div[2]/div/p").text
+
+                TotalUnfundedCommitmentDifference = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div[5]/div/div/div/div[3]/div[2]/div/div/div[2]/div[6]/div[2]/div/p").text
+
+                TotalBenNAVDifference1 = TotalBenNAVDifference
+                TotalBenNAVDifference = TotalBenNAVDifference.replace(" ", "")
+                TotalBenNAVDifference = re.sub(r'[?|$|€|£|!|,|-]', r'', TotalBenNAVDifference)
+                z = TotalBenNAVDifference
+                bool1 = z.isupper() or z.islower()
+                if bool1 == True:
+                    TotalBenNAVDifference = re.sub(r'[a-z|A-Z]+', '', TotalBenNAVDifference, re.I)
+                if float(TotalBenNAVDifference) > 0.50:
+                    print("yes TotalBenNAVDifference1  "+TotalBenNAVDifference1)
+                    TestResult.append("Beacon Data Transfer Template has a difference [ "+TotalBenNAVDifference1+" ] for Total Ben NAV comparison, Quarter is [ "+P+" ]")
+                    TestResultStatus.append("Fail")
+
+                TotalUnfundedCommitmentDifference1 = TotalUnfundedCommitmentDifference
+                TotalUnfundedCommitmentDifference = TotalUnfundedCommitmentDifference.replace(" ", "")
+                TotalUnfundedCommitmentDifference = re.sub(r'[?|$|€|£|!|,|-]', r'', TotalUnfundedCommitmentDifference)
+                z = TotalUnfundedCommitmentDifference
+                bool1 = z.isupper() or z.islower()
+                if bool1 == True:
+                    TotalUnfundedCommitmentDifference = re.sub(r'[a-z|A-Z]+', '', TotalUnfundedCommitmentDifference, re.I)
+                if float(TotalUnfundedCommitmentDifference) > 0.50:
+                    print("yes TotalUnfundedCommitmentDifference1  " + TotalUnfundedCommitmentDifference1)
+                    TestResult.append(
+                        "Beacon Data Transfer Template has a difference [ "+TotalUnfundedCommitmentDifference1+" ] for Total Unfunded Commitment comparison, Quarter is [ " + P + " ]")
+                    TestResultStatus.append("Fail")
+
+
+                driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div").click()
+                time.sleep(3)
+                ActionChains(driver).key_down(Keys.DOWN).perform()
+                time.sleep(3)
+                ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+                for iat4 in range(1000):
+                    try:
+                        bool = driver.find_element_by_xpath(
+                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                        #print("Loader is present")
+                    except Exception:
+                        time.sleep(1)
+                        break
+                time.sleep(10)
+        except Exception as Mainerror:
+            stop = time.time()
+            RoundFloatString = round(float(stop - start),2)
+            print("The time of the run for " + PageName + " is: ", RoundFloatString)
+            stringMainerror=repr(Mainerror)
+            TestResult.append(stringMainerror)
+            TestResultStatus.append("Fail")
+
 
     else:
         print()

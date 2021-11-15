@@ -174,134 +174,66 @@ def test_setup():
 def test_BeaconTrustMapAllocationPer(test_setup):
     YearCounterNumber=4
     if Exe == "Yes":
-        print()
-        PageName = "Quarterly NAV Close"
-        Ptitle1="Quarterly NAV Close - BIDS"
-        driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
-        for iat2 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
-        PageTitle1 = driver.title
         try:
-            assert Ptitle1 in PageTitle1, PageName + " not able to open"
-            TestResult.append(PageName + " page Opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName + " page not able to open")
-            TestResultStatus.append("Fail")
-        try:
-            bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
-            #print("Red flag present : " + str(bool))
-            TestResult.append(PageName + " has a Red Flag at the top section")
-            TestResultStatus.append("Fail")
-        except Exception:
-            bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
-            #print("Green flag present : " + str(bool))
-            TestResult.append(PageName + " has a Green Flag at the top section")
-            TestResultStatus.append("Pass")
-
-        PageName = "Beacon Template"
-        Ptitle1 = "COR_BeaconDataTransferTemplate - BIDS"
-        driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
-        for iat3 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(5)
-        PageTitle1 = driver.title
-        try:
-            assert Ptitle1 in PageTitle1, PageName + " not able to open"
-            TestResult.append(PageName + " page Opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName + " page not able to open")
-            TestResultStatus.append("Fail")
-        try:
-            bool = driver.find_element_by_xpath(
-                "//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
-            # print("Red flag present : " + str(bool))
-            TestResult.append(PageName + " has a Red Flag at the top section")
-            TestResultStatus.append("Fail")
-        except Exception:
-            bool = driver.find_element_by_xpath(
-                "//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
-            # print("Green flag present : " + str(bool))
-            TestResult.append(PageName + " has a Green Flag at the top section")
-            TestResultStatus.append("Pass")
-
-        wait = WebDriverWait(driver, 150)
-        wait.until(EC.presence_of_element_located((By.XPATH,
-                                                   "//div[@class='ContentLayout---content_layout']/div[2]/div[3]/div/div[2]/div/div")))
-        PageName = "Trust Map Allocation"
-        Ptitle1 = "COR_BeaconDataTransferTemplate - BIDS"
-        driver.find_element_by_xpath(
-            "//div[@class='ContentLayout---content_layout']/div[2]/div[3]/div/div[2]/div/div").click()
-        time.sleep(3)
-        ActionChains(driver).key_down(Keys.DOWN).perform()
-        time.sleep(3)
-        ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-        for iat4 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                # print("Loader is present")
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(10)
-        PageTitle1 = driver.title
-        try:
-            assert Ptitle1 in PageTitle1, PageName + " not able to open"
-            TestResult.append(PageName + " page Opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName + " page not able to open")
-            TestResultStatus.append("Fail")
-        try:
-            bool = driver.find_element_by_xpath(
-                "//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
-            # print("Red flag present : " + str(bool))
-            TestResult.append(PageName + " has a Red Flag at the top section")
-            TestResultStatus.append("Fail")
-        except Exception:
-            bool = driver.find_element_by_xpath(
-                "//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
-            # print("Green flag present : " + str(bool))
-            TestResult.append(PageName + " has a Green Flag at the top section")
-            TestResultStatus.append("Pass")
-
-        for year in range(1,YearCounterNumber):
             print()
-            P = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[1]/div[1]/div/div[2]/div/div[1]/div/div[2]/div/div/span").text
-            T_Rows = driver.find_elements_by_xpath("//tbody/tr")
-            for ii2 in range(len(T_Rows)):
-                # ----------------To verify Trust Map Percentage for all Funds---------------------
-                TrustMap = driver.find_element_by_xpath("//tbody/tr[" + str(ii2 + 1) + "]/td[4]/p").text
-                TrustMap1 = TrustMap
-                TrustMap = TrustMap.replace(" ", "")
-                TrustMap = re.sub(r'[?|$|€|£|!|%|,]', r'', TrustMap)
-                TrustMap=float(TrustMap)
-                #print(str(TrustMap))
-                if TrustMap <= 0:
-                    print(P+" negative or 0 found "+str(TrustMap))
-                    print()
-                    Investment = driver.find_element_by_xpath("//tbody/tr[" + str(ii2 + 1) + "]/td[2]/div/p/a").text
-                    TestResult.append(
-                        "Trust Map Allocation page has a negative or 0.000% value for Quarter [ " + P + " ]"+", Investment name is ["+Investment+" ]")
-                    TestResultStatus.append("Fail")
+            PageName = "Quarterly NAV Close"
+            Ptitle1="Quarterly NAV Close - BIDS"
+            driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
+            start = time.time()
+            for iat2 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(1)
+            PageTitle1 = driver.title
+            try:
+                assert Ptitle1 in PageTitle1, PageName + " not able to open"
+                TestResult.append(PageName + " page Opened successfully")
+                TestResultStatus.append("Pass")
+            except Exception:
+                TestResult.append(PageName + " page not able to open")
+                TestResultStatus.append("Fail")
+            stop = time.time()
+            TimeString = stop - start
+            print("The time of the run for " + PageName + " is: ", stop - start)
+            print(TimeString)
 
+            PageName = "Beacon Template"
+            Ptitle1 = "COR_BeaconDataTransferTemplate - BIDS"
+            driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
+            start = time.time()
+            for iat3 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(5)
+            PageTitle1 = driver.title
+            try:
+                assert Ptitle1 in PageTitle1, PageName + " not able to open"
+                TestResult.append(PageName + " page Opened successfully")
+                TestResultStatus.append("Pass")
+            except Exception:
+                TestResult.append(PageName + " page not able to open")
+                TestResultStatus.append("Fail")
+            stop = time.time()
+            TimeString = stop - start
+            print("The time of the run for " + PageName + " is: ", stop - start)
+            print(TimeString)
 
+            wait = WebDriverWait(driver, 150)
+            wait.until(EC.presence_of_element_located((By.XPATH,
+                                                       "//div[@class='ContentLayout---content_layout']/div[2]/div[3]/div/div[2]/div/div")))
+            PageName = "Trust Map Allocation"
+            Ptitle1 = "COR_BeaconDataTransferTemplate - BIDS"
             driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[1]/div[1]/div/div[2]/div/div[1]/div/div[2]/div/div").click()
+                "//div[@class='ContentLayout---content_layout']/div[2]/div[3]/div/div[2]/div/div").click()
+            start = time.time()
             time.sleep(3)
             ActionChains(driver).key_down(Keys.DOWN).perform()
             time.sleep(3)
@@ -310,11 +242,67 @@ def test_BeaconTrustMapAllocationPer(test_setup):
                 try:
                     bool = driver.find_element_by_xpath(
                         "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                    #print("Loader is present")
                 except Exception:
                     time.sleep(1)
                     break
             time.sleep(10)
+            PageTitle1 = driver.title
+            try:
+                assert Ptitle1 in PageTitle1, PageName + " not able to open"
+                TestResult.append(PageName + " page Opened successfully")
+                TestResultStatus.append("Pass")
+            except Exception:
+                TestResult.append(PageName + " page not able to open")
+                TestResultStatus.append("Fail")
+            stop = time.time()
+            TimeString = stop - start
+            print("The time of the run for " + PageName + " is: ", stop - start)
+            print(TimeString)
+
+            for year in range(1,YearCounterNumber):
+                print()
+                P = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[1]/div[1]/div/div[2]/div/div[1]/div/div[2]/div/div/span").text
+                T_Rows = driver.find_elements_by_xpath("//tbody/tr")
+                for ii2 in range(len(T_Rows)):
+                    # ----------------To verify Trust Map Percentage for all Funds---------------------
+                    TrustMap = driver.find_element_by_xpath("//tbody/tr[" + str(ii2 + 1) + "]/td[4]/p").text
+                    TrustMap1 = TrustMap
+                    TrustMap = TrustMap.replace(" ", "")
+                    TrustMap = re.sub(r'[?|$|€|£|!|%|,]', r'', TrustMap)
+                    TrustMap=float(TrustMap)
+                    #print(str(TrustMap))
+                    if TrustMap <= 0:
+                        print(P+" negative or 0 found "+str(TrustMap))
+                        print()
+                        Investment = driver.find_element_by_xpath("//tbody/tr[" + str(ii2 + 1) + "]/td[2]/div/p/a").text
+                        TestResult.append(
+                            "Trust Map Allocation page has a negative or 0.000% value for Quarter [ " + P + " ]"+", Investment name is ["+Investment+" ]")
+                        TestResultStatus.append("Fail")
+
+
+                driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[1]/div[1]/div/div[2]/div/div[1]/div/div[2]/div/div").click()
+                time.sleep(3)
+                ActionChains(driver).key_down(Keys.DOWN).perform()
+                time.sleep(3)
+                ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+                for iat4 in range(1000):
+                    try:
+                        bool = driver.find_element_by_xpath(
+                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                        #print("Loader is present")
+                    except Exception:
+                        time.sleep(1)
+                        break
+                time.sleep(10)
+        except Exception as Mainerror:
+            stop = time.time()
+            RoundFloatString = round(float(stop - start),2)
+            print("The time of the run for " + PageName + " is: ", RoundFloatString)
+            stringMainerror=repr(Mainerror)
+            TestResult.append(stringMainerror)
+            TestResultStatus.append("Fail")
 
     else:
         print()

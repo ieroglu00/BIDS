@@ -180,290 +180,298 @@ def test_setup():
 def test_BeaconFxValueCompare(test_setup):
     YearCounterNumber = 2
     if Exe == "Yes":
-        print()
-        PageName = "Quarterly NAV Close"
-        Ptitle1="Quarterly NAV Close - BIDS"
-        driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
-        for iat2 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(1)
-        PageTitle1 = driver.title
         try:
-            assert Ptitle1 in PageTitle1, PageName + " not able to open"
-            TestResult.append(PageName + " page Opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName + " page not able to open")
-            TestResultStatus.append("Fail")
-        try:
-            bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_negative']").is_displayed()
-            #print("Red flag present : " + str(bool))
-            TestResult.append(PageName + " has a Red Flag at the top section")
-            TestResultStatus.append("Fail")
-        except Exception:
-            bool=driver.find_element_by_xpath("//span[@class='IconWidget---large IconWidget---color_positive']").is_displayed()
-            #print("Green flag present : " + str(bool))
-            TestResult.append(PageName + " has a Green Flag at the top section")
-            TestResultStatus.append("Pass")
-
-        PageName = "Beacon Template"
-        Ptitle1 = "COR_BeaconDataTransferTemplate - BIDS"
-        driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
-        for iat3 in range(1000):
-            try:
-                bool = driver.find_element_by_xpath(
-                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-            except Exception:
-                time.sleep(1)
-                break
-        time.sleep(3)
-        PageTitle1 = driver.title
-        try:
-            assert Ptitle1 in PageTitle1, PageName + " not able to open"
-            TestResult.append(PageName + " page Opened successfully")
-            TestResultStatus.append("Pass")
-        except Exception:
-            TestResult.append(PageName + " page not able to open")
-            TestResultStatus.append("Fail")
-
-        wait = WebDriverWait(driver, 150)
-        wait.until(EC.presence_of_element_located((By.XPATH,
-                                                   "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span")))
-        for year in range(1,YearCounterNumber):
             print()
-            time.sleep(3)
-            try:
-                P = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span").text
-            except Exception:
-                time.sleep(10)
-                P = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span").text
-
-            skipyear=0
-            Yearlist=['6/30/2020','9/30/2020','12/31/2020','3/31/2021','12/31/2021']
-            for j in range(len(Yearlist)):
-                if Yearlist[j] in P:
-                    print("Year skipped: " + Yearlist[j])
-                    skipyear=1
-
-            if skipyear==0:
-                print("Year picked: " + P)
-                FirstColumn = driver.find_element_by_xpath("//thead/tr[1]/th/div").text
-                T_Rows = driver.find_elements_by_xpath("//tbody/tr")
-                num = 2
-                if "Val. Err" in FirstColumn:
-                    num=3
-                    for ii2 in range(len(T_Rows)):
-                        #----------------To find ERR dosplayed for any Fund---------------------
-                        Fund = driver.find_element_by_xpath("//tbody/tr[" + str(ii2 + 1) + "]/td[3]/p").text
-                        Value1= driver.find_element_by_xpath("//tbody/tr[" + str(ii2 + 1) + "]/td[7]/div/p").text
-                        Value2= driver.find_element_by_xpath("//tbody/tr[" + str(ii2 + 1) + "]/td[8]/div/p").text
-                        Value3= driver.find_element_by_xpath("//tbody/tr[" + str(ii2 + 1) + "]/td[9]/div/p").text
-
-                        Value4= driver.find_element_by_xpath("//tbody/tr[" + str(ii2 + 1) + "]/td[11]/div/p").text
-
-                        Value5= driver.find_element_by_xpath("//tbody/tr[" + str(ii2 + 1) + "]/td[12]/div/p").text
-                        Value6= driver.find_element_by_xpath(
-                            "//tbody/tr[" + str(ii2 + 1) + "]/td[13]/div/p").text
-                        Value7 = driver.find_element_by_xpath(
-                            "//tbody/tr[" + str(ii2 + 1) + "]/td[14]/div/p").text
-
-                        for ii4 in range(1,8):
-
-                            if ii4==1:
-                                Value=Value1
-                            if ii4==2:
-                                Value=Value2
-                            if ii4==3:
-                                Value=Value3
-                            if ii4==4:
-                                Value=Value4
-                            if ii4==5:
-                                Value=Value5
-                            if ii4==6:
-                                Value=Value6
-                            if ii4==7:
-                                Value=Value7
-
-                            Value=Value.replace(" ", "")
-                            Value = re.sub(r'[?|$|€|£|!|,]', r'', Value)
-                            z = Value
-                            bool1 = z.isupper() or z.islower()
-                            if bool1 == True:
-                                Value = re.sub(r'[a-z|A-Z]+', '', Value, re.I)
-                            if ii4==1:
-                                FairValue=float(Value)
-                                #print("FairValue is "+str(FairValue))
-                            if ii4==2:
-                                InitialCommitment=float(Value)
-                                #print("InitialCommitment is "+str(InitialCommitment))
-                            if ii4==3:
-                                UnfundedCommitment=float(Value)
-                                #print("UnfundedCommitment is "+str(UnfundedCommitment))
-                            if ii4==4:
-                                FXRate=float(Value)
-                                #print("FXRate is "+str(FXRate))
-                            if ii4==5:
-                                FairValueUSD=float(Value)
-                                #print("FairValueUSD is "+str(FairValueUSD))
-                            if ii4==6:
-                                InitialCommitmentUSD=float(Value)
-                                #print("InitialCommitmentUSD is "+str(InitialCommitmentUSD))
-                            if ii4==7:
-                                UnfundedCommitmentUSD=float(Value)
-                                #print("UnfundedCommitmentUSD is "+str(UnfundedCommitmentUSD))
-
-                        if  (round(FairValue*FXRate,2)- FairValueUSD)>0.011:
-                            print()
-                            print("FairValueUSD value do not match")
-                            #print("FairValue*FXRate LC :"+str(round(FairValue*FXRate,2)))
-                            #print("FairValueUSD :" + str(FairValueUSD))
-                            #print("--------"+str(round((round(FairValue*FXRate,2)- FairValueUSD),4)))
-                            Diff1=str(round((round(FairValue*FXRate,2)- FairValueUSD),4))
-                            TestResult.append("Quarter[" +P+"]"+" Fair Value USD["+str(Value5)+"]do not match with Fair Value LC["+str(Value1)+"] and FX Rate["+str(Value4)+"] for Fund[" +Fund+"] Difference is "+Diff1)
-                            TestResultStatus.append("Fail")
-
-
-                        if  (round(InitialCommitment*FXRate,2)- InitialCommitmentUSD)>0.011:
-                            print("InitialCommitmentUSD value do not match")
-                            Diff2 = str(round((round(InitialCommitment * FXRate, 2) - InitialCommitmentUSD), 4))
-                            TestResult.append(
-                                "Quarter[" +P+"]"+" Initial Commitment USD["+str(Value6)+"]do not match with Initial Commitment LC["+str(Value2)+"] and FX Rate["+str(Value4)+"] for Fund [" + Fund + "] Difference is "+Diff2)
-                            TestResultStatus.append("Fail")
-
-                        if  (round(UnfundedCommitment*FXRate,2)- UnfundedCommitmentUSD)>0.011:
-                            print("UnfundedCommitmentUSD value do not match")
-                            Diff3 = str(round((round(UnfundedCommitment * FXRate, 2) - UnfundedCommitmentUSD), 4))
-                            TestResult.append(
-                                "Quarter[" +P+"]"+" Unfunded Commitment USD["+str(Value7)+"]do not match with Unfunded Commitment LC["+str(Value3)+"] and FX Rate["+str(Value4)+"] for Fund [" + Fund + "] Difference is "+Diff3)
-                            TestResultStatus.append("Fail")
-
-                else:
-                    num = 2
-                    for ii3 in range(len(T_Rows)):
-                        #----------------To find ERR dosplayed for any Fund---------------------
-                        Fund = driver.find_element_by_xpath("//tbody/tr[" + str(ii3 + 1) + "]/td[2]/p").text
-                        Value1= driver.find_element_by_xpath("//tbody/tr[" + str(ii3 + 1) + "]/td[6]/div/p").text
-                        Value2= driver.find_element_by_xpath("//tbody/tr[" + str(ii3 + 1) + "]/td[7]/div/p").text
-                        Value3= driver.find_element_by_xpath("//tbody/tr[" + str(ii3 + 1) + "]/td[8]/div/p").text
-
-                        Value4= driver.find_element_by_xpath("//tbody/tr[" + str(ii3 + 1) + "]/td[10]/div/p").text
-
-                        Value5= driver.find_element_by_xpath("//tbody/tr[" + str(ii3 + 1) + "]/td[11]/div/p").text
-                        Value6= driver.find_element_by_xpath(
-                            "//tbody/tr[" + str(ii3 + 1) + "]/td[12]/div/p").text
-                        Value7 = driver.find_element_by_xpath(
-                            "//tbody/tr[" + str(ii3 + 1) + "]/td[13]/div/p").text
-
-                        for ii5 in range(1,8):
-
-                            if ii5==1:
-                                Value=Value1
-                            if ii5==2:
-                                Value=Value2
-                            if ii5==3:
-                                Value=Value3
-                            if ii5==4:
-                                Value=Value4
-                            if ii5==5:
-                                Value=Value5
-                            if ii5==6:
-                                Value=Value6
-                            if ii5==7:
-                                Value=Value7
-
-                            Value=Value.replace(" ", "")
-                            Value = re.sub(r'[?|$|€|£|!|,]', r'', Value)
-                            z = Value
-                            bool1 = z.isupper() or z.islower()
-                            if bool1 == True:
-                                Value = re.sub(r'[a-z|A-Z]+', '', Value, re.I)
-                            if ii5==1:
-                                FairValue=float(Value)
-                                #print("FairValue is "+str(FairValue))
-                            if ii5==2:
-                                InitialCommitment=float(Value)
-                                #print("InitialCommitment is "+str(InitialCommitment))
-                            if ii5==3:
-                                UnfundedCommitment=float(Value)
-                                #print("UnfundedCommitment is "+str(UnfundedCommitment))
-                            if ii5==4:
-                                FXRate=float(Value)
-                                #print("FXRate is "+str(FXRate))
-                            if ii5==5:
-                                FairValueUSD=float(Value)
-                                #print("FairValueUSD is "+str(FairValueUSD))
-                            if ii5==6:
-                                InitialCommitmentUSD=float(Value)
-                                #print("InitialCommitmentUSD is "+str(InitialCommitmentUSD))
-                            if ii5==7:
-                                UnfundedCommitmentUSD=float(Value)
-                                #print("UnfundedCommitmentUSD is "+str(UnfundedCommitmentUSD))
-
-                        # if  round(FairValue*FXRate,2)!= FairValueUSD:
-                        #     print()
-                        #     print("FairValueUSD value do not match")
-                        #     TestResult.append("Fair Value USD value do not match with Fair Value LC and FX Rate for Fund [ " +Fund+" ] for Quarter ["+P+" ]")
-                        #     TestResultStatus.append("Fail")
-                        #
-                        # if  round(InitialCommitment*FXRate,2)!= InitialCommitmentUSD:
-                        #     print("InitialCommitmentUSD value do not match")
-                        #     TestResult.append(
-                        #         "Initial Commitment USD value do not match with Initial Commitment LC and FX Rate for Fund [ " + Fund + " ] for Quarter ["+P+" ]")
-                        #     TestResultStatus.append("Fail")
-                        #
-                        # if  round(UnfundedCommitment*FXRate,2)!= UnfundedCommitmentUSD:
-                        #     print("UnfundedCommitmentUSD value do not match")
-                        #     TestResult.append(
-                        #         "Unfunded Commitment USD value do not match with Unfunded Commitment LC and FX Rate for Fund [ " + Fund + " ] for Quarter ["+P+" ]")
-                        #     TestResultStatus.append("Fail")
-
-                        if  (round(FairValue*FXRate,2)- FairValueUSD)>0.011:
-                            print()
-                            print("FairValueUSD value do not match")
-                            #print("FairValue*FXRate LC :"+str(round(FairValue*FXRate,2)))
-                            #print("FairValueUSD :" + str(FairValueUSD))
-                            #print("--------"+str(round((round(FairValue*FXRate,2)- FairValueUSD),4)))
-                            Diff1=str(round((round(FairValue*FXRate,2)- FairValueUSD),4))
-                            TestResult.append("Quarter[" +P+"]"+" Fair Value USD["+str(Value5)+"]do not match with Fair Value LC["+str(Value1)+"] and FX Rate["+str(Value4)+"] for Fund[" +Fund+"] Difference is "+Diff1)
-                            TestResultStatus.append("Fail")
-
-
-                        if  (round(InitialCommitment*FXRate,2)- InitialCommitmentUSD)>0.011:
-                            print("InitialCommitmentUSD value do not match")
-                            Diff2 = str(round((round(InitialCommitment * FXRate, 2) - InitialCommitmentUSD), 4))
-                            TestResult.append(
-                                "Quarter[" +P+"]"+" Initial Commitment USD["+str(Value6)+"]do not match with Initial Commitment LC["+str(Value2)+"] and FX Rate["+str(Value4)+"] for Fund [" + Fund + "] Difference is "+Diff2)
-                            TestResultStatus.append("Fail")
-
-                        if  (round(UnfundedCommitment*FXRate,2)- UnfundedCommitmentUSD)>0.011:
-                            print("UnfundedCommitmentUSD value do not match")
-                            Diff3 = str(round((round(UnfundedCommitment * FXRate, 2) - UnfundedCommitmentUSD), 4))
-                            TestResult.append(
-                                "Quarter[" +P+"]"+" Unfunded Commitment USD["+str(Value7)+"]do not match with Unfunded Commitment LC["+str(Value3)+"] and FX Rate["+str(Value4)+"] for Fund [" + Fund + "] Difference is "+Diff3)
-                            TestResultStatus.append("Fail")
-
-            driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div").click()
-            time.sleep(3)
-            ActionChains(driver).key_down(Keys.DOWN).perform()
-            time.sleep(3)
-            ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-            for iat4 in range(1000):
+            PageName = "Quarterly NAV Close"
+            Ptitle1="Quarterly NAV Close - BIDS"
+            driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
+            start = time.time()
+            for iat2 in range(1000):
                 try:
                     bool = driver.find_element_by_xpath(
                         "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                    #print("Loader is present")
                 except Exception:
                     time.sleep(1)
                     break
-            time.sleep(10)
+            time.sleep(1)
+            PageTitle1 = driver.title
+            try:
+                assert Ptitle1 in PageTitle1, PageName + " not able to open"
+                TestResult.append(PageName + " page Opened successfully")
+                TestResultStatus.append("Pass")
+            except Exception:
+                TestResult.append(PageName + " page not able to open")
+                TestResultStatus.append("Fail")
+            stop = time.time()
+            TimeString = stop - start
+            print("The time of the run for " + PageName + " is: ", stop - start)
+            print(TimeString)
+
+            PageName = "Beacon Template"
+            Ptitle1 = "COR_BeaconDataTransferTemplate - BIDS"
+            driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
+            start = time.time()
+            for iat3 in range(1000):
+                try:
+                    bool = driver.find_element_by_xpath(
+                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                except Exception:
+                    time.sleep(1)
+                    break
+            time.sleep(3)
+            PageTitle1 = driver.title
+            try:
+                assert Ptitle1 in PageTitle1, PageName + " not able to open"
+                TestResult.append(PageName + " page Opened successfully")
+                TestResultStatus.append("Pass")
+            except Exception:
+                TestResult.append(PageName + " page not able to open")
+                TestResultStatus.append("Fail")
+
+            wait = WebDriverWait(driver, 150)
+            wait.until(EC.presence_of_element_located((By.XPATH,
+                   "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span")))
+            stop = time.time()
+            TimeString = stop - start
+            print("The time of the run for " + PageName + " is: ", stop - start)
+            print(TimeString)
+            for year in range(1,YearCounterNumber):
+                print()
+                time.sleep(3)
+                try:
+                    P = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span").text
+                except Exception:
+                    time.sleep(10)
+                    P = driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span").text
+
+                skipyear=0
+                Yearlist=['6/30/2020','9/30/2020','12/31/2020','3/31/2021','12/31/2021']
+                for j in range(len(Yearlist)):
+                    if Yearlist[j] in P:
+                        print("Year skipped: " + Yearlist[j])
+                        skipyear=1
+
+                if skipyear==0:
+                    print("Year picked: " + P)
+                    FirstColumn = driver.find_element_by_xpath("//thead/tr[1]/th/div").text
+                    T_Rows = driver.find_elements_by_xpath("//tbody/tr")
+                    num = 2
+                    if "Val. Err" in FirstColumn:
+                        num=3
+                        for ii2 in range(len(T_Rows)):
+                            #----------------To find ERR dosplayed for any Fund---------------------
+                            Fund = driver.find_element_by_xpath("//tbody/tr[" + str(ii2 + 1) + "]/td[3]/p").text
+                            Value1= driver.find_element_by_xpath("//tbody/tr[" + str(ii2 + 1) + "]/td[7]/div/p").text
+                            Value2= driver.find_element_by_xpath("//tbody/tr[" + str(ii2 + 1) + "]/td[8]/div/p").text
+                            Value3= driver.find_element_by_xpath("//tbody/tr[" + str(ii2 + 1) + "]/td[9]/div/p").text
+
+                            Value4= driver.find_element_by_xpath("//tbody/tr[" + str(ii2 + 1) + "]/td[11]/div/p").text
+
+                            Value5= driver.find_element_by_xpath("//tbody/tr[" + str(ii2 + 1) + "]/td[12]/div/p").text
+                            Value6= driver.find_element_by_xpath(
+                                "//tbody/tr[" + str(ii2 + 1) + "]/td[13]/div/p").text
+                            Value7 = driver.find_element_by_xpath(
+                                "//tbody/tr[" + str(ii2 + 1) + "]/td[14]/div/p").text
+
+                            for ii4 in range(1,8):
+
+                                if ii4==1:
+                                    Value=Value1
+                                if ii4==2:
+                                    Value=Value2
+                                if ii4==3:
+                                    Value=Value3
+                                if ii4==4:
+                                    Value=Value4
+                                if ii4==5:
+                                    Value=Value5
+                                if ii4==6:
+                                    Value=Value6
+                                if ii4==7:
+                                    Value=Value7
+
+                                Value=Value.replace(" ", "")
+                                Value = re.sub(r'[?|$|€|£|!|,]', r'', Value)
+                                z = Value
+                                bool1 = z.isupper() or z.islower()
+                                if bool1 == True:
+                                    Value = re.sub(r'[a-z|A-Z]+', '', Value, re.I)
+                                if ii4==1:
+                                    FairValue=float(Value)
+                                    #print("FairValue is "+str(FairValue))
+                                if ii4==2:
+                                    InitialCommitment=float(Value)
+                                    #print("InitialCommitment is "+str(InitialCommitment))
+                                if ii4==3:
+                                    UnfundedCommitment=float(Value)
+                                    #print("UnfundedCommitment is "+str(UnfundedCommitment))
+                                if ii4==4:
+                                    FXRate=float(Value)
+                                    #print("FXRate is "+str(FXRate))
+                                if ii4==5:
+                                    FairValueUSD=float(Value)
+                                    #print("FairValueUSD is "+str(FairValueUSD))
+                                if ii4==6:
+                                    InitialCommitmentUSD=float(Value)
+                                    #print("InitialCommitmentUSD is "+str(InitialCommitmentUSD))
+                                if ii4==7:
+                                    UnfundedCommitmentUSD=float(Value)
+                                    #print("UnfundedCommitmentUSD is "+str(UnfundedCommitmentUSD))
+
+                            if  (round(FairValue*FXRate,2)- FairValueUSD)>0.011:
+                                print()
+                                print("FairValueUSD value do not match")
+                                #print("FairValue*FXRate LC :"+str(round(FairValue*FXRate,2)))
+                                #print("FairValueUSD :" + str(FairValueUSD))
+                                #print("--------"+str(round((round(FairValue*FXRate,2)- FairValueUSD),4)))
+                                Diff1=str(round((round(FairValue*FXRate,2)- FairValueUSD),4))
+                                TestResult.append("Quarter[" +P+"]"+" Fair Value USD["+str(Value5)+"]do not match with Fair Value LC["+str(Value1)+"] and FX Rate["+str(Value4)+"] for Fund[" +Fund+"] Difference is "+Diff1)
+                                TestResultStatus.append("Fail")
+
+
+                            if  (round(InitialCommitment*FXRate,2)- InitialCommitmentUSD)>0.011:
+                                print("InitialCommitmentUSD value do not match")
+                                Diff2 = str(round((round(InitialCommitment * FXRate, 2) - InitialCommitmentUSD), 4))
+                                TestResult.append(
+                                    "Quarter[" +P+"]"+" Initial Commitment USD["+str(Value6)+"]do not match with Initial Commitment LC["+str(Value2)+"] and FX Rate["+str(Value4)+"] for Fund [" + Fund + "] Difference is "+Diff2)
+                                TestResultStatus.append("Fail")
+
+                            if  (round(UnfundedCommitment*FXRate,2)- UnfundedCommitmentUSD)>0.011:
+                                print("UnfundedCommitmentUSD value do not match")
+                                Diff3 = str(round((round(UnfundedCommitment * FXRate, 2) - UnfundedCommitmentUSD), 4))
+                                TestResult.append(
+                                    "Quarter[" +P+"]"+" Unfunded Commitment USD["+str(Value7)+"]do not match with Unfunded Commitment LC["+str(Value3)+"] and FX Rate["+str(Value4)+"] for Fund [" + Fund + "] Difference is "+Diff3)
+                                TestResultStatus.append("Fail")
+
+                    else:
+                        num = 2
+                        for ii3 in range(len(T_Rows)):
+                            #----------------To find ERR dosplayed for any Fund---------------------
+                            Fund = driver.find_element_by_xpath("//tbody/tr[" + str(ii3 + 1) + "]/td[2]/p").text
+                            Value1= driver.find_element_by_xpath("//tbody/tr[" + str(ii3 + 1) + "]/td[6]/div/p").text
+                            Value2= driver.find_element_by_xpath("//tbody/tr[" + str(ii3 + 1) + "]/td[7]/div/p").text
+                            Value3= driver.find_element_by_xpath("//tbody/tr[" + str(ii3 + 1) + "]/td[8]/div/p").text
+
+                            Value4= driver.find_element_by_xpath("//tbody/tr[" + str(ii3 + 1) + "]/td[10]/div/p").text
+
+                            Value5= driver.find_element_by_xpath("//tbody/tr[" + str(ii3 + 1) + "]/td[11]/div/p").text
+                            Value6= driver.find_element_by_xpath(
+                                "//tbody/tr[" + str(ii3 + 1) + "]/td[12]/div/p").text
+                            Value7 = driver.find_element_by_xpath(
+                                "//tbody/tr[" + str(ii3 + 1) + "]/td[13]/div/p").text
+
+                            for ii5 in range(1,8):
+
+                                if ii5==1:
+                                    Value=Value1
+                                if ii5==2:
+                                    Value=Value2
+                                if ii5==3:
+                                    Value=Value3
+                                if ii5==4:
+                                    Value=Value4
+                                if ii5==5:
+                                    Value=Value5
+                                if ii5==6:
+                                    Value=Value6
+                                if ii5==7:
+                                    Value=Value7
+
+                                Value=Value.replace(" ", "")
+                                Value = re.sub(r'[?|$|€|£|!|,]', r'', Value)
+                                z = Value
+                                bool1 = z.isupper() or z.islower()
+                                if bool1 == True:
+                                    Value = re.sub(r'[a-z|A-Z]+', '', Value, re.I)
+                                if ii5==1:
+                                    FairValue=float(Value)
+                                    #print("FairValue is "+str(FairValue))
+                                if ii5==2:
+                                    InitialCommitment=float(Value)
+                                    #print("InitialCommitment is "+str(InitialCommitment))
+                                if ii5==3:
+                                    UnfundedCommitment=float(Value)
+                                    #print("UnfundedCommitment is "+str(UnfundedCommitment))
+                                if ii5==4:
+                                    FXRate=float(Value)
+                                    #print("FXRate is "+str(FXRate))
+                                if ii5==5:
+                                    FairValueUSD=float(Value)
+                                    #print("FairValueUSD is "+str(FairValueUSD))
+                                if ii5==6:
+                                    InitialCommitmentUSD=float(Value)
+                                    #print("InitialCommitmentUSD is "+str(InitialCommitmentUSD))
+                                if ii5==7:
+                                    UnfundedCommitmentUSD=float(Value)
+                                    #print("UnfundedCommitmentUSD is "+str(UnfundedCommitmentUSD))
+
+                            # if  round(FairValue*FXRate,2)!= FairValueUSD:
+                            #     print()
+                            #     print("FairValueUSD value do not match")
+                            #     TestResult.append("Fair Value USD value do not match with Fair Value LC and FX Rate for Fund [ " +Fund+" ] for Quarter ["+P+" ]")
+                            #     TestResultStatus.append("Fail")
+                            #
+                            # if  round(InitialCommitment*FXRate,2)!= InitialCommitmentUSD:
+                            #     print("InitialCommitmentUSD value do not match")
+                            #     TestResult.append(
+                            #         "Initial Commitment USD value do not match with Initial Commitment LC and FX Rate for Fund [ " + Fund + " ] for Quarter ["+P+" ]")
+                            #     TestResultStatus.append("Fail")
+                            #
+                            # if  round(UnfundedCommitment*FXRate,2)!= UnfundedCommitmentUSD:
+                            #     print("UnfundedCommitmentUSD value do not match")
+                            #     TestResult.append(
+                            #         "Unfunded Commitment USD value do not match with Unfunded Commitment LC and FX Rate for Fund [ " + Fund + " ] for Quarter ["+P+" ]")
+                            #     TestResultStatus.append("Fail")
+
+                            if  (round(FairValue*FXRate,2)- FairValueUSD)>0.011:
+                                print()
+                                print("FairValueUSD value do not match")
+                                #print("FairValue*FXRate LC :"+str(round(FairValue*FXRate,2)))
+                                #print("FairValueUSD :" + str(FairValueUSD))
+                                #print("--------"+str(round((round(FairValue*FXRate,2)- FairValueUSD),4)))
+                                Diff1=str(round((round(FairValue*FXRate,2)- FairValueUSD),4))
+                                TestResult.append("Quarter[" +P+"]"+" Fair Value USD["+str(Value5)+"]do not match with Fair Value LC["+str(Value1)+"] and FX Rate["+str(Value4)+"] for Fund[" +Fund+"] Difference is "+Diff1)
+                                TestResultStatus.append("Fail")
+
+
+                            if  (round(InitialCommitment*FXRate,2)- InitialCommitmentUSD)>0.011:
+                                print("InitialCommitmentUSD value do not match")
+                                Diff2 = str(round((round(InitialCommitment * FXRate, 2) - InitialCommitmentUSD), 4))
+                                TestResult.append(
+                                    "Quarter[" +P+"]"+" Initial Commitment USD["+str(Value6)+"]do not match with Initial Commitment LC["+str(Value2)+"] and FX Rate["+str(Value4)+"] for Fund [" + Fund + "] Difference is "+Diff2)
+                                TestResultStatus.append("Fail")
+
+                            if  (round(UnfundedCommitment*FXRate,2)- UnfundedCommitmentUSD)>0.011:
+                                print("UnfundedCommitmentUSD value do not match")
+                                Diff3 = str(round((round(UnfundedCommitment * FXRate, 2) - UnfundedCommitmentUSD), 4))
+                                TestResult.append(
+                                    "Quarter[" +P+"]"+" Unfunded Commitment USD["+str(Value7)+"]do not match with Unfunded Commitment LC["+str(Value3)+"] and FX Rate["+str(Value4)+"] for Fund [" + Fund + "] Difference is "+Diff3)
+                                TestResultStatus.append("Fail")
+
+                driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div").click()
+                time.sleep(3)
+                ActionChains(driver).key_down(Keys.DOWN).perform()
+                time.sleep(3)
+                ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+                for iat4 in range(1000):
+                    try:
+                        bool = driver.find_element_by_xpath(
+                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                        #print("Loader is present")
+                    except Exception:
+                        time.sleep(1)
+                        break
+                time.sleep(10)
+        except Exception as Mainerror:
+            stop = time.time()
+            RoundFloatString = round(float(stop - start),2)
+            print("The time of the run for " + PageName + " is: ", RoundFloatString)
+            stringMainerror=repr(Mainerror)
+            TestResult.append(stringMainerror)
+            TestResultStatus.append("Fail")
 
     else:
         print()
