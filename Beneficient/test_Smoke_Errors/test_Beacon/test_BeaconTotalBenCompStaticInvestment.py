@@ -1,10 +1,7 @@
 import datetime
 import re
 import time
-from decimal import getcontext, Decimal
-
 import openpyxl
-import pyautogui
 from fpdf import FPDF
 import pytest
 from selenium import webdriver

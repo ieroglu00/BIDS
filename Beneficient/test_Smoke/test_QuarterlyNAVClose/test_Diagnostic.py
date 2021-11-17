@@ -198,13 +198,7 @@ def test_DiagnosticFlagStatus(test_setup):
                     "//span[@class='IconWidget---large_plus IconWidget---color_positive']").is_displayed()
                 TestResult.append("[ " + PageName + " ] has a Green Flag inside the Module clickable Box")
                 TestResultStatus.append("Pass")
-            stop = time.time()
-            TimeString = stop - start
-            print("The time of the run for " + PageName + " is: ", stop - start)
-            print(TimeString)
-
             driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
-            start = time.time()
             for iat3 in range(1000):
                 try:
                     bool = driver.find_element_by_xpath(
@@ -367,6 +361,9 @@ def test_DiagnosticFlagStatus(test_setup):
                 TestResult.append("[ "+PageName + " ] page not able to open")
                 TestResultStatus.append("Fail")
 
+            wait = WebDriverWait(driver, 300)
+            wait.until(EC.presence_of_element_located((By.XPATH,
+                    "//div[@class='ContentLayout---content_layout']/div/div/div/div[3]/div/div/div[1]/div[1]/div[1]/div/div[2]/div/div/div[1]/div/div[2]/div/div/span")))
             time.sleep(2)
             for year in range(1, YearCounterNumber):
                 print()
@@ -459,6 +456,9 @@ def test_DiagnosticFlagStatus(test_setup):
                 TestResult.append("[ "+PageName + " ] page not able to open")
                 TestResultStatus.append("Fail")
 
+            wait = WebDriverWait(driver, 300)
+            wait.until(EC.presence_of_element_located((By.XPATH,
+                    "//div[@class='ContentLayout---content_layout']/div/div/div/div[3]/div/div/div[1]/div[1]/div[1]/div/div[2]/div/div/div[1]/div/div[2]/div/div/span")))
             time.sleep(2)
             for year in range(1, YearCounterNumber):
                 print()
@@ -546,6 +546,9 @@ def test_DiagnosticFlagStatus(test_setup):
                 TestResult.append("[ "+PageName + " ] page not able to open")
                 TestResultStatus.append("Fail")
 
+            wait = WebDriverWait(driver, 300)
+            wait.until(EC.presence_of_element_located((By.XPATH,
+                   "//tbody/tr")))
             T_Rows=driver.find_elements_by_xpath("//tbody/tr")
             for ii in range(len(T_Rows)):
                 Status=driver.find_element_by_xpath("//tbody/tr["+str(ii+1)+"]/td[3]/div/p/span").text
@@ -603,6 +606,9 @@ def test_DiagnosticFlagStatus(test_setup):
                 TestResult.append("[ "+PageName + " ] page not able to open")
                 TestResultStatus.append("Fail")
 
+            wait = WebDriverWait(driver, 300)
+            wait.until(EC.presence_of_element_located((By.XPATH,
+                                                       "//button[contains(text(),'Main Diagnostics Menu')]")))
             try:
                 driver.find_element_by_xpath("//button[contains(text(),'Main Diagnostics Menu')]").click()
             except Exception:
