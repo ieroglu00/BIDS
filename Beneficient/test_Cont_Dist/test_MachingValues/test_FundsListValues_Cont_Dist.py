@@ -493,16 +493,17 @@ def test_Funds_Values(test_setup):
                             FundsNamesList[ii3] + "')]").click()
                     except Exception:
                         print("Clicked on next 1 funds icon")
-                        time.sleep(2)
-                        driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a").click()
-                        for iat12 in range(15):
-                            try:
-                                bool = driver.find_element_by_xpath(
-                                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                                time.sleep(1)
-                            except Exception:
-                                break
+                        time.sleep(4)
                         try:
+                            driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a").click()
+                            for iat12 in range(15):
+                                try:
+                                    bool = driver.find_element_by_xpath(
+                                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                                    time.sleep(1)
+                                except Exception:
+                                    break
+
                             time.sleep(1)
                             try:
                                 driver.find_element_by_xpath(
