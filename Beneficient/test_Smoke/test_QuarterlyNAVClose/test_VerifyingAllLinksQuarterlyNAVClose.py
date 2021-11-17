@@ -288,7 +288,7 @@ def test_VerfyAllLinksQuarterlyNAVClosePage(test_setup):
 
                                             time.sleep(3)
                                         elif NaviBack == "Yes" and TitleVerify == "Yes":
-                                            # print("Inside NaviBack=Yes TitleVerify= Yes")
+                                            print("Inside NaviBack=Yes TitleVerify= Yes")
                                             for iat6 in range(1000):
                                                 try:
                                                     bool = driver.find_element_by_xpath(
@@ -301,14 +301,22 @@ def test_VerfyAllLinksQuarterlyNAVClosePage(test_setup):
                                                 wait.until(EC.presence_of_element_located(
                                                     (By.XPATH, TitleLink)))
                                                 TitleFound = driver.find_element_by_xpath(TitleLink).text
-                                                # print("TitleFound is " + TitleFound)
+                                                print("TitleFound is " + TitleFound)
                                                 assert TitleFound in TitleToVerify, sheet.cell_value(ia,
                                                                                                      1) + " not able to open"
                                                 TestResult.append(sheet.cell_value(ia, 1) + " page Opened successfully")
                                                 TestResultStatus.append("Pass")
                                             except Exception:
-                                                TestResult.append(sheet.cell_value(ia, 1) + " page not able to open")
-                                                TestResultStatus.append("Fail")
+                                                try:
+                                                    driver.find_element_by_xpath("//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                                                    ErrorFound=driver.find_element_by_xpath("//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                                                    TestResult.append(
+                                                        sheet.cell_value(ia, 1) + " page not able to open\n" + ErrorFound)
+                                                    TestResultStatus.append("Fail")
+                                                except Exception:
+                                                    TestResult.append(sheet.cell_value(ia, 1) + " page not able to open")
+                                                    TestResultStatus.append("Fail")
+                                                    pass
 
                                             time.sleep(1)
                                             try:
@@ -332,10 +340,10 @@ def test_VerfyAllLinksQuarterlyNAVClosePage(test_setup):
                                             except Exception as e2:
                                                 print(e2)
                                                 driver.back()
-                                                # print("Browser Back clicked 2")
+                                                print("Browser Back clicked 2")
 
                                         elif NaviBack == "No" and TitleVerify == "Yes":
-                                            # print("Inside NavBack no and Title Yes")
+                                            print("Inside NavBack no and Title Yes")
                                             for iat7 in range(1000):
                                                 try:
                                                     bool = driver.find_element_by_xpath(
