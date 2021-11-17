@@ -206,6 +206,8 @@ def test_VerfyAllLinksQuarterlyNAVClosePage(test_setup):
                                     InOrOut = sheet.cell_value(ia, 9)
                                     # print("InOrOut is " + InOrOut)
                                     if InOrOut == "Inside":
+                                        wait = WebDriverWait(driver, 300)
+                                        wait.until(EC.presence_of_element_located((By.XPATH,sheet.cell_value(ia, 10))))
                                         driver.find_element_by_xpath(sheet.cell_value(ia, 10)).click()
                                         print("Parent Page link clicked ")
                                         for iat2 in range(1000):
@@ -217,11 +219,17 @@ def test_VerfyAllLinksQuarterlyNAVClosePage(test_setup):
                                                 break
                                         time.sleep(1)
                                         try:
+                                            wait = WebDriverWait(driver, 300)
+                                            wait.until(
+                                                EC.presence_of_element_located((By.XPATH, sheet.cell_value(ia, 2))))
                                             driver.find_element_by_xpath(sheet.cell_value(ia, 2)).click()
                                         except Exception:
                                             pass
                                     elif InOrOut == "Outside":
                                         try:
+                                            wait = WebDriverWait(driver, 300)
+                                            wait.until(
+                                                EC.presence_of_element_located((By.XPATH, sheet.cell_value(ia, 2))))
                                             driver.find_element_by_xpath(sheet.cell_value(ia, 2)).click()
                                         except Exception:
                                             pass
@@ -247,6 +255,8 @@ def test_VerfyAllLinksQuarterlyNAVClosePage(test_setup):
                                     # print("TitleLink is " + TitleLink)
 
                                     if DoubleClick == "Yes":
+                                        wait = WebDriverWait(driver, 300)
+                                        wait.until(EC.presence_of_element_located((By.XPATH, sheet.cell_value(ia, 2))))
                                         driver.find_element_by_xpath(sheet.cell_value(ia, 2)).click()
                                         time.sleep(1)
                                         # print("Link again clicked for  " + sheet.cell_value(ia, 1))
@@ -265,6 +275,9 @@ def test_VerfyAllLinksQuarterlyNAVClosePage(test_setup):
                                             # print("Browser Back clicked for  " + sheet.cell_value(ia, 1))
                                             time.sleep(1)
                                             try:
+                                                wait = WebDriverWait(driver, 300)
+                                                wait.until(EC.presence_of_element_located(
+                                                    (By.XPATH, "//*[@title='" + PageName + "']")))
                                                 driver.find_element_by_xpath("//*[@title='" + PageName + "']").click()
                                             except Exception as e2:
                                                 print(e2)
@@ -293,6 +306,9 @@ def test_VerfyAllLinksQuarterlyNAVClosePage(test_setup):
 
                                             time.sleep(1)
                                             try:
+                                                wait = WebDriverWait(driver, 300)
+                                                wait.until(EC.presence_of_element_located(
+                                                    (By.XPATH, "//*[@title='" + PageName + "']")))
                                                 driver.find_element_by_xpath("//*[@title='" + PageName + "']").click()
                                                 time.sleep(1)
                                                 try:
