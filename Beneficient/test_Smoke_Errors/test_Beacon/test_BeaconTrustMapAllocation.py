@@ -226,7 +226,7 @@ def test_BeaconTrustMapAllocationPer(test_setup):
             print("The time of the run for " + PageName + " is: ", stop - start)
             print(TimeString)
 
-            wait = WebDriverWait(driver, 150)
+            wait = WebDriverWait(driver, 300)
             wait.until(EC.presence_of_element_located((By.XPATH,
                                                        "//div[@class='ContentLayout---content_layout']/div[2]/div[3]/div/div[2]/div/div")))
             PageName = "Trust Map Allocation"
@@ -259,6 +259,9 @@ def test_BeaconTrustMapAllocationPer(test_setup):
             print("The time of the run for " + PageName + " is: ", stop - start)
             print(TimeString)
 
+            wait = WebDriverWait(driver, 300)
+            wait.until(EC.presence_of_element_located((By.XPATH,
+                  "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[1]/div[1]/div/div[2]/div/div[1]/div/div[2]/div/div/span")))
             for year in range(1,YearCounterNumber):
                 print()
                 P = driver.find_element_by_xpath(

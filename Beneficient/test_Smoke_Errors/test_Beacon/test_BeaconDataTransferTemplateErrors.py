@@ -223,7 +223,7 @@ def test_BeaconDataTransfer(test_setup):
                 TestResult.append(PageName + " page not able to open")
                 TestResultStatus.append("Fail")
 
-            wait = WebDriverWait(driver, 150)
+            wait = WebDriverWait(driver, 300)
             wait.until(EC.presence_of_element_located((By.XPATH,
                                                        "//div[@class='ContentLayout---content_layout']/div[2]/div[1]/div/div[1]/span")))
             stop = time.time()
