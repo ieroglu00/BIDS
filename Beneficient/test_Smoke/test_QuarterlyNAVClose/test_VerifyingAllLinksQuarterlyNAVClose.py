@@ -297,6 +297,9 @@ def test_VerfyAllLinksQuarterlyNAVClosePage(test_setup):
                                                     time.sleep(1)
                                                     break
                                             try:
+                                                wait = WebDriverWait(driver, 300)
+                                                wait.until(EC.presence_of_element_located(
+                                                    (By.XPATH, TitleLink)))
                                                 TitleFound = driver.find_element_by_xpath(TitleLink).text
                                                 # print("TitleFound is " + TitleFound)
                                                 assert TitleFound in TitleToVerify, sheet.cell_value(ia,
@@ -340,6 +343,9 @@ def test_VerfyAllLinksQuarterlyNAVClosePage(test_setup):
                                                 except Exception:
                                                     time.sleep(1)
                                                     break
+                                            wait = WebDriverWait(driver, 300)
+                                            wait.until(EC.presence_of_element_located(
+                                                (By.XPATH, TitleLink)))
                                             TitleFound = driver.find_element_by_xpath(TitleLink).text
                                             # print("TitleFound1 is " + TitleFound)
                                             try:
