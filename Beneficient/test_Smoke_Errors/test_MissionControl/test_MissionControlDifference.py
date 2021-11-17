@@ -226,9 +226,9 @@ def test_MissionControlDifference(test_setup):
                 TestResult.append(PageName + " page not able to open")
                 TestResultStatus.append("Fail")
 
-            wait = WebDriverWait(driver, 150)
+            wait = WebDriverWait(driver, 300)
             wait.until(EC.presence_of_element_located((By.XPATH,
-                "//div/span[@class='DropdownWidget---accessibilityhidden']")))
+                "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[2]/div/div[2]/div/div[2]/div/div/span")))
             stop = time.time()
             TimeString = stop - start
             print("The time of the run for " + PageName + " is: ", stop - start)
@@ -237,12 +237,12 @@ def test_MissionControlDifference(test_setup):
             #---------Setting first quarter in the quarter dropdown list----------------------
             for iat4 in range(10):
                 P = driver.find_element_by_xpath(
-                    "//div/span[@class='DropdownWidget---accessibilityhidden']").text
+                    "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[2]/div/div[2]/div/div[2]/div/div/span").text
                 if P in FirstQuarter:
                     break
                 else:
                     print("Trying again as P found is "+P)
-                    driver.find_element_by_xpath("//div[@class='DropdownWidget---dropdown']/div").click()
+                    driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[2]/div/div[2]/div/div[2]/div/div").click()
                     ActionChains(driver).key_down(Keys.UP).perform()
                     time.sleep(2)
                     ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
@@ -259,13 +259,13 @@ def test_MissionControlDifference(test_setup):
             for ia in range(YearCounterNumber):
                 if ia == 0:
                     P = driver.find_element_by_xpath(
-                        "//div/span[@class='DropdownWidget---accessibilityhidden']").text
+                        "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[2]/div/div[2]/div/div[2]/div/div/span").text
                 elif ia > 0:
                     time.sleep(5)
                     driver.find_element_by_xpath(
                         "//input[@class='PickerWidget---picker_input PickerWidget---placeholder']").send_keys()
                     elements = driver.find_elements_by_xpath(
-                        "//div[@class='DropdownWidget---dropdown_value DropdownWidget---inSideBySideItem']")
+                        "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[2]/div/div[2]/div/div[2]/div/div")
                     for elem in elements:
                         elem.click()
                         break
@@ -284,7 +284,7 @@ def test_MissionControlDifference(test_setup):
                             break
                     time.sleep(7)
                     P = driver.find_element_by_xpath(
-                        "//div/span[@class='DropdownWidget---accessibilityhidden']").text
+                        "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[2]/div/div[2]/div/div[2]/div/div/span").text
 
                 print("Year is "+P)
                 rows = driver.find_elements_by_xpath(

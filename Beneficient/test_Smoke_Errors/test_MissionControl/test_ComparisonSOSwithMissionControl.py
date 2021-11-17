@@ -235,9 +235,9 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                 TestResult.append(PageName + " page not able to open")
                 TestResultStatus.append("Fail")
 
-            wait = WebDriverWait(driver, 150)
+            wait = WebDriverWait(driver, 300)
             wait.until(EC.presence_of_element_located((By.XPATH,
-                                                       "//div/span[@class='DropdownWidget---accessibilityhidden']")))
+                                                       "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[2]/div/div[2]/div/div[2]/div/div/span")))
             stop = time.time()
             TimeString = stop - start
             print("The time of the run for " + PageName + " is: ", stop - start)
@@ -246,7 +246,7 @@ def test_ComparisonSOSwithMissionControl(test_setup):
             # Setting first quarter in the quarter dropdown list
             for iat4 in range(10):
                 P = driver.find_element_by_xpath(
-                    "//div/span[@class='DropdownWidget---accessibilityhidden']").text
+                    "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[2]/div/div[2]/div/div[2]/div/div/span").text
                 #print("P found is "+P)
                 if P in FirstQuarter:
                     #print()
@@ -255,7 +255,7 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                     break
                 else:
                     print("Trying again as P found is "+P)
-                    driver.find_element_by_xpath("//div[@class='DropdownWidget---dropdown']/div").click()
+                    driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[2]/div/div[2]/div/div[2]/div/div").click()
                     ActionChains(driver).key_down(Keys.UP).perform()
                     time.sleep(2)
                     ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
@@ -268,15 +268,15 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                             break
                     time.sleep(5)
 
-            wait = WebDriverWait(driver, 150)
+            wait = WebDriverWait(driver, 300)
             wait.until(EC.presence_of_element_located((By.XPATH,
-                 "//div/span[@class='DropdownWidget---accessibilityhidden']")))
+                 "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[2]/div/div[2]/div/div[2]/div/div/span")))
             for ia in range(YearCounterNumber):
                 # print("Count is " + str(ia))
                 if ia == 0:
                     # print("First Data")
                     P = driver.find_element_by_xpath(
-                        "//div/span[@class='DropdownWidget---accessibilityhidden']").text
+                        "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[2]/div/div[2]/div/div[2]/div/div/span").text
                 elif ia > 0:
                     time.sleep(5)
                     # print("Other Data")
@@ -301,7 +301,7 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                             time.sleep(5)
                             break
                     P = driver.find_element_by_xpath(
-                        "//div/span[@class='DropdownWidget---accessibilityhidden']").text
+                        "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[2]/div/div[2]/div/div[2]/div/div/span").text
                 for iat6 in range(1000):
                     try:
                         bool = driver.find_element_by_xpath("//div[@id='appian-working-indicator-hidden']").is_enabled()
@@ -358,6 +358,9 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                 TestResultStatus.append("Fail")
 
             # Setting first quarter in the quarter dropdown list
+            wait = WebDriverWait(driver, 300)
+            wait.until(EC.presence_of_element_located((By.XPATH,
+                                                       "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div/span")))
             for iat15 in range(10):
                 P = driver.find_element_by_xpath(
                     "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div/span").text
@@ -463,9 +466,12 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                 TestResultStatus.append("Fail")
 
             # Setting first quarter in the quarter dropdown list
+            wait = WebDriverWait(driver, 300)
+            wait.until(EC.presence_of_element_located((By.XPATH,
+                                                       "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div[1]/div[1]/div/div[2]/div/div/span")))
             for iat15 in range(10):
                 P = driver.find_element_by_xpath(
-                    "//div/span[@class='DropdownWidget---accessibilityhidden']").text
+                    "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div[1]/div[1]/div/div[2]/div/div/span").text
                 #print("P found is " + P)
                 if P in FirstQuarter:
                     # print()
@@ -475,7 +481,7 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                 else:
                     print("Trying again as P found is " + P)
                     driver.find_element_by_xpath(
-                        "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").click()
+                        "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div[1]/div[1]/div/div[2]/div/div").click()
                     ActionChains(driver).key_down(Keys.UP).perform()
                     time.sleep(2)
                     ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
@@ -493,7 +499,7 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                 if iaa == 0:
                     # print("First Data")
                     P = driver.find_element_by_xpath(
-                        "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").text
+                        "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div/span").text
                 elif iaa > 0:
                     time.sleep(5)
                     # print("Other Data")
@@ -518,7 +524,7 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                             time.sleep(1)
                             break
                     P = driver.find_element_by_xpath(
-                        "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").text
+                        "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div/span").text
                 for iat9 in range(1000):
                     try:
                         bool = driver.find_element_by_xpath(
@@ -572,9 +578,12 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                 TestResultStatus.append("Fail")
 
             # Setting first quarter in the quarter dropdown list
+            wait = WebDriverWait(driver, 300)
+            wait.until(EC.presence_of_element_located((By.XPATH,
+                                                       "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div/span")))
             for iat17 in range(10):
                 P = driver.find_element_by_xpath(
-                    "//div/span[@class='DropdownWidget---accessibilityhidden']").text
+                    "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div/span").text
                 #print("P found is " + P)
                 if P in FirstQuarter:
                     # print()
@@ -602,7 +611,7 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                 if iaaa == 0:
                     # print("First Data")
                     P = driver.find_element_by_xpath(
-                        "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").text
+                        "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div/span").text
                 elif iaaa > 0:
                     time.sleep(5)
                     # print("Other Data")
@@ -626,7 +635,7 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                             time.sleep(1)
                             break
                     P = driver.find_element_by_xpath(
-                        "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").text
+                        "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div/span").text
                 for iat12 in range(1000):
                     try:
                         bool = driver.find_element_by_xpath("//div[@id='appian-working-indicator-hidden']").is_enabled()
