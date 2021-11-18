@@ -247,8 +247,11 @@ def test_SummaryByPeriod(test_setup):
             print(TimeString)
             # ---------------------------------------------------------------------------------
 
-            #------------------Verifying elemenets inside Summary By Period section--------------
-            #------------------------------------------------View by Funds----------------------------------------------
+            #------------------------------Verifying elemenets inside Summary By Period section---------------------------
+            #--------------------------------------------------View by Funds----------------------------------------------
+            TestResult.append("-------------Now Verifying content on the page [ View by Funds]--------------")
+            TestResultStatus.append("Pass")
+            #-------------------------------------------------------------------------------------------------------------
             try:
                 time.sleep(2)
                 driver.find_element_by_xpath(
@@ -319,6 +322,28 @@ def test_SummaryByPeriod(test_setup):
                         "Funds Grid at Capital Call & Distribution Activity is not present")
                     TestResultStatus.append("Fail")
 
+                # ---------------loop for Columns in table for Funds View----------
+                ItemList1 = ["Transaction Type", "Issue Date", "Due Date of Cap Call or Dist", "BEN Fund ID","Fund Name", "LP Name", "Local Ccy", "Distribution","Capital Call", "Total", "Impact to Unfunded", "Functional Ccy", "Settlement Date","Settlement FX","Dist.","CC","Other","Settlement Amount (Func. Ccy)","Pending Transactions (Local Ccy)","Reviewed By","Date Reviewed","Reviewer Notes"]
+                for ii1 in range(len(ItemList1)):
+                    Text1 = ItemList1[ii1]
+                    try:
+                        Element1 = driver.find_element_by_xpath(
+                            "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[4]/div[2]/div/div/div[2]/table/thead/tr[1]/th[" + str(
+                                ii1 + 1) + "]/div").text
+                    except Exception:
+                        pass
+                    try:
+                        assert Text1 in Element1, Text1 + " column is not present in table"
+                        TestResult.append(
+                            Text1 + " column is present in table")
+                        TestResultStatus.append("Pass")
+                    except Exception as e1:
+                        print(e1)
+                        TestResult.append(
+                            Text1 + " column is not present in table")
+                        TestResultStatus.append("Fail")
+
+
                 # ------Compare Grand Total at Settlement Totals with Settlement Amount (Func. Ccy) value---------
                 Text1 = driver.find_element_by_xpath(
                     "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div/div/table/tbody/tr[3]/td[2]/div/p/strong").text
@@ -341,6 +366,10 @@ def test_SummaryByPeriod(test_setup):
                 TestResultStatus.append("Fail")
 
             # ---------------------------------------------------View by Investments--------------------------------------------------
+            TestResult.append(
+                "---------------Now Verifying content on the page [ View by Investment]--------------")
+            TestResultStatus.append("Pass")
+            #-------------------------------------------------------------------------------------------------------------------------
             try:
                 time.sleep(2)
                 driver.find_element_by_xpath(
@@ -446,51 +475,26 @@ def test_SummaryByPeriod(test_setup):
                         "Ben Reporting Period label is not present")
                     TestResultStatus.append("Fail")
 
-                # ---------------Notice Date column present in table----------
-                Text1 = "Notice Date"
-                Element1 = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[4]/div/div[1]/div[2]/div/div/div[2]/table/thead/tr[1]/th[1]/div").text
-                try:
-                    assert Text1 in Element1, "Notice Date column is not present in table"
-                    TestResult.append(
-                        "Notice Date column is present in table")
-                    TestResultStatus.append("Pass")
-                except Exception as e1:
-                    print(e1)
-                    TestResult.append(
-                        "Notice Date column is not present in table")
-                    TestResultStatus.append("Fail")
+                # ---------------loop for Columns in table for Investment View----------
+                ItemList2=["Notice Date","Fund\u2007Name⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀","Fund ID","Investment\u2007Name⠀⠀⠀⠀⠀⠀⠀","Investment ID", "Currency","Settled/Unsettled","Distribution","Holdback or Capital Call","Total","FX Rate","USD Total","Liquid Trust"]
+                for ii2 in range(len(ItemList2)):
+                    Text2 = ItemList2[ii2]
+                    try:
+                        Element2 = driver.find_element_by_xpath(
+                            "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[4]/div/div[1]/div[2]/div/div/div[2]/table/thead/tr[1]/th["+str(ii2+1)+"]/div").text
+                    except Exception:
+                        pass
 
-                # ---------------Notice Date column present in table----------
-                Text1 = "Notice Date"
-                Element1 = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[4]/div/div[1]/div[2]/div/div/div[2]/table/thead/tr[1]/th[1]/div").text
-                try:
-                    assert Text1 in Element1, "Notice Date column is not present in table"
-                    TestResult.append(
-                        "Notice Date column is present in table")
-                    TestResultStatus.append("Pass")
-                except Exception as e1:
-                    print(e1)
-                    TestResult.append(
-                        "Notice Date column is not present in table")
-                    TestResultStatus.append("Fail")
-
-                # ---------------Fund Name column present in table----------
-                Text1 = "Fund Name⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
-                Element1 = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[4]/div/div[1]/div[2]/div/div/div[2]/table/thead/tr[1]/th[2]/div").text
-                try:
-                    assert Text1 in Element1, "Fund Name column is not present in table"
-                    TestResult.append(
-                        "Fund Name column is present in table")
-                    TestResultStatus.append("Pass")
-                except Exception as e1:
-                    print(e1)
-                    TestResult.append(
-                        "Fund Name column is not present in table")
-                    TestResultStatus.append("Fail")
-
+                    try:
+                        assert Text2 in Element2, Text2+" column is not present in table"
+                        TestResult.append(
+                            Text2+" column is present in table")
+                        TestResultStatus.append("Pass")
+                    except Exception as e1:
+                        print(e1)
+                        TestResult.append(
+                            Text2+" column is not present in table")
+                        TestResultStatus.append("Fail")
 
             except Exception as e1:
                 print(e1)

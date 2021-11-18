@@ -5,6 +5,9 @@ from fpdf import FPDF
 import pytest
 from selenium import webdriver
 import allure
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 
 @allure.step("Entering username ")
 def enter_username(username):
@@ -221,6 +224,10 @@ def test_SummaryByPeriod(test_setup):
                     time.sleep(1)
                     break
             time.sleep(1)
+            wait = WebDriverWait(driver, 200)
+            wait.until(EC.presence_of_element_located((By.XPATH,
+                 "//div[@class='ContentLayout---content_layout']/div[2]/div[1]/div/div[1]/span")))
+            print("tetttt")
             try:
                 # PageTitle1 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[2]/button").text
                 PageTitle1 = driver.title
@@ -232,7 +239,6 @@ def test_SummaryByPeriod(test_setup):
                 print(e1)
                 TestResult.append(PageName + " is not able to open successfully")
                 TestResultStatus.append("Fail")
-            driver.find_element_by_xpath("//*[@title='Liquid Trusts']").click()
             for iat3 in range(1000):
                 try:
                     bool = driver.find_element_by_xpath(
@@ -247,6 +253,80 @@ def test_SummaryByPeriod(test_setup):
             print("The time of the run for " + PageName + " is: ", stop - start)
             print(TimeString)
             # ---------------------------------------------------------------------------------
+
+            # ------Checking From dropdown label---------
+            Text1 = "From"
+            Element1 = driver.find_element_by_xpath(
+                "//div[@class='ContentLayout---content_layout']/div[2]/div[1]/div/div[1]").text
+            try:
+                assert Text1 in Element1, "From dropdown label at Unfunded Rollforward is not present"
+                TestResult.append("From dropdown label at Unfunded Rollforward is present")
+                TestResultStatus.append("Pass")
+            except Exception as e1:
+                print(e1)
+                TestResult.append("From dropdown label at Unfunded Rollforward is not present")
+                TestResultStatus.append("Fail")
+
+            # ------Checking To dropdown label---------
+            Text1 = "To"
+            Element1 = driver.find_element_by_xpath(
+                "//div[@class='ContentLayout---content_layout']/div[2]/div[2]/div/div[1]/span").text
+            try:
+                assert Text1 in Element1, "To dropdown label at Unfunded Rollforward is not present"
+                TestResult.append("To dropdown label at Unfunded Rollforward is present")
+                TestResultStatus.append("Pass")
+            except Exception as e1:
+                print(e1)
+                TestResult.append("To dropdown label at Unfunded Rollforward is not present")
+                TestResultStatus.append("Fail")
+
+            # ------Checking Funds dropdown label---------
+            Text1 = "Funds"
+            Element1 = driver.find_element_by_xpath(
+                "//div[@class='ContentLayout---content_layout']/div[2]/div[3]/div/div[1]/span").text
+            try:
+                assert Text1 in Element1, "Funds dropdown label at Unfunded Rollforward is not present"
+                TestResult.append("Funds dropdown label at Unfunded Rollforward is present")
+                TestResultStatus.append("Pass")
+            except Exception as e1:
+                print(e1)
+                TestResult.append("Funds dropdown label at Unfunded Rollforward is not present")
+                TestResultStatus.append("Fail")
+
+            # ------Checking Trusts dropdown label---------
+            Text1 = "Trusts"
+            Element1 = driver.find_element_by_xpath(
+                "//div[@class='ContentLayout---content_layout']/div[2]/div[4]/div/div[1]/span").text
+            try:
+                assert Text1 in Element1, "Trusts dropdown label at Unfunded Rollforward is not present"
+                TestResult.append("Trusts dropdown label at Unfunded Rollforward is present")
+                TestResultStatus.append("Pass")
+            except Exception as e1:
+                print(e1)
+                TestResult.append("Trusts dropdown label at Unfunded Rollforward is not present")
+                TestResultStatus.append("Fail")
+
+            # ---------------loop for Columns in table for Unfunded Commitments----------
+            ItemList1 = ["Fund ID", "Partnership Name", "CCY", "Trust","Functional","Calls", "Adjustment", "Functional",
+                         "FX Rate", "(USD)"]
+            for ii1 in range(len(ItemList1)):
+                Text1 = ItemList1[ii1]
+                try:
+                    Element1 = driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div/div[2]/div/div/div[2]/table/thead/tr[1]/th[" + str(
+                            ii1 + 1) + "]/div").text
+                except Exception:
+                    pass
+                try:
+                    assert Text1 in Element1, Text1 + " column is not present in table"
+                    TestResult.append(
+                        Text1 + " column is present in table")
+                    TestResultStatus.append("Pass")
+                except Exception as e1:
+                    TestResult.append(
+                        Text1 + " column is not present in table")
+                    TestResultStatus.append("Fail")
+
         except Exception as Mainerror:
             stop = time.time()
             RoundFloatString = round(float(stop - start),2)

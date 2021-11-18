@@ -225,7 +225,7 @@ def test_SummaryByPeriod(test_setup):
                 except Exception:
                     time.sleep(1)
                     break
-            wait = WebDriverWait(driver, 60)
+            wait = WebDriverWait(driver, 200)
             wait.until(EC.presence_of_element_located((By.XPATH, "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[1]/div[1]/div/div[2]/div/div/table/tbody/tr[1]/td[1]/div/p/strong")))
             try:
                 PageTitle1 = driver.title
@@ -328,6 +328,28 @@ def test_SummaryByPeriod(test_setup):
                 print(e1)
                 TestResult.append("Total Ben Unfunded Commitment (USD) at Liquid Trusts - Trust Accounting is not present")
                 TestResultStatus.append("Fail")
+
+            # ---------------loop for Columns in table for Trust Accounting----------
+            ItemList1 = ["Ben Trust ID", "Trust Name", "Collective Trust", "Accounting NAV (USD)",
+                         "SPV NOA (USD)", "Other (USD)", "Risk NAV (USD)", "Ben Unfunded Commitment (USD)"]
+            for ii1 in range(len(ItemList1)):
+                Text1 = ItemList1[ii1]
+                try:
+                    Element1 = driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[3]/div[2]/div/div/div[2]/table/thead/tr[1]/th[" + str(
+                            ii1 + 1) + "]/div").text
+                except Exception as e1:
+                    pass
+                try:
+                    assert Text1 in Element1, Text1 + " column is not present in table"
+                    TestResult.append(
+                        Text1 + " column is present in table")
+                    TestResultStatus.append("Pass")
+                except Exception as e1:
+                    TestResult.append(
+                        Text1 + " column is not present in table")
+                    TestResultStatus.append("Fail")
+
         except Exception as Mainerror:
             stop = time.time()
             RoundFloatString = round(float(stop - start),2)
