@@ -248,7 +248,7 @@ def test_SummaryByPeriod(test_setup):
             # ---------------------------------------------------------------------------------
 
             #------------------Verifying elemenets inside Summary By Period section--------------
-            #------------------View by Funds------------------------------------
+            #------------------------------------------------View by Funds----------------------------------------------
             try:
                 time.sleep(2)
                 driver.find_element_by_xpath(
@@ -340,7 +340,7 @@ def test_SummaryByPeriod(test_setup):
                 TestResult.append("View by Funds button at Capital Call & Distribution Activity is not able to click")
                 TestResultStatus.append("Fail")
 
-            # -----------------------------------------View by Investments------------------------------------
+            # ---------------------------------------------------View by Investments--------------------------------------------------
             try:
                 time.sleep(2)
                 driver.find_element_by_xpath(
@@ -385,6 +385,112 @@ def test_SummaryByPeriod(test_setup):
                     TestResult.append(
                         "Funds listing table (View by Investements) at Capital Call & Distribution Activity is not present")
                     TestResultStatus.append("Fail")
+
+                # ---------------Checking LiquidTrust Management, LLC Fund present in list----------
+                Text1 = "LiquidTrust Management, LLC"
+                Element1 = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[4]/div/div[1]/div[2]/div/div/div[2]/table/tbody/tr[2]/td[2]/div/p/a/span").text
+                try:
+                    assert Text1 in Element1, "LiquidTrust Management, LLC Fund present in list is not present"
+                    TestResult.append(
+                        "LiquidTrust Management, LLC Fund present in list is present")
+                    TestResultStatus.append("Pass")
+                except Exception as e1:
+                    print(e1)
+                    TestResult.append(
+                        "LiquidTrust Management, LLC Fund present in list is not present")
+                    TestResultStatus.append("Fail")
+
+                # ---------------Checking LiquidTrust Management, LLC Fund present in list----------
+                Text1 = "LiquidTrust Management, LLC"
+                Element1 = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[4]/div/div[1]/div[2]/div/div/div[2]/table/tbody/tr[2]/td[2]/div/p/a/span").text
+                try:
+                    assert Text1 in Element1, "LiquidTrust Management, LLC Fund in list is not present"
+                    TestResult.append(
+                        "LiquidTrust Management, LLC Fund in list is present")
+                    TestResultStatus.append("Pass")
+                except Exception as e1:
+                    print(e1)
+                    TestResult.append(
+                        "LiquidTrust Management, LLC Fund in list is not present")
+                    TestResultStatus.append("Fail")
+
+                # ---------------Filter present in page----------
+                Text1 = "Filter"
+                Element1 = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[2]/div/div/div/div/div/div/div[1]/div").text
+                try:
+                    assert Text1 in Element1, "Filter label is not present"
+                    TestResult.append(
+                        "Filter label is present")
+                    TestResultStatus.append("Pass")
+                except Exception as e1:
+                    print(e1)
+                    TestResult.append(
+                        "Filter label is not present")
+                    TestResultStatus.append("Fail")
+
+                # ---------------Ben Reporting Period label present in page----------
+                Text1 = "Ben Reporting Period"
+                Element1 = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[2]/div/div/div/div/div/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/p/strong").text
+                try:
+                    assert Text1 in Element1, "Ben Reporting Period label is not present"
+                    TestResult.append(
+                        "Ben Reporting Period label is present")
+                    TestResultStatus.append("Pass")
+                except Exception as e1:
+                    print(e1)
+                    TestResult.append(
+                        "Ben Reporting Period label is not present")
+                    TestResultStatus.append("Fail")
+
+                # ---------------Notice Date column present in table----------
+                Text1 = "Notice Date"
+                Element1 = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[4]/div/div[1]/div[2]/div/div/div[2]/table/thead/tr[1]/th[1]/div").text
+                try:
+                    assert Text1 in Element1, "Notice Date column is not present in table"
+                    TestResult.append(
+                        "Notice Date column is present in table")
+                    TestResultStatus.append("Pass")
+                except Exception as e1:
+                    print(e1)
+                    TestResult.append(
+                        "Notice Date column is not present in table")
+                    TestResultStatus.append("Fail")
+
+                # ---------------Notice Date column present in table----------
+                Text1 = "Notice Date"
+                Element1 = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[4]/div/div[1]/div[2]/div/div/div[2]/table/thead/tr[1]/th[1]/div").text
+                try:
+                    assert Text1 in Element1, "Notice Date column is not present in table"
+                    TestResult.append(
+                        "Notice Date column is present in table")
+                    TestResultStatus.append("Pass")
+                except Exception as e1:
+                    print(e1)
+                    TestResult.append(
+                        "Notice Date column is not present in table")
+                    TestResultStatus.append("Fail")
+
+                # ---------------Fund Name column present in table----------
+                Text1 = "Fund Name⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
+                Element1 = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[4]/div/div[1]/div[2]/div/div/div[2]/table/thead/tr[1]/th[2]/div").text
+                try:
+                    assert Text1 in Element1, "Fund Name column is not present in table"
+                    TestResult.append(
+                        "Fund Name column is present in table")
+                    TestResultStatus.append("Pass")
+                except Exception as e1:
+                    print(e1)
+                    TestResult.append(
+                        "Fund Name column is not present in table")
+                    TestResultStatus.append("Fail")
+
 
             except Exception as e1:
                 print(e1)

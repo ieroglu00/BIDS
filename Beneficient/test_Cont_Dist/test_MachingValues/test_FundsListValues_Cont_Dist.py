@@ -3,15 +3,16 @@ import math
 import re
 import time
 import openpyxl
-import xlrd
 from fpdf import FPDF
 import pytest
 from selenium import webdriver
 import allure
-import pandas as pd
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 
 
 @allure.step("Entering username ")
@@ -488,6 +489,10 @@ def test_Funds_Values(test_setup):
                 except Exception:
                     try:
                         time.sleep(4)
+                        wait = WebDriverWait(driver, 100)
+                        wait.until(EC.presence_of_element_located((By.XPATH,
+                            "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
+                            FundsNamesList[ii3] + "')]")))
                         driver.find_element_by_xpath(
                             "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
                             FundsNamesList[ii3] + "')]").click()
@@ -511,6 +516,10 @@ def test_Funds_Values(test_setup):
                                     FundsNamesList[ii3] + "')]").click()
                             except Exception:
                                 time.sleep(7)
+                                wait = WebDriverWait(driver, 100)
+                                wait.until(EC.presence_of_element_located((By.XPATH,
+                                                                           "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
+                                                                           FundsNamesList[ii3] + "')]")))
                                 driver.find_element_by_xpath(
                                     "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
                                     FundsNamesList[ii3] + "')]").click()
@@ -534,6 +543,10 @@ def test_Funds_Values(test_setup):
                                         FundsNamesList[ii3] + "')]").click()
                                 except Exception:
                                     time.sleep(7)
+                                    wait = WebDriverWait(driver, 100)
+                                    wait.until(EC.presence_of_element_located((By.XPATH,
+                                                                               "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
+                                                                               FundsNamesList[ii3] + "')]")))
                                     driver.find_element_by_xpath(
                                         "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
                                         FundsNamesList[ii3] + "')]").click()
