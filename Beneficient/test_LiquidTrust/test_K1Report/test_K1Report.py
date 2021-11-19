@@ -5,6 +5,13 @@ from fpdf import FPDF
 import pytest
 from selenium import webdriver
 import allure
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver import ActionChains
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+
 
 @allure.step("Entering username ")
 def enter_username(username):
@@ -171,8 +178,11 @@ def test_setup():
 def test_SummaryByPeriod(test_setup):
     if Exe == "Yes":
         try:
-            ForecastYear=4
-            skip1 = 0
+            SHORT_TIMEOUT = 5
+            LONG_TIMEOUT = 200
+            LOADING_ELEMENT_XPATH = "//div[@id='appian-working-indicator-hidden']"
+
+            todays_date = datetime.date.today()
 
             # ---------------------------Verify Liquid Trusts page-----------------------------
             PageName = "Liquid Trusts"
@@ -206,11 +216,12 @@ def test_SummaryByPeriod(test_setup):
             TimeString = stop - start
             print("The time of the run for " + PageName + " is: ", stop - start)
             print(TimeString)
+            print()
             # ---------------------------------------------------------------------------------
 
             # --------------------Clicking on K-1 Report section--------------
             PageName = "K-1 Report"
-            Ptitle1 = "K1 Report - BIDS"
+            Ptitle1 = "Summary of IRS Tax Forms Received"
             driver.find_element_by_xpath("//strong[contains(text(),'" + PageName + "')]").click()
             start = time.time()
             for iat2 in range(1000):
@@ -222,8 +233,7 @@ def test_SummaryByPeriod(test_setup):
                     break
             time.sleep(1)
             try:
-                # PageTitle1 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[2]/button").text
-                PageTitle1 = driver.title
+                PageTitle1 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/h2/span").text
                 print(PageTitle1)
                 assert Ptitle1 in PageTitle1, PageName + " is not able to open successfully"
                 TestResult.append(PageName + " opened successfully")
@@ -236,8 +246,8 @@ def test_SummaryByPeriod(test_setup):
             TimeString = stop - start
             print("The time of the run for " + PageName + " is: ", stop - start)
             print(TimeString)
+            print()
 
-            driver.find_element_by_xpath("//*[@title='Liquid Trusts']").click()
             start = time.time()
             for iat3 in range(1000):
                 try:
@@ -251,7 +261,126 @@ def test_SummaryByPeriod(test_setup):
             TimeString = stop - start
             print("The time of the run for " + PageName + " is: ", stop - start)
             print(TimeString)
+            print()
             # ---------------------------------------------------------------------------------
+
+            # ---------------Fund label present in page----------
+            Text1 = "Fund"
+            Element1 = driver.find_element_by_xpath(
+                "//div[@class='ContentLayout---content_layout']/div/div/div/div/div[2]/div[2]/div/div/div[1]/div/div[1]/label").text
+            try:
+                assert Text1 in Element1, Text1+" label is not present"
+                TestResult.append(
+                    Text1+" label is present")
+                TestResultStatus.append("Pass")
+            except Exception as e1:
+                print(e1)
+                TestResult.append(
+                    Text1+" label is not present")
+                TestResultStatus.append("Fail")
+
+            # ---------------Filter by label present in page----------
+            Text1 = "Filter by"
+            Element1 = driver.find_element_by_xpath(
+                "//div[@class='ContentLayout---content_layout']/div/div/div/div/div[2]/div[2]/div/div/div[2]/div/div[1]/span").text
+            try:
+                assert Text1 in Element1, Text1 + " label is not present"
+                TestResult.append(
+                    Text1 + " label is present")
+                TestResultStatus.append("Pass")
+            except Exception as e1:
+                print(e1)
+                TestResult.append(
+                    Text1 + " label is not present")
+                TestResultStatus.append("Fail")
+
+            # ---------------IRS Tax Form Selection dropdown label present in page----------
+            Text1 = "IRS Tax Form Selection"
+            Element1 = driver.find_element_by_xpath(
+                "//div[@class='ContentLayout---content_layout']/div/div/div/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div[1]/div/div[2]/div/p/strong").text
+            try:
+                assert Text1 in Element1, Text1 + " label is not present"
+                TestResult.append(
+                    Text1 + " label is present")
+                TestResultStatus.append("Pass")
+            except Exception as e1:
+                print(e1)
+                TestResult.append(
+                    Text1 + " label is not present")
+                TestResultStatus.append("Fail")
+
+            # ---------------IRS Tax Form Selection dropdown values working in page----------
+            for ii2 in range(3):
+                try:
+                    if ii2>0:
+                        driver.find_element_by_xpath(
+                            "//div[@class='ContentLayout---content_layout']/div/div/div/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div[2]/div/div[2]/div/div").click()
+                        for ii3 in range(ii2):
+                            time.sleep(1)
+                            ActionChains(driver).key_down(Keys.DOWN).perform()
+                            time.sleep(1)
+                        ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+                        try:
+                            WebDriverWait(driver, SHORT_TIMEOUT
+                                          ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                            WebDriverWait(driver, LONG_TIMEOUT
+                                          ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                        except TimeoutException:
+                            pass
+                    Element2 = driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div/div/div/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div[2]/div/div[2]/div/div/span").text
+                    print(Element2)
+                    try:
+                        bool1=driver.find_element_by_xpath("//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                        if bool1 ==True:
+                            ErrorFound = driver.find_element_by_xpath(
+                                "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                            print(ErrorFound)
+                            TestResult.append(Element2 + " dropdown value page not able to open\n"+ErrorFound)
+                            TestResultStatus.append("Fail")
+                            driver.find_element_by_xpath(
+                                "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                    except Exception:
+                        TestResult.append(Element2 + " dropdown value page opened successfully")
+                        TestResultStatus.append("Pass")
+                    driver.refresh()
+                    try:
+                        WebDriverWait(driver, SHORT_TIMEOUT
+                                      ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                        WebDriverWait(driver, LONG_TIMEOUT
+                                      ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                    except TimeoutException:
+                        pass
+                except Exception as e2:
+                    print(e2)
+                    pass
+
+            # ---------------loop for Summary of IRS Tax Forms Received Table----------
+            CurrentYear=int(todays_date.year)
+            ItemList1 = ["Fund Name", "Fund Id", "Investor Name", "Complete Contact Details",
+                         str(CurrentYear),str(CurrentYear-1),str(CurrentYear-2),str(CurrentYear-3),str(CurrentYear-4)]
+            for ii1 in range(len(ItemList1)):
+                Text1 = ItemList1[ii1]
+                try:
+                    Element1 = driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div/div/div/div/div[4]/div/div/div[2]/div/div/table/thead/tr/th[" + str(
+                            ii1 + 1) + "]/div").text
+                except Exception:
+                    pass
+
+                try:
+                    assert Text1 in Element1, Text1 + " column is not present in table"
+                    TestResult.append(
+                        Text1 + " column is present in table")
+                    TestResultStatus.append("Pass")
+                except Exception as e1:
+                    print(e1)
+                    TestResult.append(
+                        Text1 + " column is not present in table")
+                    TestResultStatus.append("Fail")
+
         except Exception as Mainerror:
             stop = time.time()
             RoundFloatString = round(float(stop - start),2)
