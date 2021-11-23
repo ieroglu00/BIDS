@@ -7,6 +7,7 @@ from fpdf import FPDF
 import pytest
 from selenium import webdriver
 import allure
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -188,6 +189,9 @@ def test_Funds_Values(test_setup):
         try:
             ForecastYear=4
             skip1 = 0
+            SHORT_TIMEOUT = 5
+            LONG_TIMEOUT = 200
+            LOADING_ELEMENT_XPATH = "//div[@id='appian-working-indicator-hidden']"
 
             PageName = "Funds"
             PageTitle = "Funds - BIDS"
@@ -461,7 +465,7 @@ def test_Funds_Values(test_setup):
                 print()
                 print()
                 print(str(ii3))
-                if ii3 ==5 or ii3 ==15 or ii3 ==30 or ii3 ==45 or ii3 ==60 or ii3 ==75 or ii3 ==90 or ii3 ==105:
+                if ii3 ==5 or ii3 ==15 or ii3 ==30 or ii3 ==45 or ii3 ==60 or ii3 ==75 or ii3 ==90 or ii3 ==105 or ii3 ==120:
                     #print("----------------***************"+str(ii3))
                     driver.delete_all_cookies()
                     time.sleep(5)
@@ -471,13 +475,14 @@ def test_Funds_Values(test_setup):
                     button = driver.find_element_by_xpath(
                         "//input[@type='submit']")
                     driver.execute_script("arguments[0].click();", button)
-                    for iat8 in range(1000):
-                        try:
-                            bool = driver.find_element_by_xpath(
-                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                            time.sleep(1)
-                        except Exception:
-                            break
+                    try:
+                        WebDriverWait(driver, SHORT_TIMEOUT
+                                      ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                        WebDriverWait(driver, LONG_TIMEOUT
+                                      ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                    except TimeoutException:
+                        pass
 
                 print(FundsNamesList[ii3])
                 # ---------------------------
@@ -501,13 +506,14 @@ def test_Funds_Values(test_setup):
                         time.sleep(4)
                         try:
                             driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a").click()
-                            for iat12 in range(15):
-                                try:
-                                    bool = driver.find_element_by_xpath(
-                                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                                    time.sleep(1)
-                                except Exception:
-                                    break
+                            try:
+                                WebDriverWait(driver, SHORT_TIMEOUT
+                                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                                WebDriverWait(driver, LONG_TIMEOUT
+                                              ).until_not(
+                                    EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                            except TimeoutException:
+                                pass
 
                             time.sleep(1)
                             try:
@@ -528,13 +534,14 @@ def test_Funds_Values(test_setup):
                             time.sleep(2)
                             driver.find_element_by_xpath(
                                 "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a").click()
-                            for iat13 in range(15):
-                                try:
-                                    bool = driver.find_element_by_xpath(
-                                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                                    time.sleep(1)
-                                except Exception:
-                                    break
+                            try:
+                                WebDriverWait(driver, SHORT_TIMEOUT
+                                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                                WebDriverWait(driver, LONG_TIMEOUT
+                                              ).until_not(
+                                    EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                            except TimeoutException:
+                                pass
                             try:
                                 time.sleep(1)
                                 try:
@@ -555,13 +562,15 @@ def test_Funds_Values(test_setup):
                                 time.sleep(2)
                                 driver.find_element_by_xpath(
                                     "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a").click()
-                                for iat14 in range(15):
-                                    try:
-                                        bool = driver.find_element_by_xpath(
-                                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                                        time.sleep(1)
-                                    except Exception:
-                                        break
+                                try:
+                                    WebDriverWait(driver, SHORT_TIMEOUT
+                                                  ).until(
+                                        EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                                    WebDriverWait(driver, LONG_TIMEOUT
+                                                  ).until_not(
+                                        EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                                except TimeoutException:
+                                    pass
                                 try:
                                     time.sleep(1)
                                     try:
