@@ -185,7 +185,6 @@ def test_BeaconTrustMapAllocationPer(test_setup):
             Ptitle1="Quarterly NAV Close - BIDS"
             driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
             start = time.time()
-
             try:
                 WebDriverWait(driver, SHORT_TIMEOUT
                               ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
@@ -222,7 +221,6 @@ def test_BeaconTrustMapAllocationPer(test_setup):
                     except Exception:
                         pass
                     pass
-
             time.sleep(1)
             PageTitle1 = driver.title
             try:

@@ -6,6 +6,7 @@ from fpdf import FPDF
 import pytest
 from selenium import webdriver
 import allure
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
@@ -185,6 +186,10 @@ def test_ComparisonSOSwithMissionControl(test_setup):
     AmountListSOSSPV = []
     AmountListSOSInvestmenst = []
 
+    SHORT_TIMEOUT = 5
+    LONG_TIMEOUT = 400
+    LOADING_ELEMENT_XPATH = "//div[@id='appian-working-indicator-hidden']"
+
     if Exe == "Yes":
         try:
             print()
@@ -192,13 +197,44 @@ def test_ComparisonSOSwithMissionControl(test_setup):
             Ptitle1="Quarterly NAV Close - BIDS"
             driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
             start = time.time()
-            for iat2 in range(1000):
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+            try:
+                time.sleep(2)
+                bool1 = driver.find_element_by_xpath(
+                    "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                if bool1 == True:
+                    ErrorFound1 = driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                    print(ErrorFound1)
+                    driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                    TestResult.append(PageName + " not able to open\n" + ErrorFound1)
+                    TestResultStatus.append("Fail")
+                    bool1 = False
+                    driver.close()
+            except Exception:
                 try:
-                    bool = driver.find_element_by_xpath(
-                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                    time.sleep(2)
+                    bool2 = driver.find_element_by_xpath(
+                        "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                    if bool2 == True:
+                        ErrorFound2 = driver.find_element_by_xpath(
+                            "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                        print(ErrorFound2)
+                        TestResult.append(PageName + " not able to open\n" + ErrorFound2)
+                        TestResultStatus.append("Fail")
+                        bool2 = False
+                        driver.close()
                 except Exception:
-                    time.sleep(1)
-                    break
+                    pass
+                pass
             time.sleep(1)
             PageTitle1 = driver.title
             try:
@@ -218,14 +254,45 @@ def test_ComparisonSOSwithMissionControl(test_setup):
             Ptitle1 = "COR_ReportMissionControl - BIDS"
             driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
             start = time.time()
-            for iat3 in range(1000):
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+            try:
+                time.sleep(2)
+                bool1 = driver.find_element_by_xpath(
+                    "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                if bool1 == True:
+                    ErrorFound1 = driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                    print(ErrorFound1)
+                    driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                    TestResult.append(PageName + " not able to open\n" + ErrorFound1)
+                    TestResultStatus.append("Fail")
+                    bool1 = False
+                    driver.close()
+            except Exception:
                 try:
-                    bool = driver.find_element_by_xpath(
-                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                    time.sleep(2)
+                    bool2 = driver.find_element_by_xpath(
+                        "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                    if bool2 == True:
+                        ErrorFound2 = driver.find_element_by_xpath(
+                            "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                        print(ErrorFound2)
+                        TestResult.append(PageName + " not able to open\n" + ErrorFound2)
+                        TestResultStatus.append("Fail")
+                        bool2 = False
+                        driver.close()
                 except Exception:
-                    time.sleep(1)
-                    break
-            time.sleep(5)
+                    pass
+                pass
+            time.sleep(1)
             PageTitle1 = driver.title
             try:
                 assert Ptitle1 in PageTitle1, PageName + " not able to open"
@@ -235,7 +302,7 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                 TestResult.append(PageName + " page not able to open")
                 TestResultStatus.append("Fail")
 
-            wait = WebDriverWait(driver, 300)
+            wait = WebDriverWait(driver, LONG_TIMEOUT)
             wait.until(EC.presence_of_element_located((By.XPATH,
                                                        "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[2]/div/div[2]/div/div[2]/div/div/span")))
             stop = time.time()
@@ -259,16 +326,47 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                     ActionChains(driver).key_down(Keys.UP).perform()
                     time.sleep(2)
                     ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                    for iat16 in range(1000):
+                    try:
+                        WebDriverWait(driver, SHORT_TIMEOUT
+                                      ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                        WebDriverWait(driver, LONG_TIMEOUT
+                                      ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                    except TimeoutException:
+                        pass
+                    try:
+                        time.sleep(2)
+                        bool1 = driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                        if bool1 == True:
+                            ErrorFound1 = driver.find_element_by_xpath(
+                                "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                            print(ErrorFound1)
+                            driver.find_element_by_xpath(
+                                "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                            TestResult.append(P + " not able to open\n" + ErrorFound1)
+                            TestResultStatus.append("Fail")
+                            bool1 = False
+                            driver.close()
+                    except Exception:
                         try:
-                            bool = driver.find_element_by_xpath(
-                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                            time.sleep(2)
+                            bool2 = driver.find_element_by_xpath(
+                                "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                            if bool2 == True:
+                                ErrorFound2 = driver.find_element_by_xpath(
+                                    "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                                print(ErrorFound2)
+                                TestResult.append(P + " not able to open\n" + ErrorFound2)
+                                TestResultStatus.append("Fail")
+                                bool2 = False
+                                driver.close()
                         except Exception:
-                            time.sleep(1)
-                            break
+                            pass
+                        pass
                     time.sleep(5)
 
-            wait = WebDriverWait(driver, 300)
+            wait = WebDriverWait(driver, LONG_TIMEOUT)
             wait.until(EC.presence_of_element_located((By.XPATH,
                  "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[2]/div/div[2]/div/div[2]/div/div/span")))
             for ia in range(YearCounterNumber):
@@ -291,25 +389,55 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                     ActionChains(driver).key_down(Keys.DOWN).perform()
                     time.sleep(2)
                     ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                    for iat5 in range(1000):
-                        try:
-                            bool = driver.find_element_by_xpath(
-                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                            # print("Loader present")
-                        except Exception:
-                            # print("Loader finished")
-                            time.sleep(5)
-                            break
+                    try:
+                        WebDriverWait(driver, SHORT_TIMEOUT
+                                      ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                        WebDriverWait(driver, LONG_TIMEOUT
+                                      ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                    except TimeoutException:
+                        pass
                     P = driver.find_element_by_xpath(
                         "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[2]/div/div[2]/div/div[2]/div/div/span").text
-                for iat6 in range(1000):
+                try:
+                    WebDriverWait(driver, SHORT_TIMEOUT
+                                  ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                    WebDriverWait(driver, LONG_TIMEOUT
+                                  ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                except TimeoutException:
+                    pass
+                try:
+                    time.sleep(2)
+                    bool1 = driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                    if bool1 == True:
+                        ErrorFound1 = driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                        print(ErrorFound1)
+                        driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                        TestResult.append(P + " not able to open\n" + ErrorFound1)
+                        TestResultStatus.append("Fail")
+                        bool1 = False
+                        driver.close()
+                except Exception:
                     try:
-                        bool = driver.find_element_by_xpath("//div[@id='appian-working-indicator-hidden']").is_enabled()
+                        time.sleep(2)
+                        bool2 = driver.find_element_by_xpath(
+                            "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                        if bool2 == True:
+                            ErrorFound2 = driver.find_element_by_xpath(
+                                "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                            print(ErrorFound2)
+                            TestResult.append(P + " not able to open\n" + ErrorFound2)
+                            TestResultStatus.append("Fail")
+                            bool2 = False
+                            driver.close()
                     except Exception:
-                        # print("Loader finished")
-                        time.sleep(3)
-                        break
-                time.sleep(5)
+                        pass
+                    pass
+                time.sleep(1)
                 try:
                     AmtFundLevel = driver.find_element_by_xpath(
                         "//div[@class='ContentLayout---content_layout']/div[5]/div[2]/div/div/div[2]/div[10]/div[2]/div/p/span/strong").text
@@ -327,27 +455,58 @@ def test_ComparisonSOSwithMissionControl(test_setup):
 
             # Navigating back to Quarterly NAV Close Page
             driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
-            for iat7 in range(1000):
-                try:
-                    bool = driver.find_element_by_xpath("//div[@id='appian-working-indicator-hidden']").is_enabled()
-                except Exception:
-                    # print("Loader finished")
-                    time.sleep(3)
-                    break
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
 
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
 
             ####################################################
             PageName = "Sign-Off Summary: SPVs"
             Ptitle1 = "User Input Task - BIDS"
             driver.find_element_by_xpath("//*[text() = '" + PageName + "']").click()
-            for iat13 in range(1000):
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+            try:
+                time.sleep(2)
+                bool1 = driver.find_element_by_xpath(
+                    "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                if bool1 == True:
+                    ErrorFound1 = driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                    print(ErrorFound1)
+                    driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                    TestResult.append(PageName + " not able to open\n" + ErrorFound1)
+                    TestResultStatus.append("Fail")
+                    bool1 = False
+                    driver.close()
+            except Exception:
                 try:
-                    bool = driver.find_element_by_xpath(
-                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                    time.sleep(2)
+                    bool2 = driver.find_element_by_xpath(
+                        "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                    if bool2 == True:
+                        ErrorFound2 = driver.find_element_by_xpath(
+                            "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                        print(ErrorFound2)
+                        TestResult.append(PageName + " not able to open\n" + ErrorFound2)
+                        TestResultStatus.append("Fail")
+                        bool2 = False
+                        driver.close()
                 except Exception:
-                    time.sleep(1)
-                    break
-            time.sleep(5)
+                    pass
+                pass
+            time.sleep(1)
             PageTitle1 = driver.title
             try:
                 assert Ptitle1 in PageTitle1, PageName + " not able to open"
@@ -358,7 +517,7 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                 TestResultStatus.append("Fail")
 
             # Setting first quarter in the quarter dropdown list
-            wait = WebDriverWait(driver, 300)
+            wait = WebDriverWait(driver, LONG_TIMEOUT)
             wait.until(EC.presence_of_element_located((By.XPATH,
                                                        "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div/span")))
             for iat15 in range(10):
@@ -377,14 +536,45 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                     ActionChains(driver).key_down(Keys.UP).perform()
                     time.sleep(2)
                     ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                    for iat18 in range(1000):
+                    try:
+                        WebDriverWait(driver, SHORT_TIMEOUT
+                                      ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                        WebDriverWait(driver, LONG_TIMEOUT
+                                      ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                    except TimeoutException:
+                        pass
+                    try:
+                        time.sleep(2)
+                        bool1 = driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                        if bool1 == True:
+                            ErrorFound1 = driver.find_element_by_xpath(
+                                "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                            print(ErrorFound1)
+                            driver.find_element_by_xpath(
+                                "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                            TestResult.append(P + " not able to open\n" + ErrorFound1)
+                            TestResultStatus.append("Fail")
+                            bool1 = False
+                            driver.close()
+                    except Exception:
                         try:
-                            bool = driver.find_element_by_xpath(
-                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                            time.sleep(2)
+                            bool2 = driver.find_element_by_xpath(
+                                "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                            if bool2 == True:
+                                ErrorFound2 = driver.find_element_by_xpath(
+                                    "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                                print(ErrorFound2)
+                                TestResult.append(P + " not able to open\n" + ErrorFound2)
+                                TestResultStatus.append("Fail")
+                                bool2 = False
+                                driver.close()
                         except Exception:
-                            time.sleep(1)
-                            break
-                    time.sleep(5)
+                            pass
+                        pass
+                    time.sleep(1)
 
             for iaa in range(YearCounterNumber):
                 # print("Count is " + str(ia))
@@ -406,25 +596,85 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                     ActionChains(driver).key_down(Keys.DOWN).perform()
                     time.sleep(2)
                     ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                    for iat8 in range(1000):
+                    try:
+                        WebDriverWait(driver, SHORT_TIMEOUT
+                                      ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                        WebDriverWait(driver, LONG_TIMEOUT
+                                      ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                    except TimeoutException:
+                        pass
+                    try:
+                        time.sleep(2)
+                        bool1 = driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                        if bool1 == True:
+                            ErrorFound1 = driver.find_element_by_xpath(
+                                "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                            print(ErrorFound1)
+                            driver.find_element_by_xpath(
+                                "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                            TestResult.append(P + " not able to open\n" + ErrorFound1)
+                            TestResultStatus.append("Fail")
+                            bool1 = False
+                            driver.close()
+                    except Exception:
                         try:
-                            bool = driver.find_element_by_xpath(
-                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                            # print("Loader present")
+                            time.sleep(2)
+                            bool2 = driver.find_element_by_xpath(
+                                "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                            if bool2 == True:
+                                ErrorFound2 = driver.find_element_by_xpath(
+                                    "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                                print(ErrorFound2)
+                                TestResult.append(P + " not able to open\n" + ErrorFound2)
+                                TestResultStatus.append("Fail")
+                                bool2 = False
+                                driver.close()
                         except Exception:
-                            # print("Loader finished")
-                            time.sleep(5)
-                            break
+                            pass
+                        pass
                     P = driver.find_element_by_xpath(
                         "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div").text
-                for iat9 in range(1000):
+                try:
+                    WebDriverWait(driver, SHORT_TIMEOUT
+                                  ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                    WebDriverWait(driver, LONG_TIMEOUT
+                                  ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                except TimeoutException:
+                    pass
+                try:
+                    time.sleep(2)
+                    bool1 = driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                    if bool1 == True:
+                        ErrorFound1 = driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                        print(ErrorFound1)
+                        driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                        TestResult.append(P + " not able to open\n" + ErrorFound1)
+                        TestResultStatus.append("Fail")
+                        bool1 = False
+                        driver.close()
+                except Exception:
                     try:
-                        bool = driver.find_element_by_xpath("//div[@id='appian-working-indicator-hidden']").is_enabled()
+                        time.sleep(2)
+                        bool2 = driver.find_element_by_xpath(
+                            "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                        if bool2 == True:
+                            ErrorFound2 = driver.find_element_by_xpath(
+                                "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                            print(ErrorFound2)
+                            TestResult.append(P + " not able to open\n" + ErrorFound2)
+                            TestResultStatus.append("Fail")
+                            bool2 = False
+                            driver.close()
                     except Exception:
-                        # print("Loader finished")
-                        time.sleep(3)
-                        break
-                time.sleep(5)
+                        pass
+                    pass
+                time.sleep(1)
                 try:
                     element = driver.find_element_by_xpath(
                         "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[2]/div/div[3]/div/div[2]/div/input")
@@ -436,26 +686,58 @@ def test_ComparisonSOSwithMissionControl(test_setup):
 
             # Navigating back to Quarterly NAV Close Page
             driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
-            for iat10 in range(1000):
-                try:
-                    bool = driver.find_element_by_xpath("//div[@id='appian-working-indicator-hidden']").is_enabled()
-                except Exception:
-                    # print("Loader finished")
-                    time.sleep(3)
-                    break
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
 
             ####################################################
             PageName = "Sign-Off Summary: Funds"
             Ptitle1 = "User Input Task - BIDS"
             driver.find_element_by_xpath("//*[text() = '" + PageName + "']").click()
-            for iat13 in range(1000):
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+            try:
+                time.sleep(2)
+                bool1 = driver.find_element_by_xpath(
+                    "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                if bool1 == True:
+                    ErrorFound1 = driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                    print(ErrorFound1)
+                    driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                    TestResult.append(PageName + " not able to open\n" + ErrorFound1)
+                    TestResultStatus.append("Fail")
+                    bool1 = False
+                    driver.close()
+            except Exception:
                 try:
-                    bool = driver.find_element_by_xpath(
-                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                    time.sleep(2)
+                    bool2 = driver.find_element_by_xpath(
+                        "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                    if bool2 == True:
+                        ErrorFound2 = driver.find_element_by_xpath(
+                            "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                        print(ErrorFound2)
+                        TestResult.append(PageName + " not able to open\n" + ErrorFound2)
+                        TestResultStatus.append("Fail")
+                        bool2 = False
+                        driver.close()
                 except Exception:
-                    time.sleep(1)
-                    break
-            time.sleep(5)
+                    pass
+                pass
+            time.sleep(1)
             PageTitle1 = driver.title
             try:
                 assert Ptitle1 in PageTitle1, PageName + " not able to open"
@@ -466,7 +748,7 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                 TestResultStatus.append("Fail")
 
             # Setting first quarter in the quarter dropdown list
-            wait = WebDriverWait(driver, 300)
+            wait = WebDriverWait(driver, LONG_TIMEOUT)
             wait.until(EC.presence_of_element_located((By.XPATH,
                                                        "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div[1]/div[1]/div/div[2]/div/div/span")))
             for iat15 in range(10):
@@ -485,14 +767,45 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                     ActionChains(driver).key_down(Keys.UP).perform()
                     time.sleep(2)
                     ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                    for iat18 in range(1000):
+                    try:
+                        WebDriverWait(driver, SHORT_TIMEOUT
+                                      ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                        WebDriverWait(driver, LONG_TIMEOUT
+                                      ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                    except TimeoutException:
+                        pass
+                    try:
+                        time.sleep(2)
+                        bool1 = driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                        if bool1 == True:
+                            ErrorFound1 = driver.find_element_by_xpath(
+                                "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                            print(ErrorFound1)
+                            driver.find_element_by_xpath(
+                                "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                            TestResult.append(P + " not able to open\n" + ErrorFound1)
+                            TestResultStatus.append("Fail")
+                            bool1 = False
+                            driver.close()
+                    except Exception:
                         try:
-                            bool = driver.find_element_by_xpath(
-                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                            time.sleep(2)
+                            bool2 = driver.find_element_by_xpath(
+                                "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                            if bool2 == True:
+                                ErrorFound2 = driver.find_element_by_xpath(
+                                    "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                                print(ErrorFound2)
+                                TestResult.append(P + " not able to open\n" + ErrorFound2)
+                                TestResultStatus.append("Fail")
+                                bool2 = False
+                                driver.close()
                         except Exception:
-                            time.sleep(1)
-                            break
-                    time.sleep(5)
+                            pass
+                        pass
+                    time.sleep(1)
 
             for iaa in range(YearCounterNumber):
                 # print("Count is " + str(ia))
@@ -514,27 +827,85 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                     ActionChains(driver).key_down(Keys.DOWN).perform()
                     time.sleep(2)
                     ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                    for iat8 in range(1000):
+                    try:
+                        WebDriverWait(driver, SHORT_TIMEOUT
+                                      ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                        WebDriverWait(driver, LONG_TIMEOUT
+                                      ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                    except TimeoutException:
+                        pass
+                    try:
+                        time.sleep(2)
+                        bool1 = driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                        if bool1 == True:
+                            ErrorFound1 = driver.find_element_by_xpath(
+                                "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                            print(ErrorFound1)
+                            driver.find_element_by_xpath(
+                                "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                            TestResult.append(P + " not able to open\n" + ErrorFound1)
+                            TestResultStatus.append("Fail")
+                            bool1 = False
+                            driver.close()
+                    except Exception:
                         try:
-                            bool = driver.find_element_by_xpath(
-                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                            time.sleep(1)
+                            time.sleep(2)
+                            bool2 = driver.find_element_by_xpath(
+                                "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                            if bool2 == True:
+                                ErrorFound2 = driver.find_element_by_xpath(
+                                    "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                                print(ErrorFound2)
+                                TestResult.append(P + " not able to open\n" + ErrorFound2)
+                                TestResultStatus.append("Fail")
+                                bool2 = False
+                                driver.close()
                         except Exception:
-                            # print("Loader finished")
-                            time.sleep(1)
-                            break
+                            pass
+                        pass
                     P = driver.find_element_by_xpath(
                         "//div[@class='ContentLayout---content_layout']/div[1]/div/div[3]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div/span").text
-                for iat9 in range(1000):
+                try:
+                    WebDriverWait(driver, SHORT_TIMEOUT
+                                  ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                    WebDriverWait(driver, LONG_TIMEOUT
+                                  ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                except TimeoutException:
+                    pass
+                try:
+                    time.sleep(2)
+                    bool1 = driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                    if bool1 == True:
+                        ErrorFound1 = driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                        print(ErrorFound1)
+                        driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                        TestResult.append(P + " not able to open\n" + ErrorFound1)
+                        TestResultStatus.append("Fail")
+                        bool1 = False
+                        driver.close()
+                except Exception:
                     try:
-                        bool = driver.find_element_by_xpath(
-                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                        time.sleep(1)
+                        time.sleep(2)
+                        bool2 = driver.find_element_by_xpath(
+                            "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                        if bool2 == True:
+                            ErrorFound2 = driver.find_element_by_xpath(
+                                "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                            print(ErrorFound2)
+                            TestResult.append(P + " not able to open\n" + ErrorFound2)
+                            TestResultStatus.append("Fail")
+                            bool2 = False
+                            driver.close()
                     except Exception:
-                        # print("Loader finished")
-                        time.sleep(1)
-                        break
-                time.sleep(10)
+                        pass
+                    pass
+                time.sleep(1)
                 try:
                     element = driver.find_element_by_xpath(
                         "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div[8]/div/div[2]/div/input")
@@ -546,28 +917,58 @@ def test_ComparisonSOSwithMissionControl(test_setup):
 
             # Navigating back to Quarterly NAV Close Page
             driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
-            for iat10 in range(1000):
-                try:
-                    bool = driver.find_element_by_xpath("//div[@id='appian-working-indicator-hidden']").is_enabled()
-                except Exception:
-                    # print("Loader finished")
-                    time.sleep(3)
-                    break
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
 
-
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
 
             ####################################################
             PageName = "Sign-Off Summary: Investments"
             Ptitle1 = "User Input Task - BIDS"
             driver.find_element_by_xpath("//*[text() = '" + PageName + "']").click()
-            for iat14 in range(1000):
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+            try:
+                time.sleep(2)
+                bool1 = driver.find_element_by_xpath(
+                    "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                if bool1 == True:
+                    ErrorFound1 = driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                    print(ErrorFound1)
+                    driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                    TestResult.append(PageName + " not able to open\n" + ErrorFound1)
+                    TestResultStatus.append("Fail")
+                    bool1 = False
+                    driver.close()
+            except Exception:
                 try:
-                    bool = driver.find_element_by_xpath(
-                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                    time.sleep(2)
+                    bool2 = driver.find_element_by_xpath(
+                        "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                    if bool2 == True:
+                        ErrorFound2 = driver.find_element_by_xpath(
+                            "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                        print(ErrorFound2)
+                        TestResult.append(PageName + " not able to open\n" + ErrorFound2)
+                        TestResultStatus.append("Fail")
+                        bool2 = False
+                        driver.close()
                 except Exception:
-                    time.sleep(1)
-                    break
-            time.sleep(5)
+                    pass
+                pass
+            time.sleep(1)
             PageTitle1 = driver.title
             try:
                 assert Ptitle1 in PageTitle1, PageName + " not able to open"
@@ -578,7 +979,7 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                 TestResultStatus.append("Fail")
 
             # Setting first quarter in the quarter dropdown list
-            wait = WebDriverWait(driver, 300)
+            wait = WebDriverWait(driver, LONG_TIMEOUT)
             wait.until(EC.presence_of_element_located((By.XPATH,
                                                        "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div/span")))
             for iat17 in range(10):
@@ -597,14 +998,45 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                     ActionChains(driver).key_down(Keys.UP).perform()
                     time.sleep(2)
                     ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                    for iat19 in range(1000):
+                    try:
+                        WebDriverWait(driver, SHORT_TIMEOUT
+                                      ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                        WebDriverWait(driver, LONG_TIMEOUT
+                                      ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                    except TimeoutException:
+                        pass
+                    try:
+                        time.sleep(2)
+                        bool1 = driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                        if bool1 == True:
+                            ErrorFound1 = driver.find_element_by_xpath(
+                                "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                            print(ErrorFound1)
+                            driver.find_element_by_xpath(
+                                "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                            TestResult.append(P + " not able to open\n" + ErrorFound1)
+                            TestResultStatus.append("Fail")
+                            bool1 = False
+                            driver.close()
+                    except Exception:
                         try:
-                            bool = driver.find_element_by_xpath(
-                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                            time.sleep(2)
+                            bool2 = driver.find_element_by_xpath(
+                                "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                            if bool2 == True:
+                                ErrorFound2 = driver.find_element_by_xpath(
+                                    "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                                print(ErrorFound2)
+                                TestResult.append(P + " not able to open\n" + ErrorFound2)
+                                TestResultStatus.append("Fail")
+                                bool2 = False
+                                driver.close()
                         except Exception:
-                            time.sleep(1)
-                            break
-                    time.sleep(5)
+                            pass
+                        pass
+                    time.sleep(1)
 
             for iaaa in range(YearCounterNumber):
                 # print("Count is " + str(ia))
@@ -626,25 +1058,85 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                     ActionChains(driver).key_down(Keys.DOWN).perform()
                     time.sleep(2)
                     ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                    for iat11 in range(1000):
+                    try:
+                        WebDriverWait(driver, SHORT_TIMEOUT
+                                      ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                        WebDriverWait(driver, LONG_TIMEOUT
+                                      ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                    except TimeoutException:
+                        pass
+                    try:
+                        time.sleep(2)
+                        bool1 = driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                        if bool1 == True:
+                            ErrorFound1 = driver.find_element_by_xpath(
+                                "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                            print(ErrorFound1)
+                            driver.find_element_by_xpath(
+                                "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                            TestResult.append(P + " not able to open\n" + ErrorFound1)
+                            TestResultStatus.append("Fail")
+                            bool1 = False
+                            driver.close()
+                    except Exception:
                         try:
-                            bool = driver.find_element_by_xpath(
-                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                            time.sleep(1)
+                            time.sleep(2)
+                            bool2 = driver.find_element_by_xpath(
+                                "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                            if bool2 == True:
+                                ErrorFound2 = driver.find_element_by_xpath(
+                                    "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                                print(ErrorFound2)
+                                TestResult.append(P + " not able to open\n" + ErrorFound2)
+                                TestResultStatus.append("Fail")
+                                bool2 = False
+                                driver.close()
                         except Exception:
-                            time.sleep(1)
-                            break
+                            pass
+                        pass
                     P = driver.find_element_by_xpath(
                         "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div/div/span").text
-                for iat12 in range(1000):
+                try:
+                    WebDriverWait(driver, SHORT_TIMEOUT
+                                  ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                    WebDriverWait(driver, LONG_TIMEOUT
+                                  ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                except TimeoutException:
+                    pass
+                try:
+                    time.sleep(2)
+                    bool1 = driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                    if bool1 == True:
+                        ErrorFound1 = driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                        print(ErrorFound1)
+                        driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                        TestResult.append(P + " not able to open\n" + ErrorFound1)
+                        TestResultStatus.append("Fail")
+                        bool1 = False
+                        driver.close()
+                except Exception:
                     try:
-                        bool = driver.find_element_by_xpath("//div[@id='appian-working-indicator-hidden']").is_enabled()
-                        time.sleep(1)
+                        time.sleep(2)
+                        bool2 = driver.find_element_by_xpath(
+                            "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                        if bool2 == True:
+                            ErrorFound2 = driver.find_element_by_xpath(
+                                "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                            print(ErrorFound2)
+                            TestResult.append(P + " not able to open\n" + ErrorFound2)
+                            TestResultStatus.append("Fail")
+                            bool2 = False
+                            driver.close()
                     except Exception:
-                        # print("Loader finished")
-                        time.sleep(1)
-                        break
-                time.sleep(10)
+                        pass
+                    pass
+                time.sleep(1)
                 try:
                     element = driver.find_element_by_xpath(
                         "//div[@class='ContentLayout---content_layout']/div[5]/div/div/div[2]/div/div[8]/div/div[2]/div/input")
@@ -733,8 +1225,11 @@ def test_ComparisonSOSwithMissionControl(test_setup):
             RoundFloatString = round(float(stop - start),2)
             print("The time of the run for " + PageName + " is: ", RoundFloatString)
             stringMainerror=repr(Mainerror)
-            TestResult.append(stringMainerror)
-            TestResultStatus.append("Fail")
+            if stringMainerror in "InvalidSessionIdException('invalid session id', None, None)":
+                pass
+            else:
+                TestResult.append(stringMainerror)
+                TestResultStatus.append("Fail")
 
     else:
         print()
