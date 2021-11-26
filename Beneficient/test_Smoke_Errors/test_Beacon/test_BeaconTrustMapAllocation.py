@@ -1,6 +1,5 @@
 import datetime
 import re
-import sys
 import time
 import openpyxl
 from fpdf import FPDF
