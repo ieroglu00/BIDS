@@ -11,7 +11,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-
+from selenium.common.exceptions import TimeoutException
 
 @allure.step("Entering username ")
 def enter_username(username):
@@ -187,6 +187,9 @@ def test_setup():
 @pytest.mark.smoke
 def test_BeaconTotalBenCompStaticInvestment(test_setup):
     YearCounterNumber = 4
+    SHORT_TIMEOUT = 5
+    LONG_TIMEOUT = 200
+    LOADING_ELEMENT_XPATH = "//div[@id='appian-working-indicator-hidden']"
     if Exe == "Yes":
         try:
             print()
@@ -194,13 +197,14 @@ def test_BeaconTotalBenCompStaticInvestment(test_setup):
             Ptitle1="Quarterly NAV Close - BIDS"
             driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
             start = time.time()
-            for iat2 in range(1000):
-                try:
-                    bool = driver.find_element_by_xpath(
-                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                except Exception:
-                    time.sleep(1)
-                    break
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
             time.sleep(1)
             PageTitle1 = driver.title
             try:
@@ -219,14 +223,15 @@ def test_BeaconTotalBenCompStaticInvestment(test_setup):
             Ptitle1 = "COR_BeaconDataTransferTemplate - BIDS"
             driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
             start = time.time()
-            for iat3 in range(1000):
-                try:
-                    bool = driver.find_element_by_xpath(
-                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                except Exception:
-                    time.sleep(1)
-                    break
-            time.sleep(5)
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+            time.sleep(1)
             PageTitle1 = driver.title
             try:
                 assert Ptitle1 in PageTitle1, PageName + " not able to open"
@@ -237,7 +242,7 @@ def test_BeaconTotalBenCompStaticInvestment(test_setup):
                 TestResult.append(PageName + " page not able to open")
                 TestResultStatus.append("Fail")
 
-            wait = WebDriverWait(driver, 300)
+            wait = WebDriverWait(driver, 500)
             wait.until(EC.presence_of_element_located((By.XPATH,
                                                        "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span")))
             stop = time.time()
@@ -255,14 +260,15 @@ def test_BeaconTotalBenCompStaticInvestment(test_setup):
                         "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span").text
                 print("Year is: " +P)
                 YearCounter.append(P)
-                for iat9 in range(1000):
-                    try:
-                        bool = driver.find_element_by_xpath(
-                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                        time.sleep(1)
-                    except Exception:
-                        break
-                time.sleep(5)
+                try:
+                    WebDriverWait(driver, SHORT_TIMEOUT
+                                  ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                    WebDriverWait(driver, LONG_TIMEOUT
+                                  ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                except TimeoutException:
+                    pass
+                time.sleep(1)
                 TotalBenNAV_USD_PerthisYear=driver.find_element_by_xpath(
                     "//div[@class='ContentLayout---content_layout']/div[5]/div/div/div/div[3]/div[2]/div/div/div[2]/div[1]/div[2]/div/p").text
                 print("TotalBenNAV_USD_PerthisYear is "+TotalBenNAV_USD_PerthisYear)
@@ -275,17 +281,15 @@ def test_BeaconTotalBenCompStaticInvestment(test_setup):
                 ActionChains(driver).key_down(Keys.DOWN).perform()
                 time.sleep(3)
                 ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                for iat4 in range(1000):
-                    try:
-                        bool = driver.find_element_by_xpath(
-                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                        # print("Loader is present")
-                    except Exception:
-                        time.sleep(1)
-                        break
-                time.sleep(10)
+                try:
+                    WebDriverWait(driver, SHORT_TIMEOUT
+                                  ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
 
-
+                    WebDriverWait(driver, LONG_TIMEOUT
+                                  ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                except TimeoutException:
+                    pass
+                time.sleep(1)
 
             PageName = "Static Investment Data"
             Ptitle1 = "Investment Information"
@@ -300,15 +304,15 @@ def test_BeaconTotalBenCompStaticInvestment(test_setup):
             ActionChains(driver).key_down(Keys.DOWN).perform()
             time.sleep(3)
             ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-            for iat5 in range(1000):
-                try:
-                    bool = driver.find_element_by_xpath(
-                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                    # print("Loader is present")
-                except Exception:
-                    time.sleep(1)
-                    break
-            time.sleep(10)
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+            time.sleep(1)
             for iat6 in range(1000):
                 try:
                     bool = driver.find_element_by_xpath(
@@ -346,14 +350,14 @@ def test_BeaconTotalBenCompStaticInvestment(test_setup):
                         "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span").text
                 print("Year1 is: " +P)
                 time.sleep(5)
-                for iat8 in range(1000):
-                    try:
-                        bool = driver.find_element_by_xpath(
-                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                        time.sleep(1)
-                    except Exception:
-                        #time.sleep(1)
-                        break
+                try:
+                    WebDriverWait(driver, SHORT_TIMEOUT
+                                  ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                    WebDriverWait(driver, LONG_TIMEOUT
+                                  ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                except TimeoutException:
+                    pass
 
                 try:
                     TotalNAVforallinvestments_PerthisYear = driver.find_element_by_xpath(
@@ -372,15 +376,15 @@ def test_BeaconTotalBenCompStaticInvestment(test_setup):
                 ActionChains(driver).key_down(Keys.DOWN).perform()
                 time.sleep(3)
                 ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                for iat7 in range(1000):
-                    try:
-                        bool = driver.find_element_by_xpath(
-                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                        # print("Loader is present")
-                    except Exception:
-                        time.sleep(1)
-                        break
-                time.sleep(10)
+                try:
+                    WebDriverWait(driver, SHORT_TIMEOUT
+                                  ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                    WebDriverWait(driver, LONG_TIMEOUT
+                                  ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                except TimeoutException:
+                    pass
+                time.sleep(1)
 
             print("len is: "+str(len(TotalNAVforallinvestments_PerthisYearList)))
             for comp in range(len(TotalNAVforallinvestments_PerthisYearList)):

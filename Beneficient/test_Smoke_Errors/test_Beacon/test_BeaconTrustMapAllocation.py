@@ -6,6 +6,7 @@ from fpdf import FPDF
 import pytest
 from selenium import webdriver
 import allure
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
@@ -173,6 +174,9 @@ def test_setup():
 @pytest.mark.smoke
 def test_BeaconTrustMapAllocationPer(test_setup):
     YearCounterNumber=4
+    SHORT_TIMEOUT = 5
+    LONG_TIMEOUT = 200
+    LOADING_ELEMENT_XPATH = "//div[@id='appian-working-indicator-hidden']"
     if Exe == "Yes":
         try:
             print()
@@ -180,13 +184,14 @@ def test_BeaconTrustMapAllocationPer(test_setup):
             Ptitle1="Quarterly NAV Close - BIDS"
             driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
             start = time.time()
-            for iat2 in range(1000):
-                try:
-                    bool = driver.find_element_by_xpath(
-                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                except Exception:
-                    time.sleep(1)
-                    break
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
             time.sleep(1)
             PageTitle1 = driver.title
             try:
@@ -205,14 +210,15 @@ def test_BeaconTrustMapAllocationPer(test_setup):
             Ptitle1 = "COR_BeaconDataTransferTemplate - BIDS"
             driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
             start = time.time()
-            for iat3 in range(1000):
-                try:
-                    bool = driver.find_element_by_xpath(
-                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                except Exception:
-                    time.sleep(1)
-                    break
-            time.sleep(5)
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+            time.sleep(1)
             PageTitle1 = driver.title
             try:
                 assert Ptitle1 in PageTitle1, PageName + " not able to open"
@@ -226,7 +232,7 @@ def test_BeaconTrustMapAllocationPer(test_setup):
             print("The time of the run for " + PageName + " is: ", stop - start)
             print(TimeString)
 
-            wait = WebDriverWait(driver, 300)
+            wait = WebDriverWait(driver, 500)
             wait.until(EC.presence_of_element_located((By.XPATH,
                                                        "//div[@class='ContentLayout---content_layout']/div[2]/div[3]/div/div[2]/div/div")))
             PageName = "Trust Map Allocation"
@@ -238,14 +244,15 @@ def test_BeaconTrustMapAllocationPer(test_setup):
             ActionChains(driver).key_down(Keys.DOWN).perform()
             time.sleep(3)
             ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-            for iat4 in range(1000):
-                try:
-                    bool = driver.find_element_by_xpath(
-                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                except Exception:
-                    time.sleep(1)
-                    break
-            time.sleep(10)
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+            time.sleep(1)
             PageTitle1 = driver.title
             try:
                 assert Ptitle1 in PageTitle1, PageName + " not able to open"
@@ -259,7 +266,7 @@ def test_BeaconTrustMapAllocationPer(test_setup):
             print("The time of the run for " + PageName + " is: ", stop - start)
             print(TimeString)
 
-            wait = WebDriverWait(driver, 300)
+            wait = WebDriverWait(driver, 500)
             wait.until(EC.presence_of_element_located((By.XPATH,
                   "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[1]/div[1]/div/div[2]/div/div[1]/div/div[2]/div/div/span")))
             for year in range(1,YearCounterNumber):
@@ -290,14 +297,14 @@ def test_BeaconTrustMapAllocationPer(test_setup):
                 ActionChains(driver).key_down(Keys.DOWN).perform()
                 time.sleep(3)
                 ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                for iat4 in range(1000):
-                    try:
-                        bool = driver.find_element_by_xpath(
-                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                        #print("Loader is present")
-                    except Exception:
-                        time.sleep(1)
-                        break
+                try:
+                    WebDriverWait(driver, SHORT_TIMEOUT
+                                  ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                    WebDriverWait(driver, LONG_TIMEOUT
+                                  ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                except TimeoutException:
+                    pass
                 time.sleep(10)
         except Exception as Mainerror:
             stop = time.time()

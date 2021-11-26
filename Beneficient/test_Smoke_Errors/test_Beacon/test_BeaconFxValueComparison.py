@@ -1,9 +1,6 @@
 import datetime
-import os
 import re
 import time
-
-import fpdf
 import openpyxl
 from fpdf import FPDF
 import pytest
@@ -14,6 +11,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 
 @allure.step("Entering username ")
 def enter_username(username):
@@ -179,6 +177,9 @@ def test_setup():
 @pytest.mark.smoke
 def test_BeaconFxValueCompare(test_setup):
     YearCounterNumber = 2
+    SHORT_TIMEOUT = 5
+    LONG_TIMEOUT = 200
+    LOADING_ELEMENT_XPATH = "//div[@id='appian-working-indicator-hidden']"
     if Exe == "Yes":
         try:
             print()
@@ -186,13 +187,14 @@ def test_BeaconFxValueCompare(test_setup):
             Ptitle1="Quarterly NAV Close - BIDS"
             driver.find_element_by_xpath("//*[@title='Quarterly NAV Close']").click()
             start = time.time()
-            for iat2 in range(1000):
-                try:
-                    bool = driver.find_element_by_xpath(
-                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                except Exception:
-                    time.sleep(1)
-                    break
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
             time.sleep(1)
             PageTitle1 = driver.title
             try:
@@ -211,14 +213,15 @@ def test_BeaconFxValueCompare(test_setup):
             Ptitle1 = "COR_BeaconDataTransferTemplate - BIDS"
             driver.find_element_by_xpath("//*[text() = '"+PageName+"']").click()
             start = time.time()
-            for iat3 in range(1000):
-                try:
-                    bool = driver.find_element_by_xpath(
-                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                except Exception:
-                    time.sleep(1)
-                    break
-            time.sleep(3)
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+            time.sleep(1)
             PageTitle1 = driver.title
             try:
                 assert Ptitle1 in PageTitle1, PageName + " not able to open"
@@ -228,7 +231,7 @@ def test_BeaconFxValueCompare(test_setup):
                 TestResult.append(PageName + " page not able to open")
                 TestResultStatus.append("Fail")
 
-            wait = WebDriverWait(driver, 300)
+            wait = WebDriverWait(driver, 500)
             wait.until(EC.presence_of_element_located((By.XPATH,
                    "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span")))
             stop = time.time()
@@ -407,24 +410,6 @@ def test_BeaconFxValueCompare(test_setup):
                                     UnfundedCommitmentUSD=float(Value)
                                     #print("UnfundedCommitmentUSD is "+str(UnfundedCommitmentUSD))
 
-                            # if  round(FairValue*FXRate,2)!= FairValueUSD:
-                            #     print()
-                            #     print("FairValueUSD value do not match")
-                            #     TestResult.append("Fair Value USD value do not match with Fair Value LC and FX Rate for Fund [ " +Fund+" ] for Quarter ["+P+" ]")
-                            #     TestResultStatus.append("Fail")
-                            #
-                            # if  round(InitialCommitment*FXRate,2)!= InitialCommitmentUSD:
-                            #     print("InitialCommitmentUSD value do not match")
-                            #     TestResult.append(
-                            #         "Initial Commitment USD value do not match with Initial Commitment LC and FX Rate for Fund [ " + Fund + " ] for Quarter ["+P+" ]")
-                            #     TestResultStatus.append("Fail")
-                            #
-                            # if  round(UnfundedCommitment*FXRate,2)!= UnfundedCommitmentUSD:
-                            #     print("UnfundedCommitmentUSD value do not match")
-                            #     TestResult.append(
-                            #         "Unfunded Commitment USD value do not match with Unfunded Commitment LC and FX Rate for Fund [ " + Fund + " ] for Quarter ["+P+" ]")
-                            #     TestResultStatus.append("Fail")
-
                             if  (round(FairValue*FXRate,2)- FairValueUSD)>0.011:
                                 print()
                                 print("FairValueUSD value do not match")
@@ -456,15 +441,15 @@ def test_BeaconFxValueCompare(test_setup):
                 ActionChains(driver).key_down(Keys.DOWN).perform()
                 time.sleep(3)
                 ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                for iat4 in range(1000):
-                    try:
-                        bool = driver.find_element_by_xpath(
-                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                        #print("Loader is present")
-                    except Exception:
-                        time.sleep(1)
-                        break
-                time.sleep(10)
+                try:
+                    WebDriverWait(driver, SHORT_TIMEOUT
+                                  ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                    WebDriverWait(driver, LONG_TIMEOUT
+                                  ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                except TimeoutException:
+                    pass
+                time.sleep(1)
         except Exception as Mainerror:
             stop = time.time()
             RoundFloatString = round(float(stop - start),2)
