@@ -521,7 +521,7 @@ def test_Funds_Values(test_setup):
                                     "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
                                     FundsNamesList[ii3] + "')]").click()
                             except Exception:
-                                time.sleep(7)
+                                time.sleep(2)
                                 wait = WebDriverWait(driver, 100)
                                 wait.until(EC.presence_of_element_located((By.XPATH,
                                                                            "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
@@ -532,6 +532,9 @@ def test_Funds_Values(test_setup):
                         except Exception:
                             print("Clicked on next 2 funds icon")
                             time.sleep(2)
+                            wait = WebDriverWait(driver, 100)
+                            wait.until(EC.presence_of_element_located((By.XPATH,
+                                                                       "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a")))
                             driver.find_element_by_xpath(
                                 "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a").click()
                             try:
@@ -549,14 +552,15 @@ def test_Funds_Values(test_setup):
                                         "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
                                         FundsNamesList[ii3] + "')]").click()
                                 except Exception:
-                                    time.sleep(7)
                                     wait = WebDriverWait(driver, 100)
                                     wait.until(EC.presence_of_element_located((By.XPATH,
                                                                                "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
                                                                                FundsNamesList[ii3] + "')]")))
-                                    driver.find_element_by_xpath(
+                                    time.sleep(2)
+                                    buttonFundName = driver.find_element_by_xpath(
                                         "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
-                                        FundsNamesList[ii3] + "')]").click()
+                                        FundsNamesList[ii3] + "')]")
+                                    driver.execute_script("arguments[0].click();", buttonFundName)
                             except Exception:
                                 print("Clicked on next 3 funds icon")
                                 time.sleep(2)
@@ -579,7 +583,7 @@ def test_Funds_Values(test_setup):
                                             FundsNamesList[ii3] + "')]")
                                         driver.execute_script("arguments[0].click();", buttonFundName)
                                     except Exception:
-                                        time.sleep(7)
+                                        time.sleep(2)
                                         driver.find_element_by_xpath(
                                             "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
                                             FundsNamesList[ii3] + "')]").click()
