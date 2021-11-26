@@ -7,12 +7,12 @@ from fpdf import FPDF
 import pytest
 from selenium import webdriver
 import allure
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 
 @allure.step("Entering username ")
 def enter_username(username):

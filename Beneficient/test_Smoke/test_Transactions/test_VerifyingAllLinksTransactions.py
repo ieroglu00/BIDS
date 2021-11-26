@@ -7,6 +7,10 @@ from fpdf import FPDF
 from selenium import webdriver
 import allure
 import pandas as pd
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 
 @allure.step("Entering username ")
 def enter_username(username):
@@ -160,6 +164,9 @@ def test_setup():
 @pytest.mark.smoke
 def test_VerfyAllLinksTransactionsPage(test_setup):
     if Exe == "Yes":
+        SHORT_TIMEOUT = 5
+        LONG_TIMEOUT = 400
+        LOADING_ELEMENT_XPATH = "//div[@id='appian-working-indicator-hidden']"
         try:
             PageName = "Transactions"
             PageTitle = "Transactions - BIDS"
@@ -169,13 +176,44 @@ def test_VerfyAllLinksTransactionsPage(test_setup):
             sheet = wb.sheet_by_index(0)
             driver.find_element_by_xpath("//*[@title='" + PageName + "']").click()
             start = time.time()
-            for iat5 in range(1000):
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+            try:
+                time.sleep(2)
+                bool1 = driver.find_element_by_xpath(
+                    "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                if bool1 == True:
+                    ErrorFound1 = driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                    print(ErrorFound1)
+                    driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                    TestResult.append(PageName + " not able to open\n" + ErrorFound1)
+                    TestResultStatus.append("Fail")
+                    bool1 = False
+                    driver.close()
+            except Exception:
                 try:
-                    bool = driver.find_element_by_xpath(
-                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                    time.sleep(2)
+                    bool2 = driver.find_element_by_xpath(
+                        "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                    if bool2 == True:
+                        ErrorFound2 = driver.find_element_by_xpath(
+                            "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                        print(ErrorFound2)
+                        TestResult.append(PageName + " not able to open\n" + ErrorFound2)
+                        TestResultStatus.append("Fail")
+                        bool2 = False
+                        driver.close()
                 except Exception:
-                    time.sleep(1)
-                    break
+                    pass
+                pass
             time.sleep(1)
             try:
                 assert PageTitle in driver.title, PageName + " not able to open"
@@ -208,13 +246,16 @@ def test_VerfyAllLinksTransactionsPage(test_setup):
                                     if InOrOut == "Inside":
                                         driver.find_element_by_xpath(sheet.cell_value(ia, 10)).click()
                                         print("Parent Page link clicked ")
-                                        for iat2 in range(1000):
-                                            try:
-                                                bool = driver.find_element_by_xpath(
-                                                    "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                                            except Exception:
-                                                time.sleep(1)
-                                                break
+                                        try:
+                                            WebDriverWait(driver, SHORT_TIMEOUT
+                                                          ).until(
+                                                EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                                            WebDriverWait(driver, LONG_TIMEOUT
+                                                          ).until_not(
+                                                EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                                        except TimeoutException:
+                                            pass
                                         time.sleep(1)
                                         try:
                                             driver.find_element_by_xpath(sheet.cell_value(ia, 2)).click()
@@ -227,13 +268,16 @@ def test_VerfyAllLinksTransactionsPage(test_setup):
                                             pass
 
                                     print("Verification started for:  " + sheet.cell_value(ia, 1))
-                                    for iat2 in range(1000):
-                                        try:
-                                            bool = driver.find_element_by_xpath(
-                                                "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                                        except Exception:
-                                            time.sleep(1)
-                                            break
+                                    try:
+                                        WebDriverWait(driver, SHORT_TIMEOUT
+                                                      ).until(
+                                            EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                                        WebDriverWait(driver, LONG_TIMEOUT
+                                                      ).until_not(
+                                            EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                                    except TimeoutException:
+                                        pass
                                     # print("link clicked:  " + sheet.cell_value(ia, 1))
                                     # print("Skip is " + sheet.cell_value(ia, 3))
                                     DoubleClick = sheet.cell_value(ia, 4)
@@ -256,13 +300,16 @@ def test_VerfyAllLinksTransactionsPage(test_setup):
                                         # print("Inside Double clicked NO")
                                         if NaviBack == "Yes" and TitleVerify == "No":
                                             # print("Inside NaviBack=Yes TitleVerify= NO")
-                                            for iat3 in range(1000):
-                                                try:
-                                                    bool = driver.find_element_by_xpath(
-                                                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                                                except Exception:
-                                                    time.sleep(1)
-                                                    break
+                                            try:
+                                                WebDriverWait(driver, SHORT_TIMEOUT
+                                                              ).until(
+                                                    EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                                                WebDriverWait(driver, LONG_TIMEOUT
+                                                              ).until_not(
+                                                    EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                                            except TimeoutException:
+                                                pass
                                             # print("Browser Back clicked for  " + sheet.cell_value(ia, 1))
                                             time.sleep(1)
                                             try:
@@ -274,13 +321,16 @@ def test_VerfyAllLinksTransactionsPage(test_setup):
                                             time.sleep(3)
                                         elif NaviBack == "Yes" and TitleVerify == "Yes":
                                             # print("Inside NaviBack=Yes TitleVerify= Yes")
-                                            for iat6 in range(1000):
-                                                try:
-                                                    bool = driver.find_element_by_xpath(
-                                                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                                                except Exception:
-                                                    time.sleep(1)
-                                                    break
+                                            try:
+                                                WebDriverWait(driver, SHORT_TIMEOUT
+                                                              ).until(
+                                                    EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                                                WebDriverWait(driver, LONG_TIMEOUT
+                                                              ).until_not(
+                                                    EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                                            except TimeoutException:
+                                                pass
                                             TitleFound = driver.find_element_by_xpath(TitleLink).text
                                             # print("TitleFound is " + TitleFound)
                                             try:
@@ -300,13 +350,18 @@ def test_VerfyAllLinksTransactionsPage(test_setup):
                                                     driver.switch_to_alert().accept()
                                                 except Exception:
                                                     pass
-                                                for iat8 in range(1000):
-                                                    try:
-                                                        bool = driver.find_element_by_xpath(
-                                                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                                                    except Exception:
-                                                        time.sleep(1)
-                                                        break
+                                                try:
+                                                    WebDriverWait(driver, SHORT_TIMEOUT
+                                                                  ).until(
+                                                        EC.presence_of_element_located(
+                                                            (By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                                                    WebDriverWait(driver, LONG_TIMEOUT
+                                                                  ).until_not(
+                                                        EC.presence_of_element_located(
+                                                            (By.XPATH, LOADING_ELEMENT_XPATH)))
+                                                except TimeoutException:
+                                                    pass
                                                 # print("Browser Back clicked 1")
                                             except Exception as e2:
                                                 print(e2)
@@ -315,13 +370,16 @@ def test_VerfyAllLinksTransactionsPage(test_setup):
 
                                         elif NaviBack == "No" and TitleVerify == "Yes":
                                             # print("Inside NavBack no and Title Yes")
-                                            for iat7 in range(1000):
-                                                try:
-                                                    bool = driver.find_element_by_xpath(
-                                                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                                                except Exception:
-                                                    time.sleep(1)
-                                                    break
+                                            try:
+                                                WebDriverWait(driver, SHORT_TIMEOUT
+                                                              ).until(
+                                                    EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                                                WebDriverWait(driver, LONG_TIMEOUT
+                                                              ).until_not(
+                                                    EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                                            except TimeoutException:
+                                                pass
                                             TitleFound = driver.find_element_by_xpath(TitleLink).text
                                             # print("TitleFound1 is " + TitleFound)
                                             try:
@@ -336,13 +394,16 @@ def test_VerfyAllLinksTransactionsPage(test_setup):
                                 except Exception as e:
                                     print("Link not clicked / opened for  " + sheet.cell_value(ia, 1))
                                     print(e)
-                                for iat4 in range(1000):
-                                    try:
-                                        bool = driver.find_element_by_xpath(
-                                            "//div[@id='appian-working-indicator-hidden']").is_enabled()
-                                    except Exception:
-                                        time.sleep(1)
-                                        break
+                                try:
+                                    WebDriverWait(driver, SHORT_TIMEOUT
+                                                  ).until(
+                                        EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                                    WebDriverWait(driver, LONG_TIMEOUT
+                                                  ).until_not(
+                                        EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                                except TimeoutException:
+                                    pass
                 except Exception as e1:
                     break
                     print(e1)
@@ -351,8 +412,11 @@ def test_VerfyAllLinksTransactionsPage(test_setup):
             RoundFloatString = round(float(stop - start),2)
             print("The time of the run for " + PageName + " is: ", RoundFloatString)
             stringMainerror=repr(Mainerror)
-            TestResult.append(stringMainerror)
-            TestResultStatus.append("Fail")
+            if stringMainerror in "InvalidSessionIdException('invalid session id', None, None)":
+                pass
+            else:
+                TestResult.append(stringMainerror)
+                TestResultStatus.append("Fail")
     else:
         print()
         print("Test Case skipped as per the Execution sheet")
