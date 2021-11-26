@@ -175,6 +175,9 @@ def test_setup():
 @pytest.mark.smoke
 def test_SummaryByPeriod(test_setup):
     if Exe == "Yes":
+        SHORT_TIMEOUT = 5
+        LONG_TIMEOUT = 400
+        LOADING_ELEMENT_XPATH = "//div[@id='appian-working-indicator-hidden']"
         try:
             ForecastYear=4
             skip1 = 0
@@ -184,13 +187,44 @@ def test_SummaryByPeriod(test_setup):
             Ptitle1 = "Liquid Trusts - BIDS"
             driver.find_element_by_xpath("//*[@title='" + PageName + "']").click()
             start = time.time()
-            for iat1 in range(1000):
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+            try:
+                time.sleep(2)
+                bool1 = driver.find_element_by_xpath(
+                    "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                if bool1 == True:
+                    ErrorFound1 = driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                    print(ErrorFound1)
+                    driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                    TestResult.append(PageName + " not able to open\n" + ErrorFound1)
+                    TestResultStatus.append("Fail")
+                    bool1 = False
+                    driver.close()
+            except Exception:
                 try:
-                    bool = driver.find_element_by_xpath(
-                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                    time.sleep(2)
+                    bool2 = driver.find_element_by_xpath(
+                        "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                    if bool2 == True:
+                        ErrorFound2 = driver.find_element_by_xpath(
+                            "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                        print(ErrorFound2)
+                        TestResult.append(PageName + " not able to open\n" + ErrorFound2)
+                        TestResultStatus.append("Fail")
+                        bool2 = False
+                        driver.close()
                 except Exception:
-                    time.sleep(1)
-                    break
+                    pass
+                pass
             time.sleep(1)
             try:
                 try:
@@ -218,14 +252,45 @@ def test_SummaryByPeriod(test_setup):
             Ptitle1 = "Trust Accounting Report - BIDS"
             driver.find_element_by_xpath("//strong[contains(text(),'" + PageName + "')]").click()
             start = time.time()
-            for iat2 in range(1000):
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+            try:
+                time.sleep(2)
+                bool1 = driver.find_element_by_xpath(
+                    "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                if bool1 == True:
+                    ErrorFound1 = driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                    print(ErrorFound1)
+                    driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                    TestResult.append(PageName + " not able to open\n" + ErrorFound1)
+                    TestResultStatus.append("Fail")
+                    bool1 = False
+                    driver.close()
+            except Exception:
                 try:
-                    bool = driver.find_element_by_xpath(
-                        "//div[@id='appian-working-indicator-hidden']").is_enabled()
+                    time.sleep(2)
+                    bool2 = driver.find_element_by_xpath(
+                        "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                    if bool2 == True:
+                        ErrorFound2 = driver.find_element_by_xpath(
+                            "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                        print(ErrorFound2)
+                        TestResult.append(PageName + " not able to open\n" + ErrorFound2)
+                        TestResultStatus.append("Fail")
+                        bool2 = False
+                        driver.close()
                 except Exception:
-                    time.sleep(1)
-                    break
-            wait = WebDriverWait(driver, 200)
+                    pass
+                pass
+            wait = WebDriverWait(driver, LONG_TIMEOUT)
             wait.until(EC.presence_of_element_located((By.XPATH, "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[1]/div[1]/div/div[2]/div/div/table/tbody/tr[1]/td[1]/div/p/strong")))
             try:
                 PageTitle1 = driver.title
@@ -355,8 +420,11 @@ def test_SummaryByPeriod(test_setup):
             RoundFloatString = round(float(stop - start),2)
             print("The time of the run for " + PageName + " is: ", RoundFloatString)
             stringMainerror=repr(Mainerror)
-            TestResult.append(stringMainerror)
-            TestResultStatus.append("Fail")
+            if stringMainerror in "InvalidSessionIdException('invalid session id', None, None)":
+                pass
+            else:
+                TestResult.append(stringMainerror)
+                TestResultStatus.append("Fail")
 
     else:
         print()
