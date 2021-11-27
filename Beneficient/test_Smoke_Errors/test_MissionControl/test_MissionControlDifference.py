@@ -415,7 +415,7 @@ def test_MissionControlDifference(test_setup):
 
                 print("Year is "+P)
                 rows = driver.find_elements_by_xpath(
-                    "//div[@class='BoxLayout---box BoxLayout---margin_below_standard'][1]/div[2]/div/div/div[4]/div")
+                    "//div[@class='BoxLayout---box BoxLayout---margin_below_standard BoxLayout---margin_above_none'][1]/div[2]/div/div/div[4]/div")
                 print("Lenght of rows " + str(len(rows)))
                 if len(rows) == 0:
                     print("No Data available for quarter [ " + P + " ]")
@@ -426,7 +426,7 @@ def test_MissionControlDifference(test_setup):
                     if i > 1:
                         # -----------------For NAV Rollover from Prior Period-------------------------
                         DifferenceValueString = driver.find_element_by_xpath(
-                            "//div[@class='BoxLayout---box BoxLayout---margin_below_standard'][1]/div[2]/div/div/div[4]/div[" + str(
+                            "//div[@class='BoxLayout---box BoxLayout---margin_below_standard BoxLayout---margin_above_none'][1]/div[2]/div/div/div[4]/div[" + str(
                                 i) + "]/div[2]/div/p").text
                         DifferenceValueString1=DifferenceValueString
                         print("DifferenceValueString is " + DifferenceValueString1)
@@ -444,7 +444,7 @@ def test_MissionControlDifference(test_setup):
 
                         # ---------------------------For NAV Roll for Period------------------------------
                         DifferenceValueStringOther = driver.find_element_by_xpath(
-                            "//div[@class='BoxLayout---box BoxLayout---margin_below_standard'][2]/div[2]/div/div/div[4]/div[" + str(
+                            "//div[@class='BoxLayout---box BoxLayout---margin_below_standard BoxLayout---margin_above_none'][2]/div[2]/div/div/div[4]/div[" + str(
                                               i) + "]/div[2]/div/p").text
                         DifferenceValueStringOther1 = DifferenceValueStringOther
                         print("DifferenceValueStringOther is " + DifferenceValueStringOther1)

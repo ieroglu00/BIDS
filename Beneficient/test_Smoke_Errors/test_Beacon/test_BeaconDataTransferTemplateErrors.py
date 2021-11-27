@@ -176,7 +176,7 @@ def test_setup():
 def test_BeaconDataTransfer(test_setup):
     YearCounterNumber = 8
     SHORT_TIMEOUT = 5
-    LONG_TIMEOUT = 200
+    LONG_TIMEOUT = 400
     LOADING_ELEMENT_XPATH = "//div[@id='appian-working-indicator-hidden']"
     if Exe == "Yes":
         try:
@@ -285,9 +285,9 @@ def test_BeaconDataTransfer(test_setup):
                 TestResult.append(PageName + " page not able to open")
                 TestResultStatus.append("Fail")
 
-            wait = WebDriverWait(driver, 500)
+            wait = WebDriverWait(driver, LONG_TIMEOUT)
             wait.until(EC.presence_of_element_located((By.XPATH,
-                                                       "//div[@class='ContentLayout---content_layout']/div[2]/div[1]/div/div[1]/span")))
+                                                       "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/span")))
             stop = time.time()
             TimeString = stop - start
             print("The time of the run for " + PageName + " is: ", stop - start)
