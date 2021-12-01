@@ -48,7 +48,7 @@ def test_ReportSendSmokeAll():
     html = '''
         <html>
             <body>
-                <p>Hi Team <br />Here is the test summary report of Test Suite 6 (To perform regression) <br />Below test scenarios are covered </p>
+                <p>Hi Team <br />Here is the test summary report of Test Suite 6 ( Regression ) <br />Below test scenarios are covered </p>
                 <p></p>
                 <p>'''+B+'''</p
                 <p></p>

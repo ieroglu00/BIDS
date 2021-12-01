@@ -1,14 +1,14 @@
-import datetime
 import time
-import openpyxl
 import pytest
-from fpdf import FPDF
 from selenium import webdriver
 import allure
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import datetime
+from fpdf import FPDF
+import openpyxl
 
 @allure.step("Entering username ")
 def enter_username(username):

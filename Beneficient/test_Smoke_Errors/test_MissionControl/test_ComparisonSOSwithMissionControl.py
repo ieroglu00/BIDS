@@ -364,7 +364,7 @@ def test_ComparisonSOSwithMissionControl(test_setup):
                         except Exception:
                             pass
                         pass
-                    time.sleep(5)
+                    time.sleep(2)
 
             wait = WebDriverWait(driver, LONG_TIMEOUT)
             wait.until(EC.presence_of_element_located((By.XPATH,
