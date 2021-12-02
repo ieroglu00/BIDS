@@ -34,7 +34,7 @@ def test_setup():
   global FundsNamesList
 
   TestName = "test_DeleteAtDetailedCAPSTMTs"
-  description = "Test case to verify Delete error in Detailed Cap Stmts inside Beneficient"
+  description = "Test case to verify Delete error in Detailed Cap Stmts inside a Fund"
   TestResult = []
   TestResultStatus = []
   TestFailStatus = []
@@ -374,41 +374,94 @@ def test_NavToDetailedCAPSTMTs(test_setup):
 
           if   Check==1:
             driver.find_element_by_xpath("//a[contains(text(),'Add/Edit Detailed Cap Statement')]").click()
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
 
           elif Check==2:
              driver.find_element_by_xpath("//button[text()='Cancel']").click()
+             try:
+                 WebDriverWait(driver, SHORT_TIMEOUT
+                               ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                 WebDriverWait(driver, LONG_TIMEOUT
+                               ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+             except TimeoutException:
+                 pass
              TestResult.append("Cancel button clicked successfully")
              TestResultStatus.append("Pass")
 
              driver.find_element_by_xpath("//a[contains(text(),'Add/Edit Detailed Cap Statement')]").click()
+             try:
+                 WebDriverWait(driver, SHORT_TIMEOUT
+                               ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                 WebDriverWait(driver, LONG_TIMEOUT
+                               ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+             except TimeoutException:
+                 pass
              TestResult.append("Add/Edit Detailed Cap Statement clicked successfully")
              TestResultStatus.append("Pass")
 
-          time.sleep(3)
+          time.sleep(1)
           driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div[1]/div[2]/div[2]/div/table/tbody/tr[position()=1]/td[position()=2]/div/input").clear()
 
           driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div[1]/div[2]/div[2]/div/table/tbody/tr[position()=1]/td[position()=2]/div/input").send_keys("12")
           TestResult.append("Data able to add successfully")
           TestResultStatus.append("Pass")
-          time.sleep(3)
-
-          # Data = driver.find_element_by_xpath("//td[2][@class='EditableGridLayout---reducedPadding']/div/input[1]").get_attribute("")
-          # time.sleep(5)
+          time.sleep(1)
 
           driver.find_element_by_xpath("//button[text()='Save']").click()
+          try:
+            WebDriverWait(driver, SHORT_TIMEOUT
+                          ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+            WebDriverWait(driver, LONG_TIMEOUT
+                          ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+          except TimeoutException:
+            pass
           TestResult.append("Save button clicked successfully")
           TestResultStatus.append("Pass")
           time.sleep(3)
 
           driver.find_element_by_xpath("//a[contains(text(),'Add/Edit Detailed Cap Statement')]").click()
+          try:
+            WebDriverWait(driver, SHORT_TIMEOUT
+                          ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+            WebDriverWait(driver, LONG_TIMEOUT
+                          ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+          except TimeoutException:
+            pass
 
           time.sleep(3)
           driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div[1]/div[2]/div[2]/div/table/tbody/tr[position()=1]/td[last()]/div/p/a").click()
+          try:
+            WebDriverWait(driver, SHORT_TIMEOUT
+                          ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+            WebDriverWait(driver, LONG_TIMEOUT
+                          ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+          except TimeoutException:
+            pass
           TestResult.append("Delete button clicked successfully")
           TestResultStatus.append("Pass")
 
           driver.find_element_by_xpath("//button[text()='Save']").click()
-          time.sleep(5)
+          try:
+            WebDriverWait(driver, SHORT_TIMEOUT
+                          ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+            WebDriverWait(driver, LONG_TIMEOUT
+                          ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+          except TimeoutException:
+            pass
+          time.sleep(1)
           Data=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div[1]/div[2]/div[1]/div/table/tbody/tr[position()=1]/td[position()=2]/p").text
 
           print("Data is "+Data)
