@@ -31,8 +31,8 @@ def test_setup():
   global TestDirectoryName
   global path
 
-  TestName = "test_AllElementsPresent"
-  description = "This test scenario is to verify all the elements such as Texts, Buttons, Hyperlinks and clickable tabs are present in inside Transactions page"
+  TestName = "test_TaskManagementElements"
+  description = "This test scenario is to verify all the elements such as Texts, Buttons, Hyperlinks and clickable tabs are present in inside Transactions page (Task Management)"
   TestResult = []
   TestResultStatus = []
   TestFailStatus = []
