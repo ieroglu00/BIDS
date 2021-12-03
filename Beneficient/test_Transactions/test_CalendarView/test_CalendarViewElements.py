@@ -31,7 +31,7 @@ def test_setup():
   global path
 
   TestName = "test_CalendarViewElements"
-  description = "This test scenario is to verify all the elements such as Texts, Buttons, Hyperlinks and clickable tabs are present in inside Calendar View page"
+  description = "This test scenario is to verify all the elements such as Texts, Buttons, Hyperlinks and clickable tabs are present in inside Task Management (Calendar View page)"
   TestResult = []
   TestResultStatus = []
   TestFailStatus = []
