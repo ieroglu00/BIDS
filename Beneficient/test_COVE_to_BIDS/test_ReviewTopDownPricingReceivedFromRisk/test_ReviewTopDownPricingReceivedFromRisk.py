@@ -489,7 +489,7 @@ def test_PrepareLiquidityRequest(test_setup):
             # ---------------------------------TOP DOWN PRICING RECEIVED FROM RISK button present in page-------------------------------
             Text1 = "TOP DOWN PRICING RECEIVED FROM RISK"
             Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div[2]/button").text
+                "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div[2]/div[2]/button").text
             try:
                 assert Text1 in Element1, Text1 + " button is not present"
                 TestResult.append(

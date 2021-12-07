@@ -444,7 +444,7 @@ def test_PrepareLiquidityRequest(test_setup):
             # ---------------------------------Add an Entity button present in page-------------------------------
             Text1 = "Add an Entity"
             Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div[2]/div[2]/div/p/span/strong/a").text
+                "//div[@class='appian-context-ux-responsive']/div[1]/main/div/div/div[1]/div/div/div[4]/div[2]/div/div[2]/div/div[1]/div[2]/div/p/span/strong/a").text
             try:
                 assert Text1 in Element1, Text1 + " is not present"
                 TestResult.append(

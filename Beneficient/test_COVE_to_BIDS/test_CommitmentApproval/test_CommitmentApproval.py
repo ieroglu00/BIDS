@@ -443,7 +443,7 @@ def test_PrepareLiquidityRequest(test_setup):
             # ---------------------------------SAVE button present in page-------------------------------
             Text1 = "SAVE & SIGNOFF"
             Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div[5]/div/button").text
+                "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div[5]/div[2]/div/div[2]/div/div/button").text
             try:
                 assert Text1 in Element1, Text1 + " is not present"
                 TestResult.append(
