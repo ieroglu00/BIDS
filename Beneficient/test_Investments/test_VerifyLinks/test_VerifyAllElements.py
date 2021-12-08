@@ -298,6 +298,7 @@ def test_VerifyAllClickables(test_setup):
                 TestResult.append(
                     Text1 + " section is not present")
                 TestResultStatus.append("Fail")
+
             #---------------------------------------------------------------------------------
             inside = "Distributions"
             # --------------------Investment Name search box--------------
