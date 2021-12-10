@@ -273,7 +273,7 @@ def test_AllElementsPresent(test_setup):
             Text1 = "Task Management"
             try:
                 Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[2]/div/div[2]/div/p/a").text
+                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[1]/div/div[2]/div/p/a").text
 
                 assert Text1 in Element1, Text1 + " inside " + inside + " is not present"
                 TestResult.append(Text1 + " inside " + inside + " is present")
@@ -288,7 +288,7 @@ def test_AllElementsPresent(test_setup):
             Text1 = "View:"
             try:
                 Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[3]/div/div[1]/span").text
+                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[2]/div/div[1]/span").text
 
                 assert Text1 in Element1, Text1 + " inside " + inside + " is not present"
                 TestResult.append(Text1 + " inside " + inside + " is present")
@@ -303,7 +303,7 @@ def test_AllElementsPresent(test_setup):
             Text1 = "Filter By:"
             try:
                 Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[4]/div/div[1]/span").text
+                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[3]/div/div[1]/span").text
 
                 assert Text1 in Element1, Text1 + " inside " + inside + " is not present"
                 TestResult.append(Text1 + " inside " + inside + " is present")
@@ -318,7 +318,7 @@ def test_AllElementsPresent(test_setup):
             Text1 = "Project Name"
             try:
                 Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[5]/div/div[1]/label").text
+                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[4]/div/div[1]/label").text
 
                 assert Text1 in Element1, Text1 + " inside " + inside + " is not present"
                 TestResult.append(Text1 + " inside " + inside + " is present")
@@ -333,7 +333,7 @@ def test_AllElementsPresent(test_setup):
             Text1 = "Last Updated On"
             try:
                 Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[6]/div/div[1]/span").text
+                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[5]/div/div[1]/span").text
                 assert Text1 in Element1, Text1 + " inside " + inside + " is not present"
                 TestResult.append(Text1 + " inside " + inside + " is present")
                 TestResultStatus.append("Pass")
@@ -347,7 +347,7 @@ def test_AllElementsPresent(test_setup):
             Text1 = "Reload Data"
             try:
                 Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[7]/div/div[2]/div/p/a").text
+                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[6]/div/div[2]/div/p/a").text
                 assert Text1 in Element1, Text1 + " inside " + inside + " is not present"
                 TestResult.append(Text1 + " inside " + inside + " is present")
                 TestResultStatus.append("Pass")
@@ -361,7 +361,7 @@ def test_AllElementsPresent(test_setup):
             Text1 = "EXPORT TO EXCEL"
             try:
                 Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[8]/div/div/button").text
+                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[7]/div/div/button").text
                 assert Text1 in Element1, Text1 + " inside " + inside + " is not present"
                 TestResult.append(Text1 + " inside " + inside + " is present")
                 TestResultStatus.append("Pass")
@@ -378,7 +378,7 @@ def test_AllElementsPresent(test_setup):
                 print("Text1 " + Text1)
                 try:
                     Element1 = driver.find_element_by_xpath(
-                        "//div[@class='FrozenHeaderGrid---frozen_header_grid']/div[1]/div[2]/table/thead/tr[1]/th[" + str(
+                        "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div[1]//table/thead/tr[1]/th[" + str(
                             ii + 1) + "]/div").text
                     #print("Element1 " + Element1)
                 except Exception as ee:
