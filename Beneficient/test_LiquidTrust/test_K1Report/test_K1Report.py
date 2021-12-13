@@ -453,17 +453,35 @@ def test_SummaryByPeriod(test_setup):
                     TestResultStatus.append("Fail")
 
             # ---------------loop for IRS Tax Form K-1 Final Table----------
+            try:
+                driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div/div/div/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div[2]/div/div[2]/div/div").click()
+            except Exception:
+                driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div/div/div/div/div[2]/div[2]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div").click()
+            time.sleep(1)
+            ActionChains(driver).key_down(Keys.DOWN).perform()
+            time.sleep(1)
+            ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+
             Inside="IRS Tax Form K-1 Final"
-            ItemList1 = ["Fund Id", "Fund Name", "Investor Name", "Ben Current NAV - USD","Unfunded Commitment - USD","Final K-1","Date Uploaded","Uploaded By","Approved By","Date"]
-            for ii1 in range(len(ItemList1)):
-                Text1 = ItemList1[ii1]
+            ItemList2 = ["Fund ID", "Fund Name", "Investor Name", "Ben Current NAV - USD","Unfunded Commitment - USD","Final K-1","Date Uploaded","Uploaded By","Approved By","Date"]
+            for ii1 in range(len(ItemList2)):
+                Text1 = ItemList2[ii1]
                 try:
                     Element1 = driver.find_element_by_xpath(
                         "//div[@class='ContentLayout---content_layout']/div/div/div/div/div[4]/div/div/div/table/thead/tr/th[" + str(
                             ii1 + 1) + "]/div").text
                 except Exception:
                     pass
-
                 try:
                     assert Text1 in Element1, Text1 + " column is not present for "+Inside
                     TestResult.append(
