@@ -74,8 +74,8 @@ def test_ReportSendSmokeAll():
         msg.attach(file_attachment)
 
     email_from = 'Test Automation Team'
-    email_to =['erin.Twiss@beneficient.com','neeraj1wayitsol@gmail.com','srinath.jandhyala@beneficient.com','gregory.bybee@beneficient.com','olufunke.okeni@beneficient.com']
-
+    #email_to =['erin.Twiss@beneficient.com','neeraj1wayitsol@gmail.com','srinath.jandhyala@beneficient.com','gregory.bybee@beneficient.com','olufunke.okeni@beneficient.com']
+    email_to =['neeraj1wayitsol@gmail.com']
     SenderEmail="neeraj.kumar@bitsinglass.com"
     SenderPassword="MotoCrochet@786"
 
@@ -131,16 +131,16 @@ def test_ReportSendSmokeAll():
     #-----------------------------------------------------------------------
 
     #-----------------To delete pdf report files----------------------------
-    ii=0
-    for ii in range(0,len(PDFName1)):
-        print()
-        try:
-            os.remove(PDFpath+PDFName1[ii])
-        except Exception:
-            print("No Attachment found to delete")
-    try:
-        os.remove(PDFpath+'TestPieResult.png')
-    except Exception:
-        print("No Attachment found to delete")
+    # ii=0
+    # for ii in range(0,len(PDFName1)):
+    #     print()
+    #     try:
+    #         os.remove(PDFpath+PDFName1[ii])
+    #     except Exception:
+    #         print("No Attachment found to delete")
+    # try:
+    #     os.remove(PDFpath+'TestPieResult.png')
+    # except Exception:
+    #     print("No Attachment found to delete")
     #-----------------------------------------------------------------------
     server.quit()
