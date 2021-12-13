@@ -375,8 +375,12 @@ def test_SummaryByPeriod(test_setup):
             for ii2 in range(3):
                 try:
                     if ii2>0:
-                        driver.find_element_by_xpath(
-                            "//div[@class='ContentLayout---content_layout']/div/div/div/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div[2]/div/div[2]/div/div").click()
+                        try:
+                            driver.find_element_by_xpath(
+                                "//div[@class='ContentLayout---content_layout']/div/div/div/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div[2]/div/div[2]/div/div").click()
+                        except Exception:
+                            driver.find_element_by_xpath(
+                                "//div[@class='ContentLayout---content_layout']/div/div/div/div/div[2]/div[2]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div").click()
                         for ii3 in range(ii2):
                             time.sleep(1)
                             ActionChains(driver).key_down(Keys.DOWN).perform()
@@ -390,8 +394,12 @@ def test_SummaryByPeriod(test_setup):
                                           ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
                         except TimeoutException:
                             pass
-                    Element2 = driver.find_element_by_xpath(
-                        "//div[@class='ContentLayout---content_layout']/div/div/div/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div[2]/div/div[2]/div/div/span").text
+                    try:
+                        Element2 = driver.find_element_by_xpath(
+                            "//div[@class='ContentLayout---content_layout']/div/div/div/div/div[2]/div[2]/div/div/div[3]/div/div[2]/div/div[2]/div/div[2]/div/div/span").text
+                    except Exception:
+                        Element2 = driver.find_element_by_xpath(
+                            "//div[@class='ContentLayout---content_layout']/div/div/div/div/div[2]/div[2]/div/div/div[2]/div/div[2]/div/div[2]/div/div[2]/div/div/span").text
                     print(Element2)
                     try:
                         bool1=driver.find_element_by_xpath("//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
@@ -419,7 +427,8 @@ def test_SummaryByPeriod(test_setup):
                     print(e2)
                     pass
 
-            # ---------------loop for Summary of IRS Tax Forms Received Table----------
+            # ---------------loop for IRS Tax Form K-1 Table----------
+            Inside="IRS Tax Form K-1"
             CurrentYear=int(todays_date.year)
             ItemList1 = ["Fund Name", "Fund Id", "Investor Name", "Complete Contact Details",
                          str(CurrentYear),str(CurrentYear-1),str(CurrentYear-2),str(CurrentYear-3),str(CurrentYear-4)]
@@ -433,14 +442,37 @@ def test_SummaryByPeriod(test_setup):
                     pass
 
                 try:
-                    assert Text1 in Element1, Text1 + " column is not present in table"
+                    assert Text1 in Element1, Text1 + " column is not present for "+Inside
                     TestResult.append(
-                        Text1 + " column is present in table")
+                        Text1 + " column is present for "+Inside)
                     TestResultStatus.append("Pass")
                 except Exception as e1:
                     print(e1)
                     TestResult.append(
-                        Text1 + " column is not present in table")
+                        Text1 + " column is not present for "+Inside)
+                    TestResultStatus.append("Fail")
+
+            # ---------------loop for IRS Tax Form K-1 Final Table----------
+            Inside="IRS Tax Form K-1 Final"
+            ItemList1 = ["Fund Id", "Fund Name", "Investor Name", "Ben Current NAV - USD","Unfunded Commitment - USD","Final K-1","Date Uploaded","Uploaded By","Approved By","Date"]
+            for ii1 in range(len(ItemList1)):
+                Text1 = ItemList1[ii1]
+                try:
+                    Element1 = driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div/div/div/div/div[4]/div/div/div/table/thead/tr/th[" + str(
+                            ii1 + 1) + "]/div").text
+                except Exception:
+                    pass
+
+                try:
+                    assert Text1 in Element1, Text1 + " column is not present for "+Inside
+                    TestResult.append(
+                        Text1 + " column is present for "+Inside)
+                    TestResultStatus.append("Pass")
+                except Exception as e1:
+                    print(e1)
+                    TestResult.append(
+                        Text1 + " column is not present for "+Inside)
                     TestResultStatus.append("Fail")
 
         except Exception as Mainerror:
