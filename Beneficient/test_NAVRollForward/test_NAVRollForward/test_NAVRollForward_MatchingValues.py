@@ -397,6 +397,7 @@ def test_VerifyAllClickables(test_setup):
                                 sheet1.cell(i2 + 1, 3).value = DollarDate
                             else:
                                 pass
+            wb1.save(loc1)
             print(FundNameListAfterRemove)
             print(str(len(FundNameListAfterRemove)))
             TestResult.append("Below " + str(len(FundNameListAfterRemove)) + " Funds are collected for verification")
@@ -607,8 +608,8 @@ def test_VerifyAllClickables(test_setup):
                             PageTitle1 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[1]/table/thead/tr/th[1]/div").text
                             print(PageTitle1)
                             assert Ptitle1 in PageTitle1, PageName + " is not able to open "
-                            TestResult.append(PageName + " opened successfully")
-                            TestResultStatus.append("Pass")
+                            # TestResult.append(PageName + " opened successfully")
+                            # TestResultStatus.append("Pass")
                         except Exception as e1:
                             print(e1)
                             TestResult.append(PageName + " is not able to open ")
@@ -618,6 +619,8 @@ def test_VerifyAllClickables(test_setup):
                         #-------Fetching Fund NAV ROll value-------------------------------------
                         BenReportingPeriod=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[1]/table/tbody/tr[2]/td[1]/p").text
                         BenNAVLC=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[1]/table/tbody/tr[2]/td[12]/div/p/span").text
+                        if "_" in BenNAVLC:
+                            BenNAVLC="0"
                         print("BenReportingPeriod is "+BenReportingPeriod)
                         print("BenNAVLC is " + BenNAVLC)
                         #------------------------------------------------------------------------
@@ -669,8 +672,8 @@ def test_VerifyAllClickables(test_setup):
                                 "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[1]/div[1]/div/div[2]/div/p/a").text
                             print(PageTitle1)
                             assert Ptitle1 in PageTitle1, PageName + " is not able to open "
-                            TestResult.append(PageName + " opened successfully")
-                            TestResultStatus.append("Pass")
+                            # TestResult.append(PageName + " opened successfully")
+                            # TestResultStatus.append("Pass")
                         except Exception as e1:
                             print(e1)
                             TestResult.append(PageName + " is not able to open ")
@@ -689,6 +692,36 @@ def test_VerifyAllClickables(test_setup):
                             WebDriverWait(driver, LONG_TIMEOUT
                                           ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
                         except TimeoutException:
+                            pass
+                        try:
+                            time.sleep(2)
+                            bool1 = driver.find_element_by_xpath(
+                                "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                            if bool1 == True:
+                                ErrorFound1 = driver.find_element_by_xpath(
+                                    "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                                print(ErrorFound1)
+                                driver.find_element_by_xpath(
+                                    "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                                TestResult.append(PageName + " not able to open\n" + ErrorFound1)
+                                TestResultStatus.append("Fail")
+                                bool1 = False
+                                driver.close()
+                        except Exception:
+                            try:
+                                time.sleep(2)
+                                bool2 = driver.find_element_by_xpath(
+                                    "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                                if bool2 == True:
+                                    ErrorFound2 = driver.find_element_by_xpath(
+                                        "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                                    print(ErrorFound2)
+                                    TestResult.append(PageName + " not able to open\n" + ErrorFound2)
+                                    TestResultStatus.append("Fail")
+                                    bool2 = False
+                                    driver.close()
+                            except Exception:
+                                pass
                             pass
                         time.sleep(1)
                         BenRemainingNAV = driver.find_element_by_xpath(
