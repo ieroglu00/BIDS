@@ -76,9 +76,9 @@ def test_setup():
       driver=webdriver.Chrome(executable_path="C:/BIDS/beneficienttest/Beneficient/Chrome/chromedriver.exe")
       driver.implicitly_wait(10)
       driver.maximize_window()
-      driver.get("https://beneficienttest.appiancloud.com/suite/")
+      driver.get("https://beneficientdev.appiancloud.com/suite/")
       enter_username("neeraj.kumar")
-      enter_password("Crochet@786")
+      enter_password("Crochet@786Bits")
       driver.find_element_by_xpath("//input[@type='submit']").click()
 
       ct = datetime.datetime.now().strftime("%d_%B_%Y_%I_%M%p")
@@ -86,12 +86,10 @@ def test_setup():
 
       today = datetime.date.today()
       D1=today.strftime("%Y-%m-%d")
-      #d1 = datetime.datetime.strptime(D1, "%Y-%m-%d")
       d1=D1
-      #print(d1)
       DollarDate=datetime.datetime.strptime(d1, '%Y-%m-%d')
       DollarDate="$"+DollarDate.date().__str__()+"$"
-      #print("$"+DollarDate.date().__str__()+"$")
+      d1 = datetime.datetime.strptime(D1, "%Y-%m-%d")
 
   yield
   if Exe == "Yes":
@@ -382,20 +380,29 @@ def test_VerifyAllClickables(test_setup):
             sheet1 = wb1.active
 
             for i2 in range(TotalFundsLengh):
+                print("i2 is "+str(i2))
                 if len(FundNameListAfterRemove) <= FundToOpen - 1:
+                    print("len of FundNameListAfterRemove is " + str(len(FundNameListAfterRemove)))
                     if sheet1.cell(i2 + 1, 3).value == None:
                         FundNameListAfterRemove.append(sheet1.cell(i2 + 1, 2).value)
                         sheet1.cell(i2 + 1, 3).value=DollarDate
                     else:
                         if sheet1.cell(i2 + 1, 3).value != None:
+                            #print("Inside Else for i2 "+str(i2))
                             D2 = sheet1.cell(i2 + 1, 3).value
+                            #print("D2 " + D2)
                             D2 = re.sub('[!@#$]', '', D2)
+                            #print("D2 " + D2)
                             d2 = datetime.datetime.strptime(D2, "%Y-%m-%d")
+                            #print("d2 " + d2.__str__())
+                            #print("d1 " + d1.__str__())
                             if (d1 - d2).days > 7:
+                                #print("YEsss")
                                 print(sheet1.cell(i2 + 1, 2).value)
                                 FundNameListAfterRemove.append(sheet1.cell(i2 + 1, 2).value)
                                 sheet1.cell(i2 + 1, 3).value = DollarDate
                             else:
+                                #print("Noooo")
                                 pass
             wb1.save(loc1)
             print(FundNameListAfterRemove)
@@ -408,13 +415,14 @@ def test_VerifyAllClickables(test_setup):
             for ifundlist in range(len(FundNameListAfterRemove)):
                 print(str(ifundlist))
                 #-------------to clear the cache memory of chrome browser-------------
-                if (ifundlist/30).is_integer()==True :
+                if (ifundlist/30).is_integer()==True and (ifundlist/30).is_integer()!=0:
                     print("<<<<<<<<<<<Integer value found for 30 digit>>>>>>>>")
+                    #print(str((ifundlist / 30)))
                     driver.delete_all_cookies()
                     time.sleep(5)
-                    driver.get("https://beneficienttest.appiancloud.com/suite/")
+                    driver.get("https://beneficientdev.appiancloud.com/suite/")
                     driver.find_element_by_id("un").send_keys("neeraj.kumar")
-                    driver.find_element_by_id("pw").send_keys("Crochet@786")
+                    driver.find_element_by_id("pw").send_keys("Crochet@786Bits")
                     button = driver.find_element_by_xpath(
                         "//input[@type='submit']")
                     driver.execute_script("arguments[0].click();", button)
