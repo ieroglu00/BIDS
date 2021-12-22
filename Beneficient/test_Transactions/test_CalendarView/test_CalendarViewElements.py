@@ -305,16 +305,30 @@ def test_AllElementsPresent(test_setup):
             inside="Calendar View" #-----------------------------------------------------------------
             # ------Checking Return to Transactions ---------
             time.sleep(2)
-            Text1 = "Return to Transactions"
+            Text1 = "Transactions"
             try:
                 Element1 = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div[2]/div/div/div/div[2]/div/p/a").text
+                    "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[1]/div/div[2]/div/p/a").text
                 assert Text1 in Element1, Text1 + " hyperlink inside " + inside + " is not present"
-                TestResult.append(Text1 + "hyperlink inside " + inside + " is present")
+                TestResult.append(Text1 + " hyperlink inside " + inside + " is present")
                 TestResultStatus.append("Pass")
             except Exception as e1:
                 print(e1)
-                TestResult.append(Text1 + "hyperlink inside " + inside + " is not present")
+                TestResult.append(Text1 + " hyperlink inside " + inside + " is not present")
+                TestResultStatus.append("Fail")
+
+            # ------Checking Return to Transactions ---------
+            time.sleep(2)
+            Text1 = "Task Management"
+            try:
+                Element1 = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[2]/div/div[2]/div/p/a").text
+                assert Text1 in Element1, Text1 + " hyperlink inside " + inside + " is not present"
+                TestResult.append(Text1 + " hyperlink inside " + inside + " is present")
+                TestResultStatus.append("Pass")
+            except Exception as e1:
+                print(e1)
+                TestResult.append(Text1 + " hyperlink inside " + inside + " is not present")
                 TestResultStatus.append("Fail")
 
             # ------Checking Month ---------

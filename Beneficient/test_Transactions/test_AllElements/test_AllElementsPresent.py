@@ -273,7 +273,7 @@ def test_AllElementsPresent(test_setup):
             Text1 = "Task Management"
             try:
                 Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[1]/div/div[2]/div/p/a").text
+                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[2]/div/div[2]/div/p/a").text
 
                 assert Text1 in Element1, Text1 + " inside " + inside + " is not present"
                 TestResult.append(Text1 + " inside " + inside + " is present")
@@ -288,7 +288,7 @@ def test_AllElementsPresent(test_setup):
             Text1 = "View:"
             try:
                 Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[2]/div/div[1]/span").text
+                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[3]/div/div[1]/span").text
 
                 assert Text1 in Element1, Text1 + " inside " + inside + " is not present"
                 TestResult.append(Text1 + " inside " + inside + " is present")
@@ -303,7 +303,7 @@ def test_AllElementsPresent(test_setup):
             Text1 = "Filter By:"
             try:
                 Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[3]/div/div[1]/span").text
+                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[4]/div/div[1]/span").text
 
                 assert Text1 in Element1, Text1 + " inside " + inside + " is not present"
                 TestResult.append(Text1 + " inside " + inside + " is present")
@@ -318,7 +318,7 @@ def test_AllElementsPresent(test_setup):
             Text1 = "Project Name"
             try:
                 Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[4]/div/div[1]/label").text
+                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[5]/div/div[1]/label").text
 
                 assert Text1 in Element1, Text1 + " inside " + inside + " is not present"
                 TestResult.append(Text1 + " inside " + inside + " is present")
@@ -328,19 +328,19 @@ def test_AllElementsPresent(test_setup):
                 TestResult.append(Text1 + " inside " + inside + " is not present")
                 TestResultStatus.append("Fail")
 
-            # ------Checking Last Updated On---------
-            time.sleep(2)
-            Text1 = "Last Updated On"
-            try:
-                Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[5]/div/div[1]/span").text
-                assert Text1 in Element1, Text1 + " inside " + inside + " is not present"
-                TestResult.append(Text1 + " inside " + inside + " is present")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append(Text1 + " inside " + inside + " is not present")
-                TestResultStatus.append("Fail")
+            # # ------Checking Last Updated On---------
+            # time.sleep(2)
+            # Text1 = "Last Updated On"
+            # try:
+            #     Element1 = driver.find_element_by_xpath(
+            #     "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[6]/div/div[1]/span").text
+            #     assert Text1 in Element1, Text1 + " inside " + inside + " is not present"
+            #     TestResult.append(Text1 + " inside " + inside + " is present")
+            #     TestResultStatus.append("Pass")
+            # except Exception as e1:
+            #     print(e1)
+            #     TestResult.append(Text1 + " inside " + inside + " is not present")
+            #     TestResultStatus.append("Fail")
 
             # ------Checking Reload Data---------
             time.sleep(2)
