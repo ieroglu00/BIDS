@@ -443,9 +443,9 @@ def test_PrepareLiquidityRequest(test_setup):
 
             # ---------------------------------Optional Commitment Materials present in page-------------------------------
             Text1 = "Optional Commitment Materials"
-            Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div[1]/div[1]/div/div/div/div/div[1]/div[2]/div/div/table/thead/tr[1]/th[1]/div").text
             try:
+                Element1 = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div[1]/div[1]/div/div/div/div/div[1]/div[2]/div/div/table/thead/tr[1]/th[1]/div").text
                 assert Text1 in Element1, Text1 + " is not present"
                 TestResult.append(
                     Text1 + " is present")
@@ -458,9 +458,9 @@ def test_PrepareLiquidityRequest(test_setup):
 
             # ---------------------------------Upload Commitment Document present in page-------------------------------
             Text1 = "Upload Commitment Document"
-            Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div[1]/div[1]/div/div/div/div/div[3]/div[1]/div/div[1]/span").text
             try:
+                Element1 = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div[1]/div[1]/div/div/div/div/div[3]/div[1]/div/div[1]/span").text
                 assert Text1 in Element1, Text1 + " is not present"
                 TestResult.append(
                     Text1 + " is present")
@@ -473,9 +473,9 @@ def test_PrepareLiquidityRequest(test_setup):
 
             # ---------------------------------Initial Loan Balance present in page-------------------------------
             Text1 = "Initial Loan Balance"
-            Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div[1]/div[1]/div[1]/div[1]/label").text
             try:
+                Element1 = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div[1]/div[1]/div[1]/div[1]/label").text
                 assert Text1 in Element1, Text1 + " is not present"
                 TestResult.append(
                     Text1 + " is present")
@@ -488,9 +488,13 @@ def test_PrepareLiquidityRequest(test_setup):
 
             # ---------------------------------ALL COMMITMENT MATERIALS ADDED button present in page-------------------------------
             Text1 = "ALL COMMITMENT MATERIALS ADDED"
-            Element1 = driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/div[1]/div[3]/div/div/div/div[4]/div/div/div/button").text
             try:
+                try:
+                    Element1 = driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/div[1]/div[3]/div/div/div/div[4]/div/div/div[2]/button").text
+                except Exception:
+                    Element1 = driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div/div[1]/div[3]/div/div/div/div[4]/div/div/div/button").text
                 assert Text1 in Element1, Text1 + " button is not present"
                 TestResult.append(
                     Text1 + " button is present")
