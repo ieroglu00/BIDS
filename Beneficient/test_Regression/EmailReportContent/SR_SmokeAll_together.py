@@ -81,7 +81,7 @@ def test_ReportSendSmokeAll():
 
     date_str = pd.Timestamp.today().strftime('%m-%d-%Y')
     msg = MIMEMultipart()
-    msg['Subject']='Test Automation Report [Test Suite 6 ( Regression )] -Env [Test] '+date_str
+    msg['Subject']='[Test Suite 6 ( Regression )]-Test Automation Report-Env [Test] '+date_str
     msg['From'] = email_from
     msg['To'] = ','.join(email_to)
     msg.attach(MIMEText(html, "html"))
