@@ -303,7 +303,7 @@ def test_BeaconDataTransfer(test_setup):
                     num=3
                     for ii2 in range(len(T_Rows)):
                         #----------------To find ERR dosplayed for any Fund---------------------
-                        Error = driver.find_element_by_xpath("//tbody/tr[" + str(ii2 + 1) + "]/td/div/p/span").text
+                        Error = driver.find_element_by_xpath("//tbody/tr[" + str(ii2 + 1) + "]/td[1]/div/p/span").text
                         if "ERR" in Error:
                             FundName = driver.find_element_by_xpath(
                                 "//tbody/tr[" + str(ii2 + 1) + "]/td[" + str(num) + "]/p").text
@@ -313,79 +313,83 @@ def test_BeaconDataTransfer(test_setup):
                                 "//tbody/tr[" + str(ii2 + 1) + "]/td[" + str(num + 2) + "]/p").text
                             Date = driver.find_element_by_xpath(
                                 "//tbody/tr[" + str(ii2 + 1) + "]/td[" + str(num + 3) + "]/p").text
-                            TestResult.append("ERR present for Fund [ " + FundName + " ], Fund ID is [" + FundID + " ], asset is [" + Asset + " ], and date is [" + Date + " ]")
+                            TestResult.append("ERR text present for Fund [ " + FundName + " ], Fund ID is [" + FundID + " ], asset is [" + Asset + " ], and date is [" + Date + " ]")
                             TestResultStatus.append("Fail")
                         #--------------------------------------------------------------------------
 
                         #-----------------To find Negative in Fair Value LC column values----------
-                        Fair_Value_LC = driver.find_element_by_xpath(
-                            "//tbody/tr[" + str(ii2 + 1) + "]/td[" + str(num + 4) + "]/div/p").text
-                        Fair_Value_LC1 = Fair_Value_LC
-                        Fair_Value_LC = Fair_Value_LC.replace(" ", "")
-                        Fair_Value_LC = re.sub(r'[?|$|€|£|.|!|,]', r'', Fair_Value_LC)
-                        z = Fair_Value_LC1
-                        bool1 = z.isupper() or z.islower()
-                        if bool1 == True:
-                            Fair_Value_LC = re.sub(r'[a-z|A-Z]+', '', Fair_Value_LC, re.I)
-                        if int(Fair_Value_LC) < 0:
-                            Asset = driver.find_element_by_xpath(
-                                "//tbody/tr[" + str(ii2 + 1) + "]/td[" + str(num + 2) + "]/p").text
-                            if Asset == "Investment":
-                                FundName = driver.find_element_by_xpath(
-                                    "//tbody/tr[" + str(ii2 + 1) + "]/td[" + str(num) + "]/p").text
-                                print(
-                                    "Asset is [ " + Asset + " ] Fund Name [ " + FundName + " ] has negative Value [ " + Fair_Value_LC1 + " ]")
-                                TestResult.append(
-                                    "Asset is [ " + Asset + " ] Fund Name " + FundName + " has negative Value [ " + Fair_Value_LC1 + " ]")
-                                TestResultStatus.append("Fail")
+                        try:
+                            Fair_Value_LC = driver.find_element_by_xpath(
+                                "//tbody/tr[" + str(ii2 + 1) + "]/td[" + str(num + 4) + "]/div/p").text
+                            Fair_Value_LC1 = Fair_Value_LC
+                            Fair_Value_LC = Fair_Value_LC.replace(" ", "")
+                            Fair_Value_LC = re.sub(r'[?|$|€|£|.|!|,]', r'', Fair_Value_LC)
+                            z = Fair_Value_LC1
+                            bool1 = z.isupper() or z.islower()
+                            if bool1 == True:
+                                Fair_Value_LC = re.sub(r'[a-z|A-Z]+', '', Fair_Value_LC, re.I)
+                            if int(Fair_Value_LC) < 0:
+                                Asset = driver.find_element_by_xpath(
+                                    "//tbody/tr[" + str(ii2 + 1) + "]/td[" + str(num + 2) + "]/p").text
+                                if Asset == "Investment":
+                                    FundName = driver.find_element_by_xpath(
+                                        "//tbody/tr[" + str(ii2 + 1) + "]/td[" + str(num) + "]/p").text
+                                    print(
+                                        "Asset is [ " + Asset + " ] Fund Name [ " + FundName + " ] has negative Value [ " + Fair_Value_LC1 + " ]")
+                                    TestResult.append(
+                                        "Asset is [ " + Asset + " ] Fund Name " + FundName + " has negative Value [ " + Fair_Value_LC1 + " ]")
+                                    TestResultStatus.append("Fail")
+                        except Exception:
+                            pass
                         #----------------------------------------------------------------------------
                 else:
                     num = 2
+                    print("Inside else*************")
                     print("num is " + str(num))
-                    for ii3 in range(len(T_Rows)):
-                        #---------------------To find ERR dosplayed for any Fund----------------------
-                        Error = Error = driver.find_element_by_xpath("//tbody/tr[" + str(ii3 + 1) + "]/td[1]/p").text
-                        if "ERR" in Error:
-                            FundName = driver.find_element_by_xpath(
-                                "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num) + "]/p").text
-                            FundID = driver.find_element_by_xpath(
-                                "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num + 1) + "]/p").text
-                            Asset = driver.find_element_by_xpath(
-                                "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num + 2) + "]/p").text
-                            Date = driver.find_element_by_xpath(
-                                "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num + 3) + "]/p").text
-                            TestResult.append("ERR present for Fund [ " + FundName + " ], Fund ID is [" + FundID + " ], asset is [" + Asset + " ], and date is [" + Date + " ]")
-                            TestResultStatus.append("Fail")
-                        #------------------------------------------------------------------------------
-
-                        #---------------To find Negative in Fair Value LC column values----------------
-                        Fair_Value_LC = driver.find_element_by_xpath(
-                            "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num + 4) + "]/div/p").text
-                        Fair_Value_LC1 = Fair_Value_LC
-                        Fair_Value_LC = Fair_Value_LC.replace(" ", "")
-                        Fair_Value_LC = re.sub(r'[?|$|€|£|.|!|,]', r'', Fair_Value_LC)
-                        z = Fair_Value_LC1
-                        bool1 = z.isupper() or z.islower()
-                        if bool1 == True:
-                            Fair_Value_LC = re.sub(r'[a-z|A-Z]+', '', Fair_Value_LC, re.I)
-                        if int(Fair_Value_LC) < 0:
-                            Asset = driver.find_element_by_xpath(
-                                "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num + 2) + "]/p").text
-                            if Asset == "Investment":
-                                FundName = driver.find_element_by_xpath(
-                                    "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num) + "]/p").text
-                                print(
-                                    "Asset is [ " + Asset + " ] Fund Name [ " + FundName + " ] has negative Value [ " + Fair_Value_LC1 + " ]")
-                                TestResult.append(
-                                    "Asset is [ " + Asset + " ] Fund Name " + FundName + " has negative Value [ " + Fair_Value_LC1 + " ]")
-                                TestResultStatus.append("Fail")
+                    # for ii3 in range(len(T_Rows)):
+                    #     #---------------------To find ERR dosplayed for any Fund----------------------
+                    #     Error = Error = driver.find_element_by_xpath("//tbody/tr[" + str(ii3 + 1) + "]/td[1]/p").text
+                    #     if "ERR" in Error:
+                    #         FundName = driver.find_element_by_xpath(
+                    #             "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num) + "]/p").text
+                    #         FundID = driver.find_element_by_xpath(
+                    #             "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num + 1) + "]/p").text
+                    #         Asset = driver.find_element_by_xpath(
+                    #             "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num + 2) + "]/p").text
+                    #         Date = driver.find_element_by_xpath(
+                    #             "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num + 3) + "]/p").text
+                    #         TestResult.append("ERR present for Fund [ " + FundName + " ], Fund ID is [" + FundID + " ], asset is [" + Asset + " ], and date is [" + Date + " ]")
+                    #         TestResultStatus.append("Fail")
+                    #     #------------------------------------------------------------------------------
+                    #
+                    #     #---------------To find Negative in Fair Value LC column values----------------
+                    #     Fair_Value_LC = driver.find_element_by_xpath(
+                    #         "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num + 4) + "]/div/p").text
+                    #     Fair_Value_LC1 = Fair_Value_LC
+                    #     Fair_Value_LC = Fair_Value_LC.replace(" ", "")
+                    #     Fair_Value_LC = re.sub(r'[?|$|€|£|.|!|,]', r'', Fair_Value_LC)
+                    #     z = Fair_Value_LC1
+                    #     bool1 = z.isupper() or z.islower()
+                    #     if bool1 == True:
+                    #         Fair_Value_LC = re.sub(r'[a-z|A-Z]+', '', Fair_Value_LC, re.I)
+                    #     if int(Fair_Value_LC) < 0:
+                    #         Asset = driver.find_element_by_xpath(
+                    #             "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num + 2) + "]/p").text
+                    #         if Asset == "Investment":
+                    #             FundName = driver.find_element_by_xpath(
+                    #                 "//tbody/tr[" + str(ii3 + 1) + "]/td[" + str(num) + "]/p").text
+                    #             print(
+                    #                 "Asset is [ " + Asset + " ] Fund Name [ " + FundName + " ] has negative Value [ " + Fair_Value_LC1 + " ]")
+                    #             TestResult.append(
+                    #                 "Asset is [ " + Asset + " ] Fund Name " + FundName + " has negative Value [ " + Fair_Value_LC1 + " ]")
+                    #             TestResultStatus.append("Fail")
                         #--------------------------------------------------------------------------
 
                 driver.find_element_by_xpath(
                     "//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[2]/div/div").click()
-                time.sleep(3)
+                time.sleep(1)
                 ActionChains(driver).key_down(Keys.DOWN).perform()
-                time.sleep(3)
+                time.sleep(1)
                 ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
                 try:
                     WebDriverWait(driver, SHORT_TIMEOUT
@@ -396,7 +400,7 @@ def test_BeaconDataTransfer(test_setup):
                 except TimeoutException:
                     pass
                 try:
-                    time.sleep(2)
+                    time.sleep(1)
                     bool1 = driver.find_element_by_xpath(
                         "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
                     if bool1 == True:
@@ -411,7 +415,7 @@ def test_BeaconDataTransfer(test_setup):
                         driver.close()
                 except Exception:
                     try:
-                        time.sleep(2)
+                        time.sleep(1)
                         bool2 = driver.find_element_by_xpath(
                             "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
                         if bool2 == True:

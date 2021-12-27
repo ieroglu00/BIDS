@@ -76,9 +76,9 @@ def test_setup():
       driver=webdriver.Chrome(executable_path="C:/BIDS/beneficienttest/Beneficient/Chrome/chromedriver.exe")
       driver.implicitly_wait(10)
       driver.maximize_window()
-      driver.get("https://beneficientdev.appiancloud.com/suite/")
+      driver.get("https://beneficienttest.appiancloud.com/suite/")
       enter_username("neeraj.kumar")
-      enter_password("Crochet@786Bits")
+      enter_password("Crochet@786")
       driver.find_element_by_xpath("//input[@type='submit']").click()
 
       ct = datetime.datetime.now().strftime("%d_%B_%Y_%I_%M%p")
@@ -193,7 +193,7 @@ def test_setup():
 @pytest.mark.smoke
 def test_VerifyAllClickables(test_setup):
     if Exe == "Yes":
-        FundToOpen=15
+        FundToOpen=3
         SHORT_TIMEOUT = 5
         LONG_TIMEOUT = 400
         LOADING_ELEMENT_XPATH = "//div[@id='appian-working-indicator-hidden']"
@@ -380,7 +380,7 @@ def test_VerifyAllClickables(test_setup):
             sheet1 = wb1.active
 
             for i2 in range(TotalFundsLengh):
-                print("i2 is "+str(i2))
+                #print("i2 is "+str(i2))
                 if len(FundNameListAfterRemove) <= FundToOpen - 1:
                     print("len of FundNameListAfterRemove is " + str(len(FundNameListAfterRemove)))
                     if sheet1.cell(i2 + 1, 3).value == None:
@@ -413,16 +413,16 @@ def test_VerifyAllClickables(test_setup):
 
             #--------------------------------------------------------------------------------------
             for ifundlist in range(len(FundNameListAfterRemove)):
-                print(str(ifundlist))
+                print()
                 #-------------to clear the cache memory of chrome browser-------------
-                if (ifundlist/30).is_integer()==True and (ifundlist/30).is_integer()!=0:
+                if (ifundlist/30).is_integer()==True and (ifundlist/30).is_integer()!=0.0:
                     print("<<<<<<<<<<<Integer value found for 30 digit>>>>>>>>")
-                    #print(str((ifundlist / 30)))
+                    print(str((ifundlist / 30)))
                     driver.delete_all_cookies()
                     time.sleep(5)
-                    driver.get("https://beneficientdev.appiancloud.com/suite/")
+                    driver.get("https://beneficienttest.appiancloud.com/suite/")
                     driver.find_element_by_id("un").send_keys("neeraj.kumar")
-                    driver.find_element_by_id("pw").send_keys("Crochet@786Bits")
+                    driver.find_element_by_id("pw").send_keys("Crochet@786")
                     button = driver.find_element_by_xpath(
                         "//input[@type='submit']")
                     driver.execute_script("arguments[0].click();", button)
@@ -435,48 +435,7 @@ def test_VerifyAllClickables(test_setup):
                     except TimeoutException:
                         pass
                 #--------------------------------------------------------------
-                if ifundlist == 100:
-                    print()
-                    print("Clicked 1 after 100")
-                    driver.find_element_by_xpath(
-                        "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a[1]").click()
-                    try:
-                        WebDriverWait(driver, SHORT_TIMEOUT
-                                      ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-
-                        WebDriverWait(driver, LONG_TIMEOUT
-                                      ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-                    except TimeoutException:
-                        pass
-
-                if ifundlist == 200:
-                    print()
-                    print("Clicked 2 after 200")
-                    driver.find_element_by_xpath(
-                        "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a[1]").click()
-                    try:
-                        WebDriverWait(driver, SHORT_TIMEOUT
-                                      ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-
-                        WebDriverWait(driver, LONG_TIMEOUT
-                                      ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-                    except TimeoutException:
-                        pass
-
-                if ifundlist == 300:
-                    print()
-                    print("Clicked 3 after 300")
-                    driver.find_element_by_xpath(
-                        "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a[1]").click()
-                    try:
-                        WebDriverWait(driver, SHORT_TIMEOUT
-                                      ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-
-                        WebDriverWait(driver, LONG_TIMEOUT
-                                      ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-                    except TimeoutException:
-                        pass
-                print(FundNameListAfterRemove[ifundlist])
+                #print(FundNameListAfterRemove[ifundlist])
                 main_window = driver.current_window_handle
                 print(str(ifundlist)+" "+FundNameListAfterRemove[ifundlist])
                 if "'" in FundNameListAfterRemove[ifundlist]:
@@ -493,9 +452,85 @@ def test_VerifyAllClickables(test_setup):
                     try:
                         driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td/div/p/a[text()='"+FundNameListAfterRemove[ifundlist]+"']").click()
                     except Exception:
-                        print("^^^^^^^^^^^^^^^^^^^^^^")
-                        button = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td/div/p/a[text()='"+FundNameListAfterRemove[ifundlist]+"']")
-                        driver.execute_script("arguments[0].click();", button)
+                        try:
+                            button = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td/div/p/a[text()='"+FundNameListAfterRemove[ifundlist]+"']")
+                            driver.execute_script("arguments[0].click();", button)
+                        except Exception:
+                            print("Clicking on First pagination icon")
+                            driver.find_element_by_xpath(
+                                "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a[1]").click()
+                            try:
+                                WebDriverWait(driver, SHORT_TIMEOUT
+                                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                                WebDriverWait(driver, LONG_TIMEOUT
+                                              ).until_not(
+                                    EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                            except TimeoutException:
+                                pass
+                            #--------------------------------On Second Page--------------------------------
+                            try:
+                                driver.find_element_by_xpath(
+                                    "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td/div/p/a[text()='" +
+                                    FundNameListAfterRemove[ifundlist] + "']").click()
+                            except Exception:
+                                try:
+                                    button = driver.find_element_by_xpath(
+                                        "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td/div/p/a[text()='" +
+                                        FundNameListAfterRemove[ifundlist] + "']")
+                                    driver.execute_script("arguments[0].click();", button)
+                                except Exception:
+                                    print("Clicking on Second pagination icon")
+                                    driver.find_element_by_xpath(
+                                        "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a[1]").click()
+                                    try:
+                                        WebDriverWait(driver, SHORT_TIMEOUT
+                                                      ).until(
+                                            EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                                        WebDriverWait(driver, LONG_TIMEOUT
+                                                      ).until_not(
+                                            EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                                    except TimeoutException:
+                                        pass
+                                    # ----------------------------------On Third Page--------------------------------
+                                    try:
+                                        driver.find_element_by_xpath(
+                                            "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td/div/p/a[text()='" +
+                                            FundNameListAfterRemove[ifundlist] + "']").click()
+                                    except Exception:
+                                        try:
+                                            button = driver.find_element_by_xpath(
+                                                "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td/div/p/a[text()='" +
+                                                FundNameListAfterRemove[ifundlist] + "']")
+                                            driver.execute_script("arguments[0].click();", button)
+                                        except Exception:
+                                            print("Clicking on Third pagination icon")
+                                            driver.find_element_by_xpath(
+                                                "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a[1]").click()
+                                            try:
+                                                WebDriverWait(driver, SHORT_TIMEOUT
+                                                              ).until(
+                                                    EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                                                WebDriverWait(driver, LONG_TIMEOUT
+                                                              ).until_not(
+                                                    EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                                            except TimeoutException:
+                                                pass
+                                            # ---------------------------------On Fourth Page------------------------------
+                                            try:
+                                                driver.find_element_by_xpath(
+                                                    "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td/div/p/a[text()='" +
+                                                    FundNameListAfterRemove[ifundlist] + "']").click()
+                                            except Exception:
+                                                try:
+                                                    button = driver.find_element_by_xpath(
+                                                        "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td/div/p/a[text()='" +
+                                                        FundNameListAfterRemove[ifundlist] + "']")
+                                                    driver.execute_script("arguments[0].click();", button)
+                                                except Exception:
+                                                    pass
 
                     ActionChains(driver).key_up(Keys.CONTROL).perform()
                     try:
@@ -506,15 +541,17 @@ def test_VerifyAllClickables(test_setup):
                                       ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
                     except TimeoutException:
                         pass
-                    #-------------------Inserting Execution Date in Fund sheet-------------------------
-                    TestResult.append(FundNameListAfterRemove[ifundlist])
-                    TestResultStatus.append("Pass")
 
                     #----------------------------------------------------------------------------------
                     driver.switch_to.window(driver.window_handles[1])
                     time.sleep(1)
                     try:
-                        Test=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div[2]/p").text
+                        try:
+                            Test=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div[2]/p").text
+                        except Exception:
+                            time.sleep(5)
+                            Test = driver.find_element_by_xpath(
+                                "//div[@class='ContentLayout---content_layout']/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div[2]/p").text
                     except Exception:
                         time.sleep(3)
                         #---------------When Page load error occurs---------------------------------
@@ -535,7 +572,12 @@ def test_VerifyAllClickables(test_setup):
                         print("Waiting in Exception")
                         driver.switch_to.window(driver.window_handles[1])
                         try:
-                            Test=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div[2]/p").text
+                            try:
+                                Test=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div[2]/p").text
+                            except Exception:
+                                time.sleep(5)
+                                Test = driver.find_element_by_xpath(
+                                    "//div[@class='ContentLayout---content_layout']/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div[2]/p").text
                         except Exception:
                             try:
                                 time.sleep(2)
@@ -567,7 +609,7 @@ def test_VerifyAllClickables(test_setup):
                                 except Exception:
                                     pass
                                 pass
-                    print("Test text is: "+Test)
+                    #print("Test text is: "+Test)
                     # --------------------Clicking Fund NAV Roll tab--------------
                     try:
                         PageName = "Fund NAV Roll"
@@ -614,7 +656,6 @@ def test_VerifyAllClickables(test_setup):
                         time.sleep(1)
                         try:
                             PageTitle1 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[1]/table/thead/tr/th[1]/div").text
-                            print(PageTitle1)
                             assert Ptitle1 in PageTitle1, PageName + " is not able to open "
                             # TestResult.append(PageName + " opened successfully")
                             # TestResultStatus.append("Pass")
@@ -678,7 +719,6 @@ def test_VerifyAllClickables(test_setup):
                         try:
                             PageTitle1 = driver.find_element_by_xpath(
                                 "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[1]/div[1]/div/div[2]/div/p/a").text
-                            print(PageTitle1)
                             assert Ptitle1 in PageTitle1, PageName + " is not able to open "
                             # TestResult.append(PageName + " opened successfully")
                             # TestResultStatus.append("Pass")
@@ -735,16 +775,17 @@ def test_VerifyAllClickables(test_setup):
                         BenRemainingNAV = driver.find_element_by_xpath(
                             "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[3]/div/div[2]/div/div[3]/div[2]/div/div/table/tbody/tr[last()]/td[25]/div/p/span/strong").text
                         print("BenRemainingNAV is " + BenRemainingNAV)
+                        BenRemainingNAV = BenRemainingNAV.replace("$", "")
                         # ------------------------------------------------------------------------
                         # -------Fetching Ben Remaining NAV value-------------------------------------
                         if BenRemainingNAV not in BenNAVLC:
-                            TestResult.append("Ben Remaining NAV [Investments] is not matching with Ben NAV LC for Fund [ "+FundNameListAfterRemove[ifundlist]+" ], quarter [ "+BenReportingPeriod+" ]")
+                            TestResult.append("=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]"+"\nBen Remaining NAV [Investments] "+BenRemainingNAV+" is not matching with Ben NAV LC "+BenNAVLC+", quarter [ "+BenReportingPeriod+" ]")
                             TestResultStatus.append("Fail")
                         else:
                             TestResult.append(
-                                "Ben Remaining NAV [Investments] "+BenRemainingNAV+" matched with Ben NAV LC "+BenNAVLC+" for Fund [ " +
-                                FundNameListAfterRemove[ifundlist] + " ], quarter [ " + BenReportingPeriod + " ]")
+                                "=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]"+"\nBen Remaining NAV [Investments] "+BenRemainingNAV+" matched with Ben NAV LC "+BenNAVLC+", quarter [ " + BenReportingPeriod + " ]")
                             TestResultStatus.append("Pass")
+                            pass
                         # ------------------------------------------------------------------------
 
                     except Exception:
@@ -771,9 +812,6 @@ def test_VerifyAllClickables(test_setup):
                         pass
 
         except Exception as Mainerror:
-            # stop = time.time()
-            # RoundFloatString = round(float(stop - start),2)
-            # print("The time of the run for " + PageName + " is: ", RoundFloatString)
             stringMainerror=repr(Mainerror)
             if stringMainerror in "InvalidSessionIdException('invalid session id', None, None)":
                 pass
