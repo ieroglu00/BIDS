@@ -604,7 +604,7 @@ def test_Funds_Values(test_setup):
                 except Exception:
                     try:
                         time.sleep(2)
-                        wait = WebDriverWait(driver, 50)
+                        wait = WebDriverWait(driver, 20)
                         wait.until(EC.presence_of_element_located((By.XPATH,
                             "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
                             FundNameListAfterRemove[ii3] + "')]")))
@@ -632,7 +632,7 @@ def test_Funds_Values(test_setup):
                                     FundNameListAfterRemove[ii3] + "')]").click()
                             except Exception:
                                 time.sleep(2)
-                                wait = WebDriverWait(driver, 50)
+                                wait = WebDriverWait(driver, 20)
                                 wait.until(EC.presence_of_element_located((By.XPATH,
                                                                            "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
                                                                            FundNameListAfterRemove[ii3] + "')]")))
@@ -642,7 +642,7 @@ def test_Funds_Values(test_setup):
                         except Exception:
                             print("Clicked on next 2 funds icon")
                             time.sleep(2)
-                            wait = WebDriverWait(driver, 50)
+                            wait = WebDriverWait(driver, 20)
                             wait.until(EC.presence_of_element_located((By.XPATH,
                                                                        "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a[1]")))
                             driver.find_element_by_xpath(
@@ -662,7 +662,7 @@ def test_Funds_Values(test_setup):
                                         "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
                                         FundNameListAfterRemove[ii3] + "')]").click()
                                 except Exception:
-                                    wait = WebDriverWait(driver, 50)
+                                    wait = WebDriverWait(driver, 20)
                                     wait.until(EC.presence_of_element_located((By.XPATH,
                                                                                "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
                                                                                FundNameListAfterRemove[ii3] + "')]")))
@@ -752,14 +752,14 @@ def test_Funds_Values(test_setup):
                             print(ErrorText)
                             driver.find_element_by_xpath(
                                 "//div[@class='ContentLayout---content_layout']/div[2]/div/button").click()
-                            time.sleep(5)
+                            time.sleep(3)
                             TestResult.append("Liquidity Proj tab is not able to open on click\n" + ErrorText)
                             TestResultStatus.append("Fail")
                         except Exception:
                             pass
 
                     except Exception:
-                        time.sleep(7)
+                        time.sleep(5)
                         driver.find_element_by_xpath(
                             "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div[2]/button").click()
                     try:
