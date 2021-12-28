@@ -773,7 +773,7 @@ def test_Funds_Values(test_setup):
                     Quarters=driver.find_elements_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div/div/table/tbody/tr/td/div/p/span/a/span")
                     print("Quarters rows " + str(len(Quarters)))
 
-                    TestResult.append(FundNameListAfterRemove[ii3])
+                    TestResult.append("=> "+FundNameListAfterRemove[ii3])
                     TestResultStatus.append("Pass")
 
                     for ii4 in range(1,len(Quarters)+1):
