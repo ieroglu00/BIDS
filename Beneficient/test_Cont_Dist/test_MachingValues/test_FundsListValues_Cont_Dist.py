@@ -202,7 +202,7 @@ def test_setup():
 def test_Funds_Values(test_setup):
     if Exe == "Yes":
         try:
-            FundToOpen = 5
+            FundToOpen = 20
             ForecastYear=4
             skip1 = 0
             SHORT_TIMEOUT = 5
