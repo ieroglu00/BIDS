@@ -193,7 +193,7 @@ def test_setup():
 @pytest.mark.smoke
 def test_VerifyAllClickables(test_setup):
     if Exe == "Yes":
-        FundToOpen=20
+        FundToOpen=2
         SHORT_TIMEOUT = 5
         LONG_TIMEOUT = 400
         LOADING_ELEMENT_XPATH = "//div[@id='appian-working-indicator-hidden']"
@@ -382,7 +382,7 @@ def test_VerifyAllClickables(test_setup):
             for i2 in range(TotalFundsLengh):
                 #print("i2 is "+str(i2))
                 if len(FundNameListAfterRemove) <= FundToOpen - 1:
-                    print("len of FundNameListAfterRemove is " + str(len(FundNameListAfterRemove)))
+                    #print("len of FundNameListAfterRemove is " + str(len(FundNameListAfterRemove)))
                     if sheet1.cell(i2 + 1, 3).value == None:
                         FundNameListAfterRemove.append(sheet1.cell(i2 + 1, 2).value)
                         sheet1.cell(i2 + 1, 3).value=DollarDate
@@ -775,10 +775,11 @@ def test_VerifyAllClickables(test_setup):
                         BenRemainingNAV = driver.find_element_by_xpath(
                             "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[3]/div/div[2]/div/div[3]/div[2]/div/div/table/tbody/tr[last()]/td[25]/div/p/span/strong").text
                         print("BenRemainingNAV is " + BenRemainingNAV)
-                        BenRemainingNAV = BenRemainingNAV.replace("$", "")
+                        if "_" in BenRemainingNAV:
+                            BenRemainingNAV="0"
                         # ------------------------------------------------------------------------
                         # -------Fetching Ben Remaining NAV value-------------------------------------
-                        if BenRemainingNAV not in BenNAVLC:
+                        if BenRemainingNAV != BenNAVLC:
                             TestResult.append("=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]"+"\nBen Remaining NAV [Investments] "+BenRemainingNAV+" is not matching with Ben NAV LC "+BenNAVLC+", quarter [ "+BenReportingPeriod+" ]")
                             TestResultStatus.append("Fail")
                         else:
