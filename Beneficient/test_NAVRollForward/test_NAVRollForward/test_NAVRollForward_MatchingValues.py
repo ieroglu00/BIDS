@@ -361,7 +361,6 @@ def test_VerifyAllClickables(test_setup):
 
             print()
             print("length of FundNameList after " + str(len(FundNameList)))
-
             noneindex=0
             for iadd in range (TotalFundsLengh):
                 if sheet1.cell(iadd + 1, 2).value == None:

@@ -37,6 +37,16 @@ def test_setup():
   global Dict
   global Dict2
   global FundsNamesList
+  global FundNameListAfterRemove
+  global ct
+  global Exe
+  global D1
+  global D2
+  global d1
+  global d2
+  global DollarDate
+  global FundToOpen
+  global TotalFundsLengh
 
   TestName = "test_FundsListValues_Cont_Dist"
   description = "This test scenario is to verify values of all Funds for CONT and DIST"
@@ -44,7 +54,7 @@ def test_setup():
   TestResultStatus = []
   TestFailStatus = []
   FundsNamesList = []
-
+  FundNameListAfterRemove = []
   FailStatus = "Pass"
   TestDirectoryName="test_Cont_Dist"
 
@@ -80,12 +90,18 @@ def test_setup():
       button = driver.find_element_by_xpath("//input[@type='submit']")
       driver.execute_script("arguments[0].click();", button)
 
-
-  yield
-  if Exe == "Yes":
       ct = datetime.datetime.now().strftime("%d_%B_%Y_%I_%M%p")
       ctReportHeader = datetime.datetime.now().strftime("%d %B %Y %I %M%p")
 
+      today = datetime.date.today()
+      D1 = today.strftime("%Y-%m-%d")
+      d1 = D1
+      DollarDate = datetime.datetime.strptime(d1, '%Y-%m-%d')
+      DollarDate = "$" + DollarDate.date().__str__() + "$"
+      d1 = datetime.datetime.strptime(D1, "%Y-%m-%d")
+
+  yield
+  if Exe == "Yes":
       class PDF(FPDF):
           def header(self):
               self.image(path+'EmailReportContent/Ben.png', 10, 8, 33)
@@ -186,6 +202,7 @@ def test_setup():
 def test_Funds_Values(test_setup):
     if Exe == "Yes":
         try:
+            FundToOpen = 5
             ForecastYear=4
             skip1 = 0
             SHORT_TIMEOUT = 5
@@ -248,9 +265,6 @@ def test_Funds_Values(test_setup):
             TimeString = stop - start
             print("The time of the run for " + PageName + " is: ", stop - start)
             print(TimeString)
-
-            TestResult.append("Below Funds are involved in Cont & Dist ")
-            TestResultStatus.append("Pass")
 
             for ii in range(ForecastYear+1):
                 print()
@@ -328,40 +342,40 @@ def test_Funds_Values(test_setup):
 
                 Hyphen="_"
 
-                print(Label1)
-                print(String1)
+                #print(Label1)
+                #print(String1)
                 String1 = String1.replace(" ", "")
                 String1 = re.sub(r'[?|$|.|!|,|-]', r'', String1)
                 if re.search(Hyphen, String1):
                     String1="0"
                 String1Float = float(String1)
 
-                print(Label2)
-                print(String2)
+                #print(Label2)
+                #print(String2)
                 String2 = String2.replace(" ", "")
                 String2 = re.sub(r'[?|$|.|!|,|-]', r'', String2)
                 if re.search(Hyphen, String2):
                     String2="0"
                 String2Float = float(String2)
 
-                print(Label3)
-                print(String3)
+                #print(Label3)
+                #print(String3)
                 String3 = String3.replace(" ", "")
                 String3 = re.sub(r'[?|$|.|!|,|-]', r'', String3)
                 if re.search(Hyphen, String3):
                     String3="0"
                 String3Float = float(String3)
 
-                print(Label4)
-                print(String4)
+                #print(Label4)
+                #print(String4)
                 String4 = String4.replace(" ", "")
                 String4 = re.sub(r'[?|$|.|!|,|-]', r'', String4)
                 if re.search(Hyphen, String4):
                     String4="0"
                 String4Float = float(String4)
 
-                print(Label5)
-                print(String5)
+                #print(Label5)
+                #print(String5)
                 String5 = String5.replace(" ", "")
                 String5 = re.sub(r'[?|$|.|!|,|-]', r'', String5)
                 if re.search(Hyphen, String5):
@@ -406,10 +420,10 @@ def test_Funds_Values(test_setup):
                     TotalFundsItemsInt = int(TotalFundsItems)
                     TotalFundsItemsIntOriginal = int(TotalFundsItems)
                     TotalFundsItemsInt = math.ceil(TotalFundsItemsInt / 7)
-                    print("-------Arrow should click for "+str(TotalFundsItemsInt-1))
+                    #print("-------Arrow should click for "+str(TotalFundsItemsInt-1))
 
                     for ii1 in range(TotalFundsItemsInt):
-                        print("------TotalFundsItemsInt ii1 "+str(ii1))
+                        #print("------TotalFundsItemsInt ii1 "+str(ii1))
                         ii2 = 1
                         if ii1 > 0:
                             button = driver.find_element_by_xpath(
@@ -437,8 +451,8 @@ def test_Funds_Values(test_setup):
                                 #print(rep)
                                 pass
                     print()
-                    print("Funds iteration run for " + str(ii1))
-                    print("Len of FundsNamesList " + str(len(FundsNamesList)))
+                    #print("Funds iteration run for " + str(ii1))
+                    #print("Len of FundsNamesList " + str(len(FundsNamesList)))
                     # # ---------------------------
                     # TestResult.append("Total Funds to verify: " + str(len(FundsNamesList)))
                     # TestResultStatus.append("Pass")
@@ -468,7 +482,76 @@ def test_Funds_Values(test_setup):
                     pass
 
             print("\n ********************printing Dictionary 1 : ***************************")
+            print("len of FundsNamesList "+str(len(FundsNamesList)))
             print(Dict)
+            TotalFundsLengh = len(FundsNamesList)
+
+            # -----------To add new found Funds in Excel sheet-------------
+            ExcelFileName = "FundName"
+            loc1 = (path + 'PDFFileNameData/' + ExcelFileName + '.xlsx')
+            wb1 = openpyxl.load_workbook(loc1)
+            sheet1 = wb1.active
+            for i in range(len(FundsNamesList)):
+                try:
+                    if sheet1.cell(i + 1, 2).value != None:
+                        if sheet1.cell(i + 1, 2).value in FundsNamesList:
+                            FundsNamesList.remove(sheet1.cell(i + 1, 2).value)
+                            # print("Removed from List: "+sheet1.cell(i + 1, 2).value)
+                except Exception as ef:
+                    print(ef)
+                    pass
+            wb1.save(loc1)
+
+            print()
+            print("length of FundNameList after " + str(len(FundsNamesList)))
+            noneindex = 0
+            for iadd in range(TotalFundsLengh):
+                if sheet1.cell(iadd + 1, 2).value == None:
+                    if noneindex == 0:
+                        noneindex = iadd + 1
+                    # print(FundNameList[(iadd+1)-noneindex])
+                    sheet1.cell(row=iadd + 1, column=1).value = iadd + 1
+                    sheet1.cell(row=iadd + 1, column=2).value = FundsNamesList[iadd - noneindex]
+            wb1.save(loc1)
+            # ---------------------------------------------------------------------------
+
+            # -----------To fetch selected Funds from total list-------------
+            ExcelFileName = "FundName"
+            loc1 = (path + 'PDFFileNameData/' + ExcelFileName + '.xlsx')
+            wb1 = openpyxl.load_workbook(loc1)
+            sheet1 = wb1.active
+
+            for i2 in range(TotalFundsLengh):
+                # print("i2 is "+str(i2))
+                if len(FundNameListAfterRemove) <= FundToOpen - 1:
+                    # print("len of FundNameListAfterRemove is " + str(len(FundNameListAfterRemove)))
+                    if sheet1.cell(i2 + 1, 3).value == None:
+                        FundNameListAfterRemove.append(sheet1.cell(i2 + 1, 2).value)
+                        sheet1.cell(i2 + 1, 3).value = DollarDate
+                    else:
+                        if sheet1.cell(i2 + 1, 3).value != None:
+                            # print("Inside Else for i2 "+str(i2))
+                            D2 = sheet1.cell(i2 + 1, 3).value
+                            # print("D2 " + D2)
+                            D2 = re.sub('[!@#$]', '', D2)
+                            # print("D2 " + D2)
+                            d2 = datetime.datetime.strptime(D2, "%Y-%m-%d")
+                            # print("d2 " + d2.__str__())
+                            # print("d1 " + d1.__str__())
+                            if (d1 - d2).days > 7:
+                                # print("YEsss")
+                                #print(sheet1.cell(i2 + 1, 2).value)
+                                FundNameListAfterRemove.append(sheet1.cell(i2 + 1, 2).value)
+                                sheet1.cell(i2 + 1, 3).value = DollarDate
+                            else:
+                                # print("Noooo")
+                                pass
+            wb1.save(loc1)
+            #print(FundNameListAfterRemove)
+            print(str(len(FundNameListAfterRemove)))
+            TestResult.append("Below " + str(len(FundNameListAfterRemove)) + " Funds are involved in Cont & Dist and are collected for verification")
+            TestResultStatus.append("Pass")
+            # ----------------------------------------------------------------------------
 
         #     #--------------Now working started to fetch Quarter values of each funds--------------
             PageName = "Funds"
@@ -490,10 +573,11 @@ def test_Funds_Values(test_setup):
             time.sleep(1)
 
         # #---------------------------Fetching details for all Funds ----------------------------
-            for ii3 in range(len(FundsNamesList)):
+            for ii3 in range(len(FundNameListAfterRemove)):
                 print()
                 print()
                 print(str(ii3))
+                #-------------------------------Clrearing Cache----------------------------------
                 if ii3 ==5 or ii3 ==15 or ii3 ==30 or ii3 ==45 or ii3 ==60 or ii3 ==75 or ii3 ==90 or ii3 ==105 or ii3 ==120:
                     #print("----------------***************"+str(ii3))
                     driver.delete_all_cookies()
@@ -513,28 +597,25 @@ def test_Funds_Values(test_setup):
                     except TimeoutException:
                         pass
 
-                print(FundsNamesList[ii3])
-                # ---------------------------
-                # TestResult.append(FundsNamesList[ii3])
-                # TestResultStatus.append("Pass")
-                # ----------------------------
+                #---------------------------------------------------------------------------------------------
+                print(FundNameListAfterRemove[ii3])
                 try:
-                    driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'"+FundsNamesList[ii3]+"')]").click()
+                    driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'"+FundNameListAfterRemove[ii3]+"')]").click()
                 except Exception:
                     try:
-                        time.sleep(4)
-                        wait = WebDriverWait(driver, 100)
+                        time.sleep(2)
+                        wait = WebDriverWait(driver, 50)
                         wait.until(EC.presence_of_element_located((By.XPATH,
                             "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
-                            FundsNamesList[ii3] + "')]")))
+                            FundNameListAfterRemove[ii3] + "')]")))
                         driver.find_element_by_xpath(
                             "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
-                            FundsNamesList[ii3] + "')]").click()
+                            FundNameListAfterRemove[ii3] + "')]").click()
                     except Exception:
                         print("Clicked on next 1 funds icon")
                         time.sleep(4)
                         try:
-                            driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a").click()
+                            driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a[1]").click()
                             try:
                                 WebDriverWait(driver, SHORT_TIMEOUT
                                               ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
@@ -548,24 +629,24 @@ def test_Funds_Values(test_setup):
                             try:
                                 driver.find_element_by_xpath(
                                     "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
-                                    FundsNamesList[ii3] + "')]").click()
+                                    FundNameListAfterRemove[ii3] + "')]").click()
                             except Exception:
                                 time.sleep(2)
-                                wait = WebDriverWait(driver, 100)
+                                wait = WebDriverWait(driver, 50)
                                 wait.until(EC.presence_of_element_located((By.XPATH,
                                                                            "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
-                                                                           FundsNamesList[ii3] + "')]")))
+                                                                           FundNameListAfterRemove[ii3] + "')]")))
                                 driver.find_element_by_xpath(
                                     "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
-                                    FundsNamesList[ii3] + "')]").click()
+                                    FundNameListAfterRemove[ii3] + "')]").click()
                         except Exception:
                             print("Clicked on next 2 funds icon")
                             time.sleep(2)
-                            wait = WebDriverWait(driver, 100)
+                            wait = WebDriverWait(driver, 50)
                             wait.until(EC.presence_of_element_located((By.XPATH,
-                                                                       "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a")))
+                                                                       "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a[1]")))
                             driver.find_element_by_xpath(
-                                "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a").click()
+                                "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a[1]").click()
                             try:
                                 WebDriverWait(driver, SHORT_TIMEOUT
                                               ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
@@ -579,22 +660,22 @@ def test_Funds_Values(test_setup):
                                 try:
                                     driver.find_element_by_xpath(
                                         "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
-                                        FundsNamesList[ii3] + "')]").click()
+                                        FundNameListAfterRemove[ii3] + "')]").click()
                                 except Exception:
-                                    wait = WebDriverWait(driver, 100)
+                                    wait = WebDriverWait(driver, 50)
                                     wait.until(EC.presence_of_element_located((By.XPATH,
                                                                                "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
-                                                                               FundsNamesList[ii3] + "')]")))
+                                                                               FundNameListAfterRemove[ii3] + "')]")))
                                     time.sleep(2)
                                     buttonFundName = driver.find_element_by_xpath(
                                         "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
-                                        FundsNamesList[ii3] + "')]")
+                                        FundNameListAfterRemove[ii3] + "')]")
                                     driver.execute_script("arguments[0].click();", buttonFundName)
                             except Exception:
                                 print("Clicked on next 3 funds icon")
                                 time.sleep(2)
                                 driver.find_element_by_xpath(
-                                    "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a").click()
+                                    "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a[1]").click()
                                 try:
                                     WebDriverWait(driver, SHORT_TIMEOUT
                                                   ).until(
@@ -609,18 +690,45 @@ def test_Funds_Values(test_setup):
                                     try:
                                         buttonFundName = driver.find_element_by_xpath(
                                             "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
-                                            FundsNamesList[ii3] + "')]")
+                                            FundNameListAfterRemove[ii3] + "')]")
                                         driver.execute_script("arguments[0].click();", buttonFundName)
                                     except Exception:
                                         time.sleep(2)
                                         driver.find_element_by_xpath(
                                             "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
-                                            FundsNamesList[ii3] + "')]").click()
+                                            FundNameListAfterRemove[ii3] + "')]").click()
                                 except Exception:
-                                    print(FundsNamesList[ii3] +" Fund not able to find")
-                                    TestResult.append(FundsNamesList[ii3] +" Fund not able to find")
-                                    TestResultStatus.append("Fail")
-                                    skip1=1
+                                    print("Clicked on next 4 funds icon")
+                                    time.sleep(2)
+                                    driver.find_element_by_xpath(
+                                        "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a[1]").click()
+                                    try:
+                                        WebDriverWait(driver, SHORT_TIMEOUT
+                                                      ).until(
+                                            EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                                        WebDriverWait(driver, LONG_TIMEOUT
+                                                      ).until_not(
+                                            EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                                    except TimeoutException:
+                                        pass
+                                    try:
+                                        time.sleep(1)
+                                        try:
+                                            buttonFundName = driver.find_element_by_xpath(
+                                                "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
+                                                FundNameListAfterRemove[ii3] + "')]")
+                                            driver.execute_script("arguments[0].click();", buttonFundName)
+                                        except Exception:
+                                            time.sleep(2)
+                                            driver.find_element_by_xpath(
+                                                "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]/div/p/a[contains(text(),'" +
+                                                FundNameListAfterRemove[ii3] + "')]").click()
+
+                                    except Exception:
+                                        print(FundNameListAfterRemove[ii3] +" Fund not able to find")
+                                        TestResult.append(FundNameListAfterRemove[ii3] +" Fund not able to find")
+                                        TestResultStatus.append("Fail")
+                                        skip1=1
 
                 for iat9 in range(15):
                     try:
@@ -665,7 +773,7 @@ def test_Funds_Values(test_setup):
                     Quarters=driver.find_elements_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div/div/div/div/div/table/tbody/tr/td/div/p/span/a/span")
                     print("Quarters rows " + str(len(Quarters)))
 
-                    TestResult.append(FundsNamesList[ii3])
+                    TestResult.append(FundNameListAfterRemove[ii3])
                     TestResultStatus.append("Pass")
 
                     for ii4 in range(1,len(Quarters)+1):
