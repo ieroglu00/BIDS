@@ -19,6 +19,7 @@ def test_ReportSendSmokeAll():
     SendStatus = []
     AttachmntAdded= []
     Directory= 'test_NAVRollForward/'
+
     PDFpath = 'C:/BIDS/beneficienttest/Beneficient/'+Directory
 
     #-------------------To read content to send in e-Mail--------------------
