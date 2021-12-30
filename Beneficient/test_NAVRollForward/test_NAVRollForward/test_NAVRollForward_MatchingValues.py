@@ -632,7 +632,7 @@ def test_VerifyAllClickables(test_setup):
                                 print(ErrorFound1)
                                 driver.find_element_by_xpath(
                                     "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
-                                TestResult.append(PageName + " not able to open\n" + ErrorFound1)
+                                TestResult.append("=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]\n"+PageName + " not able to open\n" + ErrorFound1)
                                 TestResultStatus.append("Fail")
                                 bool1 = False
                                 driver.close()
@@ -645,7 +645,7 @@ def test_VerifyAllClickables(test_setup):
                                     ErrorFound2 = driver.find_element_by_xpath(
                                         "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
                                     print(ErrorFound2)
-                                    TestResult.append(PageName + " not able to open\n" + ErrorFound2)
+                                    TestResult.append("=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]\n"+PageName + " not able to open\n" + ErrorFound2)
                                     TestResultStatus.append("Fail")
                                     bool2 = False
                                     driver.close()
@@ -660,7 +660,7 @@ def test_VerifyAllClickables(test_setup):
                             # TestResultStatus.append("Pass")
                         except Exception as e1:
                             print(e1)
-                            TestResult.append(PageName + " is not able to open ")
+                            TestResult.append("=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]\n"+PageName + " is not able to open ")
                             TestResultStatus.append("Fail")
                         #--------------------------------------------------------------------------
 
@@ -694,7 +694,7 @@ def test_VerifyAllClickables(test_setup):
                                 print(ErrorFound1)
                                 driver.find_element_by_xpath(
                                     "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
-                                TestResult.append(PageName + " not able to open\n" + ErrorFound1)
+                                TestResult.append("=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]\n"+PageName + " not able to open\n" + ErrorFound1)
                                 TestResultStatus.append("Fail")
                                 bool1 = False
                                 driver.close()
@@ -707,7 +707,7 @@ def test_VerifyAllClickables(test_setup):
                                     ErrorFound2 = driver.find_element_by_xpath(
                                         "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
                                     print(ErrorFound2)
-                                    TestResult.append(PageName + " not able to open\n" + ErrorFound2)
+                                    TestResult.append("=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]\n"+PageName + " not able to open\n" + ErrorFound2)
                                     TestResultStatus.append("Fail")
                                     bool2 = False
                                     driver.close()
@@ -723,7 +723,7 @@ def test_VerifyAllClickables(test_setup):
                             # TestResultStatus.append("Pass")
                         except Exception as e1:
                             print(e1)
-                            TestResult.append(PageName + " is not able to open ")
+                            TestResult.append("=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]\n"+PageName + " is not able to open ")
                             TestResultStatus.append("Fail")
                         # --------------------------------------------------------------------------
                         # -------Fetching Ben Remaining NAV value-------------------------------------
@@ -750,7 +750,7 @@ def test_VerifyAllClickables(test_setup):
                                 print(ErrorFound1)
                                 driver.find_element_by_xpath(
                                     "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
-                                TestResult.append(PageName + " not able to open\n" + ErrorFound1)
+                                TestResult.append("=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]\n"+PageName + " not able to open\n" + ErrorFound1)
                                 TestResultStatus.append("Fail")
                                 bool1 = False
                                 driver.close()
@@ -763,7 +763,7 @@ def test_VerifyAllClickables(test_setup):
                                     ErrorFound2 = driver.find_element_by_xpath(
                                         "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
                                     print(ErrorFound2)
-                                    TestResult.append(PageName + " not able to open\n" + ErrorFound2)
+                                    TestResult.append("=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]\n"+PageName + " not able to open\n" + ErrorFound2)
                                     TestResultStatus.append("Fail")
                                     bool2 = False
                                     driver.close()
