@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, timedelta,date
 import math
 import re
 import time
@@ -7,6 +7,7 @@ from fpdf import FPDF
 import pytest
 from selenium import webdriver
 import allure
+import imaplib
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
@@ -14,24 +15,16 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 import pyodbc
+from selenium.webdriver.chrome.options import Options
 
-# @allure.step("Entering username ")
-# def enter_username(username):
-#   driver.find_element_by_id("username").send_keys(username)
-#
-# @allure.step("Entering password ")
-# def enter_password(password):
-#   driver.find_element_by_id("password").send_keys(password)
-
+#----------------SalesForce Username and Password IDs-------------
 @allure.step("Entering username ")
 def enter_username(username):
-  driver.find_element_by_id("un").send_keys(username)
+  driver.find_element_by_id("username").send_keys(username)
 
 @allure.step("Entering password ")
 def enter_password(password):
-  driver.find_element_by_id("pw").send_keys(password)
-
-
+  driver.find_element_by_id("password").send_keys(password)
 
 @pytest.fixture()
 def test_setup():
@@ -57,7 +50,7 @@ def test_setup():
   global FieldDataSF
 
   TestName = "test_DealLog_SFBIDSPhase1"
-  description = "This test scenario is to verify integration between Sales Force and BIDS application"
+  description = "This test scenario is to verify integration between Sales Force and BIDS application by creating an opportunity"
   TestResult = []
   TestResultStatus = []
   TestFailStatus = []
@@ -88,33 +81,44 @@ def test_setup():
                   Exe="Yes"
 
   if Exe=="Yes":
-      driver=webdriver.Chrome(executable_path="C:/BIDS/beneficienttest/Beneficient/Chrome/chromedriver.exe")
+      #-----------Disabling access popup from Chrome------------------
+      option = Options()
+      option.add_argument("--disable-infobars")
+      option.add_argument("start-maximized")
+      option.add_argument("--disable-extensions")
+      option.add_experimental_option("prefs", {"profile.default_content_setting_values.notifications": 2})
+
+      driver=webdriver.Chrome(chrome_options=option, executable_path="C:/BIDS/beneficienttest/Beneficient/Chrome/chromedriver.exe")
       driver.implicitly_wait(10)
       driver.maximize_window()
 
-      ##---------------------For Login in SalesForce--------------
-      # driver.get("https://beneficient--int.my.salesforce.com/")
-      # enter_username("neeraj.kumar@bitsinglass.com.int")
-      # enter_password("Crochet@786")
-      # driver.find_element_by_id("Login").click()
-      # driver.find_element_by_xpath("//input[@type='submit']").click()
-      # time.sleep(10)
+      #---------------------For Login in SalesForce--------------
+      try:
+          driver.get("https://beneficient--int.my.salesforce.com/")
+          enter_username("neeraj.kumar@bitsinglass.com.int")
+          enter_password("Crochet@786")
+          driver.find_element_by_id("Login").click()
+          time.sleep(10)
+          TestResult.append(
+              " Sales Force site launched successfully")
+          TestResultStatus.append("Pass")
+      except Exception:
+        PageLoadError=driver.find_element_by_xpath("//span[@jsselect='heading']").text
+        print(PageLoadError)
+        TestResult.append(
+            " Sales Force site is not able to load. Below error found\n" + PageLoadError)
+        TestResultStatus.append("Fail")
+        driver.quit()
 
-      #-------------------For Login in BIDS-------------------
-      driver.get("https://beneficienttest.appiancloud.com/suite/")
-      enter_username("neeraj.kumar")
-      enter_password("Crochet@786")
-      driver.find_element_by_xpath("//input[@type='submit']").click()
+      ct = datetime.now().strftime("%d_%B_%Y_%I_%M%p")
+      ctReportHeader = datetime.now().strftime("%d %B %Y %I %M%p")
 
-      ct = datetime.datetime.now().strftime("%d_%B_%Y_%I_%M%p")
-      ctReportHeader = datetime.datetime.now().strftime("%d %B %Y %I %M%p")
-
-      today = datetime.date.today()
+      today = date.today()
       D1=today.strftime("%Y-%m-%d")
       d1=D1
-      DollarDate=datetime.datetime.strptime(d1, '%Y-%m-%d')
+      DollarDate=datetime.strptime(d1, '%Y-%m-%d')
       DollarDate="$"+DollarDate.date().__str__()+"$"
-      d1 = datetime.datetime.strptime(D1, "%Y-%m-%d")
+      d1 = datetime.strptime(D1, "%Y-%m-%d")
 
   yield
   if Exe == "Yes":
@@ -213,36 +217,394 @@ def test_setup():
                     checkcount1 = 1
       #-----------------------------------------------------------------------------
 
-      driver.quit()
+      #driver.quit()
 
 @pytest.mark.smoke
 def test_DealLog_SFBIDSPhase1(test_setup):
     if Exe == "Yes":
-        FundToOpen=2
         SHORT_TIMEOUT = 5
         LONG_TIMEOUT = 400
-        LOADING_ELEMENT_XPATH = "//div[@id='appian-working-indicator-hidden']"
+        #LOADING_ELEMENT_XPATH = "//div[@id='appian-working-indicator-hidden']"
+        LOADING_ELEMENT_XPATH = "//div[@class='slds-spinner_container slds-grid']"
         try:
-            print()
-            #driver.find_element_by_xpath("//span[@class='slds-truncate'][text()='Opportunities']").click()
-
             # ----------------------Reading Field data from reference sheet-----------------
             ExcelFileName = "FieldData"
             loc = (path + 'Reference Data/' + ExcelFileName + '.xlsx')
             wb = openpyxl.load_workbook(loc)
             sheet = wb.active
             for fielddata in range(1,50):
-                key1=sheet.cell(row=fielddata, column=1).value
-                Value1=sheet.cell(row=fielddata, column=2).value
-                key2 = sheet.cell(row=fielddata, column=3).value
-                FieldDataBIDS[key1] = Value1
-                FieldDataSF[key2] = Value1
+                Value1 = sheet.cell(row=fielddata, column=2).value
+                try:
+                    key1=sheet.cell(row=fielddata, column=1).value
+                    FieldDataBIDS[key1] = Value1
+                except Exception:
+                    pass
+                try:
+                    key2 = sheet.cell(row=fielddata, column=4).value
+                    FieldDataSF[key2] = Value1
+                except Exception:
+                    pass
 
             print(FieldDataBIDS)
             print(FieldDataSF)
-            print(FieldDataBIDS['Opportunity Owner'])
-            print(FieldDataSF['Opportunity.SubStage__c'])
-            #--------------------------------------------------------------------------------
+            # print(FieldDataBIDS['Opportunity Owner'])
+            # print(FieldDataSF['Opportunity.SubStage__c'])
+
+            #------------------------Get verification code from Gmail---------------------------------
+            host = 'imap.gmail.com'
+            username = 'neeraj.kumar@bitsinglass.com'
+            password = 'MotoCrochet@786'
+
+            # -------------Function to get email content part i.e its body part
+            def get_body(msg):
+                if msg.is_multipart():
+                    return get_body(msg.get_payload(0))
+                else:
+                    return msg.get_payload(None, True)
+
+            # -----------Function to search for a key value pair
+            def search(key, value, con):
+                result, data = con.search(None, key, '"{}"'.format(value))
+                return data
+
+            # ---------------Function to get the list of emails under this label
+            def get_emails(result_bytes):
+                msgs = []  # all the email data are pushed inside an array
+                for num in result_bytes[0].split():
+                    typ, data = con.fetch(num, '(RFC822)')
+                    msgs.append(data)
+                return msgs
+
+            con = imaplib.IMAP4_SSL(host)
+            con.login(username, password)
+            con.select('Inbox')
+
+            # --------------fetching emails from a user
+            msgs = get_emails(search('FROM', 'noreply@salesforce.com', con))
+            Code=""
+            for msg in msgs[::-1]:
+                for sent in msg:
+                    if Code!="":
+                        break
+                    else:
+                        if type(sent) is tuple:
+                            content = str(sent[1], 'utf-8')
+                            data = str(content)
+                            try:
+                                indexstart = data.find("ltr")
+                                data2 = data[indexstart + 5: len(data)]
+                                indexend = data2.find("</div>")
+                                indx = data2.find('Verification Code:')
+                                Code = data2[indx + 19] + data2[indx + 20] + data2[indx + 21] + data2[indx + 22] + data2[
+                                    indx + 23] + data2[indx + 24] + data2[indx + 25] + data2[indx + 26]
+                                print(Code)
+                                break
+                            except UnicodeEncodeError as e:
+                                pass
+
+            #---------------To Delete the email from inbox-----------------
+            # messages = msgs[0].split(b' ')
+            # print("Deleting mails")
+            # count = 1
+            # for mail in messages:
+            #     # mark the mail as deleted
+            #     con.store(mail, "+FLAGS", "\\Deleted")
+            #     print(count, "mail(s) deleted")
+            #     count += 1
+            # print("All selected mails has been deleted")
+            #
+            # # delete all the selected messages
+            # con.expunge()
+            # # close the mailbox
+            # con.close()
+            #
+            # # logout from the server
+            # con.logout()
+
+
+            #------------Waiting for Verification code email-----------------
+            if Code=="":
+                time.sleep(7)
+                print("Waiting for Verification Code ")
+
+            # -----------------To Capture No Verification Code sent error from Sales Force-------------------------
+            try:
+                bool1 = driver.find_element_by_id("save").is_displayed()
+            except Exception:
+                try:
+                    bool1 = driver.find_element_by_xpath(
+                        "//div/h2[@class='mb12']").is_displayed()
+                    if bool1 == True:
+                        ErrorFound = driver.find_element_by_xpath(
+                            "//div/h2[@class='mb12']").text
+                        print(ErrorFound)
+                        ErrorFound2 = driver.find_element_by_xpath(
+                            "//div[@id='content']/form/p").text
+                        print(ErrorFound2)
+                        TestResult.append(" Verification code is not able to send from Sales Force due to below\n" + ErrorFound+ErrorFound2)
+                        TestResultStatus.append("Fail")
+                        driver.close()
+                except Exception:
+                    pass
+
+            # -----------------Login in Sales Force-------------------------
+            time.sleep(2)
+            driver.find_element_by_id('emc').send_keys(Code)
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+
+            #-------------------Clicking on Opportunity Tab in Top Menu------------------------
+            try:
+                driver.find_element_by_xpath("//a[@title='Opportunities']/parent::*").click()
+                try:
+                    WebDriverWait(driver, SHORT_TIMEOUT
+                                  ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                    WebDriverWait(driver, LONG_TIMEOUT
+                                  ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                except TimeoutException:
+                    pass
+            except Exception:
+                PageLoadError = driver.find_element_by_xpath("//span[@jsselect='heading']").text
+                print(PageLoadError)
+                TestResult.append(
+                    " Sales Force site is not able to load. Below error found\n" + PageLoadError)
+                TestResultStatus.append("Fail")
+                driver.quit()
+
+            #-------------------Clikcing on New--------------------------
+            driver.find_element_by_xpath("//a[@title='New']").click()
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+
+            # -------------------Clikcing on Next--------------------------
+            driver.find_element_by_xpath("//span[text()='Next']").click()
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+
+            #------------Filling Opportunity details---------------------------
+
+            #--------Opportunity Name-----------
+            FieldName="Opportunity Name"
+            print(FieldName)
+            print(FieldDataSF.get(FieldName))
+            driver.find_element_by_xpath("//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[3]/div[1]/div/div/div/input").send_keys(FieldDataSF.get(FieldName))
+            time.sleep(2)
+            ProjectName=FieldDataSF.get(FieldName)
+
+            # --------Opportunity Close Date-----------
+            try:
+                FieldName = "Close Date"
+                print(FieldName)
+                print(FieldDataSF.get(FieldName))
+
+                Duration = int(FieldDataSF.get(FieldName))
+                today = datetime.now()
+                NewDate = today +timedelta(days=Duration)
+                NewDate = NewDate.strftime('%m/%d/%Y')
+                if NewDate[0] == "0":
+                    Item = ''.join([NewDate[i] for i in range(len(NewDate)) if i != 0])
+            except Exception as ed:
+                print("excppp")
+                print(ed)
+                Item="1/20/2022"
+                pass
+            print(Item)
+            driver.find_element_by_xpath(
+                "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[4]/div[2]/div/div/div/div/input").send_keys(Item)
+            time.sleep(2)
+
+            # --------Opportunity Type-----------
+            FieldName = "Opportunity Type"
+            for scrolldown in range(1, 10):
+                time.sleep(2)
+                try:
+                    driver.find_element_by_xpath(
+                        "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[8]/div[1]/div/div/div/div/div/div/div").click()
+                    break
+                except Exception:
+                    ActionChains(driver).key_down(Keys.PAGE_DOWN).perform()
+                    pass
+            time.sleep(2)
+            for ii3 in range(1, int(FieldDataSF.get(FieldName)) + 1):
+                time.sleep(1)
+                ActionChains(driver).key_down(Keys.DOWN).perform()
+                time.sleep(1)
+            ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+            time.sleep(2)
+            value1 = driver.find_element_by_xpath(
+                "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[8]/div[1]/div/div/div/div/div/div/div/a").text
+            print(value1)
+
+            # -------- Process Type-----------
+            FieldName = "Process Type"
+            for scrolldown in range(1, 10):
+                time.sleep(2)
+                try:
+                    driver.find_element_by_xpath(
+                        "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[9]/div[1]/div/div/div/div/div/div/div").click()
+                    break
+                except Exception:
+                    ActionChains(driver).key_down(Keys.PAGE_DOWN).perform()
+                    pass
+            time.sleep(2)
+            for ii3 in range(1, int(FieldDataSF.get(FieldName)) + 1):
+                time.sleep(1)
+                ActionChains(driver).key_down(Keys.DOWN).perform()
+                time.sleep(1)
+            ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+            time.sleep(2)
+            value1 = driver.find_element_by_xpath(
+                "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[9]/div[1]/div/div/div/div/div/div/div/a").text
+            print(value1)
+
+            # --------Opportunity Stage-----------
+            FieldName = "Stage"
+            for scrolldown in range(1, 10):
+                time.sleep(2)
+                try:
+                    driver.find_element_by_xpath(
+                        "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[9]/div[2]/div/div/div/div/div/div/div").click()
+                    break
+                except Exception:
+                    ActionChains(driver).key_down(Keys.PAGE_DOWN).perform()
+                    pass
+            time.sleep(2)
+            for ii3 in range(1, int(FieldDataSF.get(FieldName)) + 1):
+                time.sleep(1)
+                ActionChains(driver).key_down(Keys.DOWN).perform()
+                time.sleep(1)
+            ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+            time.sleep(2)
+            value1 = driver.find_element_by_xpath(
+                "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[9]/div[2]/div/div/div/div/div/div/div/a").text
+            print(value1)
+
+            # --------Opportunity Sub Stage-----------
+            FieldName = "Sub Stage"
+            for scrolldown in range(1, 10):
+                time.sleep(2)
+                try:
+                    driver.find_element_by_xpath(
+                        "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[10]/div[2]/div/div/div/div/div/div/div").click()
+                    break
+                except Exception:
+                    ActionChains(driver).key_down(Keys.PAGE_DOWN).perform()
+                    pass
+            time.sleep(2)
+            for ii3 in range(1, int(FieldDataSF.get(FieldName)) + 1):
+                time.sleep(1)
+                ActionChains(driver).key_down(Keys.DOWN).perform()
+                time.sleep(1)
+            ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+            time.sleep(2)
+            value1 = driver.find_element_by_xpath(
+                "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[10]/div[2]/div/div/div/div/div/div/div/a").text
+            print(value1)
+
+            # --------Opportunity Lead and Referral Source-----------
+            FieldName = "Lead and Referral Source"
+            for scrolldown in range(1, 10):
+                time.sleep(2)
+                try:
+                    driver.find_element_by_xpath(
+                        "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[12]/div[2]/div/div/div/div/div/div/div").click()
+                    break
+                except Exception:
+                    ActionChains(driver).key_down(Keys.PAGE_DOWN).perform()
+                    pass
+            time.sleep(2)
+            for ii3 in range(1, int(FieldDataSF.get(FieldName)) + 1):
+                time.sleep(1)
+                ActionChains(driver).key_down(Keys.DOWN).perform()
+                time.sleep(1)
+            ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+            time.sleep(2)
+            value1 = driver.find_element_by_xpath(
+                "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[12]/div[2]/div/div/div/div/div/div/div/a").text
+            print(value1)
+
+            # --------Account Name-----------
+            FieldName = "Account Name"
+            for scrolldown in range(1, 10):
+                time.sleep(2)
+                try:
+                    driver.find_element_by_xpath(
+                        "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[12]/div[1]/div/div/div/div/div/div[1]/div").click()
+                    break
+                except Exception:
+                    ActionChains(driver).key_down(Keys.PAGE_DOWN).perform()
+                    pass
+            time.sleep(2)
+            for ii3 in range(1, int(FieldDataSF.get(FieldName)) + 1):
+                time.sleep(1)
+                ActionChains(driver).key_down(Keys.DOWN).perform()
+                time.sleep(1)
+            ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+            time.sleep(2)
+            value1 = driver.find_element_by_xpath(
+                "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[12]/div[1]/div/div/div/div/div/div[2]/div/ul/li/a/span[2]").text
+            print(value1)
+
+            # --------Financial Account-----------
+            FieldName = "Financial Account"
+            for scrolldown in range (1,10):
+                time.sleep(2)
+                try:
+                    driver.find_element_by_xpath(
+                        "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[13]/div[1]/div/div/div/div/div/div[1]/div").click()
+                    break
+                except Exception:
+                    ActionChains(driver).key_down(Keys.PAGE_DOWN).perform()
+                    pass
+            time.sleep(2)
+            for ii3 in range(1,int(FieldDataSF.get(FieldName))+1):
+                time.sleep(1)
+                ActionChains(driver).key_down(Keys.DOWN).perform()
+                time.sleep(1)
+            ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+            time.sleep(2)
+            value1=driver.find_element_by_xpath(
+                "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[13]/div[1]/div/div/div/div/div/div[2]/div/ul/li[1]/a/span[2]").text
+            print(value1)
+
+            # --------Opportunity Description-----------
+            FieldName = "Description"
+            print(FieldName)
+            print(FieldDataSF.get(FieldName))
+            driver.find_element_by_xpath(
+                "//textarea[1]").send_keys(FieldDataSF.get(FieldName))
+            time.sleep(2)
+
+
+            # ------------Submitting Opportunity details---------------------------
+            driver.find_element_by_xpath("//div[@class='button-container-inner slds-float_right']/button[3]/span").click()
+            time.sleep(10)
+
+            #----------------------Now Navigating to BIDS Application----------------------------
+            #-------------------For Login in BIDS-------------------
+            driver.get("https://beneficienttest.appiancloud.com/suite/")
+            driver.find_element_by_id("un").send_keys("neeraj.kumar")
+            driver.find_element_by_id("pw").send_keys("Crochet@786")
+            driver.find_element_by_xpath("//input[@type='submit']").click()
 
             #---------------------------Verify Transactions page-----------------------------
             PageName="Transactions"
@@ -301,6 +663,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
             #---------------------------------------------------------------------------------
 
             try:
+                print()
                 TotalItem=driver.find_element_by_xpath(
                     "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/span[2]").text
                 print("TotalItem "+ TotalItem)
@@ -323,652 +686,183 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 print("TotalItemBeforeOf " + TotalItemBeforeOf)
 
                 #----------------Searching the Project from Sales Force--------------------
-                ProejctTOClick="Melting Point - Project Diego"
+                ProejctTOClick = ProjectName
+                for waiting in range(1,3):
+                    print("Waiting Iteration "+str(waiting))
+                    time.sleep(60)
 
-                IterateNo = int(TotalItemAfterOf) / int(TotalItemBeforeOf)
-                if IterateNo.is_integer()==True:
-                    #print("Yes Integer")
-                    IterateNo=IterateNo-1
-                    pass
-                else:
-                    #print("No Integer")
-                    print(str(float(IterateNo)))
-                    IterateNo = math.ceil(float(IterateNo))
-                    print(IterateNo)
-                    print()
+                    IterateNo = int(TotalItemAfterOf) / int(TotalItemBeforeOf)
+                    if IterateNo.is_integer()==True:
+                        #print("Yes Integer")
+                        IterateNo=IterateNo-1
+                        pass
+                    else:
+                        #print("No Integer")
+                        print(str(float(IterateNo)))
+                        IterateNo = math.ceil(float(IterateNo))
+                        print(IterateNo)
+                        print()
 
-                for ii5 in range(1, IterateNo+1):
-                    if ii5 >1:
-                        try:
-                            driver.find_element_by_xpath(
-                                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/span[4]/a[1]").click()
-                            try:
-                                WebDriverWait(driver, SHORT_TIMEOUT
-                                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                    loopbreak=0
+                    for ii5 in range(1, IterateNo+1):
+                        if loopbreak==0:
+                            if ii5 >1:
+                                try:
+                                    driver.find_element_by_xpath(
+                                        "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/span[4]/a[1]").click()
+                                    try:
+                                        WebDriverWait(driver, SHORT_TIMEOUT
+                                                      ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
 
-                                WebDriverWait(driver, LONG_TIMEOUT
-                                              ).until_not(
-                                    EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-                            except TimeoutException:
-                                pass
-                        except Exception as q1:
-                            print(q1)
-                            pass
+                                        WebDriverWait(driver, LONG_TIMEOUT
+                                                      ).until_not(
+                                            EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                                    except TimeoutException:
+                                        pass
+                                except Exception as q1:
+                                    print(q1)
+                                    pass
 
-                    RowsInv = driver.find_elements_by_xpath(
-                        "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr")
-                    for ii3 in range(1, len(RowsInv)+1):
-                        ProjectNameText = driver.find_element_by_xpath(
-                            "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr[" + str(
-                                ii3) + "]/td[1]/div/p/a").text
-                        print(ProjectNameText)
-                        if ProjectNameText==ProejctTOClick:
-                            driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[1]/div/p/a[text()='"+ProjectNameText+"']").click()
-                            time.sleep(10)
+                            RowsInv = driver.find_elements_by_xpath(
+                                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr")
+                            for ii3 in range(1, len(RowsInv)+1):
+                                ProjectNameText = driver.find_element_by_xpath(
+                                    "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr[" + str(
+                                        ii3) + "]/td[1]/div/p/a").text
+                                print(ProjectNameText)
+                                if ProjectNameText==ProejctTOClick:
+                                    loopbreak=1
+                                    PageName=ProejctTOClick
+                                    driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div[1]/div[2]/table/tbody/tr/td[1]/div/p/a[text()='"+ProjectNameText+"']").click()
+                                    try:
+                                        WebDriverWait(driver, SHORT_TIMEOUT
+                                                      ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                                        WebDriverWait(driver, LONG_TIMEOUT
+                                                      ).until_not(
+                                            EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                                    except TimeoutException:
+                                        pass
+                                    try:
+                                        time.sleep(2)
+                                        bool1 = driver.find_element_by_xpath(
+                                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                                        if bool1 == True:
+                                            ErrorFound1 = driver.find_element_by_xpath(
+                                                "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                                            print(ErrorFound1)
+                                            driver.find_element_by_xpath(
+                                                "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                                            TestResult.append(PageName + " not able to open\n" + ErrorFound1)
+                                            TestResultStatus.append("Fail")
+                                            bool1 = False
+                                    except Exception:
+                                        try:
+                                            time.sleep(2)
+                                            bool2 = driver.find_element_by_xpath(
+                                                "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                                            if bool2 == True:
+                                                ErrorFound2 = driver.find_element_by_xpath(
+                                                    "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                                                print(ErrorFound2)
+                                                TestResult.append(PageName + " not able to open\n" + ErrorFound2)
+                                                TestResultStatus.append("Fail")
+                                                bool2 = False
+                                        except Exception:
+                                            pass
+                                        pass
+                                    break
+                        else:
                             break
 
+                # ------------------------clicking Transaction ID--------------------------------
+                PageName = "Transaction ID"
+                driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div/div[2]/div/div/table/tbody/tr/td[2]/div/p/a").click()
+                try:
+                    WebDriverWait(driver, SHORT_TIMEOUT
+                                  ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
 
-                #     elif ii5 == IterateNo:
-                #         pass
-                #     else:
-                #         driver.find_element_by_xpath(
-                #             "//div[@class='ContentLayout---content_layout']/div/div[2]/div/div[4]/div/div[2]/div[2]/div/p/a").click()
-                #     try:
-                #         WebDriverWait(driver, SHORT_TIMEOUT
-                #                       ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-                #
-                #         WebDriverWait(driver, LONG_TIMEOUT
-                #                       ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-                #     except TimeoutException:
-                #         pass
-                #     try:
-                #         time.sleep(2)
-                #         bool1 = driver.find_element_by_xpath(
-                #             "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
-                #         if bool1 == True:
-                #             ErrorFound1 = driver.find_element_by_xpath(
-                #                 "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
-                #             print(ErrorFound1)
-                #             driver.find_element_by_xpath(
-                #                 "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
-                #             TestResult.append(PageName + " not able to open\n" + ErrorFound1)
-                #             TestResultStatus.append("Fail")
-                #             bool1 = False
-                #             driver.close()
-                #     except Exception:
-                #         try:
-                #             time.sleep(2)
-                #             bool2 = driver.find_element_by_xpath(
-                #                 "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
-                #             if bool2 == True:
-                #                 ErrorFound2 = driver.find_element_by_xpath(
-                #                     "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
-                #                 print(ErrorFound2)
-                #                 TestResult.append(PageName + " not able to open\n" + ErrorFound2)
-                #                 TestResultStatus.append("Fail")
-                #                 bool2 = False
-                #                 driver.close()
-                #         except Exception:
-                #             pass
-                #         pass
-                # for p in range(len(FundNameInvList)):
-                #     print()
-                #     print("P is" + str(p))
-                #     print(FundNameInvList[p])
-                #     print(DistributionInvList[p])
-                #     print(LiquidTrustInvList[p])
+                    WebDriverWait(driver, LONG_TIMEOUT
+                                  ).until_not(
+                        EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                except TimeoutException:
+                    pass
+                try:
+                    time.sleep(2)
+                    bool1 = driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                    if bool1 == True:
+                        ErrorFound1 = driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                        print(ErrorFound1)
+                        driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                        TestResult.append(PageName + " not able to open\n" + ErrorFound1)
+                        TestResultStatus.append("Fail")
+                        bool1 = False
+                except Exception:
+                    try:
+                        time.sleep(2)
+                        bool2 = driver.find_element_by_xpath(
+                            "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                        if bool2 == True:
+                            ErrorFound2 = driver.find_element_by_xpath(
+                                "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                            print(ErrorFound2)
+                            TestResult.append(PageName + " not able to open\n" + ErrorFound2)
+                            TestResultStatus.append("Fail")
+                            bool2 = False
+                    except Exception:
+                        pass
+                    pass
+                time.sleep(1)
+
+                #-------------clicking Edit Key Transaction Details--------------------------------
+                driver.find_element_by_xpath("//p/a[text()='Edit Key Transaction Details']").click()
+                PageName="Edit Key Transaction Details"
+                try:
+                    WebDriverWait(driver, SHORT_TIMEOUT
+                                  ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                    WebDriverWait(driver, LONG_TIMEOUT
+                                  ).until_not(
+                        EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                except TimeoutException:
+                    pass
+                try:
+                    time.sleep(1)
+                    bool1 = driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                    if bool1 == True:
+                        ErrorFound1 = driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                        print(ErrorFound1)
+                        driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                        TestResult.append(PageName + " not able to open\n" + ErrorFound1)
+                        TestResultStatus.append("Fail")
+                        bool1 = False
+                except Exception:
+                    try:
+                        time.sleep(1)
+                        bool2 = driver.find_element_by_xpath(
+                            "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                        if bool2 == True:
+                            ErrorFound2 = driver.find_element_by_xpath(
+                                "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                            print(ErrorFound2)
+                            TestResult.append(PageName + " not able to open\n" + ErrorFound2)
+                            TestResultStatus.append("Fail")
+                            bool2 = False
+                    except Exception:
+                        pass
+                    pass
+                time.sleep(1)
+                # -------------Fetching Key Transaction Details--------------------------------
+
+
             except Exception:
-
-
                 pass
-
-            # RowsFunds = driver.find_elements_by_xpath(
-            #     "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr")
-            # for ifund in range(len(RowsFunds)):
-            #     FundName=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr["+str(ifund+1)+"]/td[2]/div/p/a").text
-            #     FundNameList.append(FundName)
-            #
-            # if len(RowsFunds) == 100:
-            #     driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a[1]").click()
-            #     try:
-            #         WebDriverWait(driver, SHORT_TIMEOUT
-            #                       ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #
-            #         WebDriverWait(driver, LONG_TIMEOUT
-            #                       ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #     except TimeoutException:
-            #         pass
-            #     RowsFunds1 = driver.find_elements_by_xpath(
-            #         "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr")
-            #     RowsFunds=RowsFunds+RowsFunds1
-            #     for ifund in range(len(RowsFunds1)):
-            #         FundName = driver.find_element_by_xpath(
-            #             "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr[" + str(
-            #                 ifund + 1) + "]/td[2]/div/p/a").text
-            #         FundNameList.append(FundName)
-            #
-            # if len(RowsFunds) == 200:
-            #     driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a[1]").click()
-            #     try:
-            #         WebDriverWait(driver, SHORT_TIMEOUT
-            #                       ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #
-            #         WebDriverWait(driver, LONG_TIMEOUT
-            #                       ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #     except TimeoutException:
-            #         pass
-            #     RowsFunds2 = driver.find_elements_by_xpath(
-            #         "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr")
-            #     RowsFunds = RowsFunds + RowsFunds2
-            #     for ifund in range(len(RowsFunds2)):
-            #         FundName = driver.find_element_by_xpath(
-            #             "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr[" + str(
-            #                 ifund + 1) + "]/td[2]/div/p/a").text
-            #         FundNameList.append(FundName)
-            #
-            # if len(RowsFunds) == 300:
-            #     driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a[1]").click()
-            #     try:
-            #         WebDriverWait(driver, SHORT_TIMEOUT
-            #                       ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #
-            #         WebDriverWait(driver, LONG_TIMEOUT
-            #                       ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #     except TimeoutException:
-            #         pass
-            #     RowsFunds3 = driver.find_elements_by_xpath(
-            #         "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr")
-            #     RowsFunds = RowsFunds + RowsFunds3
-            #     for ifund in range(len(RowsFunds3)):
-            #         FundName = driver.find_element_by_xpath(
-            #             "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr[" + str(
-            #                 ifund + 1) + "]/td[2]/div/p/a").text
-            #         FundNameList.append(FundName)
-            #
-            # print("length of FundNameList before "+str(len(FundNameList)))
-            #
-            # TotalFundsLengh=len(FundNameList)
-            # print("TotalFundsLengh "+str(TotalFundsLengh))
-            # print("=======================================================================================")
-            # driver.refresh()
-            # try:
-            #     WebDriverWait(driver, SHORT_TIMEOUT
-            #                   ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #
-            #     WebDriverWait(driver, LONG_TIMEOUT
-            #                   ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            # except TimeoutException:
-            #     pass
-            # #--------------------------------------------------------------------------------------
-            # #----------------Appending Funds details in Excel sheet-----------------------------------
-            #
-            # # -----------To add new found Funds in Excel sheet-------------
-            # ExcelFileName = "FundName"
-            # loc1 = (path + 'PDFFileNameData/' + ExcelFileName + '.xlsx')
-            # wb1 = openpyxl.load_workbook(loc1)
-            # sheet1 = wb1.active
-            # for i in range(len(FundNameList)):
-            #     try:
-            #         if sheet1.cell(i + 1, 2).value !=None:
-            #             if sheet1.cell(i + 1, 2).value in FundNameList:
-            #                 FundNameList.remove(sheet1.cell(i + 1, 2).value)
-            #                 #print("Removed from List: "+sheet1.cell(i + 1, 2).value)
-            #     except Exception as ef:
-            #         print(ef)
-            #         pass
-            # wb1.save(loc1)
-            #
-            # print()
-            # print("length of FundNameList after " + str(len(FundNameList)))
-            # noneindex=0
-            # for iadd in range (TotalFundsLengh):
-            #     if sheet1.cell(iadd + 1, 2).value == None:
-            #         if noneindex==0:
-            #             noneindex=iadd+1
-            #         #print(FundNameList[(iadd+1)-noneindex])
-            #         sheet1.cell(row=iadd + 1, column=1).value = iadd + 1
-            #         sheet1.cell(row=iadd + 1, column=2).value = FundNameList[iadd-noneindex]
-            # wb1.save(loc1)
-            # #--------------------------------------------------------------------------------------
-            #
-            # # -----------To fetch selected Funds from total list-------------
-            # ExcelFileName = "FundName"
-            # loc1 = (path + 'PDFFileNameData/' + ExcelFileName + '.xlsx')
-            # wb1 = openpyxl.load_workbook(loc1)
-            # sheet1 = wb1.active
-            #
-            # for i2 in range(TotalFundsLengh):
-            #     #print("i2 is "+str(i2))
-            #     if len(FundNameListAfterRemove) <= FundToOpen - 1:
-            #         #print("len of FundNameListAfterRemove is " + str(len(FundNameListAfterRemove)))
-            #         if sheet1.cell(i2 + 1, 3).value == None:
-            #             FundNameListAfterRemove.append(sheet1.cell(i2 + 1, 2).value)
-            #             sheet1.cell(i2 + 1, 3).value=DollarDate
-            #         else:
-            #             if sheet1.cell(i2 + 1, 3).value != None:
-            #                 #print("Inside Else for i2 "+str(i2))
-            #                 D2 = sheet1.cell(i2 + 1, 3).value
-            #                 #print("D2 " + D2)
-            #                 D2 = re.sub('[!@#$]', '', D2)
-            #                 #print("D2 " + D2)
-            #                 d2 = datetime.datetime.strptime(D2, "%Y-%m-%d")
-            #                 #print("d2 " + d2.__str__())
-            #                 #print("d1 " + d1.__str__())
-            #                 if (d1 - d2).days > 7:
-            #                     #print("YEsss")
-            #                     print(sheet1.cell(i2 + 1, 2).value)
-            #                     FundNameListAfterRemove.append(sheet1.cell(i2 + 1, 2).value)
-            #                     sheet1.cell(i2 + 1, 3).value = DollarDate
-            #                 else:
-            #                     #print("Noooo")
-            #                     pass
-            # wb1.save(loc1)
-            # print(FundNameListAfterRemove)
-            # print(str(len(FundNameListAfterRemove)))
-            # TestResult.append("Below " + str(len(FundNameListAfterRemove)) + " Funds are collected for verification")
-            # TestResultStatus.append("Pass")
-            # # ----------------------------------------------------------------------------
-            #
-            # #--------------------------------------------------------------------------------------
-            # for ifundlist in range(len(FundNameListAfterRemove)):
-            #     print()
-            #     #-------------to clear the cache memory of chrome browser-------------
-            #     if (ifundlist/30).is_integer()==True and (ifundlist/30).is_integer()!=0.0:
-            #         print("<<<<<<<<<<<Integer value found for 30 digit>>>>>>>>")
-            #         print(str((ifundlist / 30)))
-            #         driver.delete_all_cookies()
-            #         time.sleep(5)
-            #         driver.get("https://beneficienttest.appiancloud.com/suite/")
-            #         driver.find_element_by_id("un").send_keys("neeraj.kumar")
-            #         driver.find_element_by_id("pw").send_keys("Crochet@786")
-            #         button = driver.find_element_by_xpath(
-            #             "//input[@type='submit']")
-            #         driver.execute_script("arguments[0].click();", button)
-            #         try:
-            #             WebDriverWait(driver, SHORT_TIMEOUT
-            #                           ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #
-            #             WebDriverWait(driver, LONG_TIMEOUT
-            #                           ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #         except TimeoutException:
-            #             pass
-            #     #--------------------------------------------------------------
-            #     #print(FundNameListAfterRemove[ifundlist])
-            #     main_window = driver.current_window_handle
-            #     print(str(ifundlist)+" "+FundNameListAfterRemove[ifundlist])
-            #     if "'" in FundNameListAfterRemove[ifundlist]:
-            #         print("******************************************  coma found *********************************************")
-            #         # print(FundNameList[ifundlist])
-            #         # fund=FundNameList[ifundlist]
-            #         # fund=fund.replace("'", "\'")
-            #         # print("afer changing: " + fund)
-            #         # driver.find_element_by_xpath("//*[text()='" + fund + "']").click()
-            #         # break
-            #         #FundNameList[ifundlist].index
-            #     else:
-            #         ActionChains(driver).key_down(Keys.CONTROL).perform()
-            #         try:
-            #             driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td/div/p/a[text()='"+FundNameListAfterRemove[ifundlist]+"']").click()
-            #         except Exception:
-            #             try:
-            #                 button = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td/div/p/a[text()='"+FundNameListAfterRemove[ifundlist]+"']")
-            #                 driver.execute_script("arguments[0].click();", button)
-            #             except Exception:
-            #                 print("Clicking on First pagination icon")
-            #                 driver.find_element_by_xpath(
-            #                     "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a[1]").click()
-            #                 try:
-            #                     WebDriverWait(driver, SHORT_TIMEOUT
-            #                                   ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #
-            #                     WebDriverWait(driver, LONG_TIMEOUT
-            #                                   ).until_not(
-            #                         EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #                 except TimeoutException:
-            #                     pass
-            #                 #--------------------------------On Second Page--------------------------------
-            #                 try:
-            #                     driver.find_element_by_xpath(
-            #                         "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td/div/p/a[text()='" +
-            #                         FundNameListAfterRemove[ifundlist] + "']").click()
-            #                 except Exception:
-            #                     try:
-            #                         button = driver.find_element_by_xpath(
-            #                             "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td/div/p/a[text()='" +
-            #                             FundNameListAfterRemove[ifundlist] + "']")
-            #                         driver.execute_script("arguments[0].click();", button)
-            #                     except Exception:
-            #                         print("Clicking on Second pagination icon")
-            #                         driver.find_element_by_xpath(
-            #                             "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a[1]").click()
-            #                         try:
-            #                             WebDriverWait(driver, SHORT_TIMEOUT
-            #                                           ).until(
-            #                                 EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #
-            #                             WebDriverWait(driver, LONG_TIMEOUT
-            #                                           ).until_not(
-            #                                 EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #                         except TimeoutException:
-            #                             pass
-            #                         # ----------------------------------On Third Page--------------------------------
-            #                         try:
-            #                             driver.find_element_by_xpath(
-            #                                 "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td/div/p/a[text()='" +
-            #                                 FundNameListAfterRemove[ifundlist] + "']").click()
-            #                         except Exception:
-            #                             try:
-            #                                 button = driver.find_element_by_xpath(
-            #                                     "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td/div/p/a[text()='" +
-            #                                     FundNameListAfterRemove[ifundlist] + "']")
-            #                                 driver.execute_script("arguments[0].click();", button)
-            #                             except Exception:
-            #                                 print("Clicking on Third pagination icon")
-            #                                 driver.find_element_by_xpath(
-            #                                     "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[2]/div/div/span[4]/a[1]").click()
-            #                                 try:
-            #                                     WebDriverWait(driver, SHORT_TIMEOUT
-            #                                                   ).until(
-            #                                         EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #
-            #                                     WebDriverWait(driver, LONG_TIMEOUT
-            #                                                   ).until_not(
-            #                                         EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #                                 except TimeoutException:
-            #                                     pass
-            #                                 # ---------------------------------On Fourth Page------------------------------
-            #                                 try:
-            #                                     driver.find_element_by_xpath(
-            #                                         "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td/div/p/a[text()='" +
-            #                                         FundNameListAfterRemove[ifundlist] + "']").click()
-            #                                 except Exception:
-            #                                     try:
-            #                                         button = driver.find_element_by_xpath(
-            #                                             "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr/td/div/p/a[text()='" +
-            #                                             FundNameListAfterRemove[ifundlist] + "']")
-            #                                         driver.execute_script("arguments[0].click();", button)
-            #                                     except Exception:
-            #                                         pass
-            #
-            #         ActionChains(driver).key_up(Keys.CONTROL).perform()
-            #         try:
-            #             WebDriverWait(driver, SHORT_TIMEOUT
-            #                           ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #
-            #             WebDriverWait(driver, LONG_TIMEOUT
-            #                           ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #         except TimeoutException:
-            #             pass
-            #
-            #         #----------------------------------------------------------------------------------
-            #         driver.switch_to.window(driver.window_handles[1])
-            #         time.sleep(1)
-            #         try:
-            #             try:
-            #                 Test=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div[2]/p").text
-            #             except Exception:
-            #                 time.sleep(5)
-            #                 Test = driver.find_element_by_xpath(
-            #                     "//div[@class='ContentLayout---content_layout']/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div[2]/p").text
-            #         except Exception:
-            #             time.sleep(3)
-            #             #---------------When Page load error occurs---------------------------------
-            #             try:
-            #                 if driver.find_element_by_xpath("//div[@id='main-frame-error']/div/div[2]/h1/span").is_displayed()==True:
-            #                     driver.refresh()
-            #                     try:
-            #                         WebDriverWait(driver, SHORT_TIMEOUT
-            #                                       ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #
-            #                         WebDriverWait(driver, LONG_TIMEOUT
-            #                                       ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #                     except TimeoutException:
-            #                         pass
-            #             except Exception:
-            #                 pass
-            #             #-----------------------------------------------------------------------------
-            #             print("Waiting in Exception")
-            #             driver.switch_to.window(driver.window_handles[1])
-            #             try:
-            #                 try:
-            #                     Test=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div[2]/p").text
-            #                 except Exception:
-            #                     time.sleep(5)
-            #                     Test = driver.find_element_by_xpath(
-            #                         "//div[@class='ContentLayout---content_layout']/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div[2]/p").text
-            #             except Exception:
-            #                 try:
-            #                     time.sleep(2)
-            #                     bool1 = driver.find_element_by_xpath(
-            #                         "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
-            #                     if bool1 == True:
-            #                         ErrorFound1 = driver.find_element_by_xpath(
-            #                             "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
-            #                         print(ErrorFound1)
-            #                         driver.find_element_by_xpath(
-            #                             "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
-            #                         TestResult.append(PageName + " not able to open\n" + ErrorFound1)
-            #                         TestResultStatus.append("Fail")
-            #                         bool1 = False
-            #                         Test = ErrorFound1
-            #                 except Exception:
-            #                     try:
-            #                         time.sleep(2)
-            #                         bool2 = driver.find_element_by_xpath(
-            #                             "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
-            #                         if bool2 == True:
-            #                             ErrorFound2 = driver.find_element_by_xpath(
-            #                                 "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
-            #                             print(ErrorFound2)
-            #                             TestResult.append(PageName + " not able to open\n" + ErrorFound2)
-            #                             TestResultStatus.append("Fail")
-            #                             bool2 = False
-            #                             Test = ErrorFound2
-            #                     except Exception:
-            #                         pass
-            #                     pass
-            #         #print("Test text is: "+Test)
-            #         # --------------------Clicking Fund NAV Roll tab--------------
-            #         try:
-            #             PageName = "Fund NAV Roll"
-            #             Ptitle1 = "Ben Reporting Period"
-            #             driver.find_element_by_xpath("//button[text()='"+PageName+"']").click()
-            #             try:
-            #                 WebDriverWait(driver, SHORT_TIMEOUT
-            #                               ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #
-            #                 WebDriverWait(driver, LONG_TIMEOUT
-            #                               ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #             except TimeoutException:
-            #                 pass
-            #             try:
-            #                 time.sleep(2)
-            #                 bool1 = driver.find_element_by_xpath(
-            #                     "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
-            #                 if bool1 == True:
-            #                     ErrorFound1 = driver.find_element_by_xpath(
-            #                         "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
-            #                     print(ErrorFound1)
-            #                     driver.find_element_by_xpath(
-            #                         "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
-            #                     TestResult.append(PageName + " not able to open\n" + ErrorFound1)
-            #                     TestResultStatus.append("Fail")
-            #                     bool1 = False
-            #                     driver.close()
-            #             except Exception:
-            #                 try:
-            #                     time.sleep(2)
-            #                     bool2 = driver.find_element_by_xpath(
-            #                         "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
-            #                     if bool2 == True:
-            #                         ErrorFound2 = driver.find_element_by_xpath(
-            #                             "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
-            #                         print(ErrorFound2)
-            #                         TestResult.append(PageName + " not able to open\n" + ErrorFound2)
-            #                         TestResultStatus.append("Fail")
-            #                         bool2 = False
-            #                         driver.close()
-            #                 except Exception:
-            #                     pass
-            #                 pass
-            #             time.sleep(1)
-            #             try:
-            #                 PageTitle1 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[1]/table/thead/tr/th[1]/div").text
-            #                 assert Ptitle1 in PageTitle1, PageName + " is not able to open "
-            #                 # TestResult.append(PageName + " opened successfully")
-            #                 # TestResultStatus.append("Pass")
-            #             except Exception as e1:
-            #                 print(e1)
-            #                 TestResult.append(PageName + " is not able to open ")
-            #                 TestResultStatus.append("Fail")
-            #             #--------------------------------------------------------------------------
-            #
-            #             #-------Fetching Fund NAV ROll value-------------------------------------
-            #             BenReportingPeriod=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[1]/table/tbody/tr[2]/td[1]/p").text
-            #             BenNAVLC=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[1]/table/tbody/tr[2]/td[12]/div/p/span").text
-            #             if "_" in BenNAVLC:
-            #                 BenNAVLC="0"
-            #             print("BenReportingPeriod is "+BenReportingPeriod)
-            #             print("BenNAVLC is " + BenNAVLC)
-            #             #------------------------------------------------------------------------
-            #             # -------Fetching Investments value-------------------------------------
-            #             PageName = "Investments"
-            #             Ptitle1 = "Edit Schedule of Investments"
-            #             driver.find_element_by_xpath("//button[text()='" + PageName + "']").click()
-            #             try:
-            #                 WebDriverWait(driver, SHORT_TIMEOUT
-            #                               ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #
-            #                 WebDriverWait(driver, LONG_TIMEOUT
-            #                               ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #             except TimeoutException:
-            #                 pass
-            #             try:
-            #                 time.sleep(2)
-            #                 bool1 = driver.find_element_by_xpath(
-            #                     "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
-            #                 if bool1 == True:
-            #                     ErrorFound1 = driver.find_element_by_xpath(
-            #                         "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
-            #                     print(ErrorFound1)
-            #                     driver.find_element_by_xpath(
-            #                         "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
-            #                     TestResult.append(PageName + " not able to open\n" + ErrorFound1)
-            #                     TestResultStatus.append("Fail")
-            #                     bool1 = False
-            #                     driver.close()
-            #             except Exception:
-            #                 try:
-            #                     time.sleep(2)
-            #                     bool2 = driver.find_element_by_xpath(
-            #                         "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
-            #                     if bool2 == True:
-            #                         ErrorFound2 = driver.find_element_by_xpath(
-            #                             "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
-            #                         print(ErrorFound2)
-            #                         TestResult.append(PageName + " not able to open\n" + ErrorFound2)
-            #                         TestResultStatus.append("Fail")
-            #                         bool2 = False
-            #                         driver.close()
-            #                 except Exception:
-            #                     pass
-            #                 pass
-            #             time.sleep(1)
-            #             try:
-            #                 PageTitle1 = driver.find_element_by_xpath(
-            #                     "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[1]/div[1]/div/div[2]/div/p/a").text
-            #                 assert Ptitle1 in PageTitle1, PageName + " is not able to open "
-            #                 # TestResult.append(PageName + " opened successfully")
-            #                 # TestResultStatus.append("Pass")
-            #             except Exception as e1:
-            #                 print(e1)
-            #                 TestResult.append(PageName + " is not able to open ")
-            #                 TestResultStatus.append("Fail")
-            #             # --------------------------------------------------------------------------
-            #             # -------Fetching Ben Remaining NAV value-------------------------------------
-            #             driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[2]/div[2]/div/div/div/div[2]/div/div[1]/div/div[2]/div/div").click()
-            #             time.sleep(1)
-            #             ActionChains(driver).key_down(Keys.DOWN).perform()
-            #             time.sleep(1)
-            #             ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-            #             try:
-            #                 WebDriverWait(driver, SHORT_TIMEOUT
-            #                               ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #
-            #                 WebDriverWait(driver, LONG_TIMEOUT
-            #                               ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #             except TimeoutException:
-            #                 pass
-            #             try:
-            #                 time.sleep(2)
-            #                 bool1 = driver.find_element_by_xpath(
-            #                     "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
-            #                 if bool1 == True:
-            #                     ErrorFound1 = driver.find_element_by_xpath(
-            #                         "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
-            #                     print(ErrorFound1)
-            #                     driver.find_element_by_xpath(
-            #                         "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
-            #                     TestResult.append(PageName + " not able to open\n" + ErrorFound1)
-            #                     TestResultStatus.append("Fail")
-            #                     bool1 = False
-            #                     driver.close()
-            #             except Exception:
-            #                 try:
-            #                     time.sleep(2)
-            #                     bool2 = driver.find_element_by_xpath(
-            #                         "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
-            #                     if bool2 == True:
-            #                         ErrorFound2 = driver.find_element_by_xpath(
-            #                             "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
-            #                         print(ErrorFound2)
-            #                         TestResult.append(PageName + " not able to open\n" + ErrorFound2)
-            #                         TestResultStatus.append("Fail")
-            #                         bool2 = False
-            #                         driver.close()
-            #                 except Exception:
-            #                     pass
-            #                 pass
-            #             time.sleep(1)
-            #             BenRemainingNAV = driver.find_element_by_xpath(
-            #                 "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[3]/div/div[2]/div/div[3]/div[2]/div/div/table/tbody/tr[last()]/td[25]/div/p/span/strong").text
-            #             print("BenRemainingNAV is " + BenRemainingNAV)
-            #             if "_" in BenRemainingNAV:
-            #                 BenRemainingNAV="0"
-            #             # ------------------------------------------------------------------------
-            #             # -------Fetching Ben Remaining NAV value-------------------------------------
-            #             if BenRemainingNAV != BenNAVLC:
-            #                 TestResult.append("=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]"+"\nBen Remaining NAV [Investments] "+BenRemainingNAV+" is not matching with Ben NAV LC "+BenNAVLC+", quarter [ "+BenReportingPeriod+" ]")
-            #                 TestResultStatus.append("Fail")
-            #             else:
-            #                 TestResult.append(
-            #                     "=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]"+"\nBen Remaining NAV [Investments] "+BenRemainingNAV+" matched with Ben NAV LC "+BenNAVLC+", quarter [ " + BenReportingPeriod + " ]")
-            #                 TestResultStatus.append("Pass")
-            #                 pass
-            #             # ------------------------------------------------------------------------
-            #
-            #         except Exception:
-            #             pass
-            #
-            #         for winclose in range(1,10):
-            #             time.sleep(1)
-            #             if len(driver.window_handles)>1:
-            #                 #print("Tab Count is more than 1: "+str(len(driver.window_handles)))
-            #                 driver.switch_to.window(driver.window_handles[1])
-            #                 driver.close()
-            #             elif len(driver.window_handles)==1:
-            #                 break
-            #         #driver.close()
-            #         driver.switch_to.window(driver.window_handles[0])
-            #         time.sleep(1)
-            #         try:
-            #             WebDriverWait(driver, SHORT_TIMEOUT
-            #                           ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #
-            #             WebDriverWait(driver, LONG_TIMEOUT
-            #                           ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            #         except TimeoutException:
-            #             pass
 
         except Exception as Mainerror:
             stringMainerror=repr(Mainerror)
