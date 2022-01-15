@@ -1,6 +1,6 @@
 import datetime
 import time
-from telnetlib import EC
+#from telnetlib import EC
 
 import openpyxl
 from fpdf import FPDF
