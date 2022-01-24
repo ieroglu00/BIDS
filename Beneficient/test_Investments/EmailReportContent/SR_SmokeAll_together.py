@@ -78,7 +78,13 @@ def test_ReportSendSmokeAll():
     #email_to =['neeraj1wayitsol@gmail.com']
 
     SenderEmail="neeraj.kumar@bitsinglass.com"
-    SenderPassword="MotoCrochet@786"
+    User = "AxBCsrijkltwxysHIJMhijodefhhij@bcd2yzA8qrs4zAB0EFG8fgh2zAB8"
+    RandmStr = User[int(int(ord('b')) / 49)] + User[int(int(ord('c')) / 16.5)] + User[int(int(ord('c')) / 9.9)] + User[
+        int(int(ord('b')) / 7)] + User[int((int(ord('Z')) / 5))] + \
+               User[int(int(ord('X')) / 4)] + User[int(int(ord('N')) / 3)] + User[int(int(ord('Z')) / 3)] + User[
+                   int(int(ord('f')) / 3)] + User[int(int(ord('r')) / 3)] + \
+               User[int(int(ord('T')) / 2)] + User[int((int(ord('Z')) + 2) / 2)] + User[int((int(ord('b')) + 2) / 2)] + \
+               User[int((int(ord('k')) + 2) / 2)] + User[int((int(ord('s')) + 2) / 2)]
 
     date_str = pd.Timestamp.today().strftime('%m-%d-%Y')
     msg = MIMEMultipart()
@@ -119,7 +125,7 @@ def test_ReportSendSmokeAll():
 
     # ----------------------------SMTP setup--------------------------------
     server=smtplib.SMTP_SSL('smtp.gmail.com',465)
-    server.login(SenderEmail,SenderPassword)
+    server.login(SenderEmail,RandmStr)
     #-----------------------------------------------------------------------
 
     #---------------------------------Sending email-------------------------
