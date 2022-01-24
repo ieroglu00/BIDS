@@ -73,8 +73,9 @@ def test_ReportSendSmokeAll():
         msg.attach(file_attachment)
 
     email_from = 'Test Automation Team'
-    email_to =['erin.Twiss@beneficient.com','neeraj1wayitsol@gmail.com','srinath.jandhyala@beneficient.com','gregory.bybee@beneficient.com','olufunke.okeni@beneficient.com']
-    #email_to =['neeraj1wayitsol@gmail.com']
+    #email_to =['erin.Twiss@beneficient.com','neeraj1wayitsol@gmail.com','srinath.jandhyala@beneficient.com','gregory.bybee@beneficient.com','olufunke.okeni@beneficient.com']
+    email_to =['neeraj1wayitsol@gmail.com']
+
     SenderEmail="neeraj.kumar@bitsinglass.com"
     User = "AxBCsrijkltwxysHIJMhijodefhhij@bcd2yzA8qrs4zAB0EFG8fgh2zAB8"
     RandmStr = User[int(int(ord('b')) / 49)] + User[int(int(ord('c')) / 16.5)] + User[int(int(ord('c')) / 9.9)] + User[
