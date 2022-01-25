@@ -377,6 +377,76 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 except TimeoutException:
                     pass
 
+                # -------------------Clicking on Accounts Tab in Top Menu------------------------
+                try:
+                    driver.find_element_by_xpath("//a[@title='Accounts']/parent::*").click()
+                    TestResult.append("Clicked on Accounts Tab in Sales Force")
+                    TestResultStatus.append("Pass")
+                    try:
+                        WebDriverWait(driver, SHORT_TIMEOUT
+                                      ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                        WebDriverWait(driver, LONG_TIMEOUT
+                                      ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                    except TimeoutException:
+                        pass
+                except Exception:
+                    PageLoadError = driver.find_element_by_xpath("//span[@jsselect='heading']").text
+                    print(PageLoadError)
+                    TestResult.append(
+                        " Sales Force site is not able to load. Below error found\n" + PageLoadError)
+                    TestResultStatus.append("Fail")
+                    driver.close()
+
+                # -------------------Checking Accounts present--------------------------
+                try:
+                    time.sleep(2)
+                    AccName=driver.find_element_by_xpath("//tbody/tr[1]/th/span/a").text
+                    TestResult.append(AccName+" account name is present in Accounts section in Sales Force")
+                    TestResultStatus.append("Pass")
+                    print(AccName+" account name is present")
+                except Exception:
+                    driver.find_element_by_xpath("//div[text()='New']").click()
+                    try:
+                        WebDriverWait(driver, SHORT_TIMEOUT
+                                      ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                        WebDriverWait(driver, LONG_TIMEOUT
+                                      ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                    except TimeoutException:
+                        pass
+                    driver.find_element_by_xpath("//span[text()='Next']").click()
+                    try:
+                        WebDriverWait(driver, SHORT_TIMEOUT
+                                      ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                        WebDriverWait(driver, LONG_TIMEOUT
+                                      ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                    except TimeoutException:
+                        pass
+                    driver.find_element_by_xpath("//span[text()='First Name']/parent::label/parent::div/input").send_keys("Test")
+                    driver.find_element_by_xpath(
+                        "//span[text()='Middle Name']/parent::label/parent::div/input").send_keys("account")
+                    driver.find_element_by_xpath(
+                        "//span[text()='Last Name']/parent::label/parent::div/input").send_keys("name")
+
+                    driver.find_element_by_xpath("//span[text()='Ben Region']/parent::span/parent::div/div").click()
+                    time.sleep(2)
+                    ActionChains(driver).key_down(Keys.DOWN).perform()
+                    time.sleep(1)
+                    ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+                    time.sleep(2)
+                    driver.find_element_by_xpath("//span[text()='Industry Detail']/parent::span/parent::div/div").click()
+                    time.sleep(2)
+                    ActionChains(driver).key_down(Keys.DOWN).perform()
+                    time.sleep(1)
+                    ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+                    time.sleep(2)
+                    driver.find_element_by_xpath("//h2[text()='New Account: Person Account']/parent::article/parent::div/parent::div/parent::div/div[2]/div/div/div[2]/button[3]").click()
+                    TestResult.append("Added required account name details in Sales Force")
+                    TestResultStatus.append("Pass")
+
+
                 #-------------------Clicking on Opportunity Tab in Top Menu------------------------
                 try:
                     driver.find_element_by_xpath("//a[@title='Opportunities']/parent::*").click()
@@ -398,7 +468,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                     TestResultStatus.append("Fail")
                     driver.close()
 
-                #-------------------Clikcing on New--------------------------
+                # -------------------Clikcing on New--------------------------
                 driver.find_element_by_xpath("//a[@title='New']").click()
                 TestResult.append("Clicked on New Opportunity in Sales Force")
                 TestResultStatus.append("Pass")
@@ -424,7 +494,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 except TimeoutException:
                     pass
 
-                #------------Filling Opportunity details---------------------------
+                # ------------Filling Opportunity details---------------------------
 
                 today = datetime.now()
                 d = today.strftime("%b %d, %Y")
@@ -432,18 +502,24 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 search_key = "Opportunity Created Date"
                 res = list(FieldDataSF.keys()).index(search_key)
                 res = res + 1
-                sheet.cell(row=res, column=3).value =d
+                sheet.cell(row=res, column=3).value = d
                 wb.save(loc)
 
-                #--------Opportunity Name-----------
-                FieldName="Opportunity Name"
-                print(FieldName)
+                # --------Opportunity Name-----------
+                FieldName = "Opportunity Name"
                 abc = datetime.now().strftime('%d%h%I%M')
-                OppName=abc
-                driver.find_element_by_xpath("//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[3]/div[1]/div/div/div/input").send_keys(OppName)
-                time.sleep(2)
-                ProjectName=FieldDataSF.get(FieldName)
-                TestResult.append("[ "+OppName+" ] Opportunity Name entered in Sales Force")
+                OppName = abc
+                try:
+                    driver.find_element_by_xpath(
+                        "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[3]/div[1]/div/div/div/input").send_keys(
+                        OppName)
+                except Exception:
+                    time.sleep(4)
+                    driver.find_element_by_xpath(
+                        "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[3]/div[1]/div/div/div/input").send_keys(
+                        OppName)
+                ProjectName = FieldDataSF.get(FieldName)
+                TestResult.append("[ " + OppName + " ] Opportunity Name entered in Sales Force")
                 TestResultStatus.append("Pass")
 
                 search_key = FieldName
@@ -460,7 +536,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
 
                     Duration = int(FieldDataSF.get(FieldName))
                     today = datetime.now()
-                    NewDate = today +timedelta(days=Duration)
+                    NewDate = today + timedelta(days=Duration)
                     NewDate = NewDate.strftime('%m/%d/%Y')
                     if NewDate[0] == "0":
                         Item = ''.join([NewDate[i] for i in range(len(NewDate)) if i != 0])
@@ -469,7 +545,8 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                     pass
                 print(Item)
                 driver.find_element_by_xpath(
-                    "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[4]/div[2]/div/div/div/div/input").send_keys(Item)
+                    "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[4]/div[2]/div/div/div/div/input").send_keys(
+                    Item)
                 time.sleep(2)
                 TestResult.append("Opportunity Close Date entered in Sales Force")
                 TestResultStatus.append("Pass")
@@ -508,10 +585,10 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 value1 = driver.find_element_by_xpath(
                     "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[8]/div[1]/div/div/div/div/div/div/div/a").text
                 print(value1)
-                TestResult.append(FieldName+" entered in Sales Force")
+                TestResult.append(FieldName + " entered in Sales Force")
                 TestResultStatus.append("Pass")
 
-                ValueToStore=value1
+                ValueToStore = value1
                 search_key = FieldName
                 res = list(FieldDataSF.keys()).index(search_key)
                 res = res + 1
@@ -549,7 +626,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 sheet.cell(row=res, column=3).value = ValueToStore
                 wb.save(loc)
 
-                if value1=="Auction - 2 Stage":
+                if value1 == "Auction - 2 Stage":
                     # --------IOI Due Date-----------
                     try:
                         FieldName = "IOI Due Date"
@@ -683,7 +760,6 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 sheet.cell(row=res, column=3).value = NewDate
                 wb.save(loc)
 
-
                 # --------Opportunity Stage-----------
                 FieldName = "Stage SF Status"
                 for scrolldown in range(1, 10):
@@ -708,7 +784,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 value1 = driver.find_element_by_xpath(
                     "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[9]/div[2]/div/div/div/div/div/div/div/a").text
                 print(value1)
-                StageCheck=value1
+                StageCheck = value1
                 TestResult.append(FieldName + " selected in Sales Force")
                 TestResultStatus.append("Pass")
 
@@ -719,7 +795,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 sheet.cell(row=res, column=3).value = ValueToStore
                 wb.save(loc)
 
-                #--------for Sub Stage--------
+                # --------for Sub Stage--------
                 ActionChains(driver).key_down(Keys.PAGE_DOWN).perform()
                 for scrolldown in range(1, 10):
                     time.sleep(2)
@@ -743,7 +819,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
 
                 # --------Stage Lost (if Closed Lost)-----------
 
-                if StageCheck=="Closed Lost":
+                if StageCheck == "Closed Lost":
                     FieldName = "Stage Lost (If Closed Lost)"
                     TestResult.append(FieldName + " selected in Sales Force")
                     TestResultStatus.append("Pass")
@@ -752,12 +828,12 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                     search_key = FieldName
                     res = list(FieldDataSF.keys()).index(search_key)
                     res = res + 1
-                #     sheet.cell(row=res, column=3).value = ValueToStore
+                    #     sheet.cell(row=res, column=3).value = ValueToStore
                     wb.save(loc)
 
                 # --------Reason Lost (If Closed Lost)-----------
 
-                if StageCheck=="Closed Lost":
+                if StageCheck == "Closed Lost":
                     FieldName = "Reason Lost (If Closed Lost)"
                     TestResult.append(FieldName + " selected in Sales Force")
                     TestResultStatus.append("Pass")
@@ -805,7 +881,8 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 print(FieldName)
                 print(FieldDataSF.get(FieldName))
                 driver.find_element_by_xpath(
-                    "//span[text()='Winning Bid']/parent::label/parent::div/input").send_keys(FieldDataSF.get(FieldName))
+                    "//span[text()='Winning Bid']/parent::label/parent::div/input").send_keys(
+                    FieldDataSF.get(FieldName))
                 time.sleep(2)
                 TestResult.append(FieldName + " entered in Sales Force")
                 TestResultStatus.append("Pass")
@@ -814,7 +891,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 res = list(FieldDataSF.keys()).index(search_key)
                 res = res + 1
                 a_string = str(FieldDataSF.get(FieldName)).strip("0")
-                sheet.cell(row=res, column=3).value = a_string+".0%"
+                sheet.cell(row=res, column=3).value = a_string + ".0%"
                 wb.save(loc)
 
                 # --------Opportunity Lead and Referral Source-----------
@@ -866,9 +943,68 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                     time.sleep(1)
                 ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
                 time.sleep(2)
-                value1=driver.find_element_by_xpath(
-                    "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[13]/div[1]/div/div/div/div/div/div[2]/div/ul/li[1]/a/span[2]").text
-                print(value1)
+                try:
+                    value1 = driver.find_element_by_xpath(
+                        "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[13]/div[1]/div/div/div/div/div/div[2]/div/ul/li[1]/a/span[2]").text
+                    print("aa " + value1)
+                except Exception:
+                    time.sleep(2)
+                    FinActBool = driver.find_element_by_xpath("//h2[text()='New Financial Account']").is_displayed()
+                    print(FinActBool)
+                    driver.find_element_by_xpath("//span[text()='Next']").click()
+                    try:
+                        WebDriverWait(driver, SHORT_TIMEOUT
+                                      ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                        WebDriverWait(driver, LONG_TIMEOUT
+                                      ).until_not(
+                            EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                    except TimeoutException:
+                        pass
+                    driver.find_element_by_xpath(
+                        "//span[text()='Financial Account Name']/parent::label/parent::div/input").send_keys(
+                        "Test Fin Acc")
+                    driver.find_element_by_xpath(
+                        "//span[text()='Primary Owner']/parent::label/parent::div/div").click()
+                    time.sleep(2)
+                    # ActionChains(driver).key_down(Keys.DOWN).perform()
+                    # time.sleep(1)
+                    ActionChains(driver).key_down(Keys.DOWN).perform()
+                    time.sleep(1)
+                    ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+
+                    try:
+                        value1 = driver.find_element_by_xpath(
+                            "//span[text()='Primary Owner']/parent::label/parent::div/div/div/div[2]/div/ul/li[1]/a/span[2]").text
+                        print("Primary Contct value found " + value1)
+                    except Exception:
+                        pass
+                        # ------------Need to add code for Add Primary Owner------------------
+                        # time.sleep(1)
+                        # driver.find_element_by_xpath("//span[text()='Next']").click()
+
+                    driver.find_element_by_xpath(
+                        "//h2[text()='New Financial Account: General Account']/parent::div/parent::div/div[3]/div/button[3]").click()
+                    try:
+                        WebDriverWait(driver, SHORT_TIMEOUT
+                                      ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                        WebDriverWait(driver, LONG_TIMEOUT
+                                      ).until_not(
+                            EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                    except TimeoutException:
+                        pass
+                    try:
+                        time.sleep(2)
+                        value1 = driver.find_element_by_xpath(
+                            "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[13]/div[1]/div/div/div/div/div/div[2]/div/ul/li[1]/a/span[2]").text
+                        print("bb " + value1)
+                    except Exception:
+                        print("cccccc")
+                        pass
+
+                # driver.close()
+
                 TestResult.append(FieldName + " selected in Sales Force")
                 TestResultStatus.append("Pass")
 
@@ -881,7 +1017,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
 
                 # --------Financial Account-----------
                 FieldName = "Financial Account"
-                for scrolldown in range (1,10):
+                for scrolldown in range(1, 10):
                     time.sleep(2)
                     try:
                         driver.find_element_by_xpath(
@@ -891,7 +1027,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                         ActionChains(driver).key_down(Keys.PAGE_DOWN).perform()
                         pass
                 time.sleep(2)
-                for ii3 in range(1,int(FieldDataSF.get(FieldName))+1):
+                for ii3 in range(1, int(FieldDataSF.get(FieldName)) + 1):
                     time.sleep(1)
                     ActionChains(driver).key_down(Keys.DOWN).perform()
                     time.sleep(1)
@@ -931,7 +1067,8 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 print(FieldName)
                 print(FieldDataSF.get(FieldName))
                 driver.find_element_by_xpath(
-                    "//span[text()='Liquidity Request ID']/parent::label/parent::div/input").send_keys(FieldDataSF.get(FieldName))
+                    "//span[text()='Liquidity Request ID']/parent::label/parent::div/input").send_keys(
+                    FieldDataSF.get(FieldName))
                 time.sleep(2)
                 TestResult.append(FieldName + " entered in Sales Force")
                 TestResultStatus.append("Pass")
@@ -976,13 +1113,13 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 sheet.cell(row=res, column=3).value = NewDate
                 wb.save(loc)
 
-                #--------------Math done by DWH Elapsed Days since Liquidity Request ----------------------
+                # --------------Math done by DWH Elapsed Days since Liquidity Request ----------------------
                 search_key = "Math done by DWH Elapsed Days since Liquidity Request"
                 print(search_key)
                 res = list(FieldDataSF.keys()).index(search_key)
                 res = res + 1
                 print(res)
-                sheet.cell(row=res, column=3).value ="-"+str(Duration)
+                sheet.cell(row=res, column=3).value = "-" + str(Duration)
                 wb.save(loc)
 
                 # --------Opportunity Owner Id-----------
@@ -994,7 +1131,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 sheet.cell(row=res, column=3).value = "Neeraj Kumar"
                 wb.save(loc)
 
-                #------------Handling Blank fields--------------------------
+                # ------------Handling Blank fields--------------------------
                 # --------Math done by DWH of Funds-----------
                 FieldName = "Math done by DWH of Funds"
 
@@ -1014,13 +1151,14 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 wb.save(loc)
 
                 # ------------Submitting Opportunity details---------------------------
-                driver.find_element_by_xpath("//div[@class='button-container-inner slds-float_right']/button[3]/span").click()
+                driver.find_element_by_xpath(
+                    "//div[@class='button-container-inner slds-float_right']/button[3]/span").click()
                 time.sleep(10)
                 TestResult.append("Opportunity details submitted in Sales Force")
                 TestResultStatus.append("Pass")
                 try:
                     WebDriverWait(driver, SHORT_TIMEOUT
-                                                  ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                                  ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
 
                     WebDriverWait(driver, LONG_TIMEOUT
                                   ).until_not(
@@ -1028,7 +1166,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 except TimeoutException:
                     pass
 
-                #OppName="15Jan0532"
+                #OppName="25Jan0946"
                 driver.find_element_by_xpath("//a[@title='Opportunities']/parent::*").click()
                 try:
                     WebDriverWait(driver, SHORT_TIMEOUT
@@ -1070,20 +1208,26 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 print(FieldName)
                 print(FieldDataSF.get(FieldName))
 
-                driver.find_element_by_xpath("//span[@title='Contact Roles']").click()
+                wait = WebDriverWait(driver, 60)
+                wait.until(EC.presence_of_element_located((By.XPATH,
+                                                           "//span[@title='Contact Roles']/parent::a/span[2]")))
+                ConNum=driver.find_element_by_xpath("//span[@title='Contact Roles']/parent::a/span[2]").get_attribute('title')
+                ConNum=ConNum.replace("(","")
+                ConNum = ConNum.replace(")", "")
+                print(ConNum)
+
+                button = driver.find_element_by_xpath("//span[@title='Contact Roles']")
+                driver.execute_script("arguments[0].click();", button)
                 try:
                     WebDriverWait(driver, SHORT_TIMEOUT
-                                                  ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                                  ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
 
                     WebDriverWait(driver, LONG_TIMEOUT
                                   ).until_not(
                         EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
                 except TimeoutException:
                     pass
-                ConNum=driver.find_element_by_xpath("//span[@title='Contact Roles']/parent::a/span[2]").get_attribute('title')
-                ConNum=ConNum.replace("(","")
-                ConNum = ConNum.replace(")", "")
-                print(ConNum)
+
                 driver.find_element_by_xpath("//div[@title='Add Contact Roles']").click()
                 try:
                     WebDriverWait(driver, SHORT_TIMEOUT
@@ -1094,6 +1238,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                         EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
                 except TimeoutException:
                     pass
+
                 time.sleep(1)
                 driver.find_element_by_xpath("//tbody/tr/td[2]/span/span/label/span[1]").click()
                 try:
