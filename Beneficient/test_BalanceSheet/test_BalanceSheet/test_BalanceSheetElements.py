@@ -259,6 +259,43 @@ def test_VerifyAllClickables(test_setup):
                 driver.execute_script("arguments[0].click();", button)
                 TestResult.append("A Fund clicked successfully")
                 TestResultStatus.append("Pass")
+                try:
+                    WebDriverWait(driver, SHORT_TIMEOUT
+                                  ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                    WebDriverWait(driver, LONG_TIMEOUT
+                                  ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                except TimeoutException:
+                    pass
+                try:
+                    time.sleep(2)
+                    bool1 = driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                    if bool1 == True:
+                        ErrorFound1 = driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                        print(ErrorFound1)
+                        driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                        TestResult.append(PageName + " not able to open\n" + ErrorFound1)
+                        TestResultStatus.append("Fail")
+                        bool1 = False
+                except Exception:
+                    try:
+                        time.sleep(2)
+                        bool2 = driver.find_element_by_xpath(
+                            "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                        if bool2 == True:
+                            ErrorFound2 = driver.find_element_by_xpath(
+                                "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                            print(ErrorFound2)
+                            TestResult.append(PageName + " not able to open\n" + ErrorFound2)
+                            TestResultStatus.append("Fail")
+                            bool2 = False
+                    except Exception:
+                        pass
+                    pass
+                time.sleep(1)
             except Exception:
                 TestResult.append("A Fund after click not able to open")
                 TestResultStatus.append("Fail")
