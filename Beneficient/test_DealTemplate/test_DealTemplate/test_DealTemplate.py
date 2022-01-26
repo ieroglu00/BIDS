@@ -200,7 +200,7 @@ def test_VerifyAllClickables(test_setup):
         try:
             print()
             # ----------------------------------------------------------------------------
-            #---------------------------Verify Liquid Trusts page-----------------------------
+            #---------------------------Verify Funds page-----------------------------
             PageName="Funds"
             Ptitle1="Investments - BIDS"
             driver.find_element_by_xpath("//*[@title='"+PageName+"']").click()
@@ -265,8 +265,11 @@ def test_VerifyAllClickables(test_setup):
 
             #------------Clicking on First Fund-----------------------------
             try:
-                driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[2]/div/p/a").click()
-                PageName="Fund at first position at Funds page "
+                WebDriverWait(driver, 20).until(
+                    EC.invisibility_of_element((By.XPATH, "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[2]/div/p/a")))
+                driver.execute_script("arguments[0].click();", WebDriverWait(driver, 20).until(
+                    EC.element_to_be_clickable((By.XPATH, "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[2]/div/p/a"))))
+                PageName="A Fund at first position at Funds page"
                 try:
                     WebDriverWait(driver, SHORT_TIMEOUT
                                   ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
