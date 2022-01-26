@@ -440,8 +440,9 @@ def test_VerifyAllClickables(test_setup):
                 TestResultStatus.append("Fail")
 
             # ------Table horizontal left navigator icon---------
-            driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[3]/div/div[2]/div/div[2]/div[2]/div/div[2]/div/div[2]/div/a").click()
+            WebDriverWait(driver, 20).until(EC.invisibility_of_element((By.XPATH, "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[3]/div/div[2]/div/div[2]/div[2]/div/div[2]/div/div[2]/div/a")))
+            driver.execute_script("arguments[0].click();", WebDriverWait(driver, 20).until(
+                EC.element_to_be_clickable((By.XPATH, "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[3]/div/div[2]/div/div[2]/div[2]/div/div[2]/div/div[2]/div/a"))))
             try:
                 WebDriverWait(driver, SHORT_TIMEOUT
                               ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
