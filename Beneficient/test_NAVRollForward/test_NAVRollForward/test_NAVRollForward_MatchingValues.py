@@ -73,7 +73,9 @@ def test_setup():
                   Exe="Yes"
 
   if Exe=="Yes":
-      driver=webdriver.Chrome(executable_path="C:/BIDS/beneficienttest/Beneficient/Chrome/chromedriver.exe")
+      options=webdriver.ChromeOptions()
+      options.headless=False
+      driver=webdriver.Chrome(executable_path="C:/BIDS/beneficienttest/Beneficient/Chrome/chromedriver.exe",options=options)
       driver.implicitly_wait(10)
       driver.maximize_window()
       driver.get("https://beneficienttest.appiancloud.com/suite/")
