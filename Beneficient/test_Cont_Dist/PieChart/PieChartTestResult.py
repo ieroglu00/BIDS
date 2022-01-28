@@ -42,6 +42,6 @@ def test_PieChartTestResult():
     plt.pie(y, labels=mylabels, startangle=90, colors=mycolors)
     plt.legend(title="Testing Suite "
                      "Status: "+str((PassCount+FailCount+SkippedCount)))
-    plt.savefig(path+'/TestPieResult.png', format='png', dpi=300)
+    plt.savefig(path+'TestPieResult.png', format='png', dpi=300)
 
     #-----------------------------------------------------------------------
