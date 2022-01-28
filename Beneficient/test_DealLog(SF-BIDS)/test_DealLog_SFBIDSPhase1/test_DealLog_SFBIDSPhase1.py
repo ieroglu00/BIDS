@@ -204,7 +204,7 @@ def test_setup():
                     checkcount1 = 1
       #-----------------------------------------------------------------------------
 
-      driver.quit()
+      #driver.quit()
 
 @pytest.mark.smoke
 def test_DealLog_SFBIDSPhase1(test_setup):
@@ -401,10 +401,39 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 # -------------------Checking Accounts present--------------------------
                 try:
                     time.sleep(2)
-                    AccName=driver.find_element_by_xpath("//tbody/tr[1]/th/span/a").text
-                    TestResult.append(AccName+" account name is present in Accounts section in Sales Force")
-                    TestResultStatus.append("Pass")
-                    print(AccName+" account name is present")
+                    AccName=driver.find_element_by_xpath("//span[text()='Account Name']/parent::a/parent::div/parent::th/parent::tr/parent::thead/parent::table/tbody/tr[1]/th/span/a").get_attribute('title')
+                    print("AccName found "+AccName)
+                    AccPhone = driver.find_element_by_xpath(
+                        "//span[text()='Account Name']/parent::a/parent::div/parent::th/parent::tr/parent::thead/parent::table/tbody/tr[1]/td[2]/span/span").text
+                    print("AccPhone found " + AccPhone)
+                    if AccPhone=="":
+                        print("AccPhone found blank")
+                        driver.find_element_by_xpath("//span[text()='Account Name']/parent::a/parent::div/parent::th/parent::tr/parent::thead/parent::table/tbody/tr[1]/td[4]/span/div").click()
+                        time.sleep(2)
+                        ActionChains(driver).key_down(Keys.DOWN).perform()
+                        time.sleep(1)
+                        ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+                        time.sleep(3)
+                        for scrolldown in range(1, 10):
+                            time.sleep(1)
+                            print("scrolldown " + str(scrolldown))
+                            try:
+                                driver.find_element_by_xpath(
+                                    "//h2[text()='Edit Person Account']/parent::article/div[3]/div/div[1]/div/div/div[5]/div[2]/div/div/div/input").send_keys("8877665544")
+                                break
+                            except Exception:
+                                print("Inside Excep")
+                                ActionChains(driver).key_down(Keys.PAGE_DOWN).perform()
+                                print("Page Down")
+                        driver.find_element_by_xpath("//h2[text()='Edit Person Account']/parent::article/parent::div/parent::div/parent::div/div[2]/div/div/div[2]/button[3]").click()
+                        try:
+                            WebDriverWait(driver, SHORT_TIMEOUT
+                                          ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                            WebDriverWait(driver, LONG_TIMEOUT
+                                          ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                        except TimeoutException:
+                            pass
                 except Exception:
                     driver.find_element_by_xpath("//div[text()='New']").click()
                     try:
@@ -442,10 +471,22 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                     time.sleep(1)
                     ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
                     time.sleep(2)
+                    for scrolldown in range(1, 10):
+                        time.sleep(1)
+                        print("scrolldown " + str(scrolldown))
+                        try:
+                            driver.find_element_by_xpath(
+                                "//h2[text()='Edit Person Account']/parent::article/div[3]/div/div[1]/div/div/div[5]/div[2]/div/div/div/input").send_keys(
+                                "8877665544")
+                            break
+                        except Exception:
+                            print("Inside Excep")
+                            ActionChains(driver).key_down(Keys.PAGE_DOWN).perform()
+                            print("Page Down")
+                    time.sleep(2)
                     driver.find_element_by_xpath("//h2[text()='New Account: Person Account']/parent::article/parent::div/parent::div/parent::div/div[2]/div/div/div[2]/button[3]").click()
                     TestResult.append("Added required account name details in Sales Force")
                     TestResultStatus.append("Pass")
-
 
                 #-------------------Clicking on Opportunity Tab in Top Menu------------------------
                 try:
@@ -1166,7 +1207,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 except TimeoutException:
                     pass
 
-                #OppName="25Jan0946"
+                #OppName="26Jan0248"
                 driver.find_element_by_xpath("//a[@title='Opportunities']/parent::*").click()
                 try:
                     WebDriverWait(driver, SHORT_TIMEOUT
@@ -1208,13 +1249,30 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 print(FieldName)
                 print(FieldDataSF.get(FieldName))
 
-                wait = WebDriverWait(driver, 60)
-                wait.until(EC.presence_of_element_located((By.XPATH,
-                                                           "//span[@title='Contact Roles']/parent::a/span[2]")))
-                ConNum=driver.find_element_by_xpath("//span[@title='Contact Roles']/parent::a/span[2]").get_attribute('title')
-                ConNum=ConNum.replace("(","")
-                ConNum = ConNum.replace(")", "")
-                print(ConNum)
+                for scrolldown in range(1, 10):
+                    time.sleep(1)
+                    print("scrolldown "+str(scrolldown))
+                    try:
+                        abc=driver.find_element_by_xpath(
+                            "//span[@title='Contact Roles']/parent::a/span[1]").text
+                        print(abc)
+                        break
+                    except Exception:
+                        print("Inside Excep")
+                        ActionChains(driver).key_down(Keys.PAGE_DOWN).perform()
+                        print("Page Down")
+                try:
+                    ConNum=driver.find_element_by_xpath("//span[@title='Contact Roles']/parent::a/span[2]").get_attribute('title')
+                    ConNum=ConNum.replace("(","")
+                    ConNum = ConNum.replace(")", "")
+                    print(ConNum)
+                    if ConNum=="":
+                        print("Found ConNum blank")
+                        ConNum = 0
+                        print(ConNum)
+                except Exception:
+                    ConNum=0
+                    print(ConNum)
 
                 button = driver.find_element_by_xpath("//span[@title='Contact Roles']")
                 driver.execute_script("arguments[0].click();", button)
@@ -1381,7 +1439,17 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                         EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
                 except TimeoutException:
                     pass
-                driver.find_element_by_xpath("//div[@class='slds-media slds-media--center slds-has-flexi-truncate']/div[1]/div/div/h2/a/span[text()='Financial Holding Sets']").click()
+                for scrolldown in range(1, 10):
+                    time.sleep(2)
+                    print("inside Related scrolldown "+str(scrolldown))
+                    try:
+                        driver.find_element_by_xpath(
+                            "//div[@class='slds-media slds-media--center slds-has-flexi-truncate']/div[1]/div/div/h2/a/span[text()='Financial Holding Sets']").click()
+                        break
+                    except Exception:
+                        print("Inside Excep")
+                        ActionChains(driver).key_down(Keys.PAGE_DOWN).perform()
+                        print("Page Down")
                 try:
                     WebDriverWait(driver, SHORT_TIMEOUT
                                   ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
@@ -1400,6 +1468,8 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 except Exception:
                     pass
                 if Bool==False:
+                    print("Checking boooll")
+                    print(Bool)
                     driver.find_element_by_xpath("//div[@class='windowViewMode-normal oneContent active lafPageHost']/div/div/div[1]/div[1]/div[2]/ul/li/a/div").click()
                     try:
                         WebDriverWait(driver, SHORT_TIMEOUT
@@ -1410,8 +1480,8 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                             EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
                     except TimeoutException:
                         pass
-
                     driver.find_element_by_xpath("//label[text()='"+FinancialHoldField+"']/parent::lightning-input/div[1]/input").send_keys(FinancialHoldFieldValue)
+                    time.sleep(2)
                     driver.find_element_by_xpath("//button[text()='Save']").click()
                     try:
                         WebDriverWait(driver, SHORT_TIMEOUT
@@ -1422,7 +1492,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                             EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
                     except TimeoutException:
                         pass
-
+                time.sleep(2)
                 driver.find_element_by_xpath("//tbody/tr/th[1]/span/a[text()='" + FinancialHoldFieldValue + "']").click()
                 try:
                     WebDriverWait(driver, SHORT_TIMEOUT
@@ -1435,6 +1505,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                     pass
 
                 #-----------------Included Financial Holdings----------------------
+                time.sleep(2)
                 driver.find_element_by_xpath("//ul[@role='tablist'][count(./li/*) = 3]/li/a[text()='Related']").click()
                 try:
                     WebDriverWait(driver, SHORT_TIMEOUT
@@ -1445,6 +1516,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                         EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
                 except TimeoutException:
                     pass
+                time.sleep(2)
                 driver.find_element_by_xpath(
                     "//div[@class='slds-media slds-media--center slds-has-flexi-truncate']/div[1]/div/div/h2/a/span[text()='Included Financial Holdings']").click()
                 try:
@@ -1464,6 +1536,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                         "//tbody/tr[1]/td/span/a[text()='" + IncludedFinancialHoldingsValue + "']").is_displayed()
                     print(Bool)
                 except Exception:
+                    Bool=False
                     pass
                 time.sleep(2)
                 if Bool == False:
@@ -1483,6 +1556,36 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                         "//input[@placeholder='Search Financial Holdings...']/parent::div").click()
                     time.sleep(2)
                     ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+                    time.sleep(2)
+                    try:
+                        driver.find_element_by_xpath("//label/span[text()='Financial Holding Name']/parent::label/parent::div/input").send_keys(IncludedFinancialHoldingsValue)
+                        time.sleep(1)
+                        driver.find_element_by_xpath("//label/span[text()='Client Indicated Name']/parent::label/parent::div/input").send_keys("Test Cl Indicated")
+                        time.sleep(1)
+                        driver.find_element_by_xpath("//label/span[text()='Financial Account']/parent::label/parent::div/div/div/div[1]/div").click()
+                        try:
+                            driver.find_element_by_xpath("//label/span[text()='Financial Account']/parent::label/parent::div/div/div/div[1]/div/div/div[2]/div[2]/span").is_displayed()
+                        except Exception:
+                            time.sleep(4)
+                            pass
+                        time.sleep(2)
+                        ActionChains(driver).key_down(Keys.DOWN).perform()
+                        time.sleep(1)
+                        ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+                        time.sleep(1)
+                        driver.find_element_by_xpath("//h2[text()='New Financial Holding']/parent::div/parent::div/div[3]/div/button[3]/span").click()
+                        try:
+                            WebDriverWait(driver, SHORT_TIMEOUT
+                                          ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                            WebDriverWait(driver, LONG_TIMEOUT
+                                          ).until_not(
+                                EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                        except TimeoutException:
+                            pass
+                    except Exception:
+                        pass
+                    time.sleep(2)
                     driver.find_element_by_xpath("//button[text()='Save']").click()
                     try:
                         WebDriverWait(driver, SHORT_TIMEOUT
