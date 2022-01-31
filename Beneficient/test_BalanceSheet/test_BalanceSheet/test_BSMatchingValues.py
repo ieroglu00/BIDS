@@ -190,7 +190,6 @@ def test_setup():
                     sheet1.cell(row=ii1, column=1).value = check
                     checkcount1 = 1
       #-----------------------------------------------------------------------------
-
       driver.quit()
 
 @pytest.mark.smoke
@@ -695,6 +694,7 @@ def test_VerifyAllClickables(test_setup):
                         #print()
                         #print()
                         Text1 = ItemList[ii3]
+                        print("Text1 is "+Text1)
                         try:
                             TotalAssetsValue = driver.find_element_by_xpath(
                                 "//div[@class='ContentLayout---content_layout']/div[4]/div/div/div[2]/div/div[1]//table/tbody/tr["+str(TotalAssetsIndex)+"]/td[" + str(
@@ -712,9 +712,14 @@ def test_VerifyAllClickables(test_setup):
                                 "//div[@class='ContentLayout---content_layout']/div[4]/div/div/div[2]/div/div[1]//table/tbody/tr[" + str(BenNAVIndex) + "]/td[" + str(
                                     ii3 + 2) + "]/div/p/span").text
                             #print("BenNAVValue " + BenNAVValue)
-                            BenNAVValue = BenNAVValue.replace(" ", "")
-                            BenNAVValue = re.sub(r'[?|$|!|,|-]', r'', BenNAVValue)
+                            ind = BenNAVValue.index('.')
+                            ab = re.findall('[^A-Za-z0-9]+', BenNAVValue)
+                            ab = int(len(ab))
+                            ab = ab - 1
+                            BenNAVValue = re.sub('[^A-Za-z0-9]+', '', BenNAVValue)
+                            BenNAVValue = BenNAVValue[:ind - ab] + "." + BenNAVValue[ind - ab:]
                             BenNAVValue = round(float(BenNAVValue))
+                            #print("BenNAVValue float " + str(BenNAVValue))
 
                             BenOwnershipValue = driver.find_element_by_xpath(
                                 "//div[@class='ContentLayout---content_layout']/div[4]/div/div/div[2]/div/div[1]//table/tbody/tr[" + str(BenOwnershipIndex) + "]/td[" + str(
@@ -722,9 +727,10 @@ def test_VerifyAllClickables(test_setup):
                             #print("BenOwnershipValue " + BenOwnershipValue)
 
                             ItemDic[ItemList[ii3]]=[TotalAssetsValue,NetAssetsValue,FundNAVValue,BenNAVValue,BenOwnershipValue]
-                        except Exception:
+                        except Exception as Val:
+                            print(Val)
                             pass
-                    #print(ItemDic)
+                    print(ItemDic)
 
                     for ii4 in range(len(ItemList)):
                         QuarterText=ItemList[ii4]
@@ -745,7 +751,7 @@ def test_VerifyAllClickables(test_setup):
                             QuarterNumber="12/31"
                         QuarterText=QuarterNumber+QuarterYear
                         ItemDic[QuarterText] = ItemDic.pop(ItemList[ii4])
-                    #print(ItemDic)
+                    print(ItemDic)
 
                     for ii5 in range(len(ItemList)):
                         print()
@@ -753,10 +759,10 @@ def test_VerifyAllClickables(test_setup):
                             DrpDwnYear = driver.find_element_by_xpath(
                                 "//div[@class='ContentLayout---content_layout']/div[5]/div/div[1]/div[1]/div/div[2]/div/div/span").text
                             if DrpDwnYear in ItemDic.keys():
-                                #print(ItemDic[DrpDwnYear])
-                                #print(ItemDic[DrpDwnYear][3])
+                                print(ItemDic[DrpDwnYear])
+                                print(ItemDic[DrpDwnYear][3])
                                 TestResult.append(
-                                    "For Quarter " + DrpDwnYear + " \n Total Assets Value: " + ItemDic[DrpDwnYear][0] + "\n Net Assets Value: " + ItemDic[DrpDwnYear][1] + "\n Fund NAV Value: " + ItemDic[DrpDwnYear][2] + "\n Ben NAV Value: " + str(ItemDic[DrpDwnYear][3]) + "\n Ben Ownership Value: " + ItemDic[DrpDwnYear][4])
+                                    "For Quarter " + DrpDwnYear + "  Total Assets Value:[ " + ItemDic[DrpDwnYear][0] + " ] Net Assets Value: [ " + ItemDic[DrpDwnYear][1] + " ] Fund NAV Value: [ " + ItemDic[DrpDwnYear][2] + " ] Ben NAV Value: [ " + str(ItemDic[DrpDwnYear][3]) + " ] Ben Ownership Value: [ " + ItemDic[DrpDwnYear][4]+" ]")
                                 TestResultStatus.append("Pass")
 
                                 BenNavCout=driver.find_elements_by_xpath(
@@ -766,10 +772,32 @@ def test_VerifyAllClickables(test_setup):
                                     print("ii7  "+str(ii7))
                                     BenNAV = driver.find_element_by_xpath(
                                         "//div[@class='ContentLayout---content_layout']/div[5]/div/div[2]/div[2]/div/div/div/div[2]/div/div/table/tbody/tr["+str(ii7)+"]/td[6]/p").text
-                                    BenNAV = BenNAV.replace(" ", "")
-                                    BenNAV = re.sub(r'[?|$|!|,|-]', r'', BenNAV)
+                                    rem = 0
+                                    try:
+                                        ind = BenNAV.index('.')
+                                        try:
+                                            if BenNAV[ind + 1] and BenNAV[ind + 2] == "0":
+                                                rem = 1
+                                        except Exception as qq:
+                                            if BenNAV[ind + 1] == "0":
+                                                rem = 1
+                                            pass
+                                        ab = re.findall('[^A-Za-z0-9]+', BenNAV)
+                                        ab = int(len(ab))
+                                        ab = ab - 1
+                                        BenNAV = re.sub('[^A-Za-z0-9]+', '', BenNAV)
+                                        BenNAV = BenNAV[:ind - ab] + "." + BenNAV[ind - ab:]
+                                        if rem == 1:
+                                            BenNAV = BenNAV.strip('.').strip('0').strip('0')
+                                            BenNAV = BenNAV.strip('.')
+                                        print(BenNAV)
+                                    except Exception:
+                                        BenNAV = re.sub('[^A-Za-z0-9]+', '', BenNAV)
+                                        print(BenNAV)
+
                                     if "_" in BenNAV:
                                         BenNAV="0"
+
                                     BenNAVFloat =BenNAVFloat+ round(float(BenNAV))
 
                                 if ItemDic[DrpDwnYear][3]==BenNAVFloat:
