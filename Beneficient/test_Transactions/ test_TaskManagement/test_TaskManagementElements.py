@@ -262,6 +262,7 @@ def test_AllElementsPresent(test_setup):
                         "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
                     TestResult.append(PageName + " not able to open\n" + ErrorFound1)
                     TestResultStatus.append("Fail")
+                    driver.close()
                     bool1 = False
             except Exception:
                 try:
@@ -274,6 +275,7 @@ def test_AllElementsPresent(test_setup):
                         print(ErrorFound2)
                         TestResult.append(PageName + " not able to open\n" + ErrorFound2)
                         TestResultStatus.append("Fail")
+                        driver.close()
                         bool2 = False
                 except Exception:
                     pass
