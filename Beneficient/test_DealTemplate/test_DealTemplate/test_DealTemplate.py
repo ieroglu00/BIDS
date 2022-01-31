@@ -193,7 +193,7 @@ def test_setup():
 @pytest.mark.smoke
 def test_VerifyAllClickables(test_setup):
     if Exe == "Yes":
-        FundToOpen=15
+        FundToOpen=1
         SHORT_TIMEOUT = 5
         LONG_TIMEOUT = 400
         LOADING_ELEMENT_XPATH = "//div[@id='appian-working-indicator-hidden']"
@@ -254,22 +254,15 @@ def test_VerifyAllClickables(test_setup):
                 TestResult.append(PageName + " page Opened successfully")
                 TestResultStatus.append("Pass")
             except Exception:
-                TestResult.append(PageName +     " page not able to open")
+                TestResult.append(PageName + " page not able to open")
                 TestResultStatus.append("Fail")
             print()
-            stop = time.time()
-            TimeString = stop - start
-            print("The time of the run for " + PageName + " is: ", stop - start)
-            print(TimeString)
             #---------------------------------------------------------------------------------
 
             #------------Clicking on First Fund-----------------------------
+            PageName = "A Fund at first position at Funds page"
             try:
-                WebDriverWait(driver, 20).until(
-                    EC.invisibility_of_element((By.XPATH, "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[2]/div/p/a")))
-                driver.execute_script("arguments[0].click();", WebDriverWait(driver, 20).until(
-                    EC.element_to_be_clickable((By.XPATH, "//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[2]/div/p/a"))))
-                PageName="A Fund at first position at Funds page"
+                driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div/div/div/div[4]/div/div/div/div/div/div[2]/div/div/div[3]/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[2]/div/p/a").click()
                 try:
                     WebDriverWait(driver, SHORT_TIMEOUT
                                   ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
@@ -314,6 +307,7 @@ def test_VerifyAllClickables(test_setup):
             except Exception:
                 TestResult.append(PageName + " is not able to open ")
                 TestResultStatus.append("Fail")
+                driver.close()
 
             # --------------------Clicking Deal Template tab--------------
             try:
