@@ -440,44 +440,9 @@ def test_VerifyAllClickables(test_setup):
                 TestResultStatus.append("Fail")
 
             # ------Table horizontal left navigator icon---------
-            WebDriverWait(driver, 20).until(EC.invisibility_of_element((By.XPATH, "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[3]/div/div[2]/div/div[2]/div[2]/div/div[2]/div/div[2]/div/a")))
-            driver.execute_script("arguments[0].click();", WebDriverWait(driver, 20).until(
-                EC.element_to_be_clickable((By.XPATH, "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[3]/div/div[2]/div/div[2]/div[2]/div/div[2]/div/div[2]/div/a"))))
-            try:
-                WebDriverWait(driver, SHORT_TIMEOUT
-                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-
-                WebDriverWait(driver, LONG_TIMEOUT
-                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-            except TimeoutException:
-                pass
-            try:
-                time.sleep(2)
-                bool1 = driver.find_element_by_xpath(
-                    "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
-                if bool1 == True:
-                    ErrorFound1 = driver.find_element_by_xpath(
-                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
-                    driver.find_element_by_xpath(
-                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
-                    TestResult.append(PageName + " not able to open\n" + ErrorFound1)
-                    TestResultStatus.append("Fail")
-                    bool1 = False
-            except Exception:
-                try:
-                    time.sleep(2)
-                    bool2 = driver.find_element_by_xpath(
-                        "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
-                    if bool2 == True:
-                        ErrorFound2 = driver.find_element_by_xpath(
-                            "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
-                        TestResult.append(PageName + " not able to open\n" + ErrorFound2)
-                        TestResultStatus.append("Fail")
-                        bool2 = False
-                except Exception:
-                    pass
-                pass
-            time.sleep(1)
+            driver.find_element_by_xpath(
+                "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[3]/div/div[2]/div/div[2]/div[2]/div/div[2]/div/div[2]/div").click()
+            time.sleep(5)
             Text1 = "Table horizontal left navigator"
             Type = "icon"
             try:
@@ -532,7 +497,7 @@ def test_VerifyAllClickables(test_setup):
                         except Exception:
                             pass
                         pass
-                    time.sleep(1)
+                    time.sleep(5)
                 except Exception:
                     pass
 
