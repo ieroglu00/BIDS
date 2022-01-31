@@ -195,7 +195,7 @@ def test_setup():
 @pytest.mark.smoke
 def test_VerifyAllClickables(test_setup):
     if Exe == "Yes":
-        FundToOpen=20
+        FundToOpen=15
         SHORT_TIMEOUT = 5
         LONG_TIMEOUT = 400
         LOADING_ELEMENT_XPATH = "//div[@id='appian-working-indicator-hidden']"
@@ -408,15 +408,17 @@ def test_VerifyAllClickables(test_setup):
             wb1.save(loc1)
             print(FundNameListAfterRemove)
             print(str(len(FundNameListAfterRemove)))
-            TestResult.append("Below " + str(len(FundNameListAfterRemove)) + " Funds are collected for verification")
+            TestResult.append(str(len(FundNameListAfterRemove)) + " Funds are collected for verification")
             TestResultStatus.append("Pass")
             # ----------------------------------------------------------------------------
 
             #--------------------------------------------------------------------------------------
             for ifundlist in range(len(FundNameListAfterRemove)):
+                TestResult.append("=> Fund [ " + FundNameListAfterRemove[ifundlist] + " ]")
+                TestResultStatus.append("Pass")
                 print()
                 #-------------to clear the cache memory of chrome browser-------------
-                if (ifundlist/30).is_integer()==True and (ifundlist/30).is_integer()!=0.0:
+                if (ifundlist/30).is_integer()==True and (ifundlist/30)!=0.0:
                     print("<<<<<<<<<<<Integer value found for 30 digit>>>>>>>>")
                     print(str((ifundlist / 30)))
                     driver.delete_all_cookies()
@@ -634,7 +636,7 @@ def test_VerifyAllClickables(test_setup):
                                 print(ErrorFound1)
                                 driver.find_element_by_xpath(
                                     "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
-                                TestResult.append("=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]\n"+PageName + " not able to open\n" + ErrorFound1)
+                                TestResult.append(PageName + " not able to open\n" + ErrorFound1)
                                 TestResultStatus.append("Fail")
                                 bool1 = False
                                 driver.close()
@@ -647,7 +649,7 @@ def test_VerifyAllClickables(test_setup):
                                     ErrorFound2 = driver.find_element_by_xpath(
                                         "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
                                     print(ErrorFound2)
-                                    TestResult.append("=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]\n"+PageName + " not able to open\n" + ErrorFound2)
+                                    TestResult.append(PageName + " not able to open\n" + ErrorFound2)
                                     TestResultStatus.append("Fail")
                                     bool2 = False
                                     driver.close()
@@ -658,11 +660,11 @@ def test_VerifyAllClickables(test_setup):
                         try:
                             PageTitle1 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[4]/div[2]/div/div[1]/table/thead/tr/th[1]/div").text
                             assert Ptitle1 in PageTitle1, PageName + " is not able to open "
-                            # TestResult.append(PageName + " opened successfully")
-                            # TestResultStatus.append("Pass")
+                            TestResult.append(PageName + " tab opened successfully")
+                            TestResultStatus.append("Pass")
                         except Exception as e1:
                             print(e1)
-                            TestResult.append("=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]\n"+PageName + " is not able to open ")
+                            TestResult.append(PageName + " is not able to open ")
                             TestResultStatus.append("Fail")
                         #--------------------------------------------------------------------------
 
@@ -696,7 +698,7 @@ def test_VerifyAllClickables(test_setup):
                                 print(ErrorFound1)
                                 driver.find_element_by_xpath(
                                     "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
-                                TestResult.append("=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]\n"+PageName + " not able to open\n" + ErrorFound1)
+                                TestResult.append(PageName + " not able to open\n" + ErrorFound1)
                                 TestResultStatus.append("Fail")
                                 bool1 = False
                                 driver.close()
@@ -709,7 +711,7 @@ def test_VerifyAllClickables(test_setup):
                                     ErrorFound2 = driver.find_element_by_xpath(
                                         "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
                                     print(ErrorFound2)
-                                    TestResult.append("=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]\n"+PageName + " not able to open\n" + ErrorFound2)
+                                    TestResult.append(PageName + " not able to open\n" + ErrorFound2)
                                     TestResultStatus.append("Fail")
                                     bool2 = False
                                     driver.close()
@@ -720,75 +722,104 @@ def test_VerifyAllClickables(test_setup):
                         try:
                             PageTitle1 = driver.find_element_by_xpath(
                                 "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[1]/div[1]/div/div[2]/div/p/a").text
-                            assert Ptitle1 in PageTitle1, PageName + " is not able to open "
-                            # TestResult.append(PageName + " opened successfully")
-                            # TestResultStatus.append("Pass")
-                        except Exception as e1:
-                            print(e1)
-                            TestResult.append("=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]\n"+PageName + " is not able to open ")
-                            TestResultStatus.append("Fail")
-                        # --------------------------------------------------------------------------
-                        # -------Fetching Ben Remaining NAV value-------------------------------------
-                        driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[2]/div[2]/div/div/div/div[2]/div/div[1]/div/div[2]/div/div").click()
-                        time.sleep(1)
-                        ActionChains(driver).key_down(Keys.DOWN).perform()
-                        time.sleep(1)
-                        ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
-                        try:
-                            WebDriverWait(driver, SHORT_TIMEOUT
-                                          ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                            assert Ptitle1 in PageTitle1, PageName + " is not able to open"
+                            TestResult.append(PageName + " tab opened successfully")
+                            TestResultStatus.append("Pass")
 
-                            WebDriverWait(driver, LONG_TIMEOUT
-                                          ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-                        except TimeoutException:
-                            pass
-                        try:
-                            time.sleep(2)
-                            bool1 = driver.find_element_by_xpath(
-                                "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
-                            if bool1 == True:
-                                ErrorFound1 = driver.find_element_by_xpath(
-                                    "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
-                                print(ErrorFound1)
-                                driver.find_element_by_xpath(
-                                    "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
-                                TestResult.append("=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]\n"+PageName + " not able to open\n" + ErrorFound1)
-                                TestResultStatus.append("Fail")
-                                bool1 = False
-                                driver.close()
-                        except Exception:
+                            # -------Fetching Ben Remaining NAV value-------------------------------------
+                            driver.find_element_by_xpath(
+                                "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[2]/div[2]/div/div/div/div[2]/div/div[1]/div/div[2]/div/div").click()
+                            time.sleep(1)
+                            ActionChains(driver).key_down(Keys.DOWN).perform()
+                            time.sleep(1)
+                            ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+                            try:
+                                WebDriverWait(driver, SHORT_TIMEOUT
+                                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                                WebDriverWait(driver, LONG_TIMEOUT
+                                              ).until_not(
+                                    EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                            except TimeoutException:
+                                pass
                             try:
                                 time.sleep(2)
-                                bool2 = driver.find_element_by_xpath(
-                                    "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
-                                if bool2 == True:
-                                    ErrorFound2 = driver.find_element_by_xpath(
-                                        "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
-                                    print(ErrorFound2)
-                                    TestResult.append("=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]\n"+PageName + " not able to open\n" + ErrorFound2)
+                                bool1 = driver.find_element_by_xpath(
+                                    "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                                if bool1 == True:
+                                    ErrorFound1 = driver.find_element_by_xpath(
+                                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                                    print(ErrorFound1)
+                                    driver.find_element_by_xpath(
+                                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                                    TestResult.append(PageName + " not able to open\n" + ErrorFound1)
                                     TestResultStatus.append("Fail")
-                                    bool2 = False
+                                    bool1 = False
                                     driver.close()
                             except Exception:
+                                try:
+                                    time.sleep(2)
+                                    bool2 = driver.find_element_by_xpath(
+                                        "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                                    if bool2 == True:
+                                        ErrorFound2 = driver.find_element_by_xpath(
+                                            "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                                        print(ErrorFound2)
+                                        TestResult.append(PageName + " not able to open\n" + ErrorFound2)
+                                        TestResultStatus.append("Fail")
+                                        bool2 = False
+                                        driver.close()
+                                except Exception:
+                                    pass
                                 pass
-                            pass
-                        time.sleep(1)
-                        BenRemainingNAV = driver.find_element_by_xpath(
-                            "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[3]/div/div[2]/div/div[3]/div[2]/div/div/table/tbody/tr[last()]/td[25]/div/p/span/strong").text
-                        print("BenRemainingNAV is " + BenRemainingNAV)
-                        if "_" in BenRemainingNAV:
-                            BenRemainingNAV="0"
-                        # ------------------------------------------------------------------------
-                        # -------Fetching Ben Remaining NAV value-------------------------------------
-                        if BenRemainingNAV != BenNAVLC:
-                            TestResult.append("=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]"+"\nBen Remaining NAV [Investments] "+BenRemainingNAV+" is not matching with Ben NAV LC "+BenNAVLC+", quarter [ "+BenReportingPeriod+" ]")
-                            TestResultStatus.append("Fail")
-                        else:
-                            TestResult.append(
-                                "=> Fund [ "+FundNameListAfterRemove[ifundlist]+" ]"+"\nBen Remaining NAV [Investments] "+BenRemainingNAV+" matched with Ben NAV LC "+BenNAVLC+", quarter [ " + BenReportingPeriod + " ]")
-                            TestResultStatus.append("Pass")
-                            pass
-                        # ------------------------------------------------------------------------
+                            time.sleep(1)
+                            BenRemainingNAV = driver.find_element_by_xpath(
+                                "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[3]/div/div[2]/div/div[3]/div[2]/div/div/table/tbody/tr[last()]/td[25]/div/p/span/strong").text
+                            print("BenRemainingNAV is " + BenRemainingNAV)
+                            BenRemainingNAV = re.sub('[!@#$]', '', BenRemainingNAV)
+                            if "_" in BenRemainingNAV:
+                                BenRemainingNAV = "0"
+                            # ------------------------------------------------------------------------
+                            # -------Fetching Ben Remaining NAV value-------------------------------------
+                            if BenRemainingNAV != BenNAVLC:
+                                TestResult.append("Ben Remaining NAV [Investments] " + BenRemainingNAV + " is not matching with Ben NAV LC " + BenNAVLC + ", quarter [ " + BenReportingPeriod + " ]")
+                                TestResultStatus.append("Fail")
+                            else:
+                                TestResult.append("Ben Remaining NAV [Investments] " + BenRemainingNAV + " matched with Ben NAV LC " + BenNAVLC + ", quarter [ " + BenReportingPeriod + " ]")
+                                TestResultStatus.append("Pass")
+                                pass
+                        # ----------------------------For special Funds like https://prnt.sc/26mid3k-------------------------
+                        except Exception as e1:
+                            print(e1)
+                            try:
+                                Ptitle1=FundNameListAfterRemove[ifundlist]
+                                PageTitle1 = driver.find_element_by_xpath(
+                                    "//div[@class='ContentLayout---content_layout']/div[4]/div[1]/div/div[2]/div/p/span/strong").text
+                                assert Ptitle1 in PageTitle1, PageName + " tab is not able to open"
+                                TestResult.append(PageName + " tab opened successfully")
+                                TestResultStatus.append("Pass")
+                                # -------Fetching Remaining NAV, End of Period-------------------------------------
+                                BenRemainingNAV = driver.find_element_by_xpath(
+                                    "//div[@class='ContentLayout---content_layout']/div[5]/div/div/div/div[1]/div[2]/div/div/table/tbody/tr[last()]//preceding-sibling::tr[1]/td[2]/p").text
+                                print("BenRemainingNAV is " + BenRemainingNAV)
+                                BenRemainingNAV = re.sub('[!@#$]', '', BenRemainingNAV)
+                                if "_" in BenRemainingNAV:
+                                    BenRemainingNAV = "0"
+                                # ------------------------------------------------------------------------
+                                # -------Fetching Ben Remaining NAV value-------------------------------------
+                                if BenRemainingNAV != BenNAVLC:
+                                    TestResult.append("Ben Remaining NAV [Investments] " + BenRemainingNAV + " is not matching with Ben NAV LC " + BenNAVLC + ", quarter [ " + BenReportingPeriod + " ]")
+                                    TestResultStatus.append("Fail")
+                                else:
+                                    TestResult.append("Ben Remaining NAV [Investments] " + BenRemainingNAV + " matched with Ben NAV LC " + BenNAVLC + ", quarter [ " + BenReportingPeriod + " ]")
+                                    TestResultStatus.append("Pass")
+                                    pass
+
+                            except Exception:
+                                TestResult.append(PageName + " tab is not able to open ")
+                                TestResultStatus.append("Fail")
+                                pass
+                        # --------------------------------------------------------------------------
 
                     except Exception:
                         pass
