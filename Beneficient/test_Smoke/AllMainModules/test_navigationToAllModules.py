@@ -90,7 +90,7 @@ def test_setup():
       pdf.add_page()
       pdf.set_font('Times', '', 12)
       pdf.cell(0, 10, "Test Case Name:  "+TestName, 0, 1)
-      pdf.multi_cell(0, 20, "Description:  "+description, 0, 1)
+      pdf.multi_cell(0, 10, "Description:  "+description, 0, 1)
 
       for i1 in range(len(TestResult)):
          pdf.set_fill_color(255, 255, 255)
