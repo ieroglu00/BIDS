@@ -559,6 +559,7 @@ def test_Funds_Values(test_setup):
                 "//*[@title='" + PageName + "']")
             driver.execute_script("arguments[0].click();", button)
             try:
+                time.sleep(2)
                 driver.switch_to_alert().accept()
             except Exception:
                 pass
