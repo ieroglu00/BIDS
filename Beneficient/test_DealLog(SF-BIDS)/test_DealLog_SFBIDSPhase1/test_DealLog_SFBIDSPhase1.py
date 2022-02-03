@@ -1857,19 +1857,31 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                             abc = abc + string_name[(len(string_name) - 1) - element]
                     abc = abc[::-1]
                     TotalItemBeforeOf=abc
-                    print("TotalItemAfterOf " + TotalItemAfterOf)
-                    print("TotalItemBeforeOf " + TotalItemBeforeOf)
                     TotalItemAfterOf = re.sub('[^A-Za-z0-9]+', '', TotalItemAfterOf)
                     TotalItemBeforeOf = re.sub('[^A-Za-z0-9]+', '', TotalItemBeforeOf)
                     print("TotalItemAfterOf " + TotalItemAfterOf)
                     print("TotalItemBeforeOf " + TotalItemBeforeOf)
 
+                    IterateNo = int(TotalItemAfterOf) / int(TotalItemBeforeOf)
+                    if IterateNo.is_integer() == True:
+                        IterateNo = IterateNo - 1
+                        pass
+                    else:
+                        IterateNo = math.ceil(float(IterateNo))
+                    #print("IterateNo is " + str(IterateNo))
                     #----------------Searching the Project from Sales Force--------------------
                     LoopExit=0
                     ProejctTOClick = ProjectName
                     PageName = ProejctTOClick
                     start = time.time()
-                    for waiting in range(1,11):
+                    WaitingCount=13
+                    if IterateNo>=5 and IterateNo<7:
+                        WaitingCount=11
+                    elif IterateNo >= 7and IterateNo<9:
+                        WaitingCount = 9
+                    elif IterateNo >= 9:
+                        WaitingCount = 5
+                    for waiting in range(1,WaitingCount):
                         if LoopExit==0:
                             time.sleep(60)
                             driver.refresh()
@@ -1882,13 +1894,6 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                                     EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
                             except TimeoutException:
                                 pass
-
-                            IterateNo = int(TotalItemAfterOf) / int(TotalItemBeforeOf)
-                            if IterateNo.is_integer()==True:
-                                IterateNo=IterateNo-1
-                                pass
-                            else:
-                                IterateNo = math.ceil(float(IterateNo))
 
                             loopbreak=0
                             for ii5 in range(1, IterateNo+1):
@@ -2202,7 +2207,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 print("Yesss Unverified")
                 print(OppName)
 
-                TestResult.append("[ " + OppName + " ] Opportunity picked from Sales Force to verify")
+                TestResult.append("Old unverified Opportunity [ " + OppName + " ] picked from Sales Force for re-verification")
                 TestResultStatus.append("Pass")
                 # ----------------------Now Navigating to BIDS Application----------------------------
                 TestResult.append("====================Navigating to BIDS Application==============================")
@@ -2299,19 +2304,31 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                             abc = abc + string_name[(len(string_name) - 1) - element]
                     abc = abc[::-1]
                     TotalItemBeforeOf = abc
-                    print("TotalItemAfterOf " + TotalItemAfterOf)
-                    print("TotalItemBeforeOf " + TotalItemBeforeOf)
                     TotalItemAfterOf = re.sub('[^A-Za-z0-9]+', '', TotalItemAfterOf)
                     TotalItemBeforeOf = re.sub('[^A-Za-z0-9]+', '', TotalItemBeforeOf)
                     print("TotalItemAfterOf " + TotalItemAfterOf)
                     print("TotalItemBeforeOf " + TotalItemBeforeOf)
 
+                    IterateNo = int(TotalItemAfterOf) / int(TotalItemBeforeOf)
+                    if IterateNo.is_integer() == True:
+                        IterateNo = IterateNo - 1
+                        pass
+                    else:
+                        IterateNo = math.ceil(float(IterateNo))
+                    #print("IterateNo is " + str(IterateNo))
                     # ----------------Searching the Project from Sales Force--------------------
                     LoopExit = 0
                     ProejctTOClick = ProjectName
                     PageName = ProejctTOClick
                     start = time.time()
-                    for waiting in range(1, 11):
+                    WaitingCount = 13
+                    if IterateNo >= 5 and IterateNo < 7:
+                        WaitingCount = 11
+                    elif IterateNo >= 7 and IterateNo < 9:
+                        WaitingCount = 9
+                    elif IterateNo >= 9:
+                        WaitingCount = 5
+                    for waiting in range(1, WaitingCount):
                         if LoopExit == 0:
                             time.sleep(60)
                             driver.refresh()
@@ -2324,13 +2341,6 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                                     EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
                             except TimeoutException:
                                 pass
-
-                            IterateNo = int(TotalItemAfterOf) / int(TotalItemBeforeOf)
-                            if IterateNo.is_integer() == True:
-                                IterateNo = IterateNo - 1
-                                pass
-                            else:
-                                IterateNo = math.ceil(float(IterateNo))
 
                             loopbreak = 0
                             for ii5 in range(1, IterateNo + 1):
@@ -2656,7 +2666,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                     wb.save(loc)
                 except Exception as err:
                     print(err)
-                    sheet.cell(row=1, column=6).value = "Unverified"
+                    sheet.cell(row=1, column=6).value = "Verified"
                     wb.save(loc)
                     pass
 
