@@ -204,7 +204,7 @@ def test_setup():
                     checkcount1 = 1
       #-----------------------------------------------------------------------------
 
-      #driver.quit()
+      driver.quit()
 
 @pytest.mark.smoke
 def test_DealLog_SFBIDSPhase1(test_setup):
@@ -235,18 +235,16 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 pass
         print(FieldDataSF)
 
-        # ------------------------Entering Blank values in Ref Excel------------------------
-        sheet.cell(row=12, column=3).value = "Blank"
-        sheet.cell(row=13, column=3).value = "Blank"
-        sheet.cell(row=14, column=3).value = "Blank"
-        sheet.cell(row=15, column=3).value = "Blank"
-        sheet.cell(row=24, column=3).value = "Blank"
-        wb.save(loc)
-
-
-
         try:
             if VerStatus=="Verified":
+
+                # ------------------------Entering Blank values in Ref Excel------------------------
+                sheet.cell(row=12, column=3).value = "Blank"
+                sheet.cell(row=13, column=3).value = "Blank"
+                sheet.cell(row=14, column=3).value = "Blank"
+                sheet.cell(row=15, column=3).value = "Blank"
+                sheet.cell(row=24, column=3).value = "Blank"
+                wb.save(loc)
 
                 # Loader for Sales Force
                 LOADING_ELEMENT_XPATH = "//div[@class='slds-spinner_container slds-grid']"
@@ -858,22 +856,20 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                     "//div[@class='modal-body scrollable slds-modal__content slds-p-around--medium']/div/div/div[1]/div/article/div[3]/div/div[1]/div/div/div[10]/div[2]/div/div/div/div/div/div/div/a").text
                 print(value1)
 
-                # --------Stage Lost (if Closed Lost)-----------
-
-                if StageCheck == "Closed Lost":
-                    FieldName = "Stage Lost (If Closed Lost)"
-                    TestResult.append(FieldName + " selected in Sales Force")
-                    TestResultStatus.append("Pass")
-
-                    ValueToStore = StageCheck
-                    search_key = FieldName
-                    res = list(FieldDataSF.keys()).index(search_key)
-                    res = res + 1
-                    #     sheet.cell(row=res, column=3).value = ValueToStore
-                    wb.save(loc)
+                # # --------Stage Lost (if Closed Lost)-----------
+                # if StageCheck == "Closed Lost":
+                #     FieldName = "Stage Lost (If Closed Lost)"
+                #     TestResult.append(FieldName + " selected in Sales Force")
+                #     TestResultStatus.append("Pass")
+                #
+                #     ValueToStore = StageCheck
+                #     search_key = FieldName
+                #     res = list(FieldDataSF.keys()).index(search_key)
+                #     res = res + 1
+                #     sheet.cell(row=res, column=3).value = ValueToStore
+                #     wb.save(loc)
 
                 # --------Reason Lost (If Closed Lost)-----------
-
                 if StageCheck == "Closed Lost":
                     FieldName = "Reason Lost (If Closed Lost)"
                     TestResult.append(FieldName + " selected in Sales Force")
@@ -1834,7 +1830,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                     PageTitle1 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[1]/div/div/div").text
                     print(PageTitle1)
                     assert Ptitle1 in PageTitle1, PageName + " not able to open"
-                    TestResult.append(PageName + " page Opened successfully")
+                    TestResult.append(PageName + " page opened successfully")
                     TestResultStatus.append("Pass")
                 except Exception:
                     TestResult.append(PageName +     " page not able to open")
@@ -1861,8 +1857,12 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                             abc = abc + string_name[(len(string_name) - 1) - element]
                     abc = abc[::-1]
                     TotalItemBeforeOf=abc
-                    #print("TotalItemAfterOf " + TotalItemAfterOf)
-                    #print("TotalItemBeforeOf " + TotalItemBeforeOf)
+                    print("TotalItemAfterOf " + TotalItemAfterOf)
+                    print("TotalItemBeforeOf " + TotalItemBeforeOf)
+                    TotalItemAfterOf = re.sub('[^A-Za-z0-9]+', '', TotalItemAfterOf)
+                    TotalItemBeforeOf = re.sub('[^A-Za-z0-9]+', '', TotalItemBeforeOf)
+                    print("TotalItemAfterOf " + TotalItemAfterOf)
+                    print("TotalItemBeforeOf " + TotalItemBeforeOf)
 
                     #----------------Searching the Project from Sales Force--------------------
                     LoopExit=0
@@ -2299,8 +2299,12 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                             abc = abc + string_name[(len(string_name) - 1) - element]
                     abc = abc[::-1]
                     TotalItemBeforeOf = abc
-                    # print("TotalItemAfterOf " + TotalItemAfterOf)
-                    # print("TotalItemBeforeOf " + TotalItemBeforeOf)
+                    print("TotalItemAfterOf " + TotalItemAfterOf)
+                    print("TotalItemBeforeOf " + TotalItemBeforeOf)
+                    TotalItemAfterOf = re.sub('[^A-Za-z0-9]+', '', TotalItemAfterOf)
+                    TotalItemBeforeOf = re.sub('[^A-Za-z0-9]+', '', TotalItemBeforeOf)
+                    print("TotalItemAfterOf " + TotalItemAfterOf)
+                    print("TotalItemBeforeOf " + TotalItemBeforeOf)
 
                     # ----------------Searching the Project from Sales Force--------------------
                     LoopExit = 0
@@ -2419,7 +2423,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                             PageName + " project not able to find in BIDS application\nTotal run time to find the project in BIDS is " + str(
                                 min) + " mintues")
                         TestResultStatus.append("Fail")
-                        sheet.cell(row=1, column=6).value = "Unverified"
+                        sheet.cell(row=1, column=6).value = "Verified"
                         wb.save(loc)
                         driver.close()
 
