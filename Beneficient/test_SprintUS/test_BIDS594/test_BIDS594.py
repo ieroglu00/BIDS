@@ -1,6 +1,7 @@
 import datetime
 import math
 import re
+import os
 import time
 import openpyxl
 from fpdf import FPDF
@@ -13,6 +14,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from pathlib import Path
 
 
 @allure.step("Entering username ")
@@ -44,15 +46,15 @@ def test_setup():
   global FundToOpen
   global TotalFundsLengh
 
-  TestName = "test_FundSOIElements"
-  description = "This test scenario is to verify all different elements present in fund level SOI section"
+  TestName = "test_BIDS594"
+  description = "This test scenario is to verify working of BIDS594 User story"
   TestResult = []
   TestResultStatus = []
   TestFailStatus = []
   FailStatus="Pass"
-  TestDirectoryName = "test_FundSOI"
+  TestDirectoryName = "test_SprintUS"
   Exe="Yes"
-  Directory = 'test_FundSOI/'
+  Directory = 'test_SprintUS/'
   path = 'C:/BIDS/beneficienttest/Beneficient/' + Directory
 
   FundNameList=[]
@@ -262,244 +264,155 @@ def test_VerifyAllClickables(test_setup):
                 TestResult.append("A Fund after click not able to open")
                 TestResultStatus.append("Fail")
 
-            # ------Edit Schedule of Investments---------
-            Text1 = "Edit Schedule of Investments"
-            Type="link text"
+            # --------------------Clicking Deal Template tab--------------
             try:
-                Element1 = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[1]/div[1]/div/div[2]/div/p/a").text
-                assert Text1 in Element1, Text1+" "+Type+" is not present"
-                TestResult.append(Text1+" "+Type+" is present")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append(Text1+" "+Type+" is not present")
-                TestResultStatus.append("Fail")
-
-            # ------Checking GP Reporting Period:---------
-            Text1 = "GP Reporting Period:"
-            Type = "dropdown label"
-            try:
-                Element1 = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[2]/div[1]/div/div[2]/div/div[1]/div/div[1]/span").text
-                assert Text1 in Element1, Text1 + " " + Type + " is not present"
-                TestResult.append(Text1 + " " + Type + " is present")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append(Text1 + " " + Type + " is not present")
-                TestResultStatus.append("Fail")
-
-            # ------Export to Excel---------
-            Text1 = "EXPORT TO EXCEL"
-            Type = "button"
-            try:
-                Element1 = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[1]/div[2]/div/div[2]/div/div[1]/div/div/button").text
-                print(Element1)
-                assert Text1 in Element1, Text1 + " " + Type + " is not present"
-                TestResult.append(Text1 + " " + Type + " is present")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append(Text1 + " " + Type + " is not present")
-                TestResultStatus.append("Fail")
-
-            # ------Receive Date:---------
-            Text1 = "Receive Date"
-            Type = "text label"
-            try:
-                Element1 = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[2]/div[1]/div/div[2]/div/div[2]/div/div[1]/span").text
-                print(Element1)
-                assert Text1 in Element1, Text1 + " " + Type + " is not present"
-                TestResult.append(Text1 + " " + Type + " is present")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append(Text1 + " " + Type + " is not present")
-                TestResultStatus.append("Fail")
-
-            # ------Ben Period---------
-            Text1 = "Ben Period"
-            Type = "dropdown label"
-            try:
-                Element1 = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[2]/div[2]/div/div/div/div[2]/div/div[1]/div/div[1]/span").text
-                print(Element1)
-                assert Text1 in Element1, Text1 + " " + Type + " is not present"
-                TestResult.append(Text1 + " " + Type + " is present")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append(Text1 + " " + Type + " is not present")
-                TestResultStatus.append("Fail")
-
-            # ------FX Rate---------
-            Text1 = "FX Rate"
-            Type = "text label"
-            try:
-                Element1 = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[2]/div[2]/div/div/div/div[2]/div/div[2]/div/div[1]/span").text
-                print(Element1)
-                assert Text1 in Element1, Text1 + " " + Type + " is not present"
-                TestResult.append(Text1 + " " + Type + " is present")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append(Text1 + " " + Type + " is not present")
-                TestResultStatus.append("Fail")
-
-            # ------Struck NAV Date---------
-            Text1 = "Struck NAV Date"
-            Type = "text label"
-            try:
-                Element1 = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[2]/div[2]/div/div/div/div[2]/div/div[3]/div/div[1]/span").text
-                print(Element1)
-                assert Text1 in Element1, Text1 + " " + Type + " is not present"
-                TestResult.append(Text1 + " " + Type + " is present")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append(Text1 + " " + Type + " is not present")
-                TestResultStatus.append("Fail")
-
-            # ------Prev. BenOwnership---------
-            Text1 = "Prev. BenOwnership"
-            Type = "text label"
-            try:
-                Element1 = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[2]/div[2]/div/div/div/div[2]/div/div[4]/div/div[1]/span").text
-                print(Element1)
-                assert Text1 in Element1, Text1 + " " + Type + " is not present"
-                TestResult.append(Text1 + " " + Type + " is present")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append(Text1 + " " + Type + " is not present")
-                TestResultStatus.append("Fail")
-
-            # ------Currency---------
-            Text1 = "Currency"
-            Type = "dropdown label"
-            try:
-                Element1 = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[2]/div[2]/div/div/div/div[2]/div/div[5]/div/div[1]/span").text
-                print(Element1)
-                assert Text1 in Element1, Text1 + " " + Type + " is not present"
-                TestResult.append(Text1 + " " + Type + " is present")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append(Text1 + " " + Type + " is not present")
-                TestResultStatus.append("Fail")
-
-            print("---------------")
-            inside = "Investments"
-            # ---------------loop for Columns in table for Funds View----------
-            ItemList = ["Investment Name", "Instrument Type","GP-Reported FairValue","Adjustment for Publicly traded prices","Manual Adjustments for FV","Fund Remaining Nav","Cumulative Fund Investment","Cumulative Fund Realizations","Fund Realized Cost","Fund Unrealized Cost","Fund TVPI","Fund RVPI","Fund DPI","Fund IRR on Investment","Board Seats","Fund Ownership","Fully Realized","Blank Column","Ben NAV @ Acquisition","Ben Cumulative Distributions","Ben Cumulative Contribution","BEN NAV Pickup","Ben Public Adjustment","Ben Adjustment","Ben Remaining NAV","Ben MOIC (NAV Basis)","Ben IRR (NAV Basis)","Ben MOIC (Purchase Basis)","Ben DPI (Purchase Basis)","Ben IRR (Purchase Basis)","Loan Balance Attributable to Investment"]
-            ItemPresent = []
-            ItemNotPresent = []
-            for ii1 in range(len(ItemList)):
-                Text1 = ItemList[ii1]
+                PageName = "Deal Template"
+                Ptitle1 = "Download SOI Template"
+                driver.find_element_by_xpath("//button[text()='" + PageName + "']").click()
                 try:
-                    Element1 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[3]/div/div[2]/div/div[3]/div[2]/div/div/table/thead/tr[1]/th["+str(ii1+1)+"]/div").text
-                    if Element1=="":
-                        Element1="Blank Column"
-                except Exception:
+                    WebDriverWait(driver, SHORT_TIMEOUT
+                                  ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                    WebDriverWait(driver, LONG_TIMEOUT
+                                  ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                except TimeoutException:
                     pass
                 try:
-                    assert Text1 in Element1, Text1 + " column under " + inside + " table is not present"
-                    ItemPresent.append(Text1)
-                except Exception as e1:
-                    ItemNotPresent.append(Text1)
-            if ItemPresent:
-                print("ItemPresent list is not empty")
-                ListC = ', '.join(ItemPresent)
-                TestResult.append("Below columns are present under " + inside + " table\n" + ListC)
-                TestResultStatus.append("Pass")
-            if ItemNotPresent:
-                print("ItemNotPresent list is not empty")
-                ListD = ', '.join(ItemNotPresent)
-                TestResult.append("Below columns are not present under " + inside + "table\n" + ListD)
-                TestResultStatus.append("Fail")
-
-            # ------Table horizontal right navigator icon---------
-            Text1 = "Table horizontal right navigator"
-            Type = "icon"
-            try:
-                Element1 = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[3]/div/div[2]/div/div[2]/div[2]/div/div[2]/div/div[2]/div/a").is_displayed()
-                assert True == Element1, Text1 + " " + Type + " is not present"
-                TestResult.append(Text1 + " " + Type + " is present")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append(Text1 + " " + Type + " is not present")
-                TestResultStatus.append("Fail")
-
-            # ------Table horizontal left navigator icon---------
-            driver.find_element_by_xpath(
-                "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[3]/div/div[2]/div/div[2]/div[2]/div/div[2]/div/div[2]/div").click()
-            time.sleep(5)
-            Text1 = "Table horizontal left navigator"
-            Type = "icon"
-            try:
-                Element1 = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[3]/div/div[2]/div/div[2]/div[2]/div/div[1]/div/div[2]/div/a").is_displayed()
-                assert Element1==True, Text1 + " " + Type + " is not present"
-                TestResult.append(Text1 + " " + Type + " is present")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append(Text1 + " " + Type + " is not present")
-                TestResultStatus.append("Fail")
-
-            for ii in range(3):
-                Text1 = "Table horizontal right navigator icon"
-                try:
-                    driver.find_element_by_xpath(
-                        "//div[@class='ContentLayout---content_layout']/div[3]/div/div/div/div[3]/div/div[2]/div/div[2]/div[2]/div/div[2]/div/div[2]/div/a").click()
-                    try:
-                        WebDriverWait(driver, SHORT_TIMEOUT
-                                      ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-
-                        WebDriverWait(driver, LONG_TIMEOUT
-                                      ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
-                    except TimeoutException:
-                        pass
+                    time.sleep(2)
+                    bool1 = driver.find_element_by_xpath(
+                        "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
+                    if bool1 == True:
+                        ErrorFound1 = driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
+                        print(ErrorFound1)
+                        driver.find_element_by_xpath(
+                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
+                        TestResult.append(PageName + " not able to open\n" + ErrorFound1)
+                        TestResultStatus.append("Fail")
+                        bool1 = False
+                        driver.close()
+                except Exception:
                     try:
                         time.sleep(2)
-                        bool1 = driver.find_element_by_xpath(
-                            "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").is_displayed()
-                        if bool1 == True:
-                            ErrorFound1 = driver.find_element_by_xpath(
-                                "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[1]").text
-                            print(ErrorFound1)
-                            driver.find_element_by_xpath(
-                                "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
-                            TestResult.append("On Clicking "+Text1+" "+str(ii+1)+ " times below error found\n" + ErrorFound1)
+                        bool2 = driver.find_element_by_xpath(
+                            "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
+                        if bool2 == True:
+                            ErrorFound2 = driver.find_element_by_xpath(
+                                "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
+                            print(ErrorFound2)
+                            TestResult.append(PageName + " not able to open\n" + ErrorFound2)
                             TestResultStatus.append("Fail")
-                            bool1 = False
+                            bool2 = False
+                            driver.close()
                     except Exception:
-                        try:
-                            time.sleep(2)
-                            bool2 = driver.find_element_by_xpath(
-                                "//div[@class='MessageLayout---message MessageLayout---error']").is_displayed()
-                            if bool2 == True:
-                                ErrorFound2 = driver.find_element_by_xpath(
-                                    "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
-                                print(ErrorFound2)
-                                TestResult.append("On Clicking "+Text1+" "+str(ii+1)+ " times below error found\n" + ErrorFound2)
-                                TestResultStatus.append("Fail")
-                                bool2 = False
-                        except Exception:
-                            pass
                         pass
-                    time.sleep(5)
-                except Exception:
                     pass
+                time.sleep(1)
+                try:
+                    PageTitle1 = driver.find_element_by_xpath(
+                        "//div[@class='ContentLayout---content_layout']/div[3]/div/div[1]/div/div/div/div[1]/div[2]/div[1]/div[2]/div/p/a").text
+                    print(PageTitle1)
+                    assert Ptitle1 in PageTitle1, PageName + " is not able to open "
+                    TestResult.append(PageName + " opened successfully")
+                    TestResultStatus.append("Pass")
+                except Exception as e1:
+                    TestResult.append(PageName + " is not able to open ")
+                    TestResultStatus.append("Fail")
+            except Exception:
+                TestResult.append(PageName + " is not able to open ")
+                TestResultStatus.append("Fail")
+
+            inside = "Deal Template"
+            Type = "hyperlink text"
+            # --------------------Checking Download SOI Template content--------------
+            Text1 = "Download SOI Template"
+            try:
+                Element1 = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div[3]/div/div[1]/div/div/div/div[1]/div[2]/div[1]/div[2]/div/p/a").text
+                assert Text1 in Element1, Text1 + " " + Type + " in " + inside + " section is not present"
+                TestResult.append(
+                    Text1 + " " + Type + " in " + inside + " section is present")
+                TestResultStatus.append("Pass")
+            except Exception as e1:
+                print(e1)
+                TestResult.append(
+                    Text1 + " " + Type + " in " + inside + " section is not present")
+                TestResultStatus.append("Fail")
+
+            # --------------------Clicking on Download SOI Template--------------
+            try:
+                button = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div[3]/div/div[1]/div/div/div/div[1]/div[2]/div[1]/div[2]/div/p/a")
+                driver.execute_script("arguments[0].click();", button)
+                try:
+                    WebDriverWait(driver, SHORT_TIMEOUT
+                                  ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                    WebDriverWait(driver, LONG_TIMEOUT
+                                  ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                except TimeoutException:
+                    pass
+                TestResult.append("Download SOI Template clicked successfully")
+                TestResultStatus.append("Pass")
+            except Exception:
+                TestResult.append("Download SOI Template not able to click")
+                TestResultStatus.append("Fail")
+
+            # --------------------Reading Downloaded SOI Template--------------
+            path1 = str(Path.home() / "Downloads")
+            path1 = '/'.join(path1.split('\\'))
+            path1 = path1 + "/"
+
+            ExcelFileName1 = "SOI Template"
+            locx1 = (path1 + ExcelFileName1 + '.xlsx')
+            wbx1 = openpyxl.load_workbook(locx1)
+            TestResult.append("Successfully able to read downloaded SOI Template excel")
+            TestResultStatus.append("Pass")
+
+            if len(wbx1.sheetnames) == 1:
+                TestResult.append("Total 1 tab present in the downloaded Sheet")
+                TestResultStatus.append("Pass")
+            else:
+                TestResult.append("Total 1 expected tab is not present in the downloaded Sheet")
+                TestResultStatus.append("Fail")
+            sheetx = wbx1.active
+
+            # --------------------Reading columns in Downloaded SOI Template--------------
+            ColumnPresent=[]
+            for columnHeader in range(1, 100):
+                if sheetx.cell(1, columnHeader).value==None:
+                    break
+                ColumnPresent.append(sheetx.cell(1, columnHeader).value)
+            ListD = ', '.join(ColumnPresent)
+            TestResult.append("Below columns are present in downloaded SOI Template excel \n" + ListD)
+            TestResultStatus.append("Pass")
+
+            # --------------------Importing Download SOI Template excel in BIDS--------------
+            try:
+                button = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div[3]/div/div[1]/div/div/div/div[1]/div[2]/div[2]/div[2]/div[5]")
+                driver.execute_script("arguments[0].click();", button)
+                try:
+                    WebDriverWait(driver, SHORT_TIMEOUT
+                                  ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                    WebDriverWait(driver, LONG_TIMEOUT
+                                  ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+                except TimeoutException:
+                    pass
+                TestResult.append("Import SOI clicked successfully")
+                TestResultStatus.append("Pass")
+            except Exception:
+                TestResult.append("Import SOI not able to click")
+                TestResultStatus.append("Fail")
+
+
+            # --------------------deleting Downloaded SOI Template excel from system--------------
+            try:
+                os.remove(locx1)
+            except Exception:
+                print("No Attachment found to delete")
+
 
         except Exception as Mainerror:
             stringMainerror=repr(Mainerror)
