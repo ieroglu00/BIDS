@@ -4,3 +4,16 @@ assets/
 C:/BIDS/beneficienttest/Beneficient/Chrome/chromedriver.exe
 /Beneficient/Testt/
 Testt/
+/Beneficient/test_BalanceSheet/test_BalanceSheet/__init__.py
+/Beneficient/test_Cont_Dist/test_VerifyLinks/__init__.py
+/Beneficient/test_DealLog(SF-BIDS)/test_DealLog_SFBIDSPhase1/__init__.py
+/Beneficient/test_DealTemplate/test_DealTemplate/__init__.py
+/Beneficient/test_FundSOI/test_FundSOI/__init__.py
+/Beneficient/test_Investments/test_VerifyLinks/__init__.py
+/Beneficient/test_LiquidTrust/test_VerifyLinks/__init__.py
+/Beneficient/test_NAVRollForward/test_NAVRollForward/__init__.py
+/Beneficient/test_Smoke_Errors/test_MissionControl/__init__.py
+/Beneficient/test_Smoke_Errors/__init__.py
+/Beneficient/test_SprintUS/test_BIDS419/__init__.py
+/Beneficient/test_SprintUS/test_BIDS594/__init__.py
+/Beneficient/test_SprintUS/test_BIDS630/__init__.py

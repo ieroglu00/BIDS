@@ -228,6 +228,7 @@ def test_VerifyAllClickables(test_setup):
                 TestResult.append(Text1 + " " + Type + " is not present")
                 TestResultStatus.append("Fail")
 
+            driver.close()
             # ------Liquidity Projection Comparison---------
             Inside = "Report Generator section"
             Text1 = "Liquidity Projection Comparison"
