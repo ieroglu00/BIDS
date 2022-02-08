@@ -6,7 +6,7 @@ from matplotlib import pyplot as plt
 @pytest.mark.smoke
 def test_PieChartTestResult():
     TestStatus = []
-    Directory = 'test_FundSOI/'
+    Directory = 'test_SprintUS/'
 
     path = 'C:/BIDS/beneficienttest/Beneficient/'+Directory
 

@@ -18,7 +18,7 @@ def test_ReportSendSmokeAll():
     TestStatus = []
     SendStatus = []
     AttachmntAdded= []
-    Directory= 'test_FundSOI/'
+    Directory= 'test_SprintUS/'
 
     PDFpath = 'C:/BIDS/beneficienttest/Beneficient/'+Directory
 
@@ -50,7 +50,7 @@ def test_ReportSendSmokeAll():
     html = '''
         <html>
             <body>
-                <p>Hi Team <br />Here is the test summary report of Test Suite 13 ( Funds SOI ) <br />Below test scenarios are covered </p>
+                <p>Hi Team <br />Here is the test summary report of Test Suite 14 ( Sprint User Stories ) <br />Below test scenarios are covered </p>
                 <p></p>
                 <p>'''+B+'''</p
                 <p></p>
@@ -75,8 +75,8 @@ def test_ReportSendSmokeAll():
         msg.attach(file_attachment)
 
     email_from = 'Test Automation Team'
-    email_to =['Ismail.Eroglu@beneficient.com','erin.Twiss@beneficient.com','neeraj1wayitsol@gmail.com','srinath.jandhyala@beneficient.com','gregory.bybee@beneficient.com','olufunke.okeni@beneficient.com']
-    #email_to =['neeraj1wayitsol@gmail.com']
+    #email_to =['Ismail.Eroglu@beneficient.com','erin.Twiss@beneficient.com','neeraj1wayitsol@gmail.com','srinath.jandhyala@beneficient.com','gregory.bybee@beneficient.com','olufunke.okeni@beneficient.com']
+    email_to =['neeraj1wayitsol@gmail.com']
 
     SenderEmail="neeraj.kumar@bitsinglass.com"
     User = "AxBCsrijkltwxysHIJMhijodefhhij@bcd2yzA8qrs4zAB0EFG8fgh2zAB8"
@@ -89,7 +89,7 @@ def test_ReportSendSmokeAll():
 
     date_str = pd.Timestamp.today().strftime('%m-%d-%Y')
     msg = MIMEMultipart()
-    msg['Subject']='[Smoke Test 13 ( Funds SOI )]-Test Automation Report-Env [Test] '+date_str
+    msg['Subject']='[Smoke Test 14 ( Sprint User Stories )]-Test Automation Report-Env [Test] '+date_str
     msg['From'] = email_from
     msg['To'] = ','.join(email_to)
     msg.attach(MIMEText(html, "html"))
