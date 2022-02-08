@@ -217,6 +217,7 @@ def test_VerifyAllClickables(test_setup):
             except Exception:
                 TestResult.append(PageName +     " page not able to open")
                 TestResultStatus.append("Fail")
+                driver.close()
 
             # ------Report Generator---------
             Text1 = "Report Generator"
@@ -232,7 +233,6 @@ def test_VerifyAllClickables(test_setup):
                 TestResult.append(Text1 + " " + Type + " is not present")
                 TestResultStatus.append("Fail")
 
-            driver.close()
             # ------Liquidity Projection Comparison---------
             Inside = "Report Generator section"
             Text1 = "Liquidity Projection Comparison"
@@ -510,6 +510,7 @@ def test_VerifyAllClickables(test_setup):
 
 
         except Exception as Mainerror:
+            print("Herrrrrrrr")
             stringMainerror=repr(Mainerror)
             if stringMainerror in "InvalidSessionIdException('invalid session id', None, None)":
                 pass
