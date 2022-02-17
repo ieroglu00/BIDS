@@ -425,7 +425,7 @@ def test_VerifyAllClickables(test_setup):
                     time.sleep(5)
                     driver.get("https://beneficienttest.appiancloud.com/suite/")
                     driver.find_element_by_id("un").send_keys("neeraj.kumar")
-                    driver.find_element_by_id("pw").send_keys("Crochet@786")
+                    driver.find_element_by_id("pw").send_keys("Crochet@7866")
                     button = driver.find_element_by_xpath(
                         "//input[@type='submit']")
                     driver.execute_script("arguments[0].click();", button)

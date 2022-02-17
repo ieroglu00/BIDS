@@ -1772,7 +1772,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 #-------------------For Login in BIDS-------------------
                 driver.get("https://beneficienttest.appiancloud.com/suite/")
                 driver.find_element_by_id("un").send_keys("neeraj.kumar")
-                driver.find_element_by_id("pw").send_keys("Crochet@786")
+                driver.find_element_by_id("pw").send_keys("Crochet@7866")
                 driver.find_element_by_xpath("//input[@type='submit']").click()
                 TestResult.append("Navigated to BIDS application")
                 TestResultStatus.append("Pass")
@@ -2219,7 +2219,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 # -------------------For Login in BIDS-------------------
                 driver.get("https://beneficienttest.appiancloud.com/suite/")
                 driver.find_element_by_id("un").send_keys("neeraj.kumar")
-                driver.find_element_by_id("pw").send_keys("Crochet@786")
+                driver.find_element_by_id("pw").send_keys("Crochet@7866")
                 driver.find_element_by_xpath("//input[@type='submit']").click()
                 TestResult.append("Navigated to BIDS application")
                 TestResultStatus.append("Pass")
