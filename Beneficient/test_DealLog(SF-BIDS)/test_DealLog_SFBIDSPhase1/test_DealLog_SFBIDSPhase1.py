@@ -255,7 +255,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 try:
                     driver.get("https://beneficient--int.my.salesforce.com/")
                     enter_username("neeraj.kumar@bitsinglass.com.int")
-                    enter_password("Crochet@7866")
+                    enter_password("Crochet@786")
 
                     driver.find_element_by_id("Login").click()
                     time.sleep(10)
