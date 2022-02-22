@@ -2197,6 +2197,16 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                             TestResultStatus.append("Fail")
 
                     sheet.cell(row=1, column=6).value = "Verified"
+                    for Pname in range(2,100):
+                        if sheet.cell(row=Pname, column=7).value == None:
+                            sheet.cell(row=Pname, column=7).value=OppName
+                            break
+
+                    for Pname1 in range(2,100):
+                        if sheet.cell(row=Pname1, column=9).value == None:
+                            sheet.cell(row=Pname1, column=9).value=OppName
+                            break
+
                     wb.save(loc)
 
                 except Exception as err:
@@ -2664,10 +2674,19 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                             TestResultStatus.append("Fail")
 
                     sheet.cell(row=1, column=6).value = "Verified"
+                    for Pname in range(2,100):
+                        if sheet.cell(row=Pname, column=7).value == None:
+                            sheet.cell(row=Pname, column=7).value=OppName
+                            break
+
+                    for Pname1 in range(2,100):
+                        if sheet.cell(row=Pname1, column=9).value == None:
+                            sheet.cell(row=Pname1, column=9).value=OppName
+                            break
                     wb.save(loc)
                 except Exception as err:
                     print(err)
-                    sheet.cell(row=1, column=6).value = "Verified"
+                    sheet.cell(row=1, column=6).value = "Unverified"
                     wb.save(loc)
                     pass
 
