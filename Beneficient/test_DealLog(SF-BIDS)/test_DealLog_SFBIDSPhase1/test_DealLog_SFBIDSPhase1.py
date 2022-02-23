@@ -572,8 +572,6 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 try:
                     FieldName = "Close Date"
                     print(FieldName)
-                    print(FieldDataSF.get(FieldName))
-
                     Duration = int(FieldDataSF.get(FieldName))
                     today = datetime.now()
                     NewDate = today + timedelta(days=Duration)
@@ -1607,7 +1605,10 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 except TimeoutException:
                     pass
                 FieldName = "Original Capital Commitment"
-                FieldNameValue=driver.find_element_by_xpath("//lightning-helptext/parent::div/div/span[text()='"+FieldName+"']/parent::div/parent::div/div[2]/span/slot[1]/slot/lightning-formatted-text").text
+                try:
+                    FieldNameValue=driver.find_element_by_xpath("//lightning-helptext/parent::div/div/span[text()='"+FieldName+"']/parent::div/parent::div/div[2]/span/slot[1]/slot/lightning-formatted-text").text
+                except Exception:
+                    FieldNameValue=driver.find_element_by_xpath("//lightning-helptext/parent::div/div/span[text()='"+FieldName+"']/parent::div/parent::div/div[2]/span/slot[1]/lightning-formatted-text").text
                 print("A "+FieldNameValue)
 
                 search_key = FieldName
@@ -1617,8 +1618,12 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 wb.save(loc)
 
                 FieldName = "Price"
-                FieldNameValue = driver.find_element_by_xpath(
-                    "//span[text()='"+FieldName+"']/parent::div/parent::div/div[2]/span/slot[1]/slot/lightning-formatted-text").text
+                try:
+                    FieldNameValue = driver.find_element_by_xpath(
+                        "//span[text()='"+FieldName+"']/parent::div/parent::div/div[2]/span/slot[1]/slot/lightning-formatted-text").text
+                except Exception:
+                    FieldNameValue = driver.find_element_by_xpath(
+                        "//span[text()='" + FieldName + "']/parent::div/parent::div/div[2]/span/slot[1]/lightning-formatted-text").text
                 print("B "+FieldNameValue)
 
                 search_key = FieldName
@@ -1627,31 +1632,40 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 sheet.cell(row=res, column=3).value = FieldNameValue
                 wb.save(loc)
 
+                #----------Fetching Remaining Unfunded Commitment value----------------
                 FieldName = "Remaining Unfunded Commitment"
-                FieldNameValue = driver.find_element_by_xpath(
-                    "//div/slot/force-record-layout-row[5]/slot/force-record-layout-item/div/div/div/span[text()='"+FieldName+"']/parent::div/parent::div/div[2]/span/slot/slot/lightning-formatted-text").text
-                print("C "+FieldNameValue)
-
+                try:
+                    FieldNameValue = driver.find_element_by_xpath(
+                        "//span[text()='Purchase Price']/parent::div/parent::div/parent::div/parent::records-record-layout-item/parent::slot/parent::records-record-layout-row/parent::slot/records-record-layout-row[5]/slot/records-record-layout-item/div/div/div[2]/span/slot/lightning-formatted-text").text
+                except Exception:
+                    FieldNameValue = driver.find_element_by_xpath(
+                        "//span[text()='Purchase Price']/parent::div/parent::div/parent::div/parent::records-record-layout-item/parent::slot/parent::records-record-layout-row/parent::slot/records-record-layout-row[5]/slot/records-record-layout-item/div/div/div[2]/span/slot/lightning-formatted-text").text
+                print("C " + FieldNameValue)
                 search_key = FieldName
                 res = list(FieldDataSF.keys()).index(search_key)
                 res = res + 1
                 sheet.cell(row=res, column=3).value = FieldNameValue
                 wb.save(loc)
 
+                # ----------Fetching Follow on Investment value----------------
                 FieldName = "Follow on Investment"
-                FieldNameValue = driver.find_element_by_xpath(
-                    "//div/slot/force-record-layout-row[6]/slot/force-record-layout-item/div/div/div/span[text()='" + FieldName + "']/parent::div/parent::div/div[2]/span/slot/slot/lightning-formatted-text").text
-                print("D " + FieldNameValue)
+                try:
+                    FieldNameValue = driver.find_element_by_xpath(
+                        "//span[text()='Purchase Price']/parent::div/parent::div/parent::div/parent::records-record-layout-item/parent::slot/parent::records-record-layout-row/parent::slot/records-record-layout-row[6]/slot/records-record-layout-item/div/div/div[2]/span/slot/lightning-formatted-text").text
+                except Exception:
+                    FieldNameValue = driver.find_element_by_xpath(
+                        "//span[text()='Purchase Price']/parent::div/parent::div/parent::div/parent::records-record-layout-item/parent::slot/parent::records-record-layout-row/parent::slot/records-record-layout-row[6]/slot/records-record-layout-item/div/div/div[2]/span/slot/lightning-formatted-text").text
 
+                print("D " + FieldNameValue)
                 search_key = FieldName
                 res = list(FieldDataSF.keys()).index(search_key)
                 res = res + 1
                 sheet.cell(row=res, column=3).value = FieldNameValue
                 wb.save(loc)
 
-                # -------------Asset Class-----------------------
+                # -------------Clicking Symbol name-----------------------
                 driver.find_element_by_xpath(
-                    "//span[text()='Symbol']/parent::div/parent::div/div[2]/span/slot/slot/force-lookup/div/force-hoverable-link/div/a/slot/slot/span").click()
+                    "//span[text()='Client Indicated Name']/parent::div/parent::div/parent::div/parent::records-record-layout-item/parent::slot/parent::records-record-layout-row/parent::slot/records-record-layout-row[2]/slot/records-record-layout-item[2]/div/div/div[2]/span/slot[1]/force-lookup/div").click()
                 try:
                     WebDriverWait(driver, SHORT_TIMEOUT
                                   ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
@@ -1661,9 +1675,14 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                         EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
                 except TimeoutException:
                     pass
+                # -------------Asset Class-----------------------
                 FieldName = "Asset Class"
-                FieldNameValue = driver.find_element_by_xpath(
-                    "//span[text()='Asset Categories']/parent::button/parent::h3/parent::div/div/div/slot/force-record-layout-row[1]/slot/force-record-layout-item[1]/div/div/div[2]/span/slot[1]/slot/lightning-formatted-text").text
+                try:
+                    FieldNameValue = driver.find_element_by_xpath(
+                        "//span[text()='Asset Categories']/parent::button/parent::h3/parent::div/div/div/slot/force-record-layout-row[1]/slot/force-record-layout-item[1]/div/div/div[2]/span/slot[1]/slot/lightning-formatted-text").text
+                except Exception:
+                    FieldNameValue = driver.find_element_by_xpath(
+                        "//span[text()='Asset Categories']/parent::button/parent::h3/parent::div/div/div/slot/records-record-layout-row[1]/slot/records-record-layout-item[1]/div/div/div[2]/span/slot[1]/lightning-formatted-text").text
                 print("D " + FieldNameValue)
 
                 search_key = FieldName
@@ -1673,10 +1692,13 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 wb.save(loc)
 
                 FieldName = "Asset Category"
-                FieldNameValue = driver.find_element_by_xpath(
-                    "//span[text()='Asset Categories']/parent::button/parent::h3/parent::div/div/div/slot/force-record-layout-row[2]/slot/force-record-layout-item[1]/div/div/div[2]/span/slot[1]/slot/lightning-formatted-text").text
+                try:
+                    FieldNameValue = driver.find_element_by_xpath(
+                        "//span[text()='Asset Categories']/parent::button/parent::h3/parent::div/div/div/slot/force-record-layout-row[2]/slot/force-record-layout-item[1]/div/div/div[2]/span/slot[1]/slot/lightning-formatted-text").text
+                except Exception:
+                    FieldNameValue = driver.find_element_by_xpath(
+                        "//span[text()='Asset Categories']/parent::button/parent::h3/parent::div/div/div/slot/records-record-layout-row[2]/slot/records-record-layout-item[1]/div/div/div[2]/span/slot[1]/lightning-formatted-text").text
                 print("D " + FieldNameValue)
-
                 search_key = FieldName
                 res = list(FieldDataSF.keys()).index(search_key)
                 res = res + 1
