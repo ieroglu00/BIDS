@@ -17,6 +17,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 import pyodbc
 from selenium.webdriver.chrome.options import Options
+import string
+import random
 
 #----------------SalesForce Username and Password IDs-------------
 @allure.step("Entering username ")
@@ -1101,8 +1103,6 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 # -------- Liquidity Request ID-----------
                 FieldName = "Liquidity Request ID"
                 print(FieldName)
-                import string
-                import random
                 N = 10
                 LiquidityRequestIDRandomString = ''.join(random.choices(string.ascii_uppercase +string.digits, k=N))
                 print(LiquidityRequestIDRandomString)
