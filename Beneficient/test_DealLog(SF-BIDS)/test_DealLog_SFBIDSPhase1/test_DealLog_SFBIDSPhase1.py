@@ -1101,10 +1101,13 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 # -------- Liquidity Request ID-----------
                 FieldName = "Liquidity Request ID"
                 print(FieldName)
-                print(FieldDataSF.get(FieldName))
+                import string
+                import random
+                N = 10
+                LiquidityRequestIDRandomString = ''.join(random.choices(string.ascii_uppercase +string.digits, k=N))
+                print(LiquidityRequestIDRandomString)
                 driver.find_element_by_xpath(
-                    "//span[text()='Liquidity Request ID']/parent::label/parent::div/input").send_keys(
-                    FieldDataSF.get(FieldName))
+                    "//span[text()='Liquidity Request ID']/parent::label/parent::div/input").send_keys(LiquidityRequestIDRandomString)
                 time.sleep(2)
                 TestResult.append(FieldName + " entered in Sales Force")
                 TestResultStatus.append("Pass")
@@ -1112,7 +1115,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 search_key = FieldName
                 res = list(FieldDataSF.keys()).index(search_key)
                 res = res + 1
-                sheet.cell(row=res, column=3).value = FieldDataSF.get(FieldName)
+                sheet.cell(row=res, column=3).value = LiquidityRequestIDRandomString
                 wb.save(loc)
 
                 # --------Liquidity Request Date-----------
