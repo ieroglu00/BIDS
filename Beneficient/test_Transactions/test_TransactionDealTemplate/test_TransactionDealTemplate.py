@@ -234,10 +234,6 @@ def test_TransactionDealTemplate(test_setup):
             except Exception:
                 TestResult.append(PageName + " page not able to open")
                 TestResultStatus.append("Fail")
-            stop = time.time()
-            TimeString = stop - start
-            print("The time of the run for " + PageName + " is: ", stop - start)
-            print(TimeString)
 
             #----------------------------------------------------------------------
             PageName = "Transaction ID"

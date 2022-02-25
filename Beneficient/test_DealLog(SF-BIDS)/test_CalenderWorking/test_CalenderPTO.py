@@ -1,24 +1,31 @@
-import datetime
+from builtins import print
+from datetime import datetime, timedelta,date
+import math
+import re
 import time
 import openpyxl
 from fpdf import FPDF
 import pytest
 from selenium import webdriver
 import allure
+from pathlib import Path
 from selenium.webdriver import ActionChains
-from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+import pyodbc
+from selenium.webdriver.chrome.options import Options
 
+#----------------SalesForce Username and Password IDs-------------
 @allure.step("Entering username ")
 def enter_username(username):
-  driver.find_element_by_id("un").send_keys(username)
+  driver.find_element_by_id("username").send_keys(username)
 
 @allure.step("Entering password ")
 def enter_password(password):
-  driver.find_element_by_id("pw").send_keys(password)
+  driver.find_element_by_id("password").send_keys(password)
 
 @pytest.fixture()
 def test_setup():
@@ -29,18 +36,40 @@ def test_setup():
   global TestResultStatus
   global TestDirectoryName
   global path
+  global FundNameList
+  global FundNameListAfterRemove
+  global ct
+  global Exe
+  global D1
+  global D2
+  global d1
+  global d2
+  global DollarDate
+  global FundToOpen
+  global TotalFundsLengh
+  global FieldDataFromSF
+  global FieldDataSF
+  global FoundDataBIDS
+  global FoundDataSF
+  global path
 
-  TestName = "test_CalendarViewElements"
-  description = "This test scenario is to verify all the elements such as Texts, Buttons, Hyperlinks and clickable tabs are present in inside Task Management (Calendar View page)"
+  TestName = "test_CalenderPTO"
+  description = "This test scenario is to verify elements and working of Calender (PTO) in Transactions"
   TestResult = []
   TestResultStatus = []
   TestFailStatus = []
   FailStatus="Pass"
-  TestDirectoryName = "test_Transactions"
-  global Exe
+  TestDirectoryName = "test_CalenderWorking"
   Exe="Yes"
-  Directory = 'test_Transactions/'
+  Directory = 'test_DealLog(SF-BIDS)/'
   path = 'C:/BIDS/beneficienttest/Beneficient/' + Directory
+
+  FundNameList=[]
+  FundNameListAfterRemove=[]
+  FieldDataFromSF = {}
+  FieldDataSF = {}
+  FoundDataBIDS = {}
+  FoundDataSF = {}
 
   ExcelFileName = "Execution"
   locx = (path+'Executiondir/' + ExcelFileName + '.xlsx')
@@ -58,19 +87,36 @@ def test_setup():
                   Exe="Yes"
 
   if Exe=="Yes":
-      driver=webdriver.Chrome(executable_path="C:/BIDS/beneficienttest/Beneficient/Chrome/chromedriver.exe")
+      #-----------Disabling access popup from Chrome------------------
+      option = Options()
+      option.add_argument("--disable-infobars")
+      option.add_argument("start-maximized")
+      option.add_argument("--disable-extensions")
+      option.add_experimental_option("prefs", {"profile.default_content_setting_values.notifications": 2})
+
+      driver=webdriver.Chrome(chrome_options=option, executable_path="C:/BIDS/beneficienttest/Beneficient/Chrome/chromedriver.exe")
       driver.implicitly_wait(10)
       driver.maximize_window()
+      # -------------------For Login in BIDS-------------------
       driver.get("https://beneficienttest.appiancloud.com/suite/")
-      enter_username("neeraj.kumar")
-      enter_password("Crochet@7866")
+      driver.find_element_by_id("un").send_keys("neeraj.kumar")
+      driver.find_element_by_id("pw").send_keys("Crochet@7866")
       driver.find_element_by_xpath("//input[@type='submit']").click()
+      TestResult.append("Login to BIDS application")
+      TestResultStatus.append("Pass")
+
+      ct = datetime.now().strftime("%d_%B_%Y_%I_%M%p")
+      ctReportHeader = datetime.now().strftime("%d %B %Y %I %M%p")
+
+      today = date.today()
+      D1=today.strftime("%Y-%m-%d")
+      d1=D1
+      DollarDate=datetime.strptime(d1, '%Y-%m-%d')
+      DollarDate="$"+DollarDate.date().__str__()+"$"
+      d1 = datetime.strptime(D1, "%Y-%m-%d")
 
   yield
   if Exe == "Yes":
-      ct = datetime.datetime.now().strftime("%d_%B_%Y_%I_%M%p")
-      ctReportHeader = datetime.datetime.now().strftime("%d %B %Y %I %M%p")
-
       class PDF(FPDF):
           def header(self):
               self.image(path+'EmailReportContent/Ben.png', 10, 8, 33)
@@ -169,17 +215,18 @@ def test_setup():
       driver.quit()
 
 @pytest.mark.smoke
-def test_AllElementsPresent(test_setup):
+def test_DealLog_SFBIDSPhase1(test_setup):
     if Exe == "Yes":
         SHORT_TIMEOUT = 5
         LONG_TIMEOUT = 400
         LOADING_ELEMENT_XPATH = "//div[@id='appian-working-indicator-hidden']"
+
         try:
             print()
-            PageName="Transactions"
-            Ptitle1="Transactions - BIDS"
-            driver.find_element_by_xpath("//*[@title='"+PageName+"']").click()
-            start = time.time()
+            # ---------------------------Verify Transactions page-----------------------------
+            PageName = "Transactions"
+            Ptitle1 = "Transaction Listing "
+            driver.find_element_by_xpath("//*[@title='" + PageName + "']").click()
             try:
                 WebDriverWait(driver, SHORT_TIMEOUT
                               ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
@@ -200,8 +247,8 @@ def test_AllElementsPresent(test_setup):
                         "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
                     TestResult.append(PageName + " not able to open\n" + ErrorFound1)
                     TestResultStatus.append("Fail")
-                    bool1 = False
                     driver.close()
+                    bool1 = False
             except Exception:
                 try:
                     time.sleep(2)
@@ -213,34 +260,24 @@ def test_AllElementsPresent(test_setup):
                         print(ErrorFound2)
                         TestResult.append(PageName + " not able to open\n" + ErrorFound2)
                         TestResultStatus.append("Fail")
-                        bool2 = False
                         driver.close()
+                        bool2 = False
                 except Exception:
                     pass
                 pass
             time.sleep(1)
             try:
-                try:
-                    PageTitle1 = driver.title
-                    print(PageTitle1)
-                    assert Ptitle1 in PageTitle1, PageName + " not able to open"
-                except Exception:
-                    Ptitle1="Funds - BIDS"
-                    PageTitle1 = driver.title
-                    assert Ptitle1 in PageTitle1, PageName + " not able to open"
-                TestResult.append(PageName + " page Opened successfully")
+                PageTitle1 = driver.find_element_by_xpath(
+                    "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[1]/div/div/div").text
+                assert Ptitle1 in PageTitle1, PageName + " not able to open"
+                TestResult.append(PageName + " page opened successfully")
                 TestResultStatus.append("Pass")
             except Exception:
                 TestResult.append(PageName + " page not able to open")
                 TestResultStatus.append("Fail")
-            stop = time.time()
-            TimeString = stop - start
-            print("The time of the run for " + PageName + " is: ", stop - start)
-            print(TimeString)
-
-            #---------------------------------------------------------------
+                driver.close()
+            # ---------------------------------------------------------------------------------
             PageName = "Calendar View"
-            print(PageName)
             try:
                 driver.find_element_by_xpath("//*[text() = '" + PageName + "']").click()
                 WebDriverWait(driver, SHORT_TIMEOUT
@@ -281,9 +318,8 @@ def test_AllElementsPresent(test_setup):
                     Ptitle2 = "Transaction Listing"
                     PageTitle2 = driver.find_element_by_xpath(
                         "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[1]/div/div/div").text
-                    print(PageTitle2)
                     assert Ptitle2 in PageTitle2, PageName + " not able to open"
-                    TestResult.append(PageName + " Opened successfully")
+                    TestResult.append(PageName + " opened successfully")
                     TestResultStatus.append("Pass")
                 except Exception:
                     TestResult.append(PageName + " not able to open")
@@ -294,114 +330,135 @@ def test_AllElementsPresent(test_setup):
                 TestResultStatus.append("Fail")
                 pass
 
-            inside="Calendar View" #-----------------------------------------------------------------
-            # ------Checking Return to Transactions ---------
-            time.sleep(2)
-            Text1 = "Transactions"
+            # --------------To click Manage PTO/Internal Project Entries outside-----------------------
+            driver.find_element_by_xpath(
+                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[4]/div/div/div/div/div[1]/div/div[2]/div/div/div/div[2]/div/p/strong/a").click()
+            time.sleep(1)
             try:
-                Element1 = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[1]/div/div[2]/div/p/a").text
-                assert Text1 in Element1, Text1 + " hyperlink inside " + inside + " is not present"
-                TestResult.append(Text1 + " hyperlink inside " + inside + " is present")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append(Text1 + " hyperlink inside " + inside + " is not present")
-                TestResultStatus.append("Fail")
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
 
-            # ------Checking Return to Transactions ---------
-            time.sleep(2)
-            Text1 = "Task Management"
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+
+            # --------------To click Manage PTO Entries inside-----------------------
+            driver.find_element_by_xpath(
+                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div[2]/div[1]/div/div").click()
+            time.sleep(1)
+
+            # --------------To click Add Entry (Manage PTO Entries)-----------------------
+            driver.find_element_by_xpath(
+                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div[2]/div[2]/div/div/div[1]/div/div/div/div/div[2]/div/div[2]/div/div/a").click()
+            time.sleep(1)
+
+            # --------------Filling Start Date in Add Entry (Manage PTO Entries)-----------------------
+            today = datetime.now()
+            DateDigit=today.strftime("%d")
+            AnalystNameFound=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div[2]/div[2]/div/div/div[1]/div/div/div/div/div[2]/div/div[1]/table/tbody/tr[1]/th[1]/div/div/span").text
+            AnalystNameFound = "".join(AnalystNameFound.split())
+            AnalystNameToCheck=DateDigit+AnalystNameFound
+            print(AnalystNameToCheck)
+
+            StartDate = today.strftime("%m/%d/%Y")
+            print(StartDate)
+            EndDate=StartDate
+            print(EndDate)
+
+            driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div[2]/div[2]/div/div/div[1]/div/div/div/div/div[2]/div/div[1]/table/tbody/tr[1]/td[1]/div/div/input").send_keys(StartDate)
+            time.sleep(1)
+            driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div[2]/div[2]/div/div/div[1]/div/div/div/div/div[2]/div/div[1]/table/tbody/tr[1]/td[2]/div/div/input").send_keys(EndDate)
+            time.sleep(1)
+            driver.find_element_by_xpath("//button[text()='Confirm Changes']").click()
             try:
-                Element1 = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div[2]/div/div[2]/div/p/a").text
-                assert Text1 in Element1, Text1 + " hyperlink inside " + inside + " is not present"
-                TestResult.append(Text1 + " hyperlink inside " + inside + " is present")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append(Text1 + " hyperlink inside " + inside + " is not present")
-                TestResultStatus.append("Fail")
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
 
-            # ------Checking Month ---------
-            time.sleep(2)
-            Text1 = "Month"
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+            time.sleep(1)
+            driver.find_element_by_xpath("//button[text()='Confirm Changes']").click()
             try:
-                Element1 = driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div[1]/div[1]/span").text
-                assert Text1 in Element1, Text1+" inside "+inside+" is not present"
-                TestResult.append(Text1+" is present")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append(Text1+" is not present")
-                TestResultStatus.append("Fail")
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
 
-            # ------Checking Year ---------
-            time.sleep(2)
-            Text1 = "Year"
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+
+            TestResult.append("PTO added successfully")
+            TestResultStatus.append("Pass")
+
+            #--------------To check working of Calendar view dropdown-----------------------
+            driver.find_element_by_xpath(
+                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div").click()
+            time.sleep(1)
+            ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+            time.sleep(1)
             try:
-                Element1 = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[1]/div/div[2]/div[1]/div[1]/span").text
-                assert Text1 in Element1, Text1 + " inside " + inside + " is not present"
-                TestResult.append(Text1 + " is present")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append(Text1 + " is not present")
-                TestResultStatus.append("Fail")
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
 
-            # ------Checking Calendar View ---------
-            time.sleep(2)
-            Text1 = "Calendar View"
-            try:
-                Element1 = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div[1]/span").text
-                assert Text1 in Element1, Text1 + " inside " + inside + " is not present"
-                TestResult.append(Text1 + " is present")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append(Text1 + " is not present")
-                TestResultStatus.append("Fail")
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+            driver.find_element_by_xpath(
+                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div").click()
+            time.sleep(7)
 
-            # ------Checking UW Analyst ---------
-            time.sleep(2)
-            Text1 = "UW Analyst"
-            try:
-                Element1 = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[3]/div/div[1]/span").text
-                assert Text1 in Element1, Text1 + " inside " + inside + " is not present"
-                TestResult.append(Text1 + " is present")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append(Text1 + " is not present")
-                TestResultStatus.append("Fail")
+            TestResult.append("Calendar view dropdown is working fine")
+            TestResultStatus.append("Pass")
 
-            # ------Checking Month View Grid ---------
-            time.sleep(2)
-            x = datetime.datetime.now()
-            Text2=x.year
-            print(Text2)
-            Text1 = x.strftime("%B") + " - "+str(Text2)
-            try:
-                Element1 = driver.find_element_by_xpath(
-                    "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[5]/div[2]/div/p/span/strong").text
-                print(Text1)
-                print(Element1)
-                assert Text1 in Element1, "Month View Grid inside " + inside + " is not present"
-                TestResult.append("Month View Grid inside " + inside + " is present")
-                TestResultStatus.append("Pass")
-            except Exception as e1:
-                print(e1)
-                TestResult.append("Month View Grid inside " + inside + " is not present")
-                TestResultStatus.append("Fail")
+            Found = "False"
+            for dd1 in range(7,13):
+                for dd2 in range(1,8):
+                    try:
+                        Datee=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div["+str(dd1)+"]/div["+str(dd2)+"]/div/div/div/div/div[2]/div/p/span/strong").text
+                        if len(Datee)==1:
+                            Datee="0"+Datee
+                            print("Datee is "+Datee)
+                            print("DateDigit is " + DateDigit)
+                        if len(Datee) > 1:
+                            print("Datee is "+Datee)
+                            print("DateDigit is " + DateDigit)
 
+                        if Datee==DateDigit:
+                            print("Date found")
+                            try:
+                                DateEle=driver.find_elements_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[" + str(dd1) + "]/div[" + str(dd2) + "]/div/div/div/div")
+                                for ele in range(1, len(DateEle)):
+                                    try:
+                                        DateDatagot = driver.find_element_by_xpath(
+                                            "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[" + str(
+                                                dd1) + "]/div[" + str(dd2) + "]/div/div/div/div["+str(ele+1)+"]/div/div/div[2]/div/p").text
+                                        DateDatagot = "".join(DateDatagot.split())
+                                        print(DateDatagot)
+                                        DateDatagot=Datee+DateDatagot
+                                        if AnalystNameToCheck==DateDatagot:
+                                            print("Analyst Name matched: "+DateDatagot)
+                                            Found="True"
+                                            TestResult.append(
+                                                "PTO verified successfully for Date [ " + StartDate + " ]")
+                                            TestResultStatus.append("Pass")
+                                            break
+                                    except Exception:
+                                        pass
+                            except Exception:
+                                pass
+
+                    except Exception:
+                        pass
+            if Found == "False":
+                TestResult.append(
+                    "PTO added not found for Date [ " + StartDate + " ]")
+                TestResultStatus.append("Fail")
 
         except Exception as Mainerror:
-            stop = time.time()
-            RoundFloatString = round(float(stop - start),2)
-            print("The time of the run for " + PageName + " is: ", RoundFloatString)
             stringMainerror=repr(Mainerror)
             if stringMainerror in "InvalidSessionIdException('invalid session id', None, None)":
                 pass
