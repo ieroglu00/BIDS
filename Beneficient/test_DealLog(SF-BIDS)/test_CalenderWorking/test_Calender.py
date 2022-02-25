@@ -212,7 +212,7 @@ def test_setup():
                     checkcount1 = 1
       #-----------------------------------------------------------------------------
 
-      #driver.quit()
+      driver.quit()
 
 @pytest.mark.smoke
 def test_DealLog_SFBIDSPhase1(test_setup):
@@ -318,7 +318,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                     break
             print(ProjectName)
 
-            #ProjectName="Funds for (LR50849)"
+            #ProjectName="Matrix Private Capital - B1"
 
             # ----------------Searching the Project from Sales Force--------------------
             LoopExit = 0
@@ -498,6 +498,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
             time.sleep(1)
             UWLead=driver.find_element_by_xpath(
                 "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div[2]/div/div/div[2]/div/div[2]/div/div[1]/div[1]/div[3]/div[2]/div/div/span").text
+            UWLeadName=UWLead
 
             #-------------Filling Dates----------------
             for idata1 in range(6):
@@ -607,7 +608,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                     print(ErrorFound1)
                     driver.find_element_by_xpath(
                         "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
-                    TestResult.append(PageName + " not able to open\n" + ErrorFound1)
+                    TestResult.append("Edit Transactions details not able to save. Below error found\n" + ErrorFound1)
                     TestResultStatus.append("Fail")
                     driver.close()
                     bool1 = False
@@ -620,7 +621,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                         ErrorFound2 = driver.find_element_by_xpath(
                             "//div[@class='MessageLayout---message MessageLayout---error']/div/p").text
                         print(ErrorFound2)
-                        TestResult.append(PageName + " not able to open\n" + ErrorFound2)
+                        TestResult.append("Edit Transactions details not able to save. Below error found\n" + ErrorFound2)
                         TestResultStatus.append("Fail")
                         driver.close()
                         bool2 = False
@@ -728,6 +729,56 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 TestResultStatus.append("Fail")
                 pass
 
+            #--------------To check working of Calendar view dropdown-----------------------
+            driver.find_element_by_xpath(
+                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div").click()
+            time.sleep(1)
+            ActionChains(driver).key_down(Keys.DOWN).key_up(Keys.DOWN).perform()
+            time.sleep(1)
+            ActionChains(driver).key_down(Keys.DOWN).key_up(Keys.DOWN).perform()
+            time.sleep(1)
+            ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+            time.sleep(1)
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+            time.sleep(2)
+
+            TestResult.append("Calendar view dropdown is working fine")
+            TestResultStatus.append("Pass")
+
+            # --------------To check working of UW Analyst dropdown-----------------------
+            driver.find_element_by_xpath(
+                "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[3]/div/div[2]/div/div").click()
+            for UW in range(10):
+                time.sleep(1)
+                ActionChains(driver).key_down(Keys.DOWN).key_up(Keys.DOWN).perform()
+                time.sleep(1)
+                UWNameCheck=driver.find_element_by_xpath("//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[3]/div/div[2]/div/div/span").text
+                if UWNameCheck == UWLeadName:
+                    break
+
+            time.sleep(1)
+            ActionChains(driver).key_down(Keys.ENTER).key_up(Keys.ENTER).perform()
+            time.sleep(1)
+            try:
+                WebDriverWait(driver, SHORT_TIMEOUT
+                              ).until(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+
+                WebDriverWait(driver, LONG_TIMEOUT
+                              ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
+            except TimeoutException:
+                pass
+
+            TestResult.append("UW Analyst dropdown is working fine")
+            TestResultStatus.append("Pass")
+
+
             #-------To check Date entered fall in current or next month----------
             Duration = 9
             CheckDate = today + timedelta(days=Duration)
@@ -758,6 +809,8 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                                       ).until_not(EC.presence_of_element_located((By.XPATH, LOADING_ELEMENT_XPATH)))
                     except TimeoutException:
                         pass
+                    TestResult.append("Month dropdown is working fine")
+                    TestResultStatus.append("Pass")
 
                 MonthName = driver.find_element_by_xpath(
                     "//div[@class='ContentLayout---content_layout']/div[2]/div/div/div/div/div/div[2]/div/div/div[2]/div[1]/div/div[1]/div/div[2]/div/div/span").text
