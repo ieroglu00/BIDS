@@ -215,7 +215,7 @@ def test_setup():
       driver.quit()
 
 @pytest.mark.smoke
-def test_DealLog_SFBIDSPhase1(test_setup):
+def test_TransactionDealTemplate(test_setup):
     if Exe == "Yes":
         SHORT_TIMEOUT = 5
         LONG_TIMEOUT = 400
