@@ -2711,7 +2711,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                     wb.save(loc)
                 except Exception as err:
                     print(err)
-                    sheet.cell(row=1, column=6).value = "Unverified"
+                    sheet.cell(row=1, column=6).value = "Verified"
                     wb.save(loc)
                     pass
 
