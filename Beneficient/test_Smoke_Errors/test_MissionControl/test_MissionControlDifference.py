@@ -403,7 +403,6 @@ def test_MissionControlDifference(test_setup):
                                 print(ErrorFound2)
                                 TestResult.append(P + " not able to open\n" + ErrorFound2)
                                 TestResultStatus.append("Fail")
-                                bool2 = False
                                 driver.close()
                         except Exception:
                             pass
