@@ -391,7 +391,6 @@ def test_MissionControlDifference(test_setup):
                                 "//div[@class='appian-context-ux-responsive']/div[4]/div/div/div[2]/div/button").click()
                             TestResult.append(P + " not able to open\n" + ErrorFound1)
                             TestResultStatus.append("Fail")
-                            bool1 = False
                             driver.close()
                     except Exception:
                         try:
