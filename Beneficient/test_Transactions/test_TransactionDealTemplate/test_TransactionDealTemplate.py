@@ -13,8 +13,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
 
-
-
 @allure.step("Entering username ")
 def enter_username(username):
   driver.find_element_by_id("un").send_keys(username)
