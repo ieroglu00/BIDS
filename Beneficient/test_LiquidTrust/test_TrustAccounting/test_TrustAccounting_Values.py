@@ -36,8 +36,8 @@ def test_setup():
   global Dict2
   global FundsNamesList
 
-  TestName = "test_TrustAccounting"
-  description = "This test scenario is to verify clickables, dropdowns and values of Liquid Trusts - Trust Accounting page"
+  TestName = "test_TrustAccounting_Values"
+  description = "This test scenario is to compare values for Accounting NAV (USD), SPV NOA (USD), Other (USD), Risk NAV (USD), Ben Unfunded Commitment (USD) at Trust Accounting page"
   TestResult = []
   TestResultStatus = []
   TestFailStatus = []
