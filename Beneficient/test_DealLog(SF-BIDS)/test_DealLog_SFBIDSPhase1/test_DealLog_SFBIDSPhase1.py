@@ -256,8 +256,8 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 TestResultStatus.append("Pass")
                 try:
                     driver.get("https://beneficient--int.my.salesforce.com/")
-                    enter_username("neeraj.kumar@bitsinglass.com.int")
-                    enter_password("Crochet@786")
+                    enter_username("ismail.eroglu@beneficient.com.int")
+                    enter_password("BEN$3434")
 
                     driver.find_element_by_id("Login").click()
                     time.sleep(10)
@@ -289,7 +289,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
 
                 #------------------------Get verification code from Gmail---------------------------------
                 host = 'imap.gmail.com'
-                username = 'neeraj.kumar@bitsinglass.com'
+                username = 'ismail.eroglu@beneficient.com.int'
                 password = 'BitsMoh@2840828'
 
                 # -------------Function to get email content part i.e its body part
@@ -1167,7 +1167,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 search_key = FieldName
                 res = list(FieldDataSF.keys()).index(search_key)
                 res = res + 1
-                sheet.cell(row=res, column=3).value = "Neeraj Kumar"
+                sheet.cell(row=res, column=3).value = "Ismail Eroglu"
                 wb.save(loc)
 
                 # ------------Handling Blank fields--------------------------
@@ -1691,7 +1691,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 search_key = FieldName
                 res = list(FieldDataSF.keys()).index(search_key)
                 res = res + 1
-                sheet.cell(row=res, column=3).value = "*Test for Neeraj: "+FieldNameValue
+                sheet.cell(row=res, column=3).value = "*Test for Ismail: "+FieldNameValue
                 wb.save(loc)
 
                 FieldName = "Asset Category"
@@ -1705,7 +1705,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 search_key = FieldName
                 res = list(FieldDataSF.keys()).index(search_key)
                 res = res + 1
-                sheet.cell(row=res, column=3).value = "*Test for Neeraj: "+FieldNameValue
+                sheet.cell(row=res, column=3).value = "*Test for Ismail: "+FieldNameValue
                 wb.save(loc)
 
                 # #-------------Offer-----------------------
@@ -1797,7 +1797,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 LOADING_ELEMENT_XPATH = "//div[@id='appian-working-indicator-hidden']"
                 #-------------------For Login in BIDS-------------------
                 driver.get("https://beneficienttest.appiancloud.com/suite/")
-                driver.find_element_by_id("un").send_keys("neeraj.kumar")
+                driver.find_element_by_id("un").send_keys("ismail.eroglu")
                 driver.find_element_by_id("pw").send_keys("Crochet@7866")
                 driver.find_element_by_xpath("//input[@type='submit']").click()
                 TestResult.append("Navigated to BIDS application")
@@ -2254,7 +2254,7 @@ def test_DealLog_SFBIDSPhase1(test_setup):
                 LOADING_ELEMENT_XPATH = "//div[@id='appian-working-indicator-hidden']"
                 # -------------------For Login in BIDS-------------------
                 driver.get("https://beneficienttest.appiancloud.com/suite/")
-                driver.find_element_by_id("un").send_keys("neeraj.kumar")
+                driver.find_element_by_id("un").send_keys("ismail.eroglu")
                 driver.find_element_by_id("pw").send_keys("Crochet@7866")
                 driver.find_element_by_xpath("//input[@type='submit']").click()
                 TestResult.append("Navigated to BIDS application")
