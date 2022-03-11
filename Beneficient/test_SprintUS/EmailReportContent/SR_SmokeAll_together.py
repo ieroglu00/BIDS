@@ -78,6 +78,8 @@ def test_ReportSendSmokeAll():
     email_to = ['Ismail.Eroglu@beneficient.com', 'srinath.jandhyala@beneficient.com', 'gregory.bybee@beneficient.com',
                 'olufunke.okeni@beneficient.com']
 
+
+
     SenderEmail = "ieroglu251@gmail.com"
     # User = "AxBCsrijkltwxysHIJMhijodefhhij@bcd2yzA8qrs4zAB0EFG8fgh2zAB8"
     # RandmStr = User[int(int(ord('b')) / 49)] + User[int(int(ord('c')) / 16.5)] + User[int(int(ord('c')) / 9.9)] + User[
