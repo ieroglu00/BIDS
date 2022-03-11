@@ -61,7 +61,7 @@ def test_setup():
       driver.implicitly_wait(10)
       driver.maximize_window()
       driver.get("https://beneficienttest.appiancloud.com/suite/")
-      enter_username("neeraj.kumar")
+      enter_username("BIDS_UA")
       enter_password("Crochet@7866")
       driver.find_element_by_xpath("//input[@type='submit']").click()
 

@@ -85,7 +85,7 @@ def test_setup():
       driver.implicitly_wait(10)
       driver.maximize_window()
       driver.get("https://beneficienttest.appiancloud.com/suite/")
-      enter_username("neeraj.kumar")
+      enter_username("ismail.eroglu")
       enter_password("Crochet@7866")
       button = driver.find_element_by_xpath("//input[@type='submit']")
       driver.execute_script("arguments[0].click();", button)
@@ -584,7 +584,7 @@ def test_Funds_Values(test_setup):
                     driver.delete_all_cookies()
                     time.sleep(5)
                     driver.get("https://beneficienttest.appiancloud.com/suite/")
-                    driver.find_element_by_id("un").send_keys("neeraj.kumar")
+                    driver.find_element_by_id("un").send_keys("ismail.erolgu")
                     driver.find_element_by_id("pw").send_keys("Crochet@7866")
                     button = driver.find_element_by_xpath(
                         "//input[@type='submit']")

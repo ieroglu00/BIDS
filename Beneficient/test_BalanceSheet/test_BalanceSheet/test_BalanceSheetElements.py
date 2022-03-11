@@ -78,8 +78,8 @@ def test_setup():
       driver.implicitly_wait(10)
       driver.maximize_window()
       driver.get("https://beneficienttest.appiancloud.com/suite/")
-      enter_username("neeraj.kumar")
-      enter_password("Crochet@7866")
+      enter_username("BIDS_UA")
+      enter_password("Bids4testing!22")
       driver.find_element_by_xpath("//input[@type='submit']").click()
 
       ct = datetime.datetime.now().strftime("%d_%B_%Y_%I_%M%p")
